@@ -1,0 +1,9 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Etapa 2 de 4 del Arbol de fe: Brote. -->
+  <ellipse cx="50" cy="84" rx="32" ry="10" fill="#F1E6D3" />
+  <ellipse cx="50" cy="86" rx="24" ry="6" fill="#C9873A" opacity="0.35" />
+  <rect x="48" y="52" width="4" height="30" rx="2" fill="#2F6F63" />
+  <ellipse cx="38" cy="56" rx="14" ry="7" fill="#CFE6DF" transform="rotate(-30 38 56)" />
+  <ellipse cx="62" cy="53" rx="13" ry="6" fill="#2F6F63" transform="rotate(25 62 53)" />
+  <circle cx="50" cy="49" r="6" fill="#EFC993" />
+</svg>

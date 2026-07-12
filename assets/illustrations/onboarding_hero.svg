@@ -1,0 +1,39 @@
+<svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- Amanecer sobre colinas: motivo calido de "nuevo dia" para el
+       onboarding de Ora Ahora. Formas planas por capas (sin gradientes),
+       colores tomados de AppColors (tealDeep/tealMedium/tealLight/amber/
+       amberLight/sand). -->
+
+  <!-- Resplandor detras del sol (2 capas, mismo centro, radios crecientes,
+       opacidad decreciente para dar sensacion de profundidad). -->
+  <circle cx="160" cy="140" r="125" fill="#EFC993" opacity="0.10" />
+  <circle cx="160" cy="140" r="95" fill="#EFC993" opacity="0.18" />
+
+  <!-- Rayos de sol: 8 barras finas alrededor del centro, rotadas cada 45 grados. -->
+  <g fill="#C9873A" opacity="0.35">
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(0 160 140)" />
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(45 160 140)" />
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(90 160 140)" />
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(135 160 140)" />
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(180 160 140)" />
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(225 160 140)" />
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(270 160 140)" />
+    <rect x="157" y="30" width="6" height="30" rx="3" transform="rotate(315 160 140)" />
+  </g>
+
+  <!-- Sol -->
+  <circle cx="160" cy="140" r="60" fill="#C9873A" />
+  <circle cx="160" cy="140" r="60" fill="#EFC993" opacity="0.25" />
+
+  <!-- Dos aves simples (lineas rectas en V), volando alto y libres. -->
+  <path d="M120,80 L128,72 L136,80" fill="none" stroke="#1F4E4A" stroke-width="4"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.55" />
+  <path d="M184,58 L190,52 L196,58" fill="none" stroke="#1F4E4A" stroke-width="3"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.45" />
+
+  <!-- Colinas en dos capas (silueta), el sol "nace" detras de ellas. -->
+  <polygon points="0,230 70,190 150,225 230,185 320,220 320,320 0,320"
+           fill="#2F6F63" opacity="0.9" />
+  <polygon points="0,262 90,236 180,266 260,231 320,256 320,320 0,320"
+           fill="#1F4E4A" />
+</svg>

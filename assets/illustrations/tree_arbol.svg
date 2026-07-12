@@ -1,0 +1,13 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Etapa 4 de 4 del Arbol de fe: Arbol (etapa maxima). -->
+  <circle cx="78" cy="18" r="10" fill="#EFC993" opacity="0.55" />
+  <ellipse cx="50" cy="88" rx="36" ry="10" fill="#F1E6D3" />
+  <ellipse cx="50" cy="90" rx="27" ry="6" fill="#C9873A" opacity="0.35" />
+  <rect x="46" y="45" width="8" height="45" rx="3" fill="#57534E" />
+  <circle cx="32" cy="42" r="18" fill="#2F6F63" opacity="0.9" />
+  <circle cx="68" cy="42" r="18" fill="#2F6F63" opacity="0.9" />
+  <circle cx="50" cy="35" r="26" fill="#1F4E4A" />
+  <circle cx="40" cy="30" r="4" fill="#C9873A" />
+  <circle cx="60" cy="28" r="4" fill="#C9873A" />
+  <circle cx="50" cy="45" r="4" fill="#C9873A" />
+</svg>

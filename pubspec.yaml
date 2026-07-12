@@ -1,0 +1,41 @@
+name: ora_ahora
+description: "Ora Ahora - pausa, ora y enfoca. App de oracion cristiana interdenominacional en espanol con pausa de oracion antes de abrir apps que distraen."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
+  flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.4
+  flutter_timezone: ^1.1.0
+  path_provider: ^2.1.4
+  intl: ^0.19.0
+  device_apps: ^2.2.0
+  uuid: ^4.4.0
+  speech_to_text: ^7.0.0
+  flutter_svg: ^2.0.10+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/data/prayers_es.json
+    - assets/illustrations/onboarding_hero.svg
+    - assets/illustrations/tree_semilla.svg
+    - assets/illustrations/tree_brote.svg
+    - assets/illustrations/tree_planta_joven.svg
+    - assets/illustrations/tree_arbol.svg
+    - assets/illustrations/journal_empty.svg
+    - assets/illustrations/paywall_hero.svg

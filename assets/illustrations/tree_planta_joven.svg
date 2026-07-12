@@ -1,0 +1,15 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Etapa 3 de 4 del Arbol de fe: Planta joven. -->
+  <ellipse cx="50" cy="86" rx="33" ry="10" fill="#F1E6D3" />
+  <ellipse cx="50" cy="88" rx="25" ry="6" fill="#C9873A" opacity="0.35" />
+  <rect x="48" y="34" width="4" height="52" rx="2" fill="#1F4E4A" />
+  <ellipse cx="35" cy="46" rx="15" ry="7" fill="#CFE6DF" transform="rotate(-28 35 46)" />
+  <ellipse cx="65" cy="50" rx="14" ry="7" fill="#2F6F63" transform="rotate(26 65 50)" />
+  <ellipse cx="38" cy="64" rx="13" ry="6" fill="#2F6F63" transform="rotate(-18 38 64)" />
+  <ellipse cx="63" cy="68" rx="12" ry="6" fill="#CFE6DF" transform="rotate(18 63 68)" />
+  <circle cx="50" cy="26" r="6" fill="#C9873A" />
+  <circle cx="50" cy="17" r="5" fill="#EFC993" />
+  <circle cx="50" cy="35" r="5" fill="#EFC993" />
+  <circle cx="41" cy="26" r="5" fill="#EFC993" />
+  <circle cx="59" cy="26" r="5" fill="#EFC993" />
+</svg>

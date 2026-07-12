@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../services/gate_service.dart';
+import '../../services/prefs_service.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_typography.dart';
+
+/// Pantalla explicativa, obligatoria antes de pedir el permiso de
+/// Accesibilidad de Android, tal como exige la politica de Google Play
+/// para apps que usan la API de Accesibilidad: se debe explicar con
+/// claridad, ANTES de solicitarlo, para que se usa el permiso.
+///
+/// Aqui se explica en español sencillo por que Ora Ahora necesita este
+/// permiso especifico (detectar cuando el usuario abre una app marcada
+/// para "Pausa y Ora"), y que NO se usa para leer contenido de otras apps,
+/// contraseñas ni datos personales.
+class GateExplainerScreen extends StatefulWidget {
+  const GateExplainerScreen({super.key});
+
+  @override
+  State<GateExplainerScreen> createState() => _GateExplainerScreenState();
+}
+
+class _GateExplainerScreenState extends State<GateExplainerScreen>
+    with WidgetsBindingObserver {
+  bool _checking = false;
+  bool? _enabled;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _refreshStatus();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshStatus();
+    }
+  }
+
+  Future<void> _refreshStatus() async {
+    setState(() => _checking = true);
+    final gate = context.read<GateService>();
+    final enabled = await gate.isAccessibilityServiceEnabled();
+    if (!mounted) return;
+    setState(() {
+      _enabled = enabled;
+      _checking = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = _enabled ?? false;
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Permiso de Accesibilidad')),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.accessibility_new,
+                        size: 48, color: AppColors.tealDeep),
+                    const SizedBox(height: 20),
+                    Text('¿Para qué se usa este permiso?',
+                        style: AppTypography.headline),
+                    const SizedBox(height: 12),
+                    Text(
+                      'La función "Pausa y Ora" necesita el permiso de '
+                      'Accesibilidad de Android para detectar en qué momento '
+                      'abres una de las apps que tú mismo elegiste para pausar '
+                      '(por ejemplo, Instagram o TikTok).',
+                      style: AppTypography.body,
+                    ),
+                    const SizedBox(height: 14),
+                    Text(
+                      'Con este permiso, Ora Ahora solo puede ver el nombre de '
+                      'la app que está al frente en tu pantalla en ese instante, '
+                      'para decidir si debe mostrarte la pausa de oración. '
+                      'Ora Ahora NO lee contraseñas, mensajes, fotos, ni ningún '
+                      'otro contenido de tus otras apps, y no envía esa '
+                      'información a ningún servidor: todo se procesa en tu '
+                      'propio teléfono.',
+                      style: AppTypography.body,
+                    ),
+                    const SizedBox(height: 14),
+                    Text(
+                      'Puedes desactivar este permiso en cualquier momento desde '
+                      'los ajustes de Accesibilidad de tu teléfono, y la función '
+                      '"Pausa y Ora" dejará de funcionar de inmediato.',
+                      style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+              child: Column(
+                children: [
+                  if (enabled)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: AppColors.success.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(Icons.check_circle, color: AppColors.success),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text('El permiso ya está activo. ¡Gracias!'),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final prefs = context.read<PrefsService>();
+                          await prefs.setAccessibilityExplainerSeen(true);
+                          final gate = context.read<GateService>();
+                          await gate.openAccessibilitySettings();
+                        },
+                        child: const Text('Ir a Ajustes de Accesibilidad'),
+                      ),
+                    ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: _checking ? null : _refreshStatus,
+                      child: Text(
+                          _checking ? 'Comprobando...' : 'Ya activé el permiso'),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(enabled),
+                    child: const Text('Volver'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

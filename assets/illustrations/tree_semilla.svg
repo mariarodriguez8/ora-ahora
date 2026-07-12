@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Etapa 1 de 4 del Arbol de fe: Semilla. -->
+  <ellipse cx="50" cy="84" rx="32" ry="10" fill="#F1E6D3" />
+  <ellipse cx="50" cy="86" rx="24" ry="6" fill="#C9873A" opacity="0.35" />
+  <ellipse cx="50" cy="74" rx="9" ry="12" fill="#2F6F63" />
+  <ellipse cx="47" cy="70" rx="3" ry="4" fill="#FFFFFF" opacity="0.35" />
+</svg>

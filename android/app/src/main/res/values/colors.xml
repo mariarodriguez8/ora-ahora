@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Debe coincidir con AppColors.tealDeep del lado Flutter, para que
+         PrayerGateActivity (pantalla 100% nativa) se vea consistente con
+         el resto de la app. -->
+    <color name="gate_background">#1F4E4A</color>
+    <color name="gate_accent">#C9873A</color>
+    <color name="gate_text">#FFFFFF</color>
+    <color name="gate_text_soft">#CFE6DF</color>
+</resources>

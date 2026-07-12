@@ -1,0 +1,16 @@
+{
+  "name": "Ora Ahora (Flutter + Android SDK listos)",
+  "image": "ghcr.io/cirruslabs/flutter:stable",
+  "postCreateCommand": "flutter pub get && flutter analyze || true",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Dart-Code.dart-code",
+        "Dart-Code.flutter"
+      ]
+    }
+  },
+  "hostRequirements": {
+    "cpus": 2
+  }
+}

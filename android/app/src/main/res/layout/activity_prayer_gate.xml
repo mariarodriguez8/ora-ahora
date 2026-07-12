@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gate_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="32dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textTargetApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pausa y Ora"
+            android:textColor="@color/gate_text_soft"
+            android:textSize="14sp"
+            android:letterSpacing="0.05"
+            android:textAllCaps="true" />
+
+        <!-- Paso 1: check-in de animo. Se muestra primero, antes de la
+             oracion, para poder elegir una oracion mas relevante segun como
+             se siente la persona en este momento. Es deliberadamente
+             minimalista (6 opciones + una salida clara) para no generar
+             fatiga de decision justo en el momento en que alguien intenta
+             abrir otra app. -->
+        <LinearLayout
+            android:id="@+id/moodContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="32dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/textMoodPrompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="¿Cómo te sientes en este momento?"
+                android:textColor="@color/gate_text"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/buttonMoodAnsioso"
+                style="@style/GateMoodButton"
+                android:text="Ansioso" />
+
+            <Button
+                android:id="@+id/buttonMoodAgradecido"
+                style="@style/GateMoodButton"
+                android:text="Agradecido" />
+
+            <Button
+                android:id="@+id/buttonMoodCansado"
+                style="@style/GateMoodButton"
+                android:text="Cansado" />
+
+            <Button
+                android:id="@+id/buttonMoodTriste"
+                style="@style/GateMoodButton"
+                android:text="Triste" />
+
+            <Button
+                android:id="@+id/buttonMoodDistraido"
+                style="@style/GateMoodButton"
+                android:text="Distraído / Tentado" />
+
+            <Button
+                android:id="@+id/buttonMoodPaz"
+                style="@style/GateMoodButton"
+                android:text="En paz" />
+
+            <TextView
+                android:id="@+id/buttonMoodSkip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:padding="8dp"
+                android:text="Solo muéstrame algo"
+                android:textColor="@color/gate_text_soft"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <!-- Paso 2: oracion + guia de respiracion + espera minima. Oculto
+             hasta que se elige (o se salta) el animo del paso 1. -->
+        <LinearLayout
+            android:id="@+id/prayerContentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:visibility="gone">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp">
+
+                <View
+                    android:id="@+id/breathingCircle"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/breathing_glow" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textBreathingCue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="Respira..."
+                android:textColor="@color/gate_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textPrayerTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/gate_text"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="14dp" />
+
+            <TextView
+                android:id="@+id/textPrayerBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gate_text"
+                android:textSize="16sp"
+                android:lineSpacingMultiplier="1.3"
+                android:layout_marginBottom="14dp" />
+
+            <TextView
+                android:id="@+id/textPrayerRef"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gate_accent"
+                android:textStyle="italic"
+                android:textSize="14sp"
+                android:layout_marginBottom="32dp" />
+
+            <Button
+                android:id="@+id/buttonContinue"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:enabled="false"
+                android:text="Espera unos segundos..."
+                android:textAllCaps="false"
+                android:backgroundTint="@color/gate_accent"
+                android:textColor="@color/gate_text" />
+
+            <TextView
+                android:id="@+id/buttonSnooze"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:padding="8dp"
+                android:text="Ya no mostrar hoy para esta app"
+                android:textColor="@color/gate_text_soft"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

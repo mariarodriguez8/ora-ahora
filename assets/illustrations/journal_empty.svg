@@ -1,0 +1,21 @@
+<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- Estado vacio del Diario de oracion: libro abierto con paginas en
+       blanco esperando la primera intencion. -->
+  <line x1="15" y1="152" x2="185" y2="152" stroke="#CFE6DF" stroke-width="3"
+        stroke-dasharray="6,6" opacity="0.6" />
+
+  <polygon points="20,40 95,30 95,140 20,150" fill="#FBF6EE" stroke="#CFE6DF" stroke-width="2" />
+  <polygon points="105,30 180,40 180,150 105,140" fill="#FBF6EE" stroke="#CFE6DF" stroke-width="2" />
+  <rect x="97" y="28" width="6" height="124" fill="#CFE6DF" opacity="0.6" />
+
+  <rect x="30" y="56" width="55" height="3" rx="1.5" fill="#CFE6DF" opacity="0.8" />
+  <rect x="30" y="70" width="48" height="3" rx="1.5" fill="#CFE6DF" opacity="0.8" />
+  <rect x="30" y="84" width="52" height="3" rx="1.5" fill="#CFE6DF" opacity="0.8" />
+  <rect x="30" y="98" width="40" height="3" rx="1.5" fill="#CFE6DF" opacity="0.8" />
+
+  <rect x="118" y="56" width="50" height="3" rx="1.5" fill="#CFE6DF" opacity="0.5" />
+  <rect x="118" y="70" width="42" height="3" rx="1.5" fill="#CFE6DF" opacity="0.5" />
+
+  <ellipse cx="140" cy="70" rx="3" ry="22" fill="#C9873A" transform="rotate(35 140 70)" />
+  <circle cx="149.5" cy="87" r="3.4" fill="#1F4E4A" />
+</svg>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Reemplazo mas calido del antiguo "breathing_circle" (un simple ovalo con
+    borde) usado como guia visual de respiracion en PrayerGateActivity. En
+    vez de un solo circulo con relleno plano, este vector dibuja varios
+    circulos concentricos del mismo acento (@color/gate_accent) con opacidad
+    creciente hacia el centro, mas un nucleo tibio en el medio: da una
+    sensacion de luz suave/llama pequeña en vez de una simple figura
+    geometrica, sin necesitar ningun renderizador para comprobarlo (solo
+    <path> con arcos circulares estandar, sin curvas Bezier).
+
+    Cada circulo se traza con el patron estandar de "dos arcos de 180
+    grados" (M cx,(cy-r) A r,r 0 1,0 cx,(cy+r) A r,r 0 1,0 cx,(cy-r) Z),
+    todos centrados en (70,70) dentro de un viewport de 140x140 (mismo
+    tamaño que el View de 140dp x 140dp en activity_prayer_gate.xml que
+    sigue escalando este drawable como fondo via ObjectAnimator
+    SCALE_X/SCALE_Y en PrayerGateActivity.kt, sin cambios ahi).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="140dp"
+    android:viewportWidth="140"
+    android:viewportHeight="140">
+
+    <!-- Anillo exterior: solo trazo (sin relleno), igual que el borde del
+         circulo anterior, pero un poco mas tenue. -->
+    <path
+        android:pathData="M70,6 A64,64 0 1,0 70,134 A64,64 0 1,0 70,6 Z"
+        android:fillColor="#00000000"
+        android:strokeColor="@color/gate_accent"
+        android:strokeWidth="2"
+        android:strokeAlpha="0.55" />
+
+    <!-- Capas de resplandor: mismo color de acento, radio decreciente,
+         opacidad creciente hacia el centro. -->
+    <path
+        android:pathData="M70,16 A54,54 0 1,0 70,124 A54,54 0 1,0 70,16 Z"
+        android:fillColor="@color/gate_accent"
+        android:fillAlpha="0.12" />
+
+    <path
+        android:pathData="M70,32 A38,38 0 1,0 70,108 A38,38 0 1,0 70,32 Z"
+        android:fillColor="@color/gate_accent"
+        android:fillAlpha="0.22" />
+
+    <path
+        android:pathData="M70,46 A24,24 0 1,0 70,94 A24,24 0 1,0 70,46 Z"
+        android:fillColor="@color/gate_accent"
+        android:fillAlpha="0.38" />
+
+    <!-- Nucleo tibio en el centro: un tono claro/calido (no el acento
+         solido) para simular un pequeño punto de luz, como una vela. -->
+    <path
+        android:pathData="M70,60 A10,10 0 1,0 70,80 A10,10 0 1,0 70,60 Z"
+        android:fillColor="#FFF4E3"
+        android:fillAlpha="0.9" />
+
+</vector>

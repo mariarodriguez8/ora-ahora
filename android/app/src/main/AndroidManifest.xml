@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Notificaciones locales (recordatorios de oración). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Deteccion opcional (opt-in, apagada por defecto) de fin de oracion
+         por voz en PrayerDetailScreen (ver VoicePrayerService, paquete
+         speech_to_text). El microfono SOLO se activa mientras esa pantalla
+         esta abierta y la persona toca "Escuchar mi oración"; el
+         reconocimiento se pide siempre con onDevice=true (100% local, ver
+         PLAY_STORE_LISTING.md), nunca se envia audio a un servidor. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Permite reprogramar recordatorios ya guardados tras un reinicio,
+         usado internamente por flutter_local_notifications. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        tools:node="remove" />
+
+    <!-- Foreground service companero de PrayerGateAccessibilityService
+         (ver PrayerGateForegroundService.kt): mantiene una señal de
+         "primer plano" para reducir el riesgo de que el sistema mate el
+         servicio de Accesibilidad en segundo plano. "specialUse" es la
+         categoria generica introducida en Android 14 (API 34) para casos
+         de uso que no encajan en las categorias especificas existentes
+         (mediaPlayback, location, dataSync, etc.). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <!-- Permite pedirle al usuario que excluya a Ora Ahora de la
+         optimizacion de bateria de Android, para que "Pausa y Ora" no sea
+         silenciada por el sistema (ver Ajustes > Optimización de batería,
+         BatteryOptimizationScreen.dart). -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- Necesario en Android 11+ (API 30+) para que device_apps pueda listar
+         apps instaladas con icono de lanzador, SIN pedir el permiso amplio
+         QUERY_ALL_PACKAGES (que Play Store escrutina mucho más). -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:label="@string/app_name"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:allowBackup="true"
+        android:supportsRtl="true">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Pantalla nativa (100% Kotlin + XML) de la pausa de oración.
+             Ver PrayerGateActivity.kt para la justificacion de por que se
+             eligio una Activity nativa en vez de un segundo FlutterEngine. -->
+        <activity
+            android:name=".PrayerGateActivity"
+            android:exported="false"
+            android:theme="@style/PrayerGateTheme"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
+        <service
+            android:name=".PrayerGateAccessibilityService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- Foreground service companero (ver comentario de permisos
+             arriba y PrayerGateForegroundService.kt). -->
+        <service
+            android:name=".PrayerGateForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Mantener activa la deteccion de apps para la pausa de oración" />
+        </service>
+
+        <!-- Requerido por flutter_local_notifications para volver a
+             programar los recordatorios pendientes despues de un reinicio
+             del telefono. -->
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.actions.NotificationActionReceiver" />
+
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+
+</manifest>
