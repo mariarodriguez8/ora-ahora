@@ -143,7 +143,9 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
               priority: Priority.defaultPriority,
             ),
           ),
-          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime,
         );
       }
     }
@@ -188,6 +190,8 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
