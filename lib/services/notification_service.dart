@@ -55,8 +55,8 @@ class NotificationService {
     if (_initialized) return;
     tz_data.initializeTimeZones();
     try {
-      final localName = await FlutterTimezone.getLocalTimezone();
-      tz.setLocalLocation(tz.getLocation(localName));
+      final localTimezone = await FlutterTimezone.getLocalTimezone();
+tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
     } catch (_) {
       // Si no se puede detectar la zona horaria del dispositivo, se usa UTC
       // como respaldo seguro (las notificaciones seguiran funcionando,
