@@ -5,6 +5,7 @@ import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import 'onboarding_categories_screen.dart';
+import 'onboarding_progress_dots.dart';
 
 class OnboardingTimesScreen extends StatefulWidget {
   const OnboardingTimesScreen({super.key});
@@ -39,32 +40,34 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tus horarios')),
+      backgroundColor: AppColors.cream,
+      appBar: const OnboardingTopBar(step: 0),
       body: SafeArea(
+        top: false,
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 '¿Cuándo sueles orar?',
-                style: AppTypography.headline,
+                style: AppTypography.display,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
                 'Usaremos estos horarios para sugerirte oraciones de '
-                'mañana y de noche, y como base para tus recordatorios '
-                '(los podrás ajustar luego en Ajustes).',
-                style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+                'mañana y de noche, y como base para tus recordatorios. '
+                'Podrás ajustarlo luego desde Ajustes.',
+                style: AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 32),
               _TimeTile(
-                icon: Icons.wb_twilight,
+                icon: Icons.wb_twilight_rounded,
                 label: 'Oración de la mañana',
                 time: _fmt(_morning),
                 onTap: () => _pick(true),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
               _TimeTile(
                 icon: Icons.nightlight_round,
                 label: 'Oración de la noche',
@@ -74,7 +77,13 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
               const Spacer(),
               SizedBox(
                 width: double.infinity,
+                height: 56,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                   onPressed: () async {
                     final prefs = context.read<PrefsService>();
                     await prefs.setMorningTime(_fmt(_morning));
@@ -113,12 +122,47 @@ class _TimeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
         onTap: onTap,
-        leading: Icon(icon, color: AppColors.tealDeep),
-        title: Text(label, style: AppTypography.title),
-        trailing: Text(time, style: AppTypography.title),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.tealLight, width: 1.2),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: AppColors.tealLight,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: AppColors.tealDeep, size: 24),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(label, style: AppTypography.title),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.sand,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  time,
+                  style: AppTypography.title.copyWith(color: AppColors.amber),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
