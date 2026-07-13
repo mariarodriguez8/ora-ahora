@@ -12,6 +12,7 @@ class OnboardingDoneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.cream,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(28),
@@ -19,8 +20,17 @@ class OnboardingDoneScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Spacer(),
-              const Icon(Icons.check_circle, color: AppColors.success, size: 64),
-              const SizedBox(height: 24),
+              Container(
+                width: 96,
+                height: 96,
+                decoration: const BoxDecoration(
+                  color: AppColors.tealLight,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.check_rounded,
+                    color: AppColors.tealDeep, size: 48),
+              ),
+              const SizedBox(height: 28),
               Text('¡Todo listo!', style: AppTypography.display),
               const SizedBox(height: 14),
               Text(
@@ -33,7 +43,13 @@ class OnboardingDoneScreen extends StatelessWidget {
               const Spacer(),
               SizedBox(
                 width: double.infinity,
+                height: 56,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                   onPressed: () async {
                     final prefs = context.read<PrefsService>();
                     await prefs.setOnboardingComplete(true);
