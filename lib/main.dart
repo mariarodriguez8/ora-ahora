@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -75,19 +76,12 @@ class OraAhoraApp extends StatelessWidget {
           final ThemeMode themeMode;
 
           if (explicitId != null) {
-            // El usuario eligio una paleta a mano: se usa siempre esa
-            // misma paleta (tanto para `theme` como `darkTheme`) y se fija
-            // `themeMode` a su propio brillo, para que el modo claro/
-            // oscuro del sistema no la "reemplace".
             final palette = AppPalette.byId(explicitId);
             final themeData = AppTheme.fromPalette(palette, simpleMode: simpleMode);
             lightTheme = themeData;
             darkTheme = themeData;
             themeMode = palette.isDark ? ThemeMode.dark : ThemeMode.light;
           } else {
-            // Sin preferencia explicita: Zafiro Calmo (clara, alto
-            // contraste) en modo claro, Mares Profundos (oscura) en modo
-            // oscuro, siguiendo el ajuste del sistema operativo.
             lightTheme = AppTheme.fromPalette(AppPalette.zafiroCalmo, simpleMode: simpleMode);
             darkTheme = AppTheme.fromPalette(AppPalette.maresProfundos, simpleMode: simpleMode);
             themeMode = ThemeMode.system;
@@ -101,14 +95,15 @@ class OraAhoraApp extends StatelessWidget {
             themeMode: themeMode,
             locale: const Locale('es'),
             supportedLocales: const [Locale('es')],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
             navigatorObservers: [appRouteObserver],
             builder: (context, child) {
               if (child == null) return const SizedBox.shrink();
               if (!simpleMode) return child;
-              // "Modo Simple": agranda TODO el texto de la app (incluidos
-              // los estilos de `AppTypography` usados directamente, no
-              // solo `Theme.of(context).textTheme`), aplicando el escalado
-              // a nivel de MediaQuery en la raiz del arbol de widgets.
               final mediaQuery = MediaQuery.of(context);
               return MediaQuery(
                 data: mediaQuery.copyWith(
