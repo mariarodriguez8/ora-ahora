@@ -5,15 +5,6 @@ import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import 'onboarding_times_screen.dart';
 
-/// Primera pantalla que ve la persona al abrir Ora Ahora. Es el momento
-/// mas importante para transmitir "premium/cuidado" (primera impresion),
-/// asi que:
-/// - Reemplaza el icono generico `Icons.self_improvement` en una caja de
-///   color solido por una ilustracion original (amanecer sobre colinas,
-///   ver `assets/illustrations/onboarding_hero.svg`), mucho mas grande y
-///   como elemento dominante de la pantalla.
-/// - Entra con una animacion organica (fundido + deslizamiento con
-///   `Curves.easeOutBack`) en vez de aparecer sin transicion.
 class OnboardingWelcomeScreen extends StatefulWidget {
   const OnboardingWelcomeScreen({super.key});
 
@@ -71,6 +62,7 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.cream,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(28),
