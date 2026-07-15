@@ -55,7 +55,8 @@ Gradle wrapper 8.9 · AGP 8.7.3 · coreLibraryDesugaring 2.1.4 · gradle.propert
 ## 4. Instalación en el teléfono de Maria (tester)
 APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono → instalar. **Android 13+ bloquea Accesibilidad a apps instaladas por APK** ("Configuración restringida"): se desbloquea en Ajustes → Aplicaciones → Ora Ahora → menú ⋮ → "Permitir configuración restringida". Esto desaparece al publicar en Play Store.
 
-## 5. PENDIENTES INMEDIATOS (feedback de Maria probando v5 — hacer en este orden)
+## 5. PENDIENTES INMEDIATOS (hacer en este orden)
+0. **`bash apply_logo.sh`** en el Codespace (logo nuevo ya decidido, ver sección 6) y verificar que el ícono cambió en el APK.
 1. **Pantalla 1 del onboarding aburrida**: rehacerla nivel "WOW" inspirada en las primeras pantallas de las apps top actuales (movimiento, emoción, no un SVG + texto).
 2. **Coherencia oración↔tema elegido**: eligió "duelo/pérdida" y la primera oración salió de ansiedad. La primera oración y el feed deben respetar la PRIMERA categoría elegida (hoy `onboarding_first_prayer_screen._load()` ordena todo el pool por duración y toma la más corta).
 3. **Overlay "Amén"** (le encanta): al tocarlo debe AVANZAR directo a la siguiente pantalla, sin segundo botón "Continuar".
@@ -67,7 +68,7 @@ APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono �
 
 ## 6. Backlog estratégico (decidido con investigación)
 - **Play Store**: migrar "Pausa y Ora" de Accesibilidad → "Acceso de uso" + overlay (Google rechaza Accesibilidad para esto) · build release firmado · política de privacidad URL · formularios Play Console · cuenta developer $25.
-- **Logo**: mockup `opciones_logo.png` con 6 opciones (cruz/llama/amanecer × verde/azul noche). Maria aún NO elige. Aplicar el elegido a mipmaps + store icon.
+- **Logo: DECIDIDO** — "Halo + cruz + amanecer" estilo 2026 (aro de luz dorado con cruz luminosa pequeña y resplandor de amanecer, sobre degradado índigo→esmeralda). Los PNGs finales (5 mipmaps + icon_512) están en `apply_logo.sh` en la raíz del repo: **correrlo en el Codespace es el PRIMER paso de la próxima sesión** (`bash apply_logo.sh`), antes de compilar. También conviene rediseñar el splash/launch para que combine con el degradado nuevo.
 - Investigación completa (Cal AI 33 pantallas, paywall tras quiz 5x, Coconote UGC, Hallow) ya hecha: onboarding largo ✓ (11 pantallas), falta: widget de pantalla de inicio, retos ("Ora40"), compañeros de oración, anti-churn 7 días extra, notificaciones emocionales con nombre.
 - Backend futuro (cuentas/nube/comunidad): hoy TODO es local/offline (racha se pierde al desinstalar).
 - Paywall se mantiene SUAVE por decisión de Maria; 2 oraciones gratis en feed + resto candado.
