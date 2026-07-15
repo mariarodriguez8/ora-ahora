@@ -43,7 +43,13 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _refreshStatus();
+      _refreshStatus().then((_) {
+        if (mounted && (_enabled ?? false)) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('¡Permiso activado! Pausa y Ora ya funciona ✅🙏'),
+          ));
+        }
+      });
     }
   }
 
@@ -130,6 +136,24 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                               texto: 'Vuelve aquí con el botón de atrás. '
                                   'Nosotros comprobamos el resto ✅.'),
                         ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: AppColors.amberLight.withValues(alpha: 0.35),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        '⚠️ ¿Te aparece "Configuración restringida"?\n'
+                        'Es normal si instalaste la app por archivo APK. '
+                        'Solución: Ajustes → Aplicaciones → Ora Ahora → '
+                        'menú de 3 puntos (⋮) arriba a la derecha → '
+                        '"Permitir configuración restringida" (pide tu '
+                        'PIN) → vuelve a intentarlo.',
+                        style: AppTypography.body.copyWith(fontSize: 13.5),
                       ),
                     ),
                     const SizedBox(height: 14),

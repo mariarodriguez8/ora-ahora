@@ -183,6 +183,11 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
     );
     final feed = await repo.byCategories(categories);
     feed.removeWhere((p) => p.id == oracionDelDia.id);
+    // Coherencia: primero las oraciones del primer tema elegido, luego el
+    // segundo, etc.
+    feed.sort((a, b) => categories
+        .indexOf(a.categoria)
+        .compareTo(categories.indexOf(b.categoria)));
 
     // Prueba social honesta (ver `CommunityStatsService`): hoy siempre
     // devuelve `null` porque no existe un backend real que agregue

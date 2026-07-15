@@ -37,11 +37,16 @@ class _OnboardingFirstPrayerScreenState
   Future<void> _load() async {
     final repo = context.read<PrayerRepository>();
     final prefs = context.read<PrefsService>();
-    final pool = await repo.byCategories(prefs.preferredCategories);
-    final all = pool.isEmpty ? await repo.all() : pool;
-    all.sort((a, b) => a.duracionEstimadaMin.compareTo(b.duracionEstimadaMin));
+    // Coherencia total: la primera oracion sale del PRIMER tema que la
+    // persona eligio (si escogio "duelo", la oracion ES de duelo).
+    final cats = prefs.preferredCategories;
+    List pool = cats.isEmpty ? [] : await repo.byCategory(cats.first);
+    if (pool.isEmpty) pool = await repo.byCategories(cats);
+    if (pool.isEmpty) pool = await repo.all();
+    pool.sort((a, b) =>
+        a.duracionEstimadaMin.compareTo(b.duracionEstimadaMin));
     if (!mounted) return;
-    setState(() => _prayer = all.first);
+    setState(() => _prayer = pool.first);
   }
 
   Future<void> _onAmen() async {
@@ -57,6 +62,11 @@ class _OnboardingFirstPrayerScreenState
       context,
       streak: 1,
       referencia: _prayer?.referenciaBiblica ?? '',
+    );
+    // Al cerrar el momento Amen, avanza SOLO (sin segundo boton).
+    if (!mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const OnboardingCommitmentScreen()),
     );
   }
 

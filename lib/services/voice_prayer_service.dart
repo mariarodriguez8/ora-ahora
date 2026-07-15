@@ -48,6 +48,16 @@ class VoicePrayerService {
   /// de verdad, ver [startListening]). Nunca lanza excepciones: cualquier
   /// error de la plataforma se trata como "no disponible" para no romper
   /// la pantalla de Ajustes ni la de la oracion.
+  /// `true` si el sistema YA concedio el permiso de microfono (sin
+  /// disparar ningun dialogo). Base del "permission priming" honesto.
+  Future<bool> get hasMicPermission async {
+    try {
+      return await _speech.hasPermission;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<bool> checkAvailability() async {
     if (_initialized) return _available;
     try {

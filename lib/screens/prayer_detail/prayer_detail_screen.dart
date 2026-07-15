@@ -9,7 +9,6 @@ import '../../services/purchase_service.dart';
 import '../../services/streak_service.dart';
 import '../../services/voice_prayer_service.dart';
 import '../../widgets/amen_celebration.dart';
-import '../voice_explainer/voice_explainer_screen.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 
@@ -110,7 +109,16 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
   /// procesa 100% en el telefono. Solo despues se inicia la escucha.
   Future<void> _ensureVoiceReadyAndStart() async {
     final prefs = context.read<PrefsService>();
-    if (!prefs.micPrimingDone) {
+    // Si el sistema YA dio el permiso, cero preguntas: a orar directo.
+    final yaTienePermiso = await _voiceService.hasMicPermission;
+    if (!mounted) return;
+    if (yaTienePermiso) {
+      await _startListening();
+      return;
+    }
+    // Sin permiso: UNA sola pantalla de contexto y luego el dialogo del
+    // sistema. Nunca doble pregunta.
+    if (true) {
       final acepta = await showModalBottomSheet<bool>(
         context: context,
         builder: (ctx) => Padding(
@@ -148,13 +156,8 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
       );
       if (acepta != true || !mounted) return;
       await prefs.setMicPrimingDone(true);
+      await prefs.setVoiceDisclosureSeen(true);
       if (!mounted) return;
-    }
-    if (!prefs.voiceDisclosureSeen) {
-      final granted = await Navigator.of(context).push<bool>(
-        MaterialPageRoute(builder: (_) => const VoiceExplainerScreen()),
-      );
-      if (granted != true || !mounted) return;
     }
     final available = await _voiceService.checkAvailability();
     if (!mounted) return;
@@ -503,42 +506,88 @@ class _VoicePrayerSection extends StatelessWidget {
     final pct = (coverage * 100).clamp(0, 100).round();
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.fromLTRB(18, 26, 18, 14),
       decoration: BoxDecoration(
-        color: AppColors.tealLight.withValues(alpha: 0.35),
-        borderRadius: BorderRadius.circular(18),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF18163A), Color(0xFF0A3A30)],
+        ),
+        borderRadius: BorderRadius.circular(26),
       ),
       child: Column(
         children: [
-          ScaleTransition(
-            scale: Tween(begin: 0.9, end: 1.15).animate(
-              CurvedAnimation(parent: pulseController, curve: Curves.easeInOut),
+          // MIC GIGANTE con ondas que respiran (hecho para grabarse)
+          SizedBox(
+            width: 190,
+            height: 190,
+            child: AnimatedBuilder(
+              animation: pulseController,
+              builder: (context, _) {
+                final v = pulseController.value;
+                Widget onda(double base, double alpha) => Container(
+                      width: base + 46 * v,
+                      height: base + 46 * v,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: const Color(0xFFFFD18C)
+                              .withValues(alpha: alpha * (1 - v * 0.6)),
+                          width: 2.5,
+                        ),
+                      ),
+                    );
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    onda(150, 0.35),
+                    onda(118, 0.55),
+                    Container(
+                      width: 96,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFFFFD18C),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFFD18C)
+                                .withValues(alpha: 0.45 + 0.3 * v),
+                            blurRadius: 34 + 18 * v,
+                            spreadRadius: 4,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(Icons.mic_rounded,
+                          size: 48, color: Color(0xFF241F10)),
+                    ),
+                  ],
+                );
+              },
             ),
-            child: const Icon(Icons.mic, color: AppColors.tealDeep, size: 40),
           ),
-          const SizedBox(height: 10),
-          Text('Te escucho, sigue orando…', style: AppTypography.title),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
+          Text('Te escucho… sigue orando 🙏',
+              style: AppTypography.headline.copyWith(
+                  fontSize: 20, color: const Color(0xFFF7F3EA))),
+          const SizedBox(height: 12),
           ClipRRect(
             borderRadius: BorderRadius.circular(999),
             child: LinearProgressIndicator(
               value: coverage.clamp(0.0, 1.0),
-              minHeight: 8,
-              backgroundColor: Colors.white,
+              minHeight: 10,
+              backgroundColor: Colors.white.withValues(alpha: 0.15),
               valueColor: const AlwaysStoppedAnimation<Color>(
-                AppColors.tealDeep,
-              ),
+                  Color(0xFFFFD18C)),
             ),
           ),
           const SizedBox(height: 6),
           Text(
             pct == 0
-                ? 'Lee la oración en voz alta, con tus palabras normales'
-                : 'Ya llevas el $pct% de la oración. Cierra con "Amén" 🙏',
+                ? 'Lee la oración en voz alta, con calma'
+                : 'Ya llevas el $pct% · cierra con "Amén"',
             style: AppTypography.caption.copyWith(
-              color: scheme.onSurfaceVariant,
-              letterSpacing: 0.3,
-            ),
+                color: const Color(0xFFF7F3EA).withValues(alpha: 0.7),
+                letterSpacing: 0.4),
             textAlign: TextAlign.center,
           ),
           if (partialText.trim().isNotEmpty) ...[
@@ -549,15 +598,18 @@ class _VoicePrayerSection extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: AppTypography.quote.copyWith(
                 fontSize: 13.5,
-                color: AppColors.inkSoft,
+                color: const Color(0xFFF7F3EA).withValues(alpha: 0.75),
               ),
               textAlign: TextAlign.center,
             ),
           ],
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           TextButton(
             onPressed: onCancel,
-            child: const Text('Cancelar'),
+            child: Text('Cancelar',
+                style: TextStyle(
+                    color: const Color(0xFFF7F3EA)
+                        .withValues(alpha: 0.6))),
           ),
         ],
       ),

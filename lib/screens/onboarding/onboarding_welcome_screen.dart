@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import 'onboarding_name_screen.dart';
 
+/// Bienvenida "WOW" 2026: fondo degradado profundo (como el logo), halo
+/// de luz dorado que respira con una cruz luminosa, y texto marfil.
 class OnboardingWelcomeScreen extends StatefulWidget {
   const OnboardingWelcomeScreen({super.key});
 
@@ -14,114 +14,191 @@ class OnboardingWelcomeScreen extends StatefulWidget {
 }
 
 class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _heroFade;
-  late final Animation<Offset> _heroSlide;
-  late final Animation<double> _textFade;
-  late final Animation<Offset> _textSlide;
+    with TickerProviderStateMixin {
+  late final AnimationController _pulse;
+  late final AnimationController _entrance;
+
+  static const _indigo = Color(0xFF18163A);
+  static const _esmeralda = Color(0xFF0A3A30);
+  static const _dorado = Color(0xFFFFD18C);
+  static const _marfil = Color(0xFFF7F3EA);
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    );
-    _heroFade = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
-    );
-    _heroSlide = Tween<Offset>(begin: const Offset(0, 0.10), end: Offset.zero)
-        .animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.7, curve: Curves.easeOutBack),
-    ));
-    _textFade = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.25, 0.85, curve: Curves.easeOutCubic),
-    );
-    _textSlide = Tween<Offset>(begin: const Offset(0, 0.08), end: Offset.zero)
-        .animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.25, 1.0, curve: Curves.easeOutBack),
-    ));
-    _controller.forward();
+    _pulse = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2400))
+      ..repeat(reverse: true);
+    _entrance = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1100))
+      ..forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _pulse.dispose();
+    _entrance.dispose();
     super.dispose();
   }
 
+  Widget _luz(double size, double opacity) => Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: _dorado.withValues(alpha: opacity),
+              blurRadius: size * 0.45,
+              spreadRadius: size * 0.08,
+            ),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
+    final fadeIn = CurvedAnimation(
+        parent: _entrance,
+        curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic));
     return Scaffold(
-      backgroundColor: AppColors.cream,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(28),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(),
-              FadeTransition(
-                opacity: _heroFade,
-                child: SlideTransition(
-                  position: _heroSlide,
-                  child: SvgPicture.asset(
-                    'assets/illustrations/onboarding_hero.svg',
-                    height: 190,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [_indigo, _esmeralda],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(28),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Spacer(),
+                // Halo con cruz de luz que respira
+                Center(
+                  child: AnimatedBuilder(
+                    animation: _pulse,
+                    builder: (context, _) {
+                      final v = 0.92 + 0.08 * _pulse.value;
+                      return Transform.scale(
+                        scale: v,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            _luz(210, 0.22 + 0.12 * _pulse.value),
+                            Container(
+                              width: 190,
+                              height: 190,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: _marfil, width: 4),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: _dorado.withValues(alpha: 0.55),
+                                    blurRadius: 26,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // cruz de luz
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      width: 13,
+                                      height: 84,
+                                      decoration: BoxDecoration(
+                                        color: _marfil,
+                                        borderRadius:
+                                            BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: _dorado.withValues(
+                                                alpha: 0.9),
+                                            blurRadius: 22,
+                                            spreadRadius: 2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 20,
+                                      child: Container(
+                                        width: 58,
+                                        height: 13,
+                                        decoration: BoxDecoration(
+                                          color: _marfil,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              FadeTransition(
-                opacity: _textFade,
-                child: SlideTransition(
-                  position: _textSlide,
+                const Spacer(),
+                FadeTransition(
+                  opacity: fadeIn,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Un momento de paz,\nen medio del ruido',
-                        style: AppTypography.display,
+                        'Tu momento\ncon Dios,\ntodos los días',
+                        style: AppTypography.display
+                            .copyWith(fontSize: 38, color: _marfil),
                       ),
                       const SizedBox(height: 14),
                       Text(
-                        'La vida no para, lo sabemos. Por eso estamos aquí: '
-                        'para ayudarte a hacer una pausa, respirar y orar '
-                        'un ratito cada día. Sin prisa. A tu ritmo.',
-                        style: AppTypography.bodyLarge
-                            .copyWith(color: AppColors.inkSoft),
+                        'Oraciones que se sienten tuyas, una pausa antes '
+                        'de las apps que te roban la paz, y una fe que '
+                        'crece día a día 🌱',
+                        style: AppTypography.bodyLarge.copyWith(
+                            color: _marfil.withValues(alpha: 0.78)),
                       ),
                     ],
                   ),
                 ),
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (_) => const OnboardingNameScreen()),
-                    );
-                  },
-                  child: const Text('Comenzar 🙏'),
+                const SizedBox(height: 26),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _dorado,
+                      foregroundColor: const Color(0xFF241F10),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const OnboardingNameScreen()),
+                      );
+                    },
+                    child: const Text('Comenzar mi camino 🙏'),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Center(
-                child: Text(
-                  'Toma menos de 2 minutos',
-                  style: AppTypography.caption
-                      .copyWith(color: AppColors.inkSoft, letterSpacing: 0.4),
+                const SizedBox(height: 8),
+                Center(
+                  child: Text(
+                    'Gratis · Menos de 2 minutos',
+                    style: AppTypography.caption
+                        .copyWith(color: _marfil.withValues(alpha: 0.5)),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
