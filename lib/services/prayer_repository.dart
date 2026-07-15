@@ -48,8 +48,16 @@ class PrayerRepository {
     final all = await _loadAll();
     List<Prayer> pool = all;
     if (preferredCategories != null && preferredCategories.isNotEmpty) {
-      final filtered =
-          all.where((p) => preferredCategories.contains(p.categoria)).toList();
+      // Coherencia estricta: la oracion del dia sale del PRIMER tema que
+      // la persona eligio (rota dia a dia dentro de ese tema). Si ese
+      // tema no tuviera oraciones, se amplia al resto de sus temas.
+      final first =
+          all.where((p) => p.categoria == preferredCategories.first).toList();
+      final filtered = first.isNotEmpty
+          ? first
+          : all
+              .where((p) => preferredCategories.contains(p.categoria))
+              .toList();
       if (filtered.isNotEmpty) pool = filtered;
     }
     final dayIndex = DateTime.now()

@@ -23,7 +23,7 @@ class OnboardingGateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cream,
-      appBar: const OnboardingTopBar(step: 8),
+      appBar: const OnboardingTopBar(step: 9),
       body: SafeArea(
         top: false,
         child: Padding(

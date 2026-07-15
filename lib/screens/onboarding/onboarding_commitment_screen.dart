@@ -27,7 +27,7 @@ class _OnboardingCommitmentScreenState
     final nombre = context.read<PrefsService>().userName;
     return Scaffold(
       backgroundColor: AppColors.cream,
-      appBar: const OnboardingTopBar(step: 6),
+      appBar: const OnboardingTopBar(step: 7),
       body: SafeArea(
         top: false,
         child: Padding(

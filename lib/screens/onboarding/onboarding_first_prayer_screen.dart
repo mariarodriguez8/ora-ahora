@@ -10,7 +10,7 @@ import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import '../../widgets/amen_celebration.dart';
 import 'onboarding_progress_dots.dart';
-import 'onboarding_commitment_screen.dart';
+import 'onboarding_mic_screen.dart';
 
 /// El momento "aha" del onboarding: la persona ora AQUI MISMO su primera
 /// oracion (corta, elegida segun sus intereses) y arranca su racha en el
@@ -66,7 +66,7 @@ class _OnboardingFirstPrayerScreenState
     // Al cerrar el momento Amen, avanza SOLO (sin segundo boton).
     if (!mounted) return;
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const OnboardingCommitmentScreen()),
+      MaterialPageRoute(builder: (_) => const OnboardingMicScreen()),
     );
   }
 

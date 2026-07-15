@@ -207,7 +207,26 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                      onPressed: _checking ? null : _refreshStatus,
+                      onPressed: _checking
+                          ? null
+                          : () async {
+                              await _refreshStatus();
+                              if (!context.mounted) return;
+                              if (_enabled ?? false) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      '¡Permiso detectado! Pausa y Ora está activo ✅🙏'),
+                                ));
+                                Navigator.of(context).pop(true);
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      'Aún no lo detecto 🤔 Asegúrate de ENCENDER el interruptor de "Ora Ahora" dentro de Accesibilidad y vuelve a tocar aquí.'),
+                                ));
+                              }
+                            },
                       child: Text(
                           _checking ? 'Comprobando...' : 'Ya activé el permiso'),
                     ),

@@ -26,7 +26,7 @@ class OnboardingRemindersScreen extends StatelessWidget {
     final nombre = prefs.userName;
     return Scaffold(
       backgroundColor: AppColors.cream,
-      appBar: const OnboardingTopBar(step: 7),
+      appBar: const OnboardingTopBar(step: 8),
       body: SafeArea(
         top: false,
         child: Padding(

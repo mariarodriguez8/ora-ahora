@@ -76,6 +76,15 @@ class PrayerGateAccessibilityService : AccessibilityService() {
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
             ) ?: return false
 
+            // Respaldo directo: algunos OEM guardan el componente con
+            // formato distinto; si la cadena contiene nuestro paquete y
+            // clase, el servicio esta activo.
+            if (enabledServicesSetting.contains(context.packageName) &&
+                enabledServicesSetting.contains("PrayerGateAccessibilityService")
+            ) {
+                return true
+            }
+
             val splitter = TextUtils.SimpleStringSplitter(':')
             splitter.setString(enabledServicesSetting)
             while (splitter.hasNext()) {

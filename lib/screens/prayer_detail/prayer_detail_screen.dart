@@ -113,6 +113,15 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
     final yaTienePermiso = await _voiceService.hasMicPermission;
     if (!mounted) return;
     if (yaTienePermiso) {
+      final listo = await _voiceService.checkAvailability();
+      if (!mounted) return;
+      if (!listo) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content:
+              Text('No pudimos iniciar el micrófono en este teléfono 😔'),
+        ));
+        return;
+      }
       await _startListening();
       return;
     }
@@ -343,8 +352,28 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _PrayerHeroCard(prayer: widget.prayer),
-                const SizedBox(height: 28),
+                if (_listening)
+                  Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(maxHeight: 150),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.75),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Text(
+                        widget.prayer.texto,
+                        style: AppTypography.prayerText.copyWith(
+                          fontSize: 14.5,
+                          height: 1.45,
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  _PrayerHeroCard(prayer: widget.prayer),
+                SizedBox(height: _listening ? 14 : 28),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
@@ -543,11 +572,18 @@ class _VoicePrayerSection extends StatelessWidget {
                     onda(150, 0.35),
                     onda(118, 0.55),
                     Container(
-                      width: 96,
-                      height: 96,
+                      width: 104,
+                      height: 104,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: const Color(0xFFFFD18C),
+                        gradient: const RadialGradient(
+                          colors: [
+                            Color(0xFFFFE7C2),
+                            Color(0xFFFFD18C),
+                            Color(0xFFE2A85B),
+                          ],
+                          stops: [0.0, 0.6, 1.0],
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFFFFD18C)

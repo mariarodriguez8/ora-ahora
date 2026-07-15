@@ -104,45 +104,42 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                                 ],
                               ),
                             ),
-                            // cruz de luz
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      width: 13,
-                                      height: 84,
+                            // cruz de luz (geometria fija 84x84)
+                            SizedBox(
+                              width: 84,
+                              height: 84,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 13,
+                                    height: 84,
+                                    decoration: BoxDecoration(
+                                      color: _marfil,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _dorado.withValues(alpha: 0.9),
+                                          blurRadius: 22,
+                                          spreadRadius: 2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: const Alignment(0, -0.42),
+                                    child: Container(
+                                      width: 56,
+                                      height: 13,
                                       decoration: BoxDecoration(
                                         color: _marfil,
                                         borderRadius:
                                             BorderRadius.circular(8),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: _dorado.withValues(
-                                                alpha: 0.9),
-                                            blurRadius: 22,
-                                            spreadRadius: 2,
-                                          ),
-                                        ],
                                       ),
                                     ),
-                                    Positioned(
-                                      top: 20,
-                                      child: Container(
-                                        width: 58,
-                                        height: 13,
-                                        decoration: BoxDecoration(
-                                          color: _marfil,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
