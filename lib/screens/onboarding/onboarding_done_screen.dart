@@ -11,6 +11,7 @@ class OnboardingDoneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nombre = context.read<PrefsService>().userName;
     return Scaffold(
       backgroundColor: AppColors.cream,
       body: SafeArea(
@@ -27,29 +28,29 @@ class OnboardingDoneScreen extends StatelessWidget {
                   color: AppColors.tealLight,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.check_rounded,
-                    color: AppColors.tealDeep, size: 48),
+                child: const Center(
+                  child: Text('🌱', style: TextStyle(fontSize: 44)),
+                ),
               ),
               const SizedBox(height: 28),
-              Text('¡Todo listo!', style: AppTypography.display),
+              Text(
+                nombre.isEmpty
+                    ? '¡Tu semilla ya está\nplantada!'
+                    : '¡Tu semilla ya está\nplantada, $nombre!',
+                style: AppTypography.display.copyWith(fontSize: 28),
+              ),
               const SizedBox(height: 14),
               Text(
-                'Ya puedes empezar a orar con Ora Ahora. Cuando quieras, '
-                'desde Ajustes podrás activar recordatorios diarios y la '
-                'función "Pausa y Ora" para hacer una pausa antes de abrir '
-                'las apps que más te distraen.',
-                style: AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
+                'Hoy oraste por primera vez aquí. Cada día que vuelvas, '
+                'tu árbol de fe crecerá un poquito más. Nos vemos mañana '
+                'a la misma hora — no vengas tarde 😄',
+                style:
+                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),
               const Spacer(),
               SizedBox(
                 width: double.infinity,
-                height: 56,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
                   onPressed: () async {
                     final prefs = context.read<PrefsService>();
                     await prefs.setOnboardingComplete(true);
@@ -59,7 +60,7 @@ class OnboardingDoneScreen extends StatelessWidget {
                       (route) => false,
                     );
                   },
-                  child: const Text('Ir a mi inicio'),
+                  child: const Text('Ir a mi inicio 🏡'),
                 ),
               ),
             ],

@@ -109,7 +109,7 @@ class PrayerGateForegroundService : Service() {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             @Suppress("DEPRECATION")
-            builder.priority = Notification.PRIORITY_MIN
+            builder.setPriority(Notification.PRIORITY_MIN)
         }
 
         if (contentIntent != null) {

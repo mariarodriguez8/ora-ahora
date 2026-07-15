@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/prayer.dart';
@@ -242,25 +243,6 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
     final isPlus = context.watch<PurchaseService>().isPlusUser;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ora Ahora'),
-        actions: [
-          if (isPlus && streak.freezeTokens > 0)
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Center(child: _FreezeTokensChip(tokens: streak.freezeTokens)),
-            ),
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Center(
-              child: StreakBadge(
-                streak: streak.currentStreak,
-                atRisk: streak.streakAtRisk,
-              ),
-            ),
-          ),
-        ],
-      ),
       body: Stack(
         children: [
           FutureBuilder<_FeedData>(
@@ -273,8 +255,28 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
               return RefreshIndicator(
                 onRefresh: _refresh,
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                   children: [
+                    // 0. Encabezado calido: saludo segun la hora del dia +
+                    // insignia de racha, en vez de un AppBar generico.
+                    _staggeredSection(
+                      SafeArea(
+                        bottom: false,
+                        child: _GreetingHeader(
+                          streak: streak.currentStreak,
+                          atRisk: streak.streakAtRisk,
+                          nombre: context.read<PrefsService>().userName,
+                          cumulativeMinutes: streak.cumulativeMinutes,
+                          freezeTokens:
+                              (isPlus && streak.freezeTokens > 0)
+                                  ? streak.freezeTokens
+                                  : null,
+                        ),
+                      ),
+                      start: 0.0,
+                      end: 0.5,
+                    ),
+                    const SizedBox(height: 20),
                     // 1. Hero: la oracion del dia es el unico elemento
                     // dominante de la pantalla (fondo tonal propio,
                     // capas suaves de profundidad, tipografia mas grande).
@@ -336,15 +338,175 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
   }
 }
 
-/// Seccion "hero" del inicio: la unica con fondo tonal propio y la unica
-/// pensada para dominar la pantalla por encima del pliegue. Usa
-/// `primaryContainer`/`onPrimaryContainer`/`primary` del `ColorScheme`
-/// activo (una de las 4 paletas de Ajustes > Apariencia), asi que se
-/// adapta automaticamente sin importar cual este seleccionada. Las dos
-/// formas circulares translucidas en la esquina son capas planas del
-/// mismo tono a distinta opacidad/tamaño (sin gradientes) para dar
-/// sensacion de profundidad, siguiendo el mismo principio de "cuentos de
-/// color" que las ilustraciones nuevas.
+/// Encabezado calido del inicio: saludo serif segun la hora del dia,
+/// fecha en espanol y la insignia de racha a la derecha. Reemplaza al
+/// AppBar generico de Material.
+class _GreetingHeader extends StatelessWidget {
+  final int streak;
+  final bool atRisk;
+  final int? freezeTokens;
+  final String nombre;
+  final int cumulativeMinutes;
+
+  const _GreetingHeader({
+    required this.streak,
+    required this.atRisk,
+    required this.nombre,
+    required this.cumulativeMinutes,
+    this.freezeTokens,
+  });
+
+  String get _saludo {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Buenos días';
+    if (hour < 19) return 'Buenas tardes';
+    return 'Buenas noches';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final hoy = DateTime.now();
+    const dias = [
+      'lunes',
+      'martes',
+      'miércoles',
+      'jueves',
+      'viernes',
+      'sábado',
+      'domingo',
+    ];
+    const meses = [
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
+    ];
+    final fecha =
+        '${dias[hoy.weekday - 1]}, ${hoy.day} de ${meses[hoy.month - 1]}';
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 18),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  fecha.toUpperCase(),
+                  style: AppTypography.caption.copyWith(
+                    color: scheme.secondary,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  nombre.isEmpty ? _saludo : '$_saludo,\n$nombre 🌅',
+                  style: AppTypography.display.copyWith(
+                    fontSize: 27,
+                    color: scheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Dios tiene algo para ti hoy ✨',
+                  style: AppTypography.body.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              StreakBadge(streak: streak, atRisk: atRisk),
+              const SizedBox(height: 8),
+              _MiniSemilla(cumulativeMinutes: cumulativeMinutes),
+              if (freezeTokens != null) ...[
+                const SizedBox(height: 8),
+                _FreezeTokensChip(tokens: freezeTokens!),
+              ],
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Semilla compacta junto a la racha: muestra la etapa actual del arbol
+/// de fe y una barrita de progreso hacia la siguiente etapa. Al crecer,
+/// la ilustracion cambia con una animacion suave (dopamina del progreso
+/// visible cada dia, sin numeros grandes).
+class _MiniSemilla extends StatelessWidget {
+  final int cumulativeMinutes;
+  const _MiniSemilla({required this.cumulativeMinutes});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final stage = FaithTreeStages.stageFor(cumulativeMinutes);
+    final progress = FaithTreeStages.progressWithinStage(cumulativeMinutes);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: scheme.primaryContainer.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            switchInCurve: Curves.easeOutBack,
+            transitionBuilder: (child, anim) =>
+                ScaleTransition(scale: anim, child: child),
+            child: SvgPicture.asset(
+              FaithTreeStages.illustrationFor(stage),
+              key: ValueKey(stage),
+              width: 22,
+              height: 22,
+            ),
+          ),
+          const SizedBox(width: 6),
+          SizedBox(
+            width: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(999),
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: progress),
+                duration: const Duration(milliseconds: 700),
+                curve: Curves.easeOutCubic,
+                builder: (context, v, _) => LinearProgressIndicator(
+                  value: v,
+                  minHeight: 5,
+                  backgroundColor:
+                      scheme.onPrimaryContainer.withValues(alpha: 0.15),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Seccion "hero" del inicio: overline dorada + titulo serif + la tarjeta
+/// destacada (fondo primario profundo, ver `PrayerCard(destacada: true)`).
+/// Es el unico bloque oscuro/dominante de la pantalla, para que la
+/// oracion del dia sea inconfundiblemente lo mas importante.
 class _HeroPrayerSection extends StatelessWidget {
   final Prayer prayer;
   final VoidCallback onTap;
@@ -354,61 +516,31 @@ class _HeroPrayerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        color: scheme.primaryContainer.withValues(alpha: 0.55),
-        borderRadius: BorderRadius.circular(28),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: -40,
-            right: -30,
-            child: _softCircle(scheme.primary, 130, 0.10),
-          ),
-          Positioned(
-            top: -6,
-            right: 24,
-            child: _softCircle(scheme.primary, 64, 0.16),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'PARA HOY',
-                  style: AppTypography.caption.copyWith(
-                    color: scheme.onPrimaryContainer.withValues(alpha: 0.75),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Oración del día',
-                  style: AppTypography.display.copyWith(
-                    fontSize: 26,
-                    color: scheme.onPrimaryContainer,
-                  ),
-                ),
-                const SizedBox(height: 18),
-                PrayerCard(prayer: prayer, destacada: true, onTap: onTap),
-              ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 22,
+              height: 2,
+              color: scheme.secondary,
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _softCircle(Color color, double size, double opacity) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: opacity),
-        shape: BoxShape.circle,
-      ),
+            const SizedBox(width: 8),
+            Text(
+              'PARA HOY',
+              style: AppTypography.caption.copyWith(color: scheme.secondary),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'Oración del día',
+          style: AppTypography.headline.copyWith(color: scheme.onSurface),
+        ),
+        const SizedBox(height: 14),
+        PrayerCard(prayer: prayer, destacada: true, onTap: onTap),
+      ],
     );
   }
 }
@@ -475,12 +607,19 @@ class _ParaTiSection extends StatelessWidget {
             ),
           )
         else
-          ...feed.map(
-            (p) => Padding(
+          ...List.generate(feed.length, (i) {
+            final p = feed[i];
+            final bloqueada = !isPlus && i >= 2;
+            return Padding(
               padding: const EdgeInsets.only(bottom: 14),
-              child: PrayerCard(prayer: p, onTap: () => onOpenPrayer(p)),
-            ),
-          ),
+              child: PrayerCard(
+                prayer: p,
+                bloqueada: bloqueada,
+                insignia: (!isPlus && i == 1) ? '🎙️ Órala en voz alta' : null,
+                onTap: bloqueada ? onOpenPaywall : () => onOpenPrayer(p),
+              ),
+            );
+          }),
         const SizedBox(height: 12),
         if (!isPlus) _PlusBanner(onTap: onOpenPaywall),
       ],

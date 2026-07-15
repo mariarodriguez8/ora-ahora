@@ -10,6 +10,7 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -23,7 +24,7 @@ android {
         // flutter_local_notifications y device_apps funcionan desde API 21,
         // pero se fija 23 para simplificar el manejo de permisos en tiempo
         // de ejecucion (Android 6.0+) usados por el gate de accesibilidad.
-        minSdk 23
+        minSdkVersion flutter.minSdkVersion
         targetSdk flutter.targetSdkVersion
         versionCode flutter.versionCode
         versionName flutter.versionName
@@ -44,5 +45,6 @@ flutter {
 }
 
 dependencies {
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.4"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22"
 }

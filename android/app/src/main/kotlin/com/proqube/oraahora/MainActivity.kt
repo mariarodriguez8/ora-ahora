@@ -1,7 +1,9 @@
 package com.proqube.oraahora
 
 import android.content.Context
+import android.content.ComponentName
 import android.content.Intent
+import android.os.Bundle
 import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
@@ -38,6 +40,20 @@ class MainActivity : FlutterActivity() {
                         try {
                             val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            // Pide a Ajustes que llegue con NUESTRO servicio
+                            // resaltado (soportado en AOSP/Pixel/Samsung y la
+                            // mayoria de OEM recientes; en el resto se ignora
+                            // sin causar error), para que la persona no tenga
+                            // que buscar "Ora Ahora" entre los menus.
+                            val componente = ComponentName(
+                                applicationContext,
+                                PrayerGateAccessibilityService::class.java,
+                            ).flattenToString()
+                            val fragmentArgs = Bundle().apply {
+                                putString(":settings:fragment_args_key", componente)
+                            }
+                            intent.putExtra(":settings:fragment_args_key", componente)
+                            intent.putExtra(":settings:show_fragment_args", fragmentArgs)
                             startActivity(intent)
                             result.success(null)
                         } catch (e: Exception) {

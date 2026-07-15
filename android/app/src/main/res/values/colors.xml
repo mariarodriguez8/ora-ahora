@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Debe coincidir con AppColors.tealDeep del lado Flutter, para que
-         PrayerGateActivity (pantalla 100% nativa) se vea consistente con
-         el resto de la app. -->
-    <color name="gate_background">#1F4E4A</color>
-    <color name="gate_accent">#C9873A</color>
-    <color name="gate_text">#FFFFFF</color>
-    <color name="gate_text_soft">#CFE6DF</color>
+    <!-- Debe coincidir con la paleta "Santuario" del lado Flutter
+         (AppColors), para que PrayerGateActivity (pantalla 100% nativa)
+         se vea consistente con el resto de la app:
+         gate_background = AppColors.tealDeep  (verde abeto profundo)
+         gate_accent     = dorado suave (legible sobre el fondo oscuro)
+         gate_text_soft  = AppColors.tealLight (niebla de salvia) -->
+    <color name="gate_background">#16342B</color>
+    <color name="gate_accent">#D9B37C</color>
+    <color name="gate_text">#F7F3EA</color>
+    <color name="gate_text_soft">#DCE8DE</color>
+
+    <!-- Fondo de arranque (ver drawable/launch_background.xml y
+         styles.xml): mismo papel marfil que AppColors.cream. -->
+    <color name="launch_background_color">#F7F3EA</color>
 </resources>

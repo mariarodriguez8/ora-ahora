@@ -87,9 +87,19 @@ class _PaywallScreenState extends State<PaywallScreen> {
                 height: 120,
               ),
             ),
-            const SizedBox(height: 12),
-            Text('Lleva tu vida de oración más lejos', style: AppTypography.headline),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
+            Text(
+              'PLUS',
+              textAlign: TextAlign.center,
+              style: AppTypography.caption.copyWith(color: AppColors.amber),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Lleva tu vida de oración\nmás lejos',
+              textAlign: TextAlign.center,
+              style: AppTypography.display.copyWith(fontSize: 27),
+            ),
+            const SizedBox(height: 24),
             const _FeatureRow(
               icon: Icons.lock_open,
               title: 'Apps ilimitadas en Pausa y Ora',
@@ -201,11 +211,20 @@ class _FeatureRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: AppColors.tealDeep),
+          Container(
+            width: 42,
+            height: 42,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              color: AppColors.tealLight,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: AppColors.tealDeep, size: 20),
+          ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(

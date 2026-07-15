@@ -8,7 +8,7 @@
 
     <!-- Tema usado por MainActivity una vez que Flutter ya se dibujó. -->
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@color/launch_background_color</item>
     </style>
 
     <!-- Tema para PrayerGateActivity: pantalla completa, sin action bar,

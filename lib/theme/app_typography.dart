@@ -1,52 +1,55 @@
 import 'package:flutter/material.dart';
 
-/// Escala tipografica de Ora Ahora, basada unicamente en la fuente de
-/// sistema (Roboto en Android) para no depender de ningun paquete de
-/// fuentes externas (no hay acceso a internet en el entorno de
-/// desarrollo para traer `google_fonts` ni archivos de fuente propios).
+/// Escala tipografica "Santuario" de Ora Ahora.
 ///
-/// La jerarquia "premium" se construye SIN una fuente nueva, jugando con
-/// tres palancas que si estan disponibles con la fuente de sistema:
-/// 1. Mayor contraste de tamaño entre niveles (el "display" ahora es
-///    notablemente mas grande que el "headline", en vez de una escala
-///    plana donde todo se ve parecido).
-/// 2. Contraste de peso mas deliberado (w800 solo para el momento "hero"
-///    del display, w700 para headline, w600 para title, dejando w400/w500
-///    para texto de apoyo).
-/// 3. `letterSpacing` afinado por nivel: ligeramente negativo en los
-///    tamaños grandes (mas denso y confiado, como en apps premium) y
-///    ligeramente positivo/ancho en `caption`/`overline` (sensacion de
-///    "etiqueta" cuidada, no un texto pequeño descuidado).
+/// Dos familias empaquetadas en `assets/fonts/` (licencia OFL, sin
+/// dependencia de red ni de paquetes externos):
+///
+/// - **Fraunces** (serif calida, optica "Soft"): titulos, momentos hero y
+///   el texto de las oraciones. Es la voz "devocional/editorial" de la
+///   app — lo que la separa visualmente de una app generica de Material.
+/// - **Figtree** (sans geometrica amable): todo el texto de interfaz
+///   (botones, etiquetas, cuerpo de apoyo, ajustes).
+///
+/// Se conservan los nombres de estilo historicos (`display`, `headline`,
+/// `title`, `body`, `bodyLarge`, `caption`) para no romper referencias, y
+/// se agregan `prayerText` y `quote` para el texto devocional.
 class AppTypography {
   AppTypography._();
 
-  static const String fontFamily = 'Roboto';
+  static const String serifFamily = 'Fraunces';
+  static const String sansFamily = 'Figtree';
 
-  /// Momentos "hero": numero de racha grande, titulo de bienvenida del
-  /// onboarding, etc. Antes no existia un nivel por encima de `display`;
-  /// se usa el propio `display` con mas tamaño/peso que antes.
+  /// Momentos hero: titulo de bienvenida, titulos de oracion, numeros de
+  /// racha grandes. Serif, con interlineado compacto.
   static const TextStyle display = TextStyle(
-    fontSize: 34,
-    fontWeight: FontWeight.w800,
-    letterSpacing: -0.5,
-    height: 1.15,
-  );
-
-  static const TextStyle headline = TextStyle(
-    fontSize: 23,
-    fontWeight: FontWeight.w700,
-    letterSpacing: -0.3,
-    height: 1.2,
-  );
-
-  static const TextStyle title = TextStyle(
-    fontSize: 18,
+    fontFamily: serifFamily,
+    fontSize: 32,
     fontWeight: FontWeight.w600,
+    letterSpacing: -0.5,
+    height: 1.12,
+  );
+
+  /// Titulos de seccion ("Para ti", pantallas internas). Serif.
+  static const TextStyle headline = TextStyle(
+    fontFamily: serifFamily,
+    fontSize: 23,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -0.2,
+    height: 1.18,
+  );
+
+  /// Titulos de tarjeta y filas. Sans con peso alto.
+  static const TextStyle title = TextStyle(
+    fontFamily: sansFamily,
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.1,
     height: 1.3,
   );
 
   static const TextStyle body = TextStyle(
+    fontFamily: sansFamily,
     fontSize: 15,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.1,
@@ -54,19 +57,40 @@ class AppTypography {
   );
 
   static const TextStyle bodyLarge = TextStyle(
+    fontFamily: sansFamily,
     fontSize: 17,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.1,
     height: 1.55,
   );
 
-  /// Usado en etiquetas cortas (chips, metadatos, "hace 2 min"). El
-  /// `letterSpacing` positivo y el peso medio le dan una sensacion de
-  /// etiqueta cuidada en vez de "texto pequeño olvidado".
+  /// Etiquetas cortas y overlines (categoria, "PARA HOY", metadatos).
+  /// Mayusculas con tracking ancho = sensacion de etiqueta cuidada.
   static const TextStyle caption = TextStyle(
-    fontSize: 12,
+    fontFamily: sansFamily,
+    fontSize: 11.5,
     fontWeight: FontWeight.w600,
-    letterSpacing: 0.4,
+    letterSpacing: 1.1,
     height: 1.3,
+  );
+
+  /// Texto completo de una oracion: serif regular, cuerpo grande y aire
+  /// generoso — debe leerse como un libro devocional, no como UI.
+  static const TextStyle prayerText = TextStyle(
+    fontFamily: serifFamily,
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0,
+    height: 1.65,
+  );
+
+  /// Referencias biblicas y citas: serif italica.
+  static const TextStyle quote = TextStyle(
+    fontFamily: serifFamily,
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    fontStyle: FontStyle.italic,
+    letterSpacing: 0.1,
+    height: 1.45,
   );
 }

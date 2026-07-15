@@ -85,6 +85,8 @@ class PrefsKeys {
   /// `PrayerDetailScreen`. Nunca se usa para nada mas que decidir si se
   /// muestra el boton "Escuchar mi oración".
   static const voiceDetectionEnabled = 'voice_detection_enabled';
+  static const userName = 'user_name';
+  static const micPrimingDone = 'mic_priming_done_v2';
 
   /// `true` una vez que la persona vio la pantalla de aviso previo
   /// (`VoiceExplainerScreen`) y concedio el permiso de microfono, para no
@@ -236,6 +238,19 @@ class PrefsService {
 
   Future<void> setVoiceDetectionEnabled(bool value) =>
       _prefs.setBool(PrefsKeys.voiceDetectionEnabled, value);
+
+  /// Nombre de pila opcional (para saludos y notificaciones personales).
+  String get userName => _prefs.getString(PrefsKeys.userName) ?? '';
+
+  Future<void> setUserName(String value) =>
+      _prefs.setString(PrefsKeys.userName, value.trim());
+
+  /// `true` cuando ya se mostro (en esta instalacion) la explicacion
+  /// amable del microfono antes de escuchar la primera oracion en voz alta.
+  bool get micPrimingDone => _prefs.getBool(PrefsKeys.micPrimingDone) ?? false;
+
+  Future<void> setMicPrimingDone(bool value) =>
+      _prefs.setBool(PrefsKeys.micPrimingDone, value);
 
   bool get voiceDisclosureSeen =>
       _prefs.getBool(PrefsKeys.voiceDisclosureSeen) ?? false;

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
-import 'onboarding_times_screen.dart';
+import 'onboarding_name_screen.dart';
 
 class OnboardingWelcomeScreen extends StatefulWidget {
   const OnboardingWelcomeScreen({super.key});
@@ -32,10 +32,8 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
       parent: _controller,
       curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
     );
-    _heroSlide = Tween<Offset>(
-      begin: const Offset(0, 0.10),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
+    _heroSlide = Tween<Offset>(begin: const Offset(0, 0.10), end: Offset.zero)
+        .animate(CurvedAnimation(
       parent: _controller,
       curve: const Interval(0.0, 0.7, curve: Curves.easeOutBack),
     ));
@@ -43,10 +41,8 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
       parent: _controller,
       curve: const Interval(0.25, 0.85, curve: Curves.easeOutCubic),
     );
-    _textSlide = Tween<Offset>(
-      begin: const Offset(0, 0.08),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
+    _textSlide = Tween<Offset>(begin: const Offset(0, 0.08), end: Offset.zero)
+        .animate(CurvedAnimation(
       parent: _controller,
       curve: const Interval(0.25, 1.0, curve: Curves.easeOutBack),
     ));
@@ -76,11 +72,11 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                   position: _heroSlide,
                   child: SvgPicture.asset(
                     'assets/illustrations/onboarding_hero.svg',
-                    height: 200,
+                    height: 190,
                   ),
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 30),
               FadeTransition(
                 opacity: _textFade,
                 child: SlideTransition(
@@ -88,15 +84,15 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Bienvenido a Ora Ahora',
-                          style: AppTypography.display),
+                      Text(
+                        'Un momento de paz,\nen medio del ruido',
+                        style: AppTypography.display,
+                      ),
                       const SizedBox(height: 14),
                       Text(
-                        'Un espacio de oración cristiana, sencillo y sin '
-                        'distinciones de denominación. Oraciones breves para tu día, '
-                        'un diario personal y una forma nueva de poner límites '
-                        'sanos a tu tiempo en pantalla: pausar para orar antes de '
-                        'abrir esas apps que más te distraen.',
+                        'La vida no para, lo sabemos. Por eso estamos aquí: '
+                        'para ayudarte a hacer una pausa, respirar y orar '
+                        'un ratito cada día. Sin prisa. A tu ritmo.',
                         style: AppTypography.bodyLarge
                             .copyWith(color: AppColors.inkSoft),
                       ),
@@ -111,14 +107,20 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const OnboardingTimesScreen(),
-                      ),
+                          builder: (_) => const OnboardingNameScreen()),
                     );
                   },
-                  child: const Text('Comenzar'),
+                  child: const Text('Comenzar 🙏'),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
+              Center(
+                child: Text(
+                  'Toma menos de 2 minutos',
+                  style: AppTypography.caption
+                      .copyWith(color: AppColors.inkSoft, letterSpacing: 0.4),
+                ),
+              ),
             ],
           ),
         ),

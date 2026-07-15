@@ -334,5 +334,885 @@
     "texto": "Dios, hoy el dolor se siente más grande que la esperanza, pero elijo recordar que esta no es toda la historia. Creo que hay más después de esta vida, y que el dolor de hoy no tiene la última palabra. No te pido que apures mi proceso de duelo, solo que me sostengas en él y que, poco a poco, vuelvas a poner esperanza donde hoy solo hay vacío. Amén.",
     "referencia_biblica": "cf. Apocalipsis 21:4",
     "duracion_estimada_min": 2
+  },
+  {
+    "id": "manana_05",
+    "categoria": "manana",
+    "titulo": "Antes de encender el teléfono",
+    "texto": "Señor, antes de tomar el teléfono y llenarme de noticias y mensajes, quiero hablar contigo primero. Gracias por este nuevo día, por el aire que respiro sin esforzarme, por la cama donde descansé. Hoy quiero que seas tú quien marque el ritmo de mis horas, no las notificaciones ni las prisas. Ayúdame a caminar despacio por dentro aunque afuera todo corra rápido. Pon tus palabras en mi mente antes que las palabras del mundo. Que hoy, cuando hable, cuando trabaje, cuando decida, lo haga sabiendo que tú vas delante de mí. Gracias por amarme desde temprano, sin que yo haya hecho nada todavía para merecerlo.",
+    "referencia_biblica": "Salmos 5:3 — Por la mañana oye mi voz; de mañana me presento delante de ti.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "manana_06",
+    "categoria": "manana",
+    "titulo": "Un nuevo capítulo",
+    "texto": "Padre, hoy empieza una página en blanco y quiero escribirla contigo. Ayer quedó atrás, con sus aciertos y sus errores, y no quiero cargarlo sobre este día. Dame ojos nuevos para ver lo que tengo: las personas que amo, el trabajo que me sostiene, la salud que a veces doy por sentada. Si hoy me toca algo difícil, recuérdame que no camino solo. Si hoy todo sale bien, que no se me olvide agradecerte. Quiero vivir este día con sencillez, sin compararlo con el de nadie más, confiando en que tú ya conoces cada hora antes de que yo la viva.",
+    "referencia_biblica": "Lamentaciones 3:22-23 — Nuevas son cada mañana; grande es tu fidelidad.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "manana_07",
+    "categoria": "manana",
+    "titulo": "Fuerzas para hoy",
+    "texto": "Señor, me levanto y todavía siento el cansancio de ayer. No sé si tengo fuerzas para todo lo que este día me va a pedir, pero sé que tú sí las tienes. Préstame tu fuerza, la que no se agota, la que no depende de cómo dormí ni de cuánto café tomé. Ayúdame a hacer lo que me toca sin ansiedad, un paso a la vez. Si alguien necesita paciencia de mi parte, dámela. Si yo necesito paciencia conmigo mismo, enséñame a tenerla. Gracias porque no me pides que sea perfecto, solo que camine cerca de ti hoy también.",
+    "referencia_biblica": "Isaías 40:31 — Los que esperan a Jehová tendrán nuevas fuerzas.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "manana_08",
+    "categoria": "manana",
+    "titulo": "Primero tú, Señor",
+    "texto": "Dios, quiero que este día empiece contigo antes que con mi lista de pendientes. Sé que en un rato voy a estar corriendo de un lado a otro, pero ahora mismo, aquí quieto, te entrego mis horas. Toma mis planes y ordénalos como tú veas mejor. Si algo se cae o cambia, ayúdame a no desesperarme. Quiero llevarte conmigo a cada reunión, a cada conversación, a cada tarea pequeña que nadie más ve pero que hago para ti. Gracias por este momento de calma antes del ruido. Que se quede pegado a mí toda la mañana.",
+    "referencia_biblica": "Mateo 6:33 — Buscad primeramente el reino de Dios.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "manana_09",
+    "categoria": "manana",
+    "titulo": "Un día en tus manos",
+    "texto": "Señor, pongo este día completo en tus manos, desde la primera hora hasta la última. No sé qué me espera, pero tú sí lo sabes, y eso me da paz. Ayúdame a no adelantarme con preocupaciones ni a vivir con el freno puesto por miedo. Quiero moverme con la confianza de alguien que sabe que no está solo. Si tengo que tomar decisiones, dame claridad. Si tengo que esperar, dame paciencia. Y si algo bueno sucede, que mi primera reacción sea darte gracias a ti, que eres quien lo permitió.",
+    "referencia_biblica": "Proverbios 16:3 — Encomienda a Jehová tus obras, y tus pensamientos serán afirmados.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "manana_10",
+    "categoria": "manana",
+    "titulo": "Ojos que se abren",
+    "texto": "Gracias, Dios, porque hoy pude abrir los ojos otra vez. Hay quienes anoche se acostaron y no despertaron, y yo sigo aquí, con otra oportunidad para amar mejor, para hablar con más gentileza, para vivir con más sentido. No quiero desperdiciar este regalo en quejas ni en prisa innecesaria. Ayúdame a ver a las personas que me rodean como tú las ves, con paciencia y cariño. Que mis palabras de hoy edifiquen y no destruyan. Gracias por la vida que todavía tengo entre las manos.",
+    "referencia_biblica": "Salmos 118:24 — Este es el día que hizo Jehová; nos gozaremos y alegraremos en él.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "manana_11",
+    "categoria": "manana",
+    "titulo": "Antes del ajetreo",
+    "texto": "Padre, en un momento va a empezar el ajetreo del día: el desayuno apurado, el tráfico, los pendientes que se amontonan. Antes de que todo eso me alcance, quiero quedarme un minuto más contigo. Tú conoces mi agenda mejor que yo mismo. Ayúdame a no perder la calma cuando las cosas no salgan como planeé. Que en medio del correr, pueda recordar tu presencia como quien recuerda que trae algo importante en el bolsillo. No necesito que el día sea fácil, solo necesito saber que tú vienes conmigo en cada tramo de él.",
+    "referencia_biblica": "Éxodo 33:14 — Mi presencia irá contigo, y te daré descanso.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "manana_12",
+    "categoria": "manana",
+    "titulo": "Gracias por respirar",
+    "texto": "Señor, algo tan simple como respirar hoy me recuerda que sigo vivo por tu gracia. No lo hago yo, lo haces tú a través de mí, latido tras latido, incluso mientras dormía. Quiero empezar este día reconociendo eso: que todo lo que soy y tengo viene de ti. Ayúdame a no tomarlo como algo automático. Dame un corazón agradecido desde temprano, capaz de ver lo bueno antes que lo que falta. Y si el día se pone pesado, recuérdame que la misma mano que me sostuvo esta noche me sostiene también ahora.",
+    "referencia_biblica": "Hechos 17:28 — En él vivimos, y nos movemos, y somos.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "noche_05",
+    "categoria": "noche",
+    "titulo": "Cerrar el día contigo",
+    "texto": "Señor, el día se acaba y quiero cerrarlo contigo antes de cerrar los ojos. Gracias por lo que viví hoy, lo bueno y también lo difícil, porque en ambos estuviste presente aunque no lo notara. Perdóname si hablé de más, si me impacienté, si dejé de ver a alguien que necesitaba mi atención. Suelto en tus manos lo que no pude resolver hoy; no tengo que cargarlo hasta mañana. Cuida mi descanso, calma mis pensamientos, y si algo me quita el sueño, recuérdame que tú sigues despierto cuidando lo que a mí me preocupa.",
+    "referencia_biblica": "Salmos 4:8 — En paz me acostaré, y asimismo dormiré.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "noche_06",
+    "categoria": "noche",
+    "titulo": "Soltar el día",
+    "texto": "Dios, este día trajo cosas que no esperaba y otras que sí, pero que igual me cansaron. Antes de dormir quiero soltar todo lo que cargué: las palabras que me dolieron, las tareas que no terminé, la lista mental que no deja de crecer. Te lo entrego porque sé que tú puedes con eso mejor que yo. No quiero llevarme la ansiedad a la cama. Dame un sueño tranquilo, sin vueltas, y que al despertar sienta que descansé de verdad, no solo el cuerpo, también el alma.",
+    "referencia_biblica": "1 Pedro 5:7 — Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "noche_07",
+    "categoria": "noche",
+    "titulo": "Revisar el día",
+    "texto": "Señor, antes de dormir quiero mirar hacia atrás un momento. ¿Qué hice bien hoy? ¿Dónde fallé? No para castigarme, sino para aprender. Gracias por las pequeñas cosas que salieron mejor de lo esperado y por la paciencia que me diste en los momentos difíciles. Si herí a alguien con mis palabras o mi indiferencia, ayúdame a repararlo mañana. Si alguien me hirió, ayúdame a no dormir con rencor. Quiero acostarme en paz contigo, conmigo mismo y, hasta donde dependa de mí, con los demás.",
+    "referencia_biblica": "Efesios 4:26 — No se ponga el sol sobre vuestro enojo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "noche_08",
+    "categoria": "noche",
+    "titulo": "Un techo y una cama",
+    "texto": "Gracias, Padre, por tener un lugar donde dormir esta noche, algo que muchos no tienen. No quiero que se me olvide lo que significa tener un techo, una cama, aunque sea sencilla, y la seguridad de saber que amanece de nuevo. Bendice a quienes hoy no tienen dónde descansar, a quienes duermen con miedo o con hambre. Y a mí, dame un corazón que no se acostumbre a la comodidad sin agradecerla. Que este descanso me sirva para servirte mejor mañana.",
+    "referencia_biblica": "Mateo 8:20 — El Hijo del Hombre no tiene dónde recostar la cabeza.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "noche_09",
+    "categoria": "noche",
+    "titulo": "Cuando el silencio asusta",
+    "texto": "Señor, hay noches en que el silencio de la casa se llena de pensamientos que no me dejan tranquilo. Cosas que dije, cosas que temo, cosas que no controlo. En este silencio te busco a ti, porque sé que tú no te asustas de nada de lo que a mí me quita el sueño. Habla tú más fuerte que mis pensamientos. Recuérdame que mañana es otro día y que tú ya estás ahí, esperándome. Ayúdame a entregarte esta noche en confianza y no en angustia.",
+    "referencia_biblica": "Proverbios 3:24 — Cuando te acuestes, no tendrás temor; tu sueño será dulce.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "noche_10",
+    "categoria": "noche",
+    "titulo": "Gracias por hoy",
+    "texto": "Dios, quiero terminar el día simplemente diciéndote gracias. Gracias por quienes me acompañaron, por la comida que no me faltó, por un mensaje que me hizo sonreír, por haber podido trabajar o descansar. Sé que no siempre me detengo a notar estas cosas, pero hoy sí quiero hacerlo antes de dormir. Perdona lo que hice mal y agradece conmigo lo que hiciste bien a través de mí. Que me acueste con el corazón liviano, sabiendo que mañana tú sigues siendo el mismo Dios fiel de hoy.",
+    "referencia_biblica": "1 Tesalonicenses 5:18 — Dad gracias en todo, porque esta es la voluntad de Dios.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "noche_11",
+    "categoria": "noche",
+    "titulo": "Descanso para el alma",
+    "texto": "Señor, mi cuerpo está cansado, pero también mi alma. No solo necesito dormir, necesito descansar de las preocupaciones que traigo desde la mañana. Ven y quita ese peso invisible que me sigue a todos lados. Ayúdame a confiar en que las cosas que no resolví hoy pueden esperar hasta mañana sin que el mundo se caiga. Tú prometiste dar descanso a los cansados, y esta noche vengo a ti como uno de ellos. Recíbeme, cúbreme, y déjame dormir sabiendo que sigues cuidando todo lo que a mí me toca soltar.",
+    "referencia_biblica": "Mateo 11:28 — Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "noche_12",
+    "categoria": "noche",
+    "titulo": "Bajo tu cuidado esta noche",
+    "texto": "Padre, se apagan las luces de la casa pero sé que tú no duermes ni te distraes de mí. Pongo bajo tu cuidado a quienes amo, a los que están lejos y a los que están cerca. Cuida sus sueños como cuidas los míos. Si hay algo que me robó la paz hoy, te lo entrego ahora, no quiero llevarlo conmigo a la cama. Gracias por otro día vivido, con sus aciertos y tropiezos. Que descanse tranquilo sabiendo que mañana, cuando abra los ojos, tú vas a seguir siendo fiel.",
+    "referencia_biblica": "Salmos 121:4 — No se adormecerá ni dormirá el que guarda a Israel.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "ansiedad_05",
+    "categoria": "ansiedad",
+    "titulo": "Cuando el pecho se aprieta",
+    "texto": "Señor, siento el pecho apretado y la mente corriendo más rápido de lo que puedo pensar con claridad. No entiendo bien qué me pasa, solo sé que necesito que me calmes. Ayúdame a respirar despacio y a recordar que este momento va a pasar, como han pasado otros. Tú no me pides que deje de sentir, solo que no cargue esto solo. Ven cerca, Señor, y pon tu mano sobre este nudo que traigo por dentro. Cambia mi ansiedad por tu paz, aunque sea poco a poco.",
+    "referencia_biblica": "Filipenses 4:6-7 — No os afanéis por nada... y la paz de Dios guardará vuestros corazones.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "ansiedad_06",
+    "categoria": "ansiedad",
+    "titulo": "Demasiados pensamientos",
+    "texto": "Dios, tengo la cabeza llena de pensamientos que se pelean entre ellos: lo que puede salir mal, lo que no dije, lo que todavía no pasa pero ya me preocupa. Ayúdame a poner orden ahí dentro. Quiero entregarte cada pensamiento que me quita la paz, uno por uno si hace falta. Tú conoces el final de esta historia aunque yo solo vea el capítulo de hoy. Cálmame, Señor, y ayúdame a distinguir lo que puedo controlar de lo que solo tú puedes resolver.",
+    "referencia_biblica": "2 Corintios 10:5 — Llevando cautivo todo pensamiento a la obediencia a Cristo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "ansiedad_07",
+    "categoria": "ansiedad",
+    "titulo": "Miedo al mañana",
+    "texto": "Señor, no sé qué va a pasar mañana y eso me inquieta más de lo que quisiera admitir. Me adelanto con miedos que quizá nunca sucedan, y en el camino pierdo la paz de hoy. Ayúdame a vivir un día a la vez, como tú enseñaste. Tú ya estás en el mañana que a mí me preocupa, preparando lo que necesito antes de que yo lo pida. Dame la gracia de confiar sin tener todas las respuestas. Hoy me basta con saber que tú vas conmigo.",
+    "referencia_biblica": "Mateo 6:34 — No os afanéis por el día de mañana.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "ansiedad_08",
+    "categoria": "ansiedad",
+    "titulo": "Cuando todo se siente grande",
+    "texto": "Padre, hoy todo se siente más grande de lo que soy: los problemas, las decisiones, las cosas que dependen de mí. Me siento pequeño frente a tanto. Pero recuerdo que tú no eres pequeño, y que no me pides resolverlo todo yo solo. Ven a mi tamaño, Señor, y hazme sentir que no estoy midiendo fuerzas contra el mundo, sino caminando de tu mano. Ayúdame a soltar un poco el control y a confiar en que tú ya viste el final de esto que a mí me abruma.",
+    "referencia_biblica": "Salmos 34:4 — Busqué a Jehová, y él me oyó, y me libró de todos mis temores.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "ansiedad_09",
+    "categoria": "ansiedad",
+    "titulo": "Respirar y confiar",
+    "texto": "Señor, quiero detenerme un momento y simplemente respirar. Mi mente ha estado corriendo todo el día detrás de cosas que no puedo cambiar con solo pensar en ellas. Ayúdame a soltar el control que nunca tuve realmente y a poner mi confianza en ti, que sí tienes el control de todo. No necesito tener la respuesta a cada pregunta hoy. Solo necesito saber que camino contigo. Cálmame por dentro, Señor, como calmas el mar cuando se agita.",
+    "referencia_biblica": "Marcos 4:39 — Calla, enmudece... y se hizo grande bonanza.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "ansiedad_10",
+    "categoria": "ansiedad",
+    "titulo": "El nudo que no se va",
+    "texto": "Dios, hay un nudo en mi estómago que no se quiere ir por más que trato de ignorarlo. Sé que viene de todo lo que estoy cargando: expectativas, responsabilidades, cosas que no dependen solo de mí. Vengo a ti porque no quiero seguir fingiendo que estoy bien cuando no lo estoy. Toma este peso, Señor. No te pido que desaparezcan los problemas de golpe, solo que me des la fuerza para enfrentarlos sin que me consuman por dentro.",
+    "referencia_biblica": "Salmos 55:22 — Echa sobre Jehová tu carga, y él te sustentará.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "ansiedad_11",
+    "categoria": "ansiedad",
+    "titulo": "Cuando no puedo con todo",
+    "texto": "Señor, hoy siento que no puedo con todo lo que traigo encima. Quiero ser fuerte, pero la verdad es que estoy cansado de estar alerta todo el tiempo. Necesito que me recuerdes que no tengo que cargar esto solo, que tú prometiste ser mi ayuda en momentos así. Baja el ritmo de mi corazón, Señor, calma mis manos, ordena mis pensamientos. Confío en que, aunque yo no vea la salida todavía, tú ya la conoces.",
+    "referencia_biblica": "Isaías 41:10 — No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "ansiedad_12",
+    "categoria": "ansiedad",
+    "titulo": "Paz en medio de la duda",
+    "texto": "Padre, tengo dudas que no me dejan tranquilo y preguntas que no sé si tienen respuesta todavía. Eso me genera ansiedad, y a veces siento que debería tener más fe de la que tengo. Pero vengo a ti tal como estoy, con mis dudas incluidas. Ayúdame a no exigirme una calma que todavía no siento, sino a buscarte en medio de la inquietud. Tú no te alejas de mí por mis preguntas. Dame paz, poco a poco, mientras camino hacia la confianza plena en ti.",
+    "referencia_biblica": "Juan 14:27 — La paz os dejo, mi paz os doy; no se turbe vuestro corazón.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "gratitud_05",
+    "categoria": "gratitud",
+    "titulo": "Las cosas pequeñas",
+    "texto": "Señor, hoy quiero darte gracias por las cosas pequeñas que casi ni noto: el café caliente, una llamada de alguien que quiero, el sol entrando por la ventana. Vivimos tan rápido que se nos escapan estos detalles, y son justamente ahí donde más se nota tu cuidado. Ayúdame a bajar el ritmo y a fijarme en lo bueno que ya tengo, en lugar de vivir pensando en lo que me falta. Gracias por ser un Dios que se preocupa hasta de lo más simple de mi día.",
+    "referencia_biblica": "Santiago 1:17 — Toda buena dádiva y todo don perfecto desciende de lo alto.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "gratitud_06",
+    "categoria": "gratitud",
+    "titulo": "Gracias en lo difícil",
+    "texto": "Dios, no todo en mi vida está saliendo como quisiera, pero aun así quiero darte gracias. Gracias porque en medio de lo difícil no me has dejado solo. Gracias por la fuerza que me diste para levantarme hoy, por las personas que me apoyaron sin que se los pidiera, por las lecciones que aunque duelen me están formando. No quiero esperar a que todo esté perfecto para agradecerte. Enséñame a ver tu mano incluso en los días grises, y a confiar en que estás obrando aunque yo no lo vea todavía.",
+    "referencia_biblica": "1 Tesalonicenses 5:18 — Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "gratitud_07",
+    "categoria": "gratitud",
+    "titulo": "Por la gente que me rodea",
+    "texto": "Señor, gracias por las personas que pusiste en mi camino: mi familia, mis amigos, hasta esos conocidos que en un mal momento me tendieron la mano. No siempre valoro lo suficiente su presencia hasta que falta. Hoy quiero agradecerte por cada uno, por las risas compartidas y también por los momentos difíciles que enfrentamos juntos. Ayúdame a decirles lo que significan para mí, y no guardármelo. Gracias por no haberme hecho para estar solo, sino rodeado de personas que reflejan un poco de tu amor.",
+    "referencia_biblica": "Eclesiastés 4:9-10 — Mejores son dos que uno... si cayeren, el uno levantará a su compañero.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "gratitud_08",
+    "categoria": "gratitud",
+    "titulo": "Un cuerpo que funciona",
+    "texto": "Padre, hoy quiero agradecerte por algo que casi nunca menciono: mi cuerpo. Por las piernas que me llevan, los ojos que ven, los pulmones que respiran sin que yo se los ordene. Vivo tan ocupado que olvido lo complejo y hermoso que es simplemente estar vivo y funcionando. Perdona las veces que me quejo de mi cuerpo en lugar de cuidarlo y agradecerlo. Gracias por diseñarme con tanto cuidado, y ayúdame a tratar este cuerpo como el regalo que realmente es.",
+    "referencia_biblica": "Salmos 139:14 — Te alabaré, porque formidables, maravillosas son tus obras.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "gratitud_09",
+    "categoria": "gratitud",
+    "titulo": "Gracias por perdonar",
+    "texto": "Señor, entre todas las cosas por las que podría agradecerte, hoy quiero detenerme en una: tu perdón. Gracias por no tratarme según lo que merezco, sino según tu misericordia. Cuántas veces he fallado y tú sigues ahí, recibiéndome de vuelta sin reproches interminables. Eso no lo encuentro fácilmente en el mundo, pero en ti sí. Ayúdame a vivir agradecido por esa gracia, y a extenderla también a quienes me rodean, en lugar de guardar cuentas de lo que me deben.",
+    "referencia_biblica": "Salmos 103:10 — No ha hecho con nosotros conforme a nuestras iniquidades.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "gratitud_10",
+    "categoria": "gratitud",
+    "titulo": "Por lo que todavía no entiendo",
+    "texto": "Dios, hay cosas en mi vida que no entiendo del todo, decisiones tuyas que no comprendo, puertas cerradas que me dolieron. Pero hoy elijo agradecerte incluso por eso, confiando en que ves más de lo que yo veo. Gracias por cuidarme incluso cuando no lo sentí en el momento, por sostenerme en silencio cuando yo pensaba que estaba solo. Ayúdame a agradecer no solo lo que entiendo, sino también lo que todavía es un misterio para mí, sabiendo que tú nunca has dejado de ser bueno.",
+    "referencia_biblica": "Romanos 8:28 — A los que aman a Dios, todas las cosas les ayudan a bien.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "gratitud_11",
+    "categoria": "gratitud",
+    "titulo": "Gracias por un techo y comida",
+    "texto": "Señor, quiero agradecerte por algo tan básico que a veces se me olvida: tener un techo, comida en la mesa y ropa para vestirme. Hay millones de personas que hoy no tienen lo que yo doy por sentado. Perdóname por quejarme cuando tengo tanto. Ayúdame a vivir con gratitud genuina y también con generosidad, compartiendo de lo que tú me has dado con quien tiene menos. Que nunca me acostumbre tanto a tus bendiciones que deje de reconocerlas como lo que son: un regalo tuyo.",
+    "referencia_biblica": "Mateo 6:11 — El pan nuestro de cada día, dánoslo hoy.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "gratitud_12",
+    "categoria": "gratitud",
+    "titulo": "Por otro año de vida",
+    "texto": "Padre, al mirar hacia atrás veo tantas cosas por las que darte gracias: los años vividos, las pruebas superadas, las alegrías disfrutadas. Ninguno de esos días fue un accidente, todos estuvieron en tus manos. Gracias por sostenerme en las etapas que pensé que no iba a superar, y por darme también los momentos de gozo que hoy recuerdo con cariño. Quiero seguir viviendo agradecido, no solo en fechas especiales, sino cada día común, reconociendo que cada año que sumo es un regalo que viene de ti.",
+    "referencia_biblica": "1 Crónicas 16:34 — Aclamad a Jehová, porque él es bueno, porque para siempre es su misericordia.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_05",
+    "categoria": "familia",
+    "titulo": "Por los que viven bajo mi techo",
+    "texto": "Señor, te presento a mi familia, a los que viven conmigo día a día. Gracias por ellos, aunque a veces no nos entendamos del todo o tengamos roces por cosas pequeñas. Ayúdanos a tratarnos con más paciencia, a escucharnos de verdad y no solo esperar nuestro turno para hablar. Bendice nuestra casa, que sea un lugar de descanso y no de tensión. Si hay algo sin resolver entre nosotros, dame la humildad de dar el primer paso. Gracias por darme personas con quienes compartir la vida, con todo y sus imperfecciones.",
+    "referencia_biblica": "Josué 24:15 — Yo y mi casa serviremos a Jehová.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_06",
+    "categoria": "familia",
+    "titulo": "Por mis padres",
+    "texto": "Dios, hoy quiero orar por mis padres. Gracias por lo que me dieron, aunque no hayan sido perfectos, aunque hayan cometido errores que todavía cargo de alguna manera. Ayúdame a honrarlos sin fingir que todo estuvo bien, y a perdonar lo que necesite perdonar para vivir en paz. Si siguen aquí, dame la oportunidad de decirles que los quiero antes de que sea tarde. Si ya no están, gracias por lo que sembraron en mí. Cuídalos, Señor, como ellos alguna vez me cuidaron a mí.",
+    "referencia_biblica": "Éxodo 20:12 — Honra a tu padre y a tu madre.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_07",
+    "categoria": "familia",
+    "titulo": "Por mis hijos",
+    "texto": "Padre, pongo en tus manos a mis hijos. Quiero darles lo mejor de mí, pero sé que muchas veces fallo, me impaciento o no tengo las respuestas que ellos necesitan. Ayúdame a guiarlos con amor y no solo con reglas, a escucharlos antes de corregirlos, a ser el ejemplo que quiero que sigan. Protégelos de lo que yo no puedo controlar y dame sabiduría para las decisiones que tengo que tomar por ellos. Gracias por confiarme el regalo de ser su padre o madre, aunque el trabajo sea más grande de lo que imaginé.",
+    "referencia_biblica": "Proverbios 22:6 — Instruye al niño en su camino, y aun cuando fuere viejo no se apartará de él.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_08",
+    "categoria": "familia",
+    "titulo": "Cuando hay distancia en casa",
+    "texto": "Señor, hay una distancia en mi familia que me duele, palabras que se quedaron sin decir o que se dijeron de más. No sé cómo arreglarlo del todo, pero sé que tú puedes ablandar corazones donde yo no alcanzo. Dame la valentía de buscar el reencuentro, aunque me cueste el orgullo. Y si la otra persona no está lista todavía, ayúdame a esperar sin resentimiento. Quiero que mi casa sea un lugar de paz, y sé que eso empieza por mí también.",
+    "referencia_biblica": "Romanos 12:18 — Si es posible, en cuanto dependa de vosotros, estad en paz con todos los hombres.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_09",
+    "categoria": "familia",
+    "titulo": "Por los hermanos",
+    "texto": "Dios, gracias por mis hermanos, por haber crecido junto a alguien que comparte parte de mi historia. Sé que no siempre nos llevamos bien, que hay heridas viejas o comparaciones que duelen, pero te pido que sanes lo que haya que sanar entre nosotros. Ayúdame a valorar el vínculo que tenemos en lugar de dar por sentado que siempre estará ahí. Que podamos apoyarnos en los momentos difíciles como familia, dejando de lado el orgullo que a veces nos separa más de lo necesario.",
+    "referencia_biblica": "Proverbios 17:17 — En todo tiempo ama el amigo, y el hermano nace para la angustia.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_10",
+    "categoria": "familia",
+    "titulo": "Familia lejos",
+    "texto": "Señor, tengo familiares que están lejos, y aunque hablamos de vez en cuando, extraño tenerlos cerca. Cuida a los que están fuera de mi alcance físico, protégelos en sus caminos, en su salud, en sus decisiones. Que la distancia no enfríe el cariño que nos tenemos. Ayúdame a mantenerme presente, aunque sea con una llamada o un mensaje, y a no dejar que el tiempo pase sin más noticias. Gracias por la tecnología que nos permite seguir cerca aunque estemos lejos, y por tu cuidado que no tiene fronteras.",
+    "referencia_biblica": "Salmos 121:8 — Jehová guardará tu salida y tu entrada.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_11",
+    "categoria": "familia",
+    "titulo": "Unidad en casa",
+    "texto": "Padre, te pido unidad para mi familia. A veces cada uno vamos por nuestro lado, ocupados en lo propio, y se nos olvida que somos equipo. Ayúdanos a hacer tiempo real para estar juntos, sin pantallas de por medio, escuchándonos con atención. Que las diferencias que tenemos no se conviertan en peleas, sino en oportunidades para entendernos mejor. Bendice las comidas compartidas, las conversaciones sencillas, los momentos que parecen pequeños pero que con el tiempo se vuelven los recuerdos más importantes.",
+    "referencia_biblica": "Filipenses 2:2 — Sintiendo lo mismo, teniendo el mismo amor, unánimes, sintiendo una misma cosa.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "familia_12",
+    "categoria": "familia",
+    "titulo": "Gracias por mi familia",
+    "texto": "Señor, hoy simplemente quiero agradecerte por mi familia, tal como es, con sus virtudes y sus defectos. Gracias por no haberme puesto en este mundo solo, sino rodeado de personas que, con sus limitaciones, me acompañan en la vida. Perdona las veces que no valoro lo suficiente lo que tengo, comparando mi familia con otras que parecen más perfectas desde afuera. Ayúdame a cuidar lo que tú me diste, a construir en lugar de destruir, y a ser yo también motivo de gratitud para ellos.",
+    "referencia_biblica": "Salmos 127:3 — Herencia de Jehová son los hijos.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "trabajo_05",
+    "categoria": "trabajo",
+    "titulo": "Antes de entrar a trabajar",
+    "texto": "Señor, antes de empezar mi jornada de trabajo, quiero pedirte que estés conmigo ahí también, no solo en la iglesia o en mis momentos de oración. Ayúdame a hacer bien mi trabajo, con honestidad, sin atajos que después me pesen en la conciencia. Si tengo un jefe o compañeros difíciles, dame paciencia para tratarlos con respeto aunque no me lo devuelvan. Que mi actitud hoy hable de ti sin que tenga que decir una sola palabra religiosa. Gracias por darme un trabajo, aunque no siempre sea el que soñé.",
+    "referencia_biblica": "Colosenses 3:23 — Todo lo que hagáis, hacedlo de corazón, como para el Señor.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "trabajo_06",
+    "categoria": "trabajo",
+    "titulo": "Cuando el trabajo agobia",
+    "texto": "Dios, hoy el trabajo se siente pesado, como si nunca terminara la lista de pendientes. Necesito que me ayudes a organizar mis prioridades y a no sentir que todo depende únicamente de mí. Dame sabiduría para decir que no cuando ya no puedo más, y fuerzas para lo que sí me toca hacer. Que no confunda mi valor como persona con lo que produzco. Recuérdame que tú me ves más allá de mis resultados, y ayúdame a trabajar con excelencia sin que eso me consuma por dentro.",
+    "referencia_biblica": "Eclesiastés 3:1 — Todo tiene su tiempo, y todo lo que se quiere debajo del cielo tiene su hora.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "trabajo_07",
+    "categoria": "trabajo",
+    "titulo": "Buscando empleo",
+    "texto": "Señor, estoy buscando trabajo y a veces el desánimo pesa más que la esperanza. Cada puerta que se cierra me hace dudar si algo se abrirá pronto. Te pido que abras el camino correcto para mí, no necesariamente el más rápido, sino el que tú sabes que me conviene. Mientras tanto, ayúdame a no perder la paz ni las ganas de seguir intentando. Provee para mis necesidades de otras formas si hace falta, y recuérdame que mi valor no depende de tener un puesto, sino de que tú ya me ves con dignidad.",
+    "referencia_biblica": "Filipenses 4:19 — Mi Dios, pues, suplirá todo lo que os falta.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "trabajo_08",
+    "categoria": "trabajo",
+    "titulo": "Compañeros difíciles",
+    "texto": "Padre, tengo un compañero de trabajo que me hace las cosas difíciles, y me cuesta mantener la calma. Ayúdame a no responder con el mismo tono con que me tratan, sino con la paciencia que tú me pides. No te estoy pidiendo que me guste esa persona, solo que me des la gracia para tratarla con respeto. Si hay algo que yo esté haciendo mal en esa relación, muéstramelo. Y si el ambiente sigue pesado, dame fuerzas para ir a trabajar cada día sin que eso me robe la alegría.",
+    "referencia_biblica": "Romanos 12:18 — En cuanto dependa de vosotros, estad en paz con todos los hombres.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "trabajo_09",
+    "categoria": "trabajo",
+    "titulo": "Sentido en lo que hago",
+    "texto": "Señor, algunos días mi trabajo se siente sin sentido, como si solo estuviera cumpliendo horas. Ayúdame a recordar que, aunque nadie más lo note, tú ves cada tarea que hago con esfuerzo y honestidad. Dame la capacidad de encontrarle propósito incluso a lo más simple de mi labor. Si tengo que cambiar de rumbo en algún momento, guíame; y mientras tanto, ayúdame a ser fiel en lo poco, confiando en que nada de lo que hago para ti se pierde, aunque a veces no lo entienda.",
+    "referencia_biblica": "1 Corintios 15:58 — Vuestro trabajo en el Señor no es en vano.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "trabajo_10",
+    "categoria": "trabajo",
+    "titulo": "Ante una decisión laboral",
+    "texto": "Dios, tengo una decisión importante que tomar sobre mi trabajo y no quiero equivocarme. Dame claridad para ver las cosas como realmente son, sin dejarme llevar solo por el miedo o solo por la ambición. Ayúdame a pensar también en mi familia y en mi salud, no solo en el sueldo o el puesto. Si esta puerta es la correcta, ábrela con claridad; si no lo es, ciérrala antes de que me meta en algo que no me conviene. Confío en que tú guías mis pasos incluso en esto que parece tan práctico.",
+    "referencia_biblica": "Proverbios 3:5-6 — Fíate de Jehová de todo tu corazón... y él enderezará tus veredas.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "trabajo_11",
+    "categoria": "trabajo",
+    "titulo": "Gracias por tener trabajo",
+    "texto": "Señor, en medio de las quejas normales del día a día, quiero detenerme a agradecerte por tener trabajo. Sé que hay personas que hoy no lo tienen y darían lo que fuera por estar en mi lugar, aunque mi trabajo no sea perfecto. Perdona las veces que me quejo más de lo que agradezco. Ayúdame a hacerlo con una actitud diferente desde hoy, viendo mi empleo no solo como una obligación sino como una provisión tuya para sostener a mi familia.",
+    "referencia_biblica": "2 Tesalonicenses 3:10 — El que no quiera trabajar, que tampoco coma.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "trabajo_12",
+    "categoria": "trabajo",
+    "titulo": "Integridad en lo pequeño",
+    "texto": "Padre, en mi trabajo se presentan pequeñas oportunidades de hacer trampa que nadie notaría: llegar tarde sin decirlo, tomar algo que no es mío, exagerar un reporte. Ayúdame a ser fiel incluso en esas cosas pequeñas que solo tú y yo sabemos. Quiero que mi testimonio en el trabajo sea coherente con lo que digo creer los domingos. Dame integridad cuando nadie está mirando, y la satisfacción de saber que hago las cosas bien, no por miedo a que me descubran, sino porque quiero honrarte con mi trabajo.",
+    "referencia_biblica": "Lucas 16:10 — El que es fiel en lo muy poco, también en lo más es fiel.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_07",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Cuando quiero rendirme",
+    "texto": "Señor, siento la tentación de rendirme, de volver a lo que ya sé que me hace daño porque es más fácil que seguir luchando. Dame fuerzas justo en este momento de debilidad. No quiero que un mal momento eche por tierra el esfuerzo de tanto tiempo. Ayúdame a buscar una salida antes de caer, a alejarme de lo que me hace tropezar, y a recordar por qué decidí cambiar en primer lugar. Sostenme, Señor, aunque sea agarrado de tu mano nada más, porque hoy siento que las mías solas no alcanzan.",
+    "referencia_biblica": "1 Corintios 10:13 — Dará también juntamente con la tentación la salida.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_08",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Distraído de lo importante",
+    "texto": "Dios, paso horas metido en el teléfono o en cosas que no aportan nada, mientras lo verdaderamente importante espera. Ayúdame a poner orden en mis prioridades y a no dejar que las distracciones fáciles me roben el tiempo que debería dedicar a ti, a mi familia o a lo que de verdad importa. Dame disciplina para apagar lo que me distrae y encender lo que me acerca a ti. No quiero llegar al final del día sintiendo que lo desperdicié en cosas vacías.",
+    "referencia_biblica": "Efesios 5:15-16 — Mirad, pues, con diligencia cómo andéis... aprovechando bien el tiempo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_09",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Enfocado en lo que dura",
+    "texto": "Padre, vivo rodeado de cosas que prometen llenarme rápido pero que se acaban igual de rápido. Ayúdame a poner mis ojos en lo que realmente dura: mi relación contigo, las personas que amo, el carácter que voy formando. Cuando sienta la tentación de buscar atajos o placeres que sé que no me convienen, recuérdame que hay algo mejor esperándome si soy paciente. Dame enfoque para no dispersarme en mil direcciones y sabiduría para invertir mi tiempo en lo que de verdad tiene valor eterno.",
+    "referencia_biblica": "Colosenses 3:2 — Poned la mira en las cosas de arriba, no en las de la tierra.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_10",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Cuando el impulso es fuerte",
+    "texto": "Señor, el impulso de hacer algo que sé que no debo es fuerte en este momento. No quiero justificarlo ni minimizarlo, solo pedirte ayuda directa. Dame la fuerza para decir que no, para alejarme de la situación si hace falta, para buscar a alguien de confianza si necesito hablarlo. Sé que solo no puedo con esto siempre, por eso vengo a ti antes de actuar y no después para pedir perdón. Cambia mi deseo, Señor, y ponme en el corazón el gusto por lo que realmente me hace bien.",
+    "referencia_biblica": "Santiago 4:7 — Resistid al diablo, y huirá de vosotros.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_11",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Mente dispersa",
+    "texto": "Dios, mi mente salta de una cosa a otra y me cuesta concentrarme incluso en lo que quiero hacer bien: mi trabajo, mi tiempo contigo, mis conversaciones. Ayúdame a calmar ese ruido interno y a enfocarme en una cosa a la vez. Quita las distracciones que no me dejan avanzar y dame la disciplina de terminar lo que empiezo. Que pueda estar presente de verdad con las personas que tengo delante, en lugar de tener la mente en otro lado. Ordena mis pensamientos, Señor, como solo tú sabes hacerlo.",
+    "referencia_biblica": "Isaías 26:3 — Tú guardarás en completa paz a aquel cuyo pensamiento en ti persevera.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_12",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Después de una caída",
+    "texto": "Señor, volví a caer en lo mismo de siempre y me siento decepcionado de mí mismo. Sé que tu perdón no depende de que yo sea perfecto, pero aun así me cuesta no sentirme un fracaso. Ayúdame a levantarme ahora mismo, sin quedarme revolcándome en la culpa más tiempo del necesario. Dame claridad para entender qué me llevó a caer, y fuerzas renovadas para intentarlo de nuevo. Gracias porque tu misericordia es nueva cada mañana, incluso después de un tropiezo como este.",
+    "referencia_biblica": "Proverbios 24:16 — Siete veces cae el justo, y vuelve a levantarse.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_13",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Guardar el corazón",
+    "texto": "Padre, sé que lo que entra por mis ojos y oídos termina afectando mi corazón, así que te pido ayuda para elegir bien lo que veo, lo que escucho, lo que dejo entrar a mi mente. Hay contenido, conversaciones y lugares que sé que no me convienen, aunque sean fáciles de acceder. Dame el valor de poner límites, aunque eso signifique perderme algo que otros disfrutan sin culpa. Quiero un corazón limpio, no por obligación, sino porque entiendo que ahí es donde tú quieres habitar.",
+    "referencia_biblica": "Proverbios 4:23 — Sobre toda cosa guardada, guarda tu corazón.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "tentacion_enfoque_14",
+    "categoria": "tentacion_enfoque",
+    "titulo": "Enfocado en ti",
+    "texto": "Señor, hay tantas voces pidiendo mi atención que a veces pierdo de vista la tuya, que es la que realmente importa. Ayúdame a enfocarme en ti primero, no como una obligación religiosa sino como el lugar donde encuentro claridad para todo lo demás. Cuando mi enfoque se disperse entre pendientes, redes sociales y preocupaciones, tráeme de regreso a tu presencia. Que buscarte a ti no sea una tarea más de mi lista, sino el centro que le da sentido a todas las demás.",
+    "referencia_biblica": "Hebreos 12:2 — Puestos los ojos en Jesús, el autor y consumador de la fe.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_05",
+    "categoria": "sanidad",
+    "titulo": "Cuando el cuerpo duele",
+    "texto": "Señor, mi cuerpo está sufriendo y no sé cuánto tiempo más va a durar este dolor. Vengo a ti no solo pidiendo un milagro, sino también pidiendo fuerzas para atravesar este proceso, sea largo o corto. Tú conoces cada parte de mi cuerpo mejor que cualquier médico, y confío en que tienes cuidado de mí incluso en esto. Guía las manos de quienes me atienden, dame paciencia para los tratamientos, y si es tu voluntad, restaura mi salud. Mientras tanto, sostenme para no perder la esperanza.",
+    "referencia_biblica": "Jeremías 17:14 — Sáname, oh Jehová, y seré sano; sálvame, y seré salvo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_06",
+    "categoria": "sanidad",
+    "titulo": "Por un ser querido enfermo",
+    "texto": "Dios, te pido hoy por alguien que quiero mucho y que está enfermo. Verlo sufrir me duele casi tanto como si me pasara a mí. Te pido sanidad para su cuerpo, pero también paz para su mente y su corazón en medio de esta situación. Dame las palabras correctas para acompañarlo, sin minimizar lo que siente ni llenarlo de frases vacías. Fortalece también a quienes lo cuidan día a día. Confío en que tú ves este sufrimiento y que no eres indiferente a él.",
+    "referencia_biblica": "Salmos 41:3 — Jehová lo sustentará sobre el lecho del dolor.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_07",
+    "categoria": "sanidad",
+    "titulo": "Sanidad del alma",
+    "texto": "Padre, hay heridas en mí que no se ven a simple vista, pero que duelen tanto como cualquier enfermedad física. Cosas del pasado que no he terminado de sanar, palabras que me marcaron, momentos que todavía pesan. Te pido que sanes también esa parte de mí, no solo el cuerpo. Ayúdame a no esconder estas heridas por vergüenza, sino a traerlas ante ti para que las toques. Confío en que tú puedes restaurar lo que otros rompieron, y que tu tiempo de sanidad, aunque no sea inmediato, es perfecto.",
+    "referencia_biblica": "Salmos 147:3 — Él sana a los quebrantados de corazón, y venda sus heridas.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_08",
+    "categoria": "sanidad",
+    "titulo": "Esperando resultados médicos",
+    "texto": "Señor, estoy esperando resultados médicos y la espera se siente eterna. Mi mente se va a los peores escenarios, y me cuesta encontrar calma. Ayúdame a poner esta espera en tus manos en lugar de vivirla llena de miedo. Sea cual sea el resultado, recuérdame que tú vas a estar conmigo caminando el siguiente paso. No te pido que me ahorres la incertidumbre, sino que me des paz en medio de ella, y sabiduría para actuar según lo que venga.",
+    "referencia_biblica": "Job 5:18 — Él es quien hace la llaga, y él la vendará; él hiere, y sus manos curan.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_09",
+    "categoria": "sanidad",
+    "titulo": "Fuerzas para el tratamiento",
+    "texto": "Dios, el tratamiento que estoy llevando es más difícil de lo que imaginé, física y emocionalmente. Hay días en que quiero rendirme y otros en que encuentro fuerzas de donde no sabía que tenía. Te pido que esas fuerzas vengan de ti, que renueves mi cuerpo y mi ánimo cada mañana para seguir adelante. Dame también personas que me acompañen en este camino, que no tenga que atravesarlo solo. Confío en que tú estás obrando incluso en lo que el tratamiento no puede alcanzar.",
+    "referencia_biblica": "2 Corintios 12:9 — Bástate mi gracia, porque mi poder se perfecciona en la debilidad.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_10",
+    "categoria": "sanidad",
+    "titulo": "Cuando la sanidad tarda",
+    "texto": "Señor, he orado por sanidad y todavía no llega como yo esperaba. Es difícil sostener la esperanza cuando el tiempo pasa y las cosas siguen igual. Aun así, no quiero dejar de confiar en ti. Ayúdame a entender que tu silencio no significa ausencia, y que sigues obrando aunque yo no vea resultados todavía. Dame paciencia para seguir esperando, y fe para seguir orando sin cansarme, sabiendo que tú escuchas cada oración aunque la respuesta tarde en llegar.",
+    "referencia_biblica": "Habacuc 2:3 — Aunque tardare, espéralo, porque sin duda vendrá.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_11",
+    "categoria": "sanidad",
+    "titulo": "Gracias por la salud que tengo",
+    "texto": "Padre, antes de pedirte por lo que me falta, quiero agradecerte por la salud que sí tengo hoy. Tantas veces me quejo de pequeñas molestias sin notar todo lo que en mi cuerpo funciona bien. Gracias por cada órgano que trabaja sin que yo se lo pida, por los años de vida que me has dado, por la capacidad de moverme y disfrutar el día. Ayúdame a cuidar este cuerpo que me diste, comiendo bien, descansando y no maltratándolo, como una forma de agradecerte por él.",
+    "referencia_biblica": "3 Juan 1:2 — Deseo que seas prosperado en todas las cosas, y que tengas salud.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "sanidad_12",
+    "categoria": "sanidad",
+    "titulo": "Por los que cuidan enfermos",
+    "texto": "Señor, hoy quiero orar por quienes cuidan a un enfermo: familiares agotados, enfermeras, médicos que dan más de lo que sus turnos exigen. Ese trabajo silencioso muchas veces no se reconoce, pero tú lo ves. Dales fuerzas cuando el cansancio los alcance, paciencia cuando el cuidado se vuelva pesado, y descanso cuando lo necesiten. Bendice sus manos y su corazón, porque a través de ellos muchas veces se nota tu cuidado hacia los que sufren.",
+    "referencia_biblica": "Mateo 25:40 — En cuanto lo hicisteis a uno de estos... a mí lo hicisteis.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_05",
+    "categoria": "perdon",
+    "titulo": "Cuando perdonar cuesta",
+    "texto": "Señor, sé que debería perdonar, pero hoy simplemente no tengo ganas de hacerlo. Lo que me hicieron todavía duele, y perdonar se siente como si estuviera diciendo que no importó. Ayúdame a entender que perdonar no es decir que estuvo bien, sino soltar el derecho a cobrarme lo que me deben. No puedo hacerlo con mis propias fuerzas hoy, así que te pido las tuyas. Empieza tú este proceso en mí, aunque todavía no sienta que quiero terminarlo.",
+    "referencia_biblica": "Mateo 18:21-22 — No te digo hasta siete, sino aun hasta setenta veces siete.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_06",
+    "categoria": "perdon",
+    "titulo": "Perdonarme a mí mismo",
+    "texto": "Dios, me cuesta más perdonarme a mí mismo que perdonar a otros. Sigo repitiendo en mi cabeza el error que cometí, como si necesitara castigarme una y otra vez para sentir que ya pagué por él. Pero tú ya me perdonaste cuando te lo pedí, y seguir cargando esa culpa es no creerle a tu palabra. Ayúdame a recibir tu perdón de verdad, a soltar la vergüenza que arrastro, y a tratarme con la misma gracia con la que tú me tratas.",
+    "referencia_biblica": "Romanos 8:1 — Ninguna condenación hay para los que están en Cristo Jesús.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_07",
+    "categoria": "perdon",
+    "titulo": "Cuando me hirieron de nuevo",
+    "texto": "Señor, la misma persona volvió a herirme y siento que mi paciencia se agotó. Ya no sé cuántas veces más puedo perdonar lo mismo sin sentir que me están usando. Ayúdame a poner límites sanos sin dejar que el rencor se instale en mi corazón. Perdonar no significa que tenga que quedarme expuesto a que me sigan lastimando, pero tampoco quiero vivir amargado. Dame sabiduría para saber cómo actuar y un corazón que, aunque dolido, no se endurezca hacia los demás.",
+    "referencia_biblica": "Colosenses 3:13 — Soportándoos unos a otros, y perdonándoos unos a otros.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_08",
+    "categoria": "perdon",
+    "titulo": "Pidiendo perdón",
+    "texto": "Padre, sé que le hice daño a alguien y necesito pedirle perdón, pero el orgullo me está deteniendo. Dame el valor de reconocer mi error sin excusas ni justificaciones a medias. Ayúdame a acercarme con humildad, dispuesto a escuchar cómo le afectó lo que hice, sin ponerme a la defensiva. Y si esa persona todavía no está lista para perdonarme, dame paciencia para esperar sin exigir nada. Quiero vivir con la conciencia tranquila, sabiendo que hice lo posible de mi parte para reparar el daño.",
+    "referencia_biblica": "Mateo 5:23-24 — Deja allí tu ofrenda... y ve, reconcíliate primero con tu hermano.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_09",
+    "categoria": "perdon",
+    "titulo": "El peso del rencor",
+    "texto": "Señor, llevo tiempo cargando rencor contra alguien y ya me está pesando más a mí que a esa persona, que probablemente ni sabe lo que siento. Este peso me está robando la paz y hasta la alegría de cosas que antes disfrutaba. Ayúdame a soltarlo, no de golpe si no puedo, pero sí poco a poco, entregándote cada pensamiento amargo que regresa. Quiero ser libre de esta carga, y sé que solo tú puedes ayudarme a lograrlo de verdad.",
+    "referencia_biblica": "Hebreos 12:15 — Mirad bien... que no brote alguna raíz de amargura.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_10",
+    "categoria": "perdon",
+    "titulo": "Perdonar sin olvidar",
+    "texto": "Dios, me enseñaron que perdonar es olvidar, pero la verdad es que no puedo olvidar lo que pasó, por más que quiera perdonar de corazón. Ayúdame a entender que perdonar no requiere borrar la memoria, sino sanar la herida para que el recuerdo ya no duela como antes. Quiero llegar al punto de poder pensar en lo que pasó sin sentir el mismo dolor de siempre. Sana mi memoria, Señor, mientras camino hacia un perdón genuino y no solo dicho de palabra.",
+    "referencia_biblica": "Isaías 43:18 — No os acordéis de las cosas pasadas.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_11",
+    "categoria": "perdon",
+    "titulo": "Recibiendo tu perdón",
+    "texto": "Señor, vengo a ti con algo que hice y que no me deja tranquilo. Sé que fue un error, y no quiero minimizarlo ni justificarlo. Te pido perdón de corazón, no solo por costumbre, sino porque de verdad quiero cambiar. Gracias porque no me rechazas cuando vengo así, honesto y arrepentido. Ayúdame a no repetir lo mismo, y a recibir tu perdón sin seguir cargando la culpa que tú ya decidiste quitar de mí. Gracias por ser un Dios que perdona de verdad.",
+    "referencia_biblica": "1 Juan 1:9 — Si confesamos nuestros pecados, él es fiel y justo para perdonar nuestros pecados.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "perdon_12",
+    "categoria": "perdon",
+    "titulo": "Un corazón que perdona fácil",
+    "texto": "Padre, quiero pedirte algo distinto hoy: que me des un corazón que perdone más rápido, que no guarde cuentas de cada ofensa pequeña que recibo. A veces me molesto por cosas que en unos días ni recordaré, y eso me quita paz innecesariamente. Enséñame a ser más paciente con los defectos de los demás, recordando cuántas veces tú has tenido paciencia con los míos. Que perdonar se vuelva más un reflejo natural en mí que una lucha constante.",
+    "referencia_biblica": "Efesios 4:32 — Sed benignos unos con otros, misericordiosos, perdonándoos unos a otros.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "duelo_05",
+    "categoria": "duelo",
+    "titulo": "Cuando el dolor no pasa",
+    "texto": "Señor, ha pasado tiempo desde que perdí a quien amaba y el dolor sigue aquí, aunque otros piensen que ya debería estar bien. No hay un horario para sanar de esto, y te pido paciencia conmigo mismo en este proceso. Ven cerca en los días en que la ausencia se siente más fuerte, en las fechas señaladas, en los momentos inesperados que me recuerdan a esa persona. No te pido que me quites el dolor de golpe, solo que camines conmigo mientras aprendo a vivir con este vacío.",
+    "referencia_biblica": "Salmos 34:18 — Cercano está Jehová a los quebrantados de corazón.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "duelo_06",
+    "categoria": "duelo",
+    "titulo": "Extrañar a alguien",
+    "texto": "Dios, hoy extraño mucho a la persona que se fue. Hay días en que parece que lo tengo controlado y otros en que un detalle pequeño, una canción, un olor, me regresa toda la tristeza de golpe. Gracias por los recuerdos que me dejó, aunque ahora duelan más de lo que consuelan. Ayúdame a atesorar lo bueno que viví con ella sin que eso me impida seguir viviendo. Sé que sigue en tus manos, y eso, aunque no quita el dolor, me da un poco de paz.",
+    "referencia_biblica": "1 Tesalonicenses 4:13 — Para que no os entristezcáis como los otros que no tienen esperanza.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "duelo_07",
+    "categoria": "duelo",
+    "titulo": "Preguntas sin respuesta",
+    "texto": "Señor, tengo preguntas sobre esta pérdida que probablemente nunca voy a responder del todo: por qué así, por qué ahora, por qué a mí me tocó vivir esto. No siempre entiendo tus tiempos ni tus decisiones. Aun así, vengo a ti con mis preguntas abiertas, sin fingir que tengo paz cuando no la tengo todavía. Ayúdame a confiar en ti incluso sin respuestas completas, y a encontrar consuelo no en entender todo, sino en saber que tú no me has abandonado en medio de este dolor.",
+    "referencia_biblica": "Job 1:21 — Jehová dio, y Jehová quitó; sea el nombre de Jehová bendito.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "duelo_08",
+    "categoria": "duelo",
+    "titulo": "Consuelo para los que quedamos",
+    "texto": "Padre, te pido consuelo para toda la familia que quedó después de esta pérdida. Cada uno lo estamos viviendo distinto, y a veces eso genera tensión entre nosotros en lugar de unirnos. Ayúdanos a tener paciencia unos con otros mientras cada quien procesa el duelo a su manera. Que podamos apoyarnos en lugar de aislarnos, y que juntos encontremos consuelo en los recuerdos compartidos. Gracias por ser el Dios que consuela a los que lloran, incluso cuando el dolor parece demasiado grande para nosotros solos.",
+    "referencia_biblica": "2 Corintios 1:3-4 — El Padre de misericordias y Dios de toda consolación.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "duelo_09",
+    "categoria": "duelo",
+    "titulo": "Aprender a vivir de nuevo",
+    "texto": "Señor, siento culpa cuando río o disfruto algo después de esta pérdida, como si no debiera sentirme bien todavía. Ayúdame a entender que sanar no es olvidar ni traicionar a quien se fue, sino aprender a seguir viviendo con su recuerdo dentro de mí, no como una carga sino como parte de mi historia. Dame permiso interno para volver a disfrutar poco a poco, sin culpa, confiando en que la persona que amé también querría verme bien.",
+    "referencia_biblica": "Eclesiastés 3:4 — Tiempo de llorar, y tiempo de reír.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "duelo_10",
+    "categoria": "duelo",
+    "titulo": "Esperanza más allá de la muerte",
+    "texto": "Dios, en medio de este duelo me aferro a la esperanza de que la muerte no es el final de todo. Creo que hay algo más allá que tú preparaste para quienes confían en ti, y eso, aunque no me quita la tristeza de hoy, me sostiene cuando todo lo demás parece perder sentido. Gracias por darme esa esperanza en medio del dolor. Ayúdame a vivir aquí con esa promesa presente, sin minimizar mi pérdida, pero tampoco viviendo como si no hubiera nada más adelante.",
+    "referencia_biblica": "Juan 11:25 — Yo soy la resurrección y la vida; el que cree en mí, aunque esté muerto, vivirá.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_01",
+    "categoria": "soledad",
+    "titulo": "Cuando nadie llama",
+    "texto": "Señor, hoy pasó el día y nadie me escribió, nadie preguntó cómo estaba. Me siento invisible, como si mi presencia no importara mucho a nadie más. Pero vengo a ti porque sé que tú sí me ves, aunque el teléfono se quede en silencio. Ayúdame a no medir mi valor por la cantidad de mensajes que recibo, sino por lo que tú dices de mí. Y si es tu voluntad, pon en mi camino a alguien con quien pueda compartir la vida de verdad, no solo de vez en cuando.",
+    "referencia_biblica": "Salmos 27:10 — Aunque mi padre y mi madre me dejaran, con todo, Jehová me recogerá.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_02",
+    "categoria": "soledad",
+    "titulo": "Solo en la multitud",
+    "texto": "Dios, estoy rodeado de gente todos los días, pero me siento profundamente solo, como si nadie realmente me conociera. Sonrío en las conversaciones mientras por dentro cargo un vacío que no sé cómo explicar. Tú sí me conoces completamente, hasta los pensamientos que no digo en voz alta. Ayúdame a abrirme con alguien de confianza en lugar de guardarme todo, y mientras tanto, lléname tú de esa compañía que tanto necesito, la que no depende de cuántas personas tenga cerca.",
+    "referencia_biblica": "Salmos 139:1-2 — Tú has conocido mi sentarme y mi levantarme.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_03",
+    "categoria": "soledad",
+    "titulo": "Vivir solo",
+    "texto": "Señor, vivir solo tiene sus ventajas, pero también hay noches en que el silencio de la casa se siente pesado. Llego y no hay nadie que pregunte cómo me fue, y eso a veces me entristece más de lo que admito. Ayúdame a llenar estos espacios contigo, a hablar contigo como hablaría con alguien más en casa. Y si en algún momento cambia mi situación, que sea porque tú lo permitiste, no por desesperación mía. Mientras tanto, quiero aprender a estar bien incluso en la soledad, sabiendo que tú estás aquí conmigo.",
+    "referencia_biblica": "Deuteronomio 31:6 — No te dejará, ni te desamparará.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_04",
+    "categoria": "soledad",
+    "titulo": "Cuando me siento incomprendido",
+    "texto": "Dios, siento que nadie a mi alrededor entiende realmente lo que estoy viviendo. Trato de explicarlo, pero las palabras no alcanzan o la otra persona simplemente no logra ponerse en mi lugar. Eso me hace sentir todavía más solo. Tú sí me entiendes por completo, sin que tenga que explicarte nada, porque conoces mi corazón mejor que yo mismo. Ayúdame a encontrar consuelo en eso, y también dame la paciencia de seguir buscando a alguien que, aunque no me entienda del todo, esté dispuesto a acompañarme igual.",
+    "referencia_biblica": "Hebreos 4:15 — No tenemos un sumo sacerdote que no pueda compadecerse de nuestras debilidades.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_05",
+    "categoria": "soledad",
+    "titulo": "Después de una pérdida de amistad",
+    "texto": "Señor, una amistad que era importante para mí se enfrió o se terminó, y ahora siento un vacío donde antes había compañía. Duele perder a alguien con quien compartí tanto, aunque nadie haya muerto. Ayúdame a procesar esta pérdida sin fingir que no me afecta. Sana lo que se rompió si es posible reconstruirlo, y si no lo es, ayúdame a soltar sin amargura. Gracias porque tú nunca te alejas como a veces lo hacen las personas, y en ti encuentro una amistad que no se acaba.",
+    "referencia_biblica": "Proverbios 18:24 — Amigo hay más unido que un hermano.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_06",
+    "categoria": "soledad",
+    "titulo": "Compañía en la soledad",
+    "texto": "Padre, en este tiempo de soledad quiero aprender a reconocer tu compañía, que muchas veces paso por alto porque busco una presencia más visible. Ayúdame a sentir que no estoy realmente solo, aunque no haya nadie físicamente a mi lado en este momento. Háblame a través de tu palabra, de un recuerdo, de una idea que me traiga paz. Y mientras aprendo esto, sigue abriendo camino para que también tenga personas reales con quienes compartir la vida, porque sé que también me creaste para eso.",
+    "referencia_biblica": "Génesis 2:18 — No es bueno que el hombre esté solo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_07",
+    "categoria": "soledad",
+    "titulo": "Soledad después de una mudanza",
+    "texto": "Señor, me mudé a un lugar nuevo y todavía no tengo a nadie cercano aquí. Extraño mis lugares conocidos, mis amistades de siempre, la sensación de pertenecer a algún sitio. Ayúdame a tener paciencia mientras construyo nuevas relaciones, y valentía para dar el primer paso en lugar de esperar a que otros lo den por mí. Mientras tanto, sé tú mi lugar seguro en medio de lo desconocido. Gracias porque a donde sea que me mude, tú ya estás ahí esperándome.",
+    "referencia_biblica": "Josué 1:9 — No temas ni desmayes, porque Jehová tu Dios estará contigo donde quiera que vayas.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "soledad_08",
+    "categoria": "soledad",
+    "titulo": "No estoy tan solo como creo",
+    "texto": "Dios, hoy quiero recordarme a mí mismo que no estoy tan solo como a veces siento. Tengo tu presencia, que no depende de mi ánimo ni de mis circunstancias, y aunque no siempre la sienta con fuerza, sé que está ahí. Ayúdame a apoyarme también en las pocas personas que sí tengo cerca, aunque no sean muchas, en lugar de enfocarme solo en lo que me falta. Gracias por prometer estar conmigo siempre, hasta el fin, sin condiciones.",
+    "referencia_biblica": "Mateo 28:20 — Yo estoy con vosotros todos los días, hasta el fin del mundo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "matrimonio_01",
+    "categoria": "matrimonio",
+    "titulo": "Por mi matrimonio",
+    "texto": "Señor, pongo mi matrimonio en tus manos. Gracias por la persona con la que decidiste unirme, aunque algunos días nos cueste entendernos. Ayúdanos a comunicarnos con paciencia, a escucharnos de verdad antes de responder, y a no dejar que el cansancio diario apague el cariño que nos tenemos. Que nuestra casa sea un lugar de paz y no de tensión constante. Enséñanos a resolver nuestras diferencias sin herirnos, y a elegir amarnos incluso en los días en que no sentimos ganas de hacerlo.",
+    "referencia_biblica": "Génesis 2:24 — Serán una sola carne.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "matrimonio_02",
+    "categoria": "matrimonio",
+    "titulo": "Cuando hay distancia con mi pareja",
+    "texto": "Dios, siento que mi pareja y yo nos hemos distanciado, aunque vivamos bajo el mismo techo. Las rutinas, el trabajo y el cansancio nos han quitado tiempo de calidad juntos. Ayúdanos a encontrar el camino de regreso el uno al otro, a hacer espacio para conversar sin distracciones, a recordar por qué decidimos estar juntos. Si hay resentimientos guardados, dame la humildad de hablarlos en lugar de acumularlos en silencio. Restaura la cercanía que alguna vez tuvimos.",
+    "referencia_biblica": "Eclesiastés 4:9 — Mejores son dos que uno.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "matrimonio_03",
+    "categoria": "matrimonio",
+    "titulo": "Perdón en el matrimonio",
+    "texto": "Señor, mi pareja y yo tuvimos una discusión que nos dejó heridos a ambos. Ayúdame a no guardar rencor ni a repetir la pelea en mi cabeza una y otra vez. Dame la humildad de pedir perdón si me equivoqué, y la generosidad de perdonar si fui yo el herido. Que ninguno de los dos se vaya a dormir cargando enojo. Enséñanos a discutir sin destruirnos, buscando entendernos en lugar de solo tener la razón. Gracias por un amor que puede reconstruirse después de un tropiezo.",
+    "referencia_biblica": "Santiago 1:19 — Sea pronto para oír, tardo para hablar, tardo para airarse.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "matrimonio_04",
+    "categoria": "matrimonio",
+    "titulo": "Fortalece nuestro matrimonio",
+    "texto": "Padre, te pido que fortalezcas mi matrimonio en este tiempo. Las presiones económicas, el trabajo y hasta el cansancio de criar hijos nos están pasando factura como pareja. Ayúdanos a seguir siendo equipo en lugar de competir por quién hace más o quién está más cansado. Recuérdanos que estamos del mismo lado. Dame ojos para ver lo bueno en mi pareja, no solo lo que me molesta, y un corazón dispuesto a servir sin esperar siempre algo a cambio.",
+    "referencia_biblica": "Eclesiastés 4:12 — Cordón de tres dobleces no se rompe pronto.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "matrimonio_05",
+    "categoria": "matrimonio",
+    "titulo": "Gracias por mi pareja",
+    "texto": "Señor, hoy quiero simplemente agradecerte por mi pareja. Por su paciencia conmigo, por las veces que me sostuvo sin que se lo pidiera, por elegir quedarse incluso en los días difíciles. No siempre se lo digo lo suficiente, así que hoy te lo digo a ti primero: gracias por regalarme a alguien con quien compartir la vida. Ayúdame a demostrarle mi amor con hechos y no solo con palabras, y a no dar por sentado lo que tengo.",
+    "referencia_biblica": "Proverbios 18:22 — El que halla esposa halla el bien.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "matrimonio_06",
+    "categoria": "matrimonio",
+    "titulo": "Cuando el amor se siente cansado",
+    "texto": "Dios, algunos días el amor por mi pareja se siente más como rutina que como pasión, y eso me preocupa. Ayúdanos a reavivar lo que sentíamos al principio, sin comparar nuestra relación con lo que era antes o con lo que otros parecen tener. Enséñame que el amor verdadero también es decisión y no solo sentimiento, y dame ganas de elegir amar incluso en los días grises. Renueva nuestra relación, Señor, y ayúdanos a no conformarnos con la indiferencia.",
+    "referencia_biblica": "1 Corintios 13:4-7 — El amor es sufrido, es benigno... todo lo soporta.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "matrimonio_07",
+    "categoria": "matrimonio",
+    "titulo": "Sabiduría para criar juntos",
+    "texto": "Padre, criar hijos junto a mi pareja no siempre es fácil, y a veces tenemos ideas distintas de cómo hacerlo. Ayúdanos a ponernos de acuerdo, a no contradecirnos delante de ellos, y a apoyarnos mutuamente en las decisiones difíciles. Dame paciencia con mi pareja cuando siento que hace las cosas diferente a como yo las haría. Que nuestros hijos vean en nosotros un equipo, no dos personas peleando por tener la razón. Guíanos con sabiduría en esta tarea tan grande de formar una familia.",
+    "referencia_biblica": "Proverbios 24:3 — Con sabiduría se edificará la casa.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "matrimonio_08",
+    "categoria": "matrimonio",
+    "titulo": "Antes de dormir juntos",
+    "texto": "Señor, antes de terminar el día quiero orar por mi matrimonio. Gracias por otro día compartido con mi pareja, con sus aciertos y sus roces. Ayúdanos a no acostarnos enojados, a hacer las paces si hubo alguna tensión hoy, y a agradecer en lugar de solo señalar lo que faltó. Bendice nuestro descanso juntos y renueva mañana nuestras fuerzas para seguir construyendo esta vida en común. Que nuestro hogar sea un reflejo, aunque imperfecto, de tu amor.",
+    "referencia_biblica": "Rut 1:16 — Donde quiera que tú vayas, iré yo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_01",
+    "categoria": "finanzas",
+    "titulo": "Cuando el dinero no alcanza",
+    "texto": "Señor, este mes el dinero no alcanza como quisiera, y eso me llena de preocupación. Te pido provisión para lo que necesito, no para lo que quiero de más. Ayúdame a administrar bien lo poco o mucho que tengo, y a no tomar decisiones desesperadas por miedo a la escasez. Confío en que tú conoces mis necesidades incluso antes de que yo te las diga. Dame también sabiduría para gastar con prudencia y paz para no vivir angustiado por lo que todavía no tengo resuelto.",
+    "referencia_biblica": "Salmos 23:1 — Jehová es mi pastor; nada me faltará.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_02",
+    "categoria": "finanzas",
+    "titulo": "Ante una deuda",
+    "texto": "Dios, tengo una deuda que me quita el sueño y no sé cómo voy a salir de ella. Ayúdame a no evadir el problema, sino a enfrentarlo con orden, buscando un plan realista para pagarla poco a poco. Dame sabiduría para no endeudarme más mientras resuelvo esto, y paciencia para no desesperarme si el proceso es lento. Confío en que tú puedes abrir caminos que yo no veo todavía, y te pido que me ayudes a aprender de esta situación para no repetirla.",
+    "referencia_biblica": "Romanos 13:8 — No debáis a nadie nada, sino el amaros unos a otros.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_03",
+    "categoria": "finanzas",
+    "titulo": "Trabajo y provisión",
+    "texto": "Padre, gracias por el trabajo que me permite ganar el sustento de cada día. Sé que la provisión viene de ti, aunque llegue a través de mi esfuerzo. Ayúdame a trabajar con dedicación, sin depender solo de mis propias fuerzas, sino confiando en que tú sigues siendo quien realmente provee. Si necesito un ingreso adicional o un cambio en mi situación laboral, guíame hacia ello. Mientras tanto, ayúdame a ser agradecido con lo que ya tengo en lugar de vivir enfocado solo en lo que me falta.",
+    "referencia_biblica": "Deuteronomio 8:18 — Acuérdate de Jehová tu Dios, porque él te da el poder para hacer las riquezas.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_04",
+    "categoria": "finanzas",
+    "titulo": "Generosidad en medio de la necesidad",
+    "texto": "Señor, aunque mis propias finanzas no están del todo bien, hoy quiero pedirte un corazón generoso, capaz de compartir incluso de lo poco que tengo. Ayúdame a no cerrarme por miedo a la escasez, sino a confiar en que tú multiplicas lo que se da con fe. Muéstrame a quién puedo ayudar hoy, aunque sea con algo pequeño. Y a la vez, sigue proveyendo para mis propias necesidades, para que pueda seguir dando sin temor a quedarme sin nada.",
+    "referencia_biblica": "2 Corintios 9:7 — Dios ama al dador alegre.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_05",
+    "categoria": "finanzas",
+    "titulo": "Sabiduría para administrar",
+    "texto": "Dios, reconozco que no siempre he sido sabio con el dinero que me has dado. Gasto de más en cosas que no necesito y luego me falta para lo importante. Ayúdame a ser más disciplinado, a hacer un plan y seguirlo, a distinguir entre lo que quiero y lo que realmente necesito. Dame la humildad de pedir consejo si hace falta, y la constancia para cambiar hábitos que me han costado caro. Quiero administrar bien lo que pusiste en mis manos.",
+    "referencia_biblica": "Proverbios 27:23 — Sé diligente en conocer el estado de tus ovejas, y mira con cuidado por tus rebaños.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_06",
+    "categoria": "finanzas",
+    "titulo": "Ansiedad por el futuro económico",
+    "texto": "Señor, me preocupa el futuro económico de mi familia: la educación de mis hijos, mi propia vejez, los imprevistos que puedan llegar. Sé que no puedo controlarlo todo por más que planifique, y eso me genera ansiedad. Ayúdame a hacer mi parte con responsabilidad, ahorrando y planeando lo que esté a mi alcance, pero sin vivir angustiado por lo que todavía no ha llegado. Confío en que tú ya conoces el mañana que a mí me preocupa hoy.",
+    "referencia_biblica": "Mateo 6:34 — Basta a cada día su propio mal.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_07",
+    "categoria": "finanzas",
+    "titulo": "Gracias por lo que tengo",
+    "texto": "Padre, en medio de mis metas económicas y lo que todavía quiero alcanzar, quiero detenerme a agradecerte por lo que ya tengo. Un techo, comida, algo de estabilidad, aunque no sea la que soñé. Perdóname por comparar mi situación con la de otros y sentir que nunca es suficiente. Ayúdame a vivir con contentamiento, disfrutando lo que tengo hoy mientras sigo trabajando honestamente por más, sin que la ambición me robe la paz.",
+    "referencia_biblica": "1 Timoteo 6:6 — Gran ganancia es la piedad acompañada de contentamiento.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "finanzas_08",
+    "categoria": "finanzas",
+    "titulo": "Antes de una decisión financiera",
+    "texto": "Señor, tengo que tomar una decisión importante sobre mi dinero y no quiero equivocarme. Dame claridad para pensar bien las cosas, sin dejarme llevar por la emoción del momento ni por la presión de otros. Si esta inversión, compra o cambio no me conviene, ciérrame la puerta antes de que avance más. Si es una buena decisión, dame confianza para tomarla sin miedo. Confío en que tú diriges mis pasos incluso en los asuntos prácticos del dinero.",
+    "referencia_biblica": "Proverbios 21:5 — Los pensamientos del diligente ciertamente tienden a la abundancia.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "paz_01",
+    "categoria": "paz",
+    "titulo": "Paz en medio del caos",
+    "texto": "Señor, todo a mi alrededor parece estar en desorden: problemas que se acumulan, noticias que inquietan, gente alterada por todos lados. En medio de este caos, te pido tu paz, esa que no depende de que las circunstancias cambien primero. Cálmame por dentro aunque afuera siga el ruido. Ayúdame a ser un lugar de calma para quienes me rodean, en lugar de sumar más tensión al ambiente. Confío en que tú tienes el control incluso cuando todo parece descontrolado.",
+    "referencia_biblica": "Juan 16:33 — En el mundo tendréis aflicción; pero confiad, yo he vencido al mundo.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "paz_02",
+    "categoria": "paz",
+    "titulo": "Calma para la mente",
+    "texto": "Dios, mi mente no deja de dar vueltas sobre problemas que no puedo resolver ahora mismo. Necesito calma, no para dejar de pensar en soluciones, sino para dejar de angustiarme sin necesidad. Ayúdame a distinguir entre resolver algo y solo preocuparme por ello sin avanzar. Trae quietud a mis pensamientos, Señor, como quien calma las olas de un lago agitado. Que pueda descansar mi mente en ti, confiando en que no todo depende de mi capacidad de resolverlo todo yo solo.",
+    "referencia_biblica": "Salmos 131:2 — Como niño destetado está mi alma dentro de mí.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "paz_03",
+    "categoria": "paz",
+    "titulo": "Paz con los demás",
+    "texto": "Señor, tengo tensión con algunas personas y eso me quita la paz interior más de lo que quisiera. Ayúdame a buscar la reconciliación en cuanto dependa de mí, sin necesidad de tener siempre la razón. Dame palabras suaves donde antes hubo palabras duras, y disposición para escuchar en lugar de solo defenderme. Sé que no siempre voy a estar en paz con todos, pero ayúdame a hacer mi parte, dejando en tus manos lo que no puedo controlar de la otra persona.",
+    "referencia_biblica": "Romanos 12:18 — Si es posible, en cuanto dependa de vosotros, estad en paz con todos los hombres.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "paz_04",
+    "categoria": "paz",
+    "titulo": "Paz que no entiendo",
+    "texto": "Padre, mi situación no ha cambiado, los problemas siguen ahí, y sin embargo te pido esa paz que sobrepasa todo entendimiento, esa que no depende de que todo se resuelva primero. Quiero experimentarla incluso ahora, en medio de la incertidumbre. Guarda mi corazón y mis pensamientos en Cristo, como prometiste, para que no me desborde la ansiedad. Gracias por ofrecerme una paz distinta a la que el mundo puede dar, una que se sostiene incluso cuando las circunstancias no cambian.",
+    "referencia_biblica": "Filipenses 4:7 — Y la paz de Dios, que sobrepasa todo entendimiento, guardará vuestros corazones.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "paz_05",
+    "categoria": "paz",
+    "titulo": "Un corazón tranquilo",
+    "texto": "Señor, quiero un corazón tranquilo, no uno que reacciona con ansiedad a cada noticia o contratiempo. Sé que eso no se logra de la noche a la mañana, así que te pido que me ayudes a construirlo poco a poco, apoyándome en ti cada día. Cuando algo me altere, ayúdame a respirar y recordar que tú sigues en control. Dame la capacidad de responder con calma en lugar de reaccionar con miedo, y que esa tranquilidad se note en cómo trato a los demás también.",
+    "referencia_biblica": "Proverbios 14:30 — El corazón apacible es vida de la carne.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "paz_06",
+    "categoria": "paz",
+    "titulo": "Paz antes de una decisión difícil",
+    "texto": "Dios, tengo que tomar una decisión difícil y me falta paz para hacerlo. Cada opción trae dudas e incertidumbre, y no quiero decidir solo por salir del paso. Te pido que aquietes mi corazón para poder pensar con claridad, y que me des una señal de paz, ese sentir tranquilo que confirma cuando algo va según tu voluntad. Ayúdame a no decidir desde el miedo, sino desde la confianza en que tú vas a sostenerme sea cual sea el camino que tome.",
+    "referencia_biblica": "Colosenses 3:15 — Y la paz de Dios gobierne en vuestros corazones.",
+    "duracion_estimada_min": 2
+  },
+  {
+    "id": "paz_07",
+    "categoria": "paz",
+    "titulo": "Paz para dormir",
+    "texto": "Señor, necesito tu paz para poder dormir esta noche. Mi mente sigue activa con preocupaciones que no se resuelven solo por pensarlas más. Ayúdame a soltar el control de lo que no puedo cambiar ahora mismo y a confiar en que tú sigues despierto cuidando lo que a mí me preocupa. Que pueda cerrar los ojos con la certeza de que estoy en tus manos, y que mañana, con la mente descansada, pueda enfrentar mejor lo que hoy me quita la calma.",
+    "referencia_biblica": "Salmos 4:8 — En paz me acostaré, y asimismo dormiré.",
+    "duracion_estimada_min": 1
+  },
+  {
+    "id": "paz_08",
+    "categoria": "paz",
+    "titulo": "Sembrar paz a mi alrededor",
+    "texto": "Padre, quiero ser alguien que trae paz a los lugares donde estoy, no más tensión de la que ya existe. Ayúdame a hablar con calma incluso cuando otros están alterados, a no alimentar discusiones innecesarias, y a ser un puente en lugar de una barrera entre las personas. Sé que esto empieza por tener paz yo mismo primero, así que te pido que sigas llenando mi corazón de tu tranquilidad, para poder compartirla con quienes me rodean.",
+    "referencia_biblica": "Mateo 5:9 — Bienaventurados los pacificadores, porque ellos serán llamados hijos de Dios.",
+    "duracion_estimada_min": 2
   }
 ]

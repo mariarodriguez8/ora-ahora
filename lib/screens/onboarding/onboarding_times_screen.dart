@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
-import 'onboarding_categories_screen.dart';
+import '../../widgets/time_wheel_picker.dart';
+import 'onboarding_first_prayer_screen.dart';
 import 'onboarding_progress_dots.dart';
 
 class OnboardingTimesScreen extends StatefulWidget {
@@ -22,9 +23,10 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
       '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
 
   Future<void> _pick(bool morning) async {
-    final result = await showTimePicker(
-      context: context,
-      initialTime: morning ? _morning : _night,
+    final result = await showTimeWheelPicker(
+      context,
+      initial: morning ? _morning : _night,
+      titulo: morning ? 'Tu oración de la mañana' : 'Tu oración de la noche',
     );
     if (result != null) {
       setState(() {
@@ -41,7 +43,7 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.cream,
-      appBar: const OnboardingTopBar(step: 0),
+      appBar: const OnboardingTopBar(step: 2),
       body: SafeArea(
         top: false,
         child: Padding(
@@ -49,41 +51,34 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '¿Cuándo sueles orar?',
-                style: AppTypography.display,
-              ),
+              Text('¿A qué horas te queda\nbien orar?',
+                  style: AppTypography.display.copyWith(fontSize: 28)),
               const SizedBox(height: 12),
               Text(
-                'Usaremos estos horarios para sugerirte oraciones de '
-                'mañana y de noche, y como base para tus recordatorios. '
-                'Podrás ajustarlo luego desde Ajustes.',
-                style: AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
+                'Un momento al despertar y otro antes de dormir. '
+                'Toca cada tarjeta para ajustar la hora — luego puedes '
+                'cambiarla cuando quieras.',
+                style:
+                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),
               const SizedBox(height: 32),
               _TimeTile(
-                icon: Icons.wb_twilight_rounded,
-                label: 'Oración de la mañana',
+                icon: Icons.wb_sunny_outlined,
+                label: 'Al empezar el día',
                 time: _fmt(_morning),
                 onTap: () => _pick(true),
               ),
               const SizedBox(height: 14),
               _TimeTile(
                 icon: Icons.nightlight_round,
-                label: 'Oración de la noche',
+                label: 'Antes de dormir',
                 time: _fmt(_night),
                 onTap: () => _pick(false),
               ),
               const Spacer(),
               SizedBox(
                 width: double.infinity,
-                height: 56,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
                   onPressed: () async {
                     final prefs = context.read<PrefsService>();
                     await prefs.setMorningTime(_fmt(_morning));
@@ -92,11 +87,11 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
                     if (!context.mounted) return;
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const OnboardingCategoriesScreen(),
+                        builder: (_) => const OnboardingFirstPrayerScreen(),
                       ),
                     );
                   },
-                  child: const Text('Siguiente'),
+                  child: const Text('Continuar'),
                 ),
               ),
             ],
@@ -139,25 +134,25 @@ class _TimeTile extends StatelessWidget {
               Container(
                 width: 48,
                 height: 48,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.tealLight,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, color: AppColors.tealDeep, size: 24),
               ),
               const SizedBox(width: 16),
-              Expanded(
-                child: Text(label, style: AppTypography.title),
-              ),
+              Expanded(child: Text(label, style: AppTypography.title)),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
                   color: AppColors.sand,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
                   time,
-                  style: AppTypography.title.copyWith(color: AppColors.amber),
+                  style: AppTypography.headline
+                      .copyWith(fontSize: 20, color: AppColors.amber),
                 ),
               ),
             ],

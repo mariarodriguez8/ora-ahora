@@ -57,6 +57,10 @@ class PrayerCategories {
   static const sanidad = 'sanidad';
   static const perdon = 'perdon';
   static const duelo = 'duelo';
+  static const soledad = 'soledad';
+  static const matrimonio = 'matrimonio';
+  static const finanzas = 'finanzas';
+  static const paz = 'paz';
 
   static const List<String> all = [
     manana,
@@ -69,6 +73,10 @@ class PrayerCategories {
     sanidad,
     perdon,
     duelo,
+    soledad,
+    matrimonio,
+    finanzas,
+    paz,
   ];
 
   /// Nombre legible en espanol para mostrar en la interfaz.
@@ -94,6 +102,14 @@ class PrayerCategories {
         return 'Perdón';
       case duelo:
         return 'Duelo';
+      case soledad:
+        return 'Soledad';
+      case matrimonio:
+        return 'Matrimonio y pareja';
+      case finanzas:
+        return 'Finanzas y provisión';
+      case paz:
+        return 'Paz interior';
       default:
         return categoria;
     }

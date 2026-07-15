@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../services/prefs_service.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_typography.dart';
+import 'onboarding_categories_screen.dart';
+import 'onboarding_progress_dots.dart';
+
+class OnboardingNameScreen extends StatefulWidget {
+  const OnboardingNameScreen({super.key});
+
+  @override
+  State<OnboardingNameScreen> createState() => _OnboardingNameScreenState();
+}
+
+class _OnboardingNameScreenState extends State<OnboardingNameScreen> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _next() async {
+    final prefs = context.read<PrefsService>();
+    await prefs.setUserName(_controller.text);
+    if (!mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const OnboardingCategoriesScreen()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.cream,
+      appBar: const OnboardingTopBar(step: 0),
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Primero lo primero:\n¿cómo te llamas?',
+                  style: AppTypography.display.copyWith(fontSize: 28)),
+              const SizedBox(height: 12),
+              Text(
+                'Nos gusta hablar por tu nombre, como se habla '
+                'con alguien de confianza.',
+                style:
+                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
+              ),
+              const SizedBox(height: 28),
+              TextField(
+                controller: _controller,
+                textCapitalization: TextCapitalization.words,
+                style: AppTypography.headline.copyWith(fontSize: 22),
+                decoration: const InputDecoration(
+                  hintText: 'Tu nombre',
+                ),
+                onSubmitted: (_) => _next(),
+              ),
+              const Spacer(),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _next,
+                  child: const Text('Continuar'),
+                ),
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    _controller.clear();
+                    _next();
+                  },
+                  child: Text('Prefiero no decirlo',
+                      style: AppTypography.body
+                          .copyWith(color: AppColors.inkSoft)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -245,6 +245,18 @@ class StreakService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Suma minutos de oraciones ADICIONALES del mismo dia (la racha no
+  /// cambia, pero el arbol de fe sigue creciendo — orar mas veces al dia
+  /// siempre suma).
+  Future<void> addExtraMinutes(int minutes) async {
+    if (minutes <= 0) return;
+    _state = _state.copyWith(
+      cumulativeMinutes: _state.cumulativeMinutes + minutes,
+    );
+    await _save();
+    notifyListeners();
+  }
+
   /// `true` si la racha corre riesgo de perderse si la persona no ora hoy
   /// (ya paso al menos un dia completo desde la ultima vez que oro). Se usa
   /// para resaltar visualmente [StreakBadge] en el inicio.

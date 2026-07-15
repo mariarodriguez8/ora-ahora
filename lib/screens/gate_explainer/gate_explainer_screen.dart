@@ -97,11 +97,47 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                       'propio teléfono.',
                       style: AppTypography.body,
                     ),
+                    const SizedBox(height: 18),
+                    Text('Cómo activarlo, paso a paso 👇',
+                        style: AppTypography.title),
+                    const SizedBox(height: 10),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.75),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: AppColors.tealLight),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          _PasoNum(n: '1',
+                              texto: 'Toca el botón verde de abajo. Se abrirá '
+                                  'la pantalla de Accesibilidad de tu teléfono '
+                                  '(en muchos celulares, Ora Ahora ya aparece '
+                                  'resaltado).'),
+                          _PasoNum(n: '2',
+                              texto: 'Si no lo ves de una vez, busca una lista '
+                                  'que puede llamarse "Apps instaladas", "Apps '
+                                  'descargadas" o "Servicios instalados" — ahí '
+                                  'está Ora Ahora 🙏.'),
+                          _PasoNum(n: '3',
+                              texto: 'Toca "Ora Ahora", enciende el '
+                                  'interruptor y confirma con "Permitir" o '
+                                  '"Aceptar".'),
+                          _PasoNum(n: '4',
+                              texto: 'Vuelve aquí con el botón de atrás. '
+                                  'Nosotros comprobamos el resto ✅.'),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 14),
                     Text(
-                      'Puedes desactivar este permiso en cualquier momento desde '
-                      'los ajustes de Accesibilidad de tu teléfono, y la función '
-                      '"Pausa y Ora" dejará de funcionar de inmediato.',
+                      'Puedes desactivar este permiso cuando quieras desde el '
+                      'mismo lugar, y "Pausa y Ora" se apagará de inmediato. '
+                      'Si te pierdes, vuelve aquí y empieza de nuevo: no pasa '
+                      'nada 😊.',
                       style: AppTypography.body.copyWith(color: AppColors.inkSoft),
                     ),
                   ],
@@ -162,6 +198,43 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _PasoNum extends StatelessWidget {
+  final String n;
+  final String texto;
+  const _PasoNum({required this.n, required this.texto});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 26,
+            height: 26,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              color: AppColors.tealDeep,
+              shape: BoxShape.circle,
+            ),
+            child: Text(n,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                )),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(texto, style: AppTypography.body),
+          ),
+        ],
       ),
     );
   }

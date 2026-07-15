@@ -10,7 +10,7 @@ class OnboardingTopBar extends StatelessWidget implements PreferredSizeWidget {
   const OnboardingTopBar({
     super.key,
     required this.step,
-    this.totalSteps = 3,
+    this.totalSteps = 6,
     this.onBack,
   });
 
