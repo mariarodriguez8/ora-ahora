@@ -4,6 +4,18 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// Firma de release (v9): si existe android/key.properties (creado por
+// crear_llave_release.sh, NUNCA subido a git), se firma con el keystore
+// propio; si no existe, se usa la clave de debug para no romper builds
+// de prueba. Play Store exige la firma propia.
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withReader('UTF-8') { reader ->
+        keystoreProperties.load(reader)
+    }
+}
+
 android {
     namespace "com.proqube.oraahora"
     compileSdk flutter.compileSdkVersion
@@ -23,19 +35,27 @@ android {
         applicationId "com.proqube.oraahora"
         // flutter_local_notifications y device_apps funcionan desde API 21,
         // pero se fija 23 para simplificar el manejo de permisos en tiempo
-        // de ejecucion (Android 6.0+) usados por el gate de accesibilidad.
+        // de ejecucion (Android 6.0+) usados por "Pausa y Ora".
         minSdkVersion flutter.minSdkVersion
         targetSdk flutter.targetSdkVersion
         versionCode flutter.versionCode
         versionName flutter.versionName
     }
 
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: antes de publicar, configurar una signingConfig de
-            // release real (keystore propio) en vez de firmar con la
-            // clave de debug.
-            signingConfig signingConfigs.debug
+            signingConfig(keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug)
         }
     }
 }

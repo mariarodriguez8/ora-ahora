@@ -9,7 +9,7 @@ Funciones: oración del día · 152 oraciones locales en 14 categorías · racha
 ## 2. Dónde vive todo
 - **Repo:** `github.com/mariarodriguez8/ora-ahora` (a veces público temporalmente; debe volver a privado).
 - **Compilación:** GitHub Codespace "expert dollop" del repo (Flutter 3.44 ya configurado y parchado). Maria NO programa: todo se hace por ella.
-- **Estado actual: v8 — migración Play Store** ("Pausa y Ora" ya NO usa Accesibilidad: ahora usa Acceso de uso + overlay, ver sección 6). v7 fue probada y aprobada por Maria. Los scripts `apply_*.sh` en la raíz son históricos; el código fuente en `lib/` ya los tiene todo aplicado. Logo nuevo YA aplicado en mipmaps + store icon.
+- **Estado actual: v8 — migración Play Store** ("Pausa y Ora" ya NO usa Accesibilidad: ahora usa Acceso de uso + overlay, ver sección 6). v7 y v8 fueron probadas y aprobadas por Maria. v9: firma de release configurada (build.gradle lee android/key.properties si existe; si no, debug). La llave la crea Maria con `bash crear_llave_release.sh` (contraseña SOLO de Maria, keystore y key.properties en .gitignore). Con la llave creada: `flutter build appbundle --release` para el .aab de Play Store. Los scripts `apply_*.sh` en la raíz son históricos; el código fuente en `lib/` ya los tiene todo aplicado. Logo nuevo YA aplicado en mipmaps + store icon.
 
 ### Estructura del código
 ```
@@ -62,7 +62,7 @@ APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono �
 
 ### Pendientes reales:
 1. Maria debe PROBAR v7 en su teléfono y reportar (especialmente: voz leyendo la oración, botón de permiso, coherencia de temas).
-2. ✅ HECHO EN v8: migración a "Acceso de uso" + overlay (PrayerGateForegroundService.kt ahora sondea UsageStatsManager con la pantalla encendida; PrayerGateAccessibilityService.kt eliminado; GateBootReceiver rearranca tras reinicio; MainActivity/GateService con métodos nuevos: openUsageAccessSettings, openOverlaySettings, hasUsageAccess, hasOverlayPermission, syncGateService; GateExplainerScreen rediseñada con 2 tarjetas de permiso). Maria debe PROBARLA en su teléfono.
+2. ✅ HECHO EN v8: migración a "Acceso de uso" + overlay (PrayerGateForegroundService.kt ahora sondea UsageStatsManager con la pantalla encendida; PrayerGateAccessibilityService.kt eliminado; GateBootReceiver rearranca tras reinicio; MainActivity/GateService con métodos nuevos: openUsageAccessSettings, openOverlaySettings, hasUsageAccess, hasOverlayPermission, syncGateService; GateExplainerScreen rediseñada con 2 tarjetas de permiso). PROBADA Y APROBADA por Maria.
 3. Ideas de retención aún no implementadas: widget de pantalla de inicio, retos "Ora40", compañeros de oración, anti-churn, notificaciones con nombre.
 4. Splash/launch screen aún es marfil plano — armonizarlo con el degradado del logo.
 
