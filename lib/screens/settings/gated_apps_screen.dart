@@ -22,18 +22,18 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
   static const _freeLimit = 1;
 
   late Future<List<Application>> _appsFuture;
-  bool? _accessibilityEnabled;
+  bool? _permissionsOk;
 
   @override
   void initState() {
     super.initState();
     _appsFuture = context.read<GateService>().installedLaunchableApps();
-    _checkAccessibility();
+    _checkPermissions();
   }
 
-  Future<void> _checkAccessibility() async {
-    final enabled = await context.read<GateService>().isAccessibilityServiceEnabled();
-    if (mounted) setState(() => _accessibilityEnabled = enabled);
+  Future<void> _checkPermissions() async {
+    final granted = await context.read<GateService>().hasAllGatePermissions();
+    if (mounted) setState(() => _permissionsOk = granted);
   }
 
   int get _maxApps =>
@@ -41,13 +41,13 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
 
   Future<void> _onMasterSwitch(bool value) async {
     final gate = context.read<GateService>();
-    if (value && _accessibilityEnabled != true) {
+    if (value && _permissionsOk != true) {
       final result = await Navigator.of(context).push<bool>(
         MaterialPageRoute(builder: (_) => const GateExplainerScreen()),
       );
-      await _checkAccessibility();
-      if (result != true && _accessibilityEnabled != true) {
-        return; // el usuario no activo el permiso; no encendemos el switch
+      await _checkPermissions();
+      if (result != true && _permissionsOk != true) {
+        return; // el usuario no activo los permisos; no encendemos el switch
       }
     }
     await gate.setGateEnabled(value);
@@ -68,7 +68,7 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
               value: gate.gateEnabled,
               onChanged: _onMasterSwitch,
               title: const Text('Activar Pausa y Ora'),
-              subtitle: const Text('Requiere el permiso de Accesibilidad'),
+              subtitle: const Text('Requiere dos permisos sencillos (te guiamos)'),
             ),
             if (!isPlus)
               Padding(

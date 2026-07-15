@@ -1,9 +1,7 @@
 package com.proqube.oraahora
 
 import android.content.Context
-import android.content.ComponentName
 import android.content.Intent
-import android.os.Bundle
 import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
@@ -16,16 +14,18 @@ import io.flutter.plugin.common.MethodChannel
  * Activity principal de Flutter. Ademas de arrancar el motor de Flutter,
  * expone un MethodChannel ("com.proqube.oraahora/gate") con operaciones
  * puntuales que si requieren codigo nativo:
- *  - abrir la pantalla de Ajustes > Accesibilidad de Android.
- *  - comprobar si PrayerGateAccessibilityService esta activo.
- *  - pedir (o comprobar) la exclusion de Ora Ahora de la optimizacion de
- *    bateria de Android, para que "Pausa y Ora" no sea silenciada por el
- *    sistema en fabricantes con gestion agresiva de bateria.
+ * - abrir las pantallas de Ajustes de Android para los dos permisos de
+ *   "Pausa y Ora": "Acceso de uso" y "Mostrar sobre otras apps".
+ * - comprobar si esos permisos estan concedidos.
+ * - arrancar/detener/sincronizar el servicio detector
+ *   (PrayerGateForegroundService).
+ * - pedir (o comprobar) la exclusion de Ora Ahora de la optimizacion de
+ *   bateria de Android.
  *
  * El resto del estado de "Pausa y Ora" (apps bloqueadas, interruptor
- * general, minutos de gracia) se comparte con el servicio de accesibilidad
- * a traves de SharedPreferences (ver PrefsService.dart y
- * PrayerGateAccessibilityService.kt), sin necesidad de MethodChannel.
+ * general, minutos de gracia) se comparte con el servicio detector a
+ * traves de SharedPreferences (ver PrefsService.dart y
+ * PrayerGateForegroundService.kt), sin necesidad de MethodChannel.
  */
 class MainActivity : FlutterActivity() {
     private val channelName = "com.proqube.oraahora/gate"
@@ -36,32 +36,39 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
-                    "openAccessibilitySettings" -> {
+                    "openUsageAccessSettings" -> {
                         try {
-                            val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            // Pide a Ajustes que llegue con NUESTRO servicio
-                            // resaltado (soportado en AOSP/Pixel/Samsung y la
-                            // mayoria de OEM recientes; en el resto se ignora
-                            // sin causar error), para que la persona no tenga
-                            // que buscar "Ora Ahora" entre los menus.
-                            val componente = ComponentName(
-                                applicationContext,
-                                PrayerGateAccessibilityService::class.java,
-                            ).flattenToString()
-                            val fragmentArgs = Bundle().apply {
-                                putString(":settings:fragment_args_key", componente)
-                            }
-                            intent.putExtra(":settings:fragment_args_key", componente)
-                            intent.putExtra(":settings:show_fragment_args", fragmentArgs)
-                            startActivity(intent)
+                            openUsageAccessSettings()
                             result.success(null)
                         } catch (e: Exception) {
                             result.error("OPEN_SETTINGS_FAILED", e.message, null)
                         }
                     }
-                    "isAccessibilityServiceEnabled" -> {
-                        result.success(PrayerGateAccessibilityService.isEnabled(applicationContext))
+                    "openOverlaySettings" -> {
+                        try {
+                            openOverlaySettings()
+                            result.success(null)
+                        } catch (e: Exception) {
+                            result.error("OPEN_SETTINGS_FAILED", e.message, null)
+                        }
+                    }
+                    "hasUsageAccess" -> {
+                        result.success(
+                            PrayerGateForegroundService.hasUsageAccess(applicationContext)
+                        )
+                    }
+                    "hasOverlayPermission" -> {
+                        result.success(
+                            PrayerGateForegroundService.hasOverlayPermission(applicationContext)
+                        )
+                    }
+                    "syncGateService" -> {
+                        try {
+                            PrayerGateForegroundService.sync(applicationContext)
+                            result.success(null)
+                        } catch (e: Exception) {
+                            result.error("SYNC_GATE_FAILED", e.message, null)
+                        }
                     }
                     "isIgnoringBatteryOptimizations" -> {
                         try {
@@ -86,6 +93,56 @@ class MainActivity : FlutterActivity() {
                     else -> result.notImplemented()
                 }
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Cada vez que la persona vuelve a la app, se reconcilia el estado
+        // del servicio detector con el interruptor y los permisos actuales
+        // (p. ej. si acaba de conceder los permisos en Ajustes, el servicio
+        // arranca aqui sin esperar a que Flutter lo pida).
+        try {
+            PrayerGateForegroundService.sync(applicationContext)
+        } catch (e: Exception) {
+            // Nunca debe impedir volver a la app.
+        }
+    }
+
+    /**
+     * Abre Ajustes > Acceso de uso. Se intenta primero la variante que
+     * llega directo a la pantalla de Ora Ahora (soportada en Android 10+
+     * de stock y varios OEM); si el dispositivo no la soporta, se abre la
+     * lista general.
+     */
+    private fun openUsageAccessSettings() {
+        val direct = Intent(
+            Settings.ACTION_USAGE_ACCESS_SETTINGS,
+            Uri.parse("package:$packageName"),
+        )
+        direct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            startActivity(direct)
+        } catch (e: Exception) {
+            val general = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+            general.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(general)
+        }
+    }
+
+    /** Abre Ajustes > Mostrar sobre otras apps para Ora Ahora. */
+    private fun openOverlaySettings() {
+        val direct = Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package:$packageName"),
+        )
+        direct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            startActivity(direct)
+        } catch (e: Exception) {
+            val general = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            general.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(general)
+        }
     }
 
     private fun isIgnoringBatteryOptimizations(): Boolean {

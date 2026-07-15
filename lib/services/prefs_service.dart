@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// El plugin `shared_preferences` en Android guarda todas las claves en el
 /// archivo `FlutterSharedPreferences` con el prefijo `flutter.` delante de
 /// cada clave (p. ej. la clave Dart `gated_apps` se guarda como
-/// `flutter.gated_apps`). `PrayerGateAccessibilityService.kt` y
+/// `flutter.gated_apps`). `PrayerGateForegroundService.kt` y
 /// `PrayerGateActivity.kt` leen ese mismo archivo directamente para saber
 /// que apps debe bloquear.
 ///
@@ -65,11 +65,15 @@ class PrefsKeys {
   /// guardado como String (ej. "20") para que Kotlin haga Integer.parseInt.
   static const gateGraceMinutes = 'gate_grace_minutes';
 
+  /// (v8) La clave conserva su nombre historico ("accessibility_...") para
+  /// no perder el estado de usuarios que ya vieron el explainer, pero desde
+  /// v8 marca haber visto la pantalla de los DOS permisos de Pausa y Ora
+  /// (Acceso de uso + Mostrar sobre otras apps).
   static const accessibilityExplainerSeen = 'accessibility_explainer_seen';
 
   // --- Patrones de uso / Recordatorio inteligente ---
   /// String con JSON array de timestamps (epoch millis), escrito por
-  /// `PrayerGateAccessibilityService.kt` (lado nativo) cada vez que detecta
+  /// `PrayerGateForegroundService.kt` (lado nativo) cada vez que detecta
   /// la apertura de una app "gateada". Flutter SOLO lee esta clave (ver
   /// `UsagePatternService`); nunca la escribe.
   static const usagePatternLog = 'usage_pattern_log';
@@ -222,7 +226,7 @@ class PrefsService {
 
   // --- Patrones de uso / Recordatorio inteligente ---
   /// JSON crudo (String) del registro de timestamps escrito nativamente
-  /// por `PrayerGateAccessibilityService.kt`, o `null` si aun no hay
+  /// por `PrayerGateForegroundService.kt`, o `null` si aun no hay
   /// ningun evento registrado. Ver `UsagePatternService` para el analisis.
   String? get usagePatternLogRaw => _prefs.getString(PrefsKeys.usagePatternLog);
 

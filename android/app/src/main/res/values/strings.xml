@@ -2,15 +2,5 @@
 <resources>
     <string name="app_name">Ora Ahora</string>
 
-    <!-- Descripcion mostrada por Android en Ajustes > Accesibilidad,
-         explicando el uso del servicio (requisito de Play Store: debe ser
-         clara y especifica sobre el proposito). -->
-    <string name="accessibility_service_description">
-        Ora Ahora usa este servicio de accesibilidad únicamente para detectar
-        cuándo abres una de las apps que tú elegiste en "Pausa y Ora", y así
-        mostrarte una breve pausa de oración antes de continuar. No lee ni
-        registra el contenido de tus otras apps.
-    </string>
-
     <string name="notification_channel_name">Recordatorios de oración</string>
 </resources>

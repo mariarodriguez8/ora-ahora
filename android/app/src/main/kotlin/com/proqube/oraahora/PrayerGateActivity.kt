@@ -142,12 +142,12 @@ class PrayerGateActivity : Activity() {
 
         buttonContinue.setOnClickListener {
             if (!dwellFinished) return@setOnClickListener
-            targetPackage?.let { PrayerGateAccessibilityService.markUnlockedNow(this, it) }
+            targetPackage?.let { PrayerGateForegroundService.markUnlockedNow(this, it) }
             continueToTargetApp()
         }
 
         buttonSnooze.setOnClickListener {
-            targetPackage?.let { PrayerGateAccessibilityService.markSnoozedForToday(this, it) }
+            targetPackage?.let { PrayerGateForegroundService.markSnoozedForToday(this, it) }
             continueToTargetApp()
         }
     }

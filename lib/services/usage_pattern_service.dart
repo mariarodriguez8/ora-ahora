@@ -7,7 +7,7 @@ import 'prefs_service.dart';
 /// persona, en vez de solo horarios fijos elegidos a mano.
 ///
 /// El registro (`PrefsKeys.usagePatternLog`) lo escribe de forma nativa
-/// `PrayerGateAccessibilityService.kt` cada vez que detecta la apertura de
+/// `PrayerGateForegroundService.kt` cada vez que detecta la apertura de
 /// una app marcada para "Pausa y Ora", usando la misma clave/prefijo
 /// "flutter." que el resto de las preferencias compartidas entre Kotlin y
 /// Flutter (ver el comentario de `PrefsService.dart`). Este servicio SOLO

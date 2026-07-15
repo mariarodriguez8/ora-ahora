@@ -20,13 +20,23 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
         tools:node="remove" />
 
-    <!-- Foreground service companero de PrayerGateAccessibilityService
-         (ver PrayerGateForegroundService.kt): mantiene una señal de
-         "primer plano" para reducir el riesgo de que el sistema mate el
-         servicio de Accesibilidad en segundo plano. "specialUse" es la
-         categoria generica introducida en Android 14 (API 34) para casos
-         de uso que no encajan en las categorias especificas existentes
-         (mediaPlayback, location, dataSync, etc.). -->
+    <!-- "Pausa y Ora" (v8, apto para Play Store): en lugar del servicio de
+         Accesibilidad (que Google rechaza para este caso de uso), se usa la
+         pareja estandar de las apps de bienestar digital:
+         - "Acceso de uso" (PACKAGE_USAGE_STATS): permiso especial que la
+           persona concede manualmente en Ajustes; permite saber QUE app
+           acaba de pasar a primer plano (solo el nombre del paquete).
+         - "Mostrar sobre otras apps" (SYSTEM_ALERT_WINDOW): permite mostrar
+           la pausa de oración encima de la app que se esta abriendo.
+         Ver PrayerGateForegroundService.kt. -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Foreground service detector de "Pausa y Ora"
+         (PrayerGateForegroundService.kt). "specialUse" es la categoria
+         generica introducida en Android 14 (API 34) para casos de uso que
+         no encajan en las categorias especificas existentes. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
@@ -83,29 +93,28 @@
             android:taskAffinity=""
             android:configChanges="orientation|screenSize|keyboardHidden" />
 
-        <service
-            android:name=".PrayerGateAccessibilityService"
-            android:exported="true"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config" />
-        </service>
-
-        <!-- Foreground service companero (ver comentario de permisos
-             arriba y PrayerGateForegroundService.kt). -->
+        <!-- Servicio detector de "Pausa y Ora" (v8): consulta
+             UsageStatsManager mientras la pantalla esta encendida y lanza
+             PrayerGateActivity cuando se abre una app elegida. -->
         <service
             android:name=".PrayerGateForegroundService"
             android:exported="false"
             android:foregroundServiceType="specialUse">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="Mantener activa la deteccion de apps para la pausa de oración" />
+                android:value="Detectar la apertura de apps elegidas por la persona para proponer una pausa de oración (bienestar digital)" />
         </service>
+
+        <!-- Rearranca el servicio detector tras reinicio o actualizacion
+             (solo si "Pausa y Ora" estaba encendida y con permisos). -->
+        <receiver
+            android:name=".GateBootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
 
         <!-- Requerido por flutter_local_notifications para volver a
              programar los recordatorios pendientes despues de un reinicio

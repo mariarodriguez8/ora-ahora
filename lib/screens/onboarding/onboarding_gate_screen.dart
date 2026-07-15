@@ -7,9 +7,9 @@ import 'onboarding_done_screen.dart';
 import 'onboarding_progress_dots.dart';
 
 /// Presenta "Pausa y Ora" (lo que hace unica a la app) DURANTE el
-/// onboarding, con lenguaje humano y sencillo. El permiso tecnico de
-/// Accesibilidad se pide despues, en GateExplainerScreen, como exige
-/// Google Play.
+/// onboarding, con lenguaje humano y sencillo. Los permisos tecnicos
+/// (Acceso de uso + Mostrar sobre otras apps) se piden despues, en
+/// GateExplainerScreen, como exige Google Play.
 class OnboardingGateScreen extends StatelessWidget {
   const OnboardingGateScreen({super.key});
 
@@ -58,9 +58,9 @@ class OnboardingGateScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Para lograrlo, tu teléfono nos pedirá un permiso especial. '
-                'En la siguiente pantalla te explicamos cuál es y cómo '
-                'activarlo, paso a paso y sin apuro.',
+                'Para lograrlo, tu teléfono nos pedirá dos permisos sencillos. '
+                'En la siguiente pantalla te explicamos cuáles son y cómo '
+                'activarlos, paso a paso y sin apuro.',
                 style: AppTypography.body.copyWith(color: AppColors.inkSoft),
               ),
               const Spacer(),

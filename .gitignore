@@ -18,3 +18,5 @@ android/**/GeneratedPluginRegistrant.java
 android/key.properties
 *.jks
 *.keystore
+ora-ahora-v8.apk.zip
+*.apk.zip

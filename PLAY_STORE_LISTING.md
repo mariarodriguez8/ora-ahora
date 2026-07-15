@@ -94,9 +94,9 @@ PRIVACIDAD PRIMERO
 
 Todo tu diario, tu racha y tus preferencias se guardan localmente en tu
 teléfono. Ora Ahora no lee el contenido de tus otras apps: el permiso de
-Accesibilidad usado por "Pausa y Ora" solo detecta qué app está al
-frente, para saber cuándo mostrarte la pausa, y nunca se envía a ningún
-servidor. Lo mismo aplica a la confirmación por voz: 100% local, nunca se
+"Acceso de uso" usado por "Pausa y Ora" solo detecta qué app está al
+frente (únicamente su nombre), para saber cuándo mostrarte la pausa, y
+nunca se envía a ningún servidor. Lo mismo aplica a la confirmación por voz: 100% local, nunca se
 sube a un servidor.
 
 PARA TODAS LAS DENOMINACIONES
@@ -141,7 +141,11 @@ lo que falta producir y subir antes de publicar.
       bienestar (evaluar cuál rinde mejor en pruebas A/B posteriores).
 - [ ] Clasificación de contenido (content rating questionnaire).
 - [ ] Formulario de Seguridad de Datos (Data Safety), documentando el uso
-      del permiso de Accesibilidad y que todo el almacenamiento es local.
+      de "Acceso de uso" (PACKAGE_USAGE_STATS) y "Mostrar sobre otras
+      apps" para la función de bienestar digital "Pausa y Ora", y que
+      todo el almacenamiento es local. (v8: ya NO se usa la API de
+      Accesibilidad, así que no hace falta la declaración especial de
+      Accesibilidad que Google revisa manualmente.)
 - [ ] Declarar honestamente el uso de RECORD_AUDIO/micrófono (función
       opcional de confirmación por voz): explicar que el audio se procesa
       100% en el dispositivo (reconocimiento on-device de Android), que

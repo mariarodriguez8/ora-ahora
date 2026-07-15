@@ -9,7 +9,7 @@ Funciones: oración del día · 152 oraciones locales en 14 categorías · racha
 ## 2. Dónde vive todo
 - **Repo:** `github.com/mariarodriguez8/ora-ahora` (a veces público temporalmente; debe volver a privado).
 - **Compilación:** GitHub Codespace "expert dollop" del repo (Flutter 3.44 ya configurado y parchado). Maria NO programa: todo se hace por ella.
-- **Estado actual: v7 compilada y pusheada** (commit "v7b", build EXITO_TOTAL_V7). Los scripts `apply_*.sh` en la raíz son históricos; el código fuente en `lib/` ya los tiene todo aplicado. Logo nuevo YA aplicado en mipmaps + store icon.
+- **Estado actual: v8 — migración Play Store** ("Pausa y Ora" ya NO usa Accesibilidad: ahora usa Acceso de uso + overlay, ver sección 6). v7 fue probada y aprobada por Maria. Los scripts `apply_*.sh` en la raíz son históricos; el código fuente en `lib/` ya los tiene todo aplicado. Logo nuevo YA aplicado en mipmaps + store icon.
 
 ### Estructura del código
 ```
@@ -17,7 +17,7 @@ lib/
   main.dart                    # MultiProvider + MaterialApp (locale es, delegates)
   models/prayer.dart           # Prayer + PrayerCategories (14 claves ASCII)
   services/                    # prefs, streak (racha+minutos), prayer_repository,
-                               # notification, gate (MethodChannel accesibilidad),
+                               # notification, gate (MethodChannel permisos v8),
                                # voice_prayer (speech_to_text on-device), purchase (stub)
   screens/onboarding/          # 11 pantallas: welcome→name→categories→times→plan→
                                # social→first_prayer→commitment→reminders→gate→done
@@ -53,7 +53,7 @@ Gradle wrapper 8.9 · AGP 8.7.3 · coreLibraryDesugaring 2.1.4 · gradle.propert
 `sed -i "s/android {/android {\n    namespace 'fr.g123k.deviceapps'/" /root/.pub-cache/hosted/pub.dev/device_apps-2.2.0/android/build.gradle`
 
 ## 4. Instalación en el teléfono de Maria (tester)
-APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono → instalar. **Android 13+ bloquea Accesibilidad a apps instaladas por APK** ("Configuración restringida"): se desbloquea en Ajustes → Aplicaciones → Ora Ahora → menú ⋮ → "Permitir configuración restringida". Esto desaparece al publicar en Play Store.
+APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono → instalar. Desde v8 ya no se usa Accesibilidad, así que la "Configuración restringida" de Android 13+ NO debería aparecer (aplicaba a Accesibilidad). "Acceso de uso" y "Mostrar sobre otras apps" se activan normal en Ajustes, la app te lleva directo.
 
 ## 5. HECHO EN v6/v7 (feedback de Maria ya resuelto) + PENDIENTES
 
@@ -62,12 +62,12 @@ APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono �
 
 ### Pendientes reales:
 1. Maria debe PROBAR v7 en su teléfono y reportar (especialmente: voz leyendo la oración, botón de permiso, coherencia de temas).
-2. Migración a "Acceso de uso" + overlay para Play Store (ver sección 6) — el pendiente grande.
+2. ✅ HECHO EN v8: migración a "Acceso de uso" + overlay (PrayerGateForegroundService.kt ahora sondea UsageStatsManager con la pantalla encendida; PrayerGateAccessibilityService.kt eliminado; GateBootReceiver rearranca tras reinicio; MainActivity/GateService con métodos nuevos: openUsageAccessSettings, openOverlaySettings, hasUsageAccess, hasOverlayPermission, syncGateService; GateExplainerScreen rediseñada con 2 tarjetas de permiso). Maria debe PROBARLA en su teléfono.
 3. Ideas de retención aún no implementadas: widget de pantalla de inicio, retos "Ora40", compañeros de oración, anti-churn, notificaciones con nombre.
 4. Splash/launch screen aún es marfil plano — armonizarlo con el degradado del logo.
 
 ## 6. Backlog estratégico (decidido con investigación)
-- **Play Store**: migrar "Pausa y Ora" de Accesibilidad → "Acceso de uso" + overlay (Google rechaza Accesibilidad para esto) · build release firmado · política de privacidad URL · formularios Play Console · cuenta developer $25.
+- **Play Store**: ✅ migración "Pausa y Ora" Accesibilidad → "Acceso de uso" + overlay HECHA en v8. Quedan: build release firmado · política de privacidad URL · formularios Play Console · cuenta developer $25.
 - **Logo: DECIDIDO** — "Halo + cruz + amanecer" estilo 2026 (aro de luz dorado con cruz luminosa pequeña y resplandor de amanecer, sobre degradado índigo→esmeralda). **YA APLICADO en v6** (mipmaps + icon_512 en el código). Solo falta armonizar el splash/launch con el degradado nuevo.
 - Investigación completa (Cal AI 33 pantallas, paywall tras quiz 5x, Coconote UGC, Hallow) ya hecha: onboarding largo ✓ (11 pantallas), falta: widget de pantalla de inicio, retos ("Ora40"), compañeros de oración, anti-churn 7 días extra, notificaciones emocionales con nombre.
 - Backend futuro (cuentas/nube/comunidad): hoy TODO es local/offline (racha se pierde al desinstalar).

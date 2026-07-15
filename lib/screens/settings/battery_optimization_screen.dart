@@ -12,7 +12,7 @@ import '../../theme/app_typography.dart';
 ///
 /// Esto complementa (no reemplaza) al foreground service nativo
 /// (`PrayerGateForegroundService.kt`): ambos existen para reducir el
-/// riesgo de que Android silencie `PrayerGateAccessibilityService` en
+/// riesgo de que Android silencie `PrayerGateForegroundService` en
 /// segundo plano, especialmente en fabricantes con gestión agresiva de
 /// batería (Xiaomi, Samsung, Huawei, etc.).
 class BatteryOptimizationScreen extends StatefulWidget {

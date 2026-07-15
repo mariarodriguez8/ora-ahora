@@ -5,14 +5,23 @@ import 'package:flutter/services.dart';
 import 'prefs_service.dart';
 
 /// Puente entre Flutter y el lado nativo Android para la funcion
-/// "Pausa y Ora" (el bloqueo/gate basado en AccessibilityService).
+/// "Pausa y Ora".
+///
+/// v8 (apto para Play Store): la deteccion de apps ya NO usa el servicio de
+/// Accesibilidad (Google lo rechaza para este caso de uso) sino la pareja
+/// estandar de las apps de bienestar digital:
+///  - "Acceso de uso" (PACKAGE_USAGE_STATS): saber que app pasa a primer
+///    plano (solo el nombre del paquete).
+///  - "Mostrar sobre otras apps" (SYSTEM_ALERT_WINDOW): poner la pausa de
+///    oracion encima de la app que se esta abriendo.
+/// Ambos permisos se conceden manualmente en Ajustes de Android; este
+/// servicio abre las pantallas correctas y comprueba su estado.
 ///
 /// La lista de apps bloqueadas y las preferencias del gate se guardan con
 /// `PrefsService` (SharedPreferences), que es el mismo archivo que lee
-/// `PrayerGateAccessibilityService.kt` de forma nativa. El `MethodChannel`
-/// solo se usa para dos operaciones que si requieren codigo nativo puntual:
-/// abrir la pantalla de ajustes de accesibilidad de Android, y comprobar si
-/// nuestro servicio de accesibilidad esta activo.
+/// `PrayerGateForegroundService.kt` de forma nativa. El `MethodChannel`
+/// solo se usa para operaciones que si requieren codigo nativo puntual
+/// (abrir Ajustes, comprobar permisos, sincronizar el servicio detector).
 class GateService extends ChangeNotifier {
   static const _channel = MethodChannel('com.proqube.oraahora/gate');
 
@@ -28,6 +37,9 @@ class GateService extends ChangeNotifier {
 
   Future<void> setGateEnabled(bool value) async {
     await _prefs.setGateEnabled(value);
+    // Arranca o detiene el servicio detector nativo segun el nuevo estado
+    // (y los permisos actuales). Nunca debe bloquear el interruptor.
+    await syncNativeService();
     notifyListeners();
   }
 
@@ -79,26 +91,63 @@ class GateService extends ChangeNotifier {
     return apps;
   }
 
-  /// Abre la pantalla nativa de Ajustes > Accesibilidad de Android para que
-  /// el usuario active manualmente "Ora Ahora - Pausa y Ora".
-  Future<void> openAccessibilitySettings() async {
+  /// Abre Ajustes > Acceso de uso de Android (en muchos telefonos llega
+  /// directo a la fila de Ora Ahora).
+  Future<void> openUsageAccessSettings() async {
     try {
-      await _channel.invokeMethod('openAccessibilitySettings');
+      await _channel.invokeMethod('openUsageAccessSettings');
     } on PlatformException {
-      // Si falla (por ejemplo en un dispositivo no estandar), no bloqueamos
-      // el flujo de la app; el usuario puede navegar manualmente.
+      // Si falla (dispositivo no estandar), no bloqueamos el flujo de la
+      // app; el usuario puede navegar manualmente.
     }
   }
 
-  /// Comprueba si `PrayerGateAccessibilityService` esta activo en este
-  /// momento segun Android (Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES).
-  Future<bool> isAccessibilityServiceEnabled() async {
+  /// Abre Ajustes > Mostrar sobre otras apps para Ora Ahora.
+  Future<void> openOverlaySettings() async {
     try {
-      final enabled =
-          await _channel.invokeMethod<bool>('isAccessibilityServiceEnabled');
-      return enabled ?? false;
+      await _channel.invokeMethod('openOverlaySettings');
+    } on PlatformException {
+      // Igual que arriba: nunca bloquear el flujo.
+    }
+  }
+
+  /// Comprueba el permiso especial "Acceso de uso" (AppOpsManager,
+  /// OPSTR_GET_USAGE_STATS).
+  Future<bool> hasUsageAccess() async {
+    try {
+      final granted = await _channel.invokeMethod<bool>('hasUsageAccess');
+      return granted ?? false;
     } on PlatformException {
       return false;
+    }
+  }
+
+  /// Comprueba el permiso "Mostrar sobre otras apps"
+  /// (Settings.canDrawOverlays).
+  Future<bool> hasOverlayPermission() async {
+    try {
+      final granted =
+          await _channel.invokeMethod<bool>('hasOverlayPermission');
+      return granted ?? false;
+    } on PlatformException {
+      return false;
+    }
+  }
+
+  /// true solo si AMBOS permisos de "Pausa y Ora" estan concedidos.
+  Future<bool> hasAllGatePermissions() async {
+    final usage = await hasUsageAccess();
+    if (!usage) return false;
+    return hasOverlayPermission();
+  }
+
+  /// Pide al lado nativo arrancar o detener el servicio detector segun el
+  /// interruptor y los permisos actuales. Idempotente.
+  Future<void> syncNativeService() async {
+    try {
+      await _channel.invokeMethod('syncGateService');
+    } on PlatformException {
+      // El servicio tambien se reconcilia solo en MainActivity.onResume.
     }
   }
 

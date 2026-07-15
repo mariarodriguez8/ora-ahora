@@ -6,15 +6,17 @@ import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 
-/// Pantalla explicativa, obligatoria antes de pedir el permiso de
-/// Accesibilidad de Android, tal como exige la politica de Google Play
-/// para apps que usan la API de Accesibilidad: se debe explicar con
-/// claridad, ANTES de solicitarlo, para que se usa el permiso.
+/// Pantalla explicativa, obligatoria antes de pedir los permisos de
+/// "Pausa y Ora", tal como exige la politica de Google Play: se debe
+/// explicar con claridad, ANTES de solicitarlos, para que se usa cada
+/// permiso.
 ///
-/// Aqui se explica en español sencillo por que Ora Ahora necesita este
-/// permiso especifico (detectar cuando el usuario abre una app marcada
-/// para "Pausa y Ora"), y que NO se usa para leer contenido de otras apps,
-/// contraseñas ni datos personales.
+/// v8: ya no se usa el permiso de Accesibilidad. Ahora son DOS permisos
+/// estandar de bienestar digital, cada uno con su tarjeta, su estado en
+/// vivo (activado / pendiente) y su boton que abre la pantalla exacta de
+/// Ajustes:
+///  1. "Acceso de uso": para saber que app abres (solo el nombre).
+///  2. "Mostrar sobre otras apps": para poner la pausa de oracion encima.
 class GateExplainerScreen extends StatefulWidget {
   const GateExplainerScreen({super.key});
 
@@ -25,7 +27,11 @@ class GateExplainerScreen extends StatefulWidget {
 class _GateExplainerScreenState extends State<GateExplainerScreen>
     with WidgetsBindingObserver {
   bool _checking = false;
-  bool? _enabled;
+  bool? _usageGranted;
+  bool? _overlayGranted;
+  bool _celebrated = false;
+
+  bool get _allGranted => (_usageGranted ?? false) && (_overlayGranted ?? false);
 
   @override
   void initState() {
@@ -44,9 +50,10 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _refreshStatus().then((_) {
-        if (mounted && (_enabled ?? false)) {
+        if (mounted && _allGranted && !_celebrated) {
+          _celebrated = true;
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('¡Permiso activado! Pausa y Ora ya funciona ✅🙏'),
+            content: Text('¡Permisos activados! Pausa y Ora ya funciona ✅🙏'),
           ));
         }
       });
@@ -56,20 +63,32 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
   Future<void> _refreshStatus() async {
     setState(() => _checking = true);
     final gate = context.read<GateService>();
-    final enabled = await gate.isAccessibilityServiceEnabled();
+    final usage = await gate.hasUsageAccess();
+    final overlay = await gate.hasOverlayPermission();
     if (!mounted) return;
     setState(() {
-      _enabled = enabled;
+      _usageGranted = usage;
+      _overlayGranted = overlay;
       _checking = false;
     });
+    if (usage && overlay) {
+      // Si el interruptor ya estaba encendido, arranca el detector ya.
+      await gate.syncNativeService();
+    }
+  }
+
+  Future<void> _markSeenAnd(Future<void> Function() abrir) async {
+    final prefs = context.read<PrefsService>();
+    await prefs.setAccessibilityExplainerSeen(true);
+    await abrir();
   }
 
   @override
   Widget build(BuildContext context) {
-    final enabled = _enabled ?? false;
+    final gate = context.read<GateService>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Permiso de Accesibilidad')),
+      appBar: AppBar(title: const Text('Permisos de Pausa y Ora')),
       body: SafeArea(
         child: Column(
           children: [
@@ -79,90 +98,64 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.accessibility_new,
+                    const Icon(Icons.pause_circle_outline,
                         size: 48, color: AppColors.tealDeep),
                     const SizedBox(height: 20),
-                    Text('¿Para qué se usa este permiso?',
+                    Text('Dos permisos, una sola misión 🙏',
                         style: AppTypography.headline),
                     const SizedBox(height: 12),
                     Text(
-                      'La función "Pausa y Ora" necesita el permiso de '
-                      'Accesibilidad de Android para detectar en qué momento '
-                      'abres una de las apps que tú mismo elegiste para pausar '
-                      '(por ejemplo, Instagram o TikTok).',
+                      'Para detenerte con una oración justo antes de que se '
+                      'abra una app que te distrae, tu teléfono nos pide '
+                      'activar dos permisos. Los dos se encienden en un '
+                      'minuto y aquí te llevamos directo al lugar exacto.',
                       style: AppTypography.body,
                     ),
                     const SizedBox(height: 14),
                     Text(
-                      'Con este permiso, Ora Ahora solo puede ver el nombre de '
-                      'la app que está al frente en tu pantalla en ese instante, '
-                      'para decidir si debe mostrarte la pausa de oración. '
-                      'Ora Ahora NO lee contraseñas, mensajes, fotos, ni ningún '
-                      'otro contenido de tus otras apps, y no envía esa '
-                      'información a ningún servidor: todo se procesa en tu '
-                      'propio teléfono.',
+                      'Con ellos, Ora Ahora solo conoce el NOMBRE de la app '
+                      'que abres (por ejemplo "Instagram"), nunca lo que ves '
+                      'o escribes dentro. No leemos mensajes, contraseñas ni '
+                      'fotos, y nada sale de tu teléfono.',
                       style: AppTypography.body,
                     ),
-                    const SizedBox(height: 18),
-                    Text('Cómo activarlo, paso a paso 👇',
-                        style: AppTypography.title),
-                    const SizedBox(height: 10),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.75),
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: AppColors.tealLight),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          _PasoNum(n: '1',
-                              texto: 'Toca el botón verde de abajo. Se abrirá '
-                                  'la pantalla de Accesibilidad de tu teléfono '
-                                  '(en muchos celulares, Ora Ahora ya aparece '
-                                  'resaltado).'),
-                          _PasoNum(n: '2',
-                              texto: 'Si no lo ves de una vez, busca una lista '
-                                  'que puede llamarse "Apps instaladas", "Apps '
-                                  'descargadas" o "Servicios instalados" — ahí '
-                                  'está Ora Ahora 🙏.'),
-                          _PasoNum(n: '3',
-                              texto: 'Toca "Ora Ahora", enciende el '
-                                  'interruptor y confirma con "Permitir" o '
-                                  '"Aceptar".'),
-                          _PasoNum(n: '4',
-                              texto: 'Vuelve aquí con el botón de atrás. '
-                                  'Nosotros comprobamos el resto ✅.'),
-                        ],
-                      ),
+                    const SizedBox(height: 20),
+                    _PermisoCard(
+                      numero: '1',
+                      titulo: 'Acceso de uso',
+                      descripcion:
+                          'Le dice a Ora Ahora qué app acabas de abrir, '
+                          'para saber cuándo proponerte la pausa.',
+                      granted: _usageGranted,
+                      botonTexto: 'Activar Acceso de uso',
+                      instruccion:
+                          'En la pantalla que se abre, busca "Ora Ahora", '
+                          'tócala y enciende "Permitir acceso de uso".',
+                      onPressed: () =>
+                          _markSeenAnd(gate.openUsageAccessSettings),
                     ),
                     const SizedBox(height: 14),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.amberLight.withValues(alpha: 0.35),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        '⚠️ ¿Te aparece "Configuración restringida"?\n'
-                        'Es normal si instalaste la app por archivo APK. '
-                        'Solución: Ajustes → Aplicaciones → Ora Ahora → '
-                        'menú de 3 puntos (⋮) arriba a la derecha → '
-                        '"Permitir configuración restringida" (pide tu '
-                        'PIN) → vuelve a intentarlo.',
-                        style: AppTypography.body.copyWith(fontSize: 13.5),
-                      ),
+                    _PermisoCard(
+                      numero: '2',
+                      titulo: 'Mostrar sobre otras apps',
+                      descripcion:
+                          'Permite que la pausa de oración aparezca encima '
+                          'de la app que ibas a abrir.',
+                      granted: _overlayGranted,
+                      botonTexto: 'Permitir mostrar encima',
+                      instruccion:
+                          'En la pantalla que se abre, enciende el '
+                          'interruptor de "Ora Ahora".',
+                      onPressed: () => _markSeenAnd(gate.openOverlaySettings),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
                     Text(
-                      'Puedes desactivar este permiso cuando quieras desde el '
-                      'mismo lugar, y "Pausa y Ora" se apagará de inmediato. '
+                      'Puedes apagar estos permisos cuando quieras desde el '
+                      'mismo lugar, y "Pausa y Ora" se detendrá de inmediato. '
                       'Si te pierdes, vuelve aquí y empieza de nuevo: no pasa '
                       'nada 😊.',
-                      style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+                      style:
+                          AppTypography.body.copyWith(color: AppColors.inkSoft),
                     ),
                   ],
                 ),
@@ -172,7 +165,7 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
               child: Column(
                 children: [
-                  if (enabled)
+                  if (_allGranted)
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(14),
@@ -185,7 +178,8 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                           Icon(Icons.check_circle, color: AppColors.success),
                           SizedBox(width: 10),
                           Expanded(
-                            child: Text('El permiso ya está activo. ¡Gracias!'),
+                            child: Text(
+                                'Los dos permisos están activos. ¡Gracias!'),
                           ),
                         ],
                       ),
@@ -193,48 +187,43 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                   else
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final prefs = context.read<PrefsService>();
-                          await prefs.setAccessibilityExplainerSeen(true);
-                          final gate = context.read<GateService>();
-                          await gate.openAccessibilitySettings();
-                        },
-                        child: const Text('Ir a Ajustes de Accesibilidad'),
+                      child: OutlinedButton(
+                        onPressed: _checking
+                            ? null
+                            : () async {
+                                await _refreshStatus();
+                                if (!context.mounted) return;
+                                if (_allGranted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text(
+                                        '¡Permisos detectados! Pausa y Ora está activa ✅🙏'),
+                                  ));
+                                  Navigator.of(context).pop(true);
+                                } else {
+                                  final falta = (_usageGranted ?? false)
+                                      ? 'el permiso 2: "Mostrar sobre otras apps"'
+                                      : ((_overlayGranted ?? false)
+                                          ? 'el permiso 1: "Acceso de uso"'
+                                          : 'los dos permisos');
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Aún falta $falta 🤔 Usa el botón de '
+                                        'esa tarjeta y enciende el interruptor '
+                                        'de Ora Ahora.'),
+                                  ));
+                                }
+                              },
+                        child: Text(_checking
+                            ? 'Comprobando...'
+                            : 'Ya activé los permisos'),
                       ),
                     ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: _checking
-                          ? null
-                          : () async {
-                              await _refreshStatus();
-                              if (!context.mounted) return;
-                              if (_enabled ?? false) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text(
-                                      '¡Permiso detectado! Pausa y Ora está activo ✅🙏'),
-                                ));
-                                Navigator.of(context).pop(true);
-                              } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text(
-                                      'Aún no lo detecto 🤔 Asegúrate de ENCENDER el interruptor de "Ora Ahora" dentro de Accesibilidad y vuelve a tocar aquí.'),
-                                ));
-                              }
-                            },
-                      child: Text(
-                          _checking ? 'Comprobando...' : 'Ya activé el permiso'),
-                    ),
-                  ),
                   const SizedBox(height: 8),
                   TextButton(
-                    onPressed: () => Navigator.of(context).pop(enabled),
-                    child: const Text('Volver'),
+                    onPressed: () => Navigator.of(context).pop(_allGranted),
+                    child: Text(_allGranted ? 'Continuar' : 'Volver'),
                   ),
                 ],
               ),
@@ -246,37 +235,85 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
   }
 }
 
-class _PasoNum extends StatelessWidget {
-  final String n;
-  final String texto;
-  const _PasoNum({required this.n, required this.texto});
+class _PermisoCard extends StatelessWidget {
+  final String numero;
+  final String titulo;
+  final String descripcion;
+  final String instruccion;
+  final String botonTexto;
+  final bool? granted;
+  final VoidCallback onPressed;
+
+  const _PermisoCard({
+    required this.numero,
+    required this.titulo,
+    required this.descripcion,
+    required this.instruccion,
+    required this.botonTexto,
+    required this.granted,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
+    final activo = granted ?? false;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.75),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: activo ? AppColors.success : AppColors.tealLight,
+          width: activo ? 1.6 : 1.0,
+        ),
+      ),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 26,
-            height: 26,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColors.tealDeep,
-              shape: BoxShape.circle,
+          Row(
+            children: [
+              Container(
+                width: 26,
+                height: 26,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: activo ? AppColors.success : AppColors.tealDeep,
+                  shape: BoxShape.circle,
+                ),
+                child: activo
+                    ? const Icon(Icons.check, size: 16, color: Colors.white)
+                    : Text(numero,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                        )),
+              ),
+              const SizedBox(width: 10),
+              Expanded(child: Text(titulo, style: AppTypography.title)),
+              if (activo)
+                Text('Activado ✅',
+                    style: AppTypography.caption
+                        .copyWith(color: AppColors.success)),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(descripcion, style: AppTypography.body),
+          if (!activo) ...[
+            const SizedBox(height: 8),
+            Text(instruccion,
+                style: AppTypography.body
+                    .copyWith(fontSize: 13.5, color: AppColors.inkSoft)),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: onPressed,
+                child: Text(botonTexto),
+              ),
             ),
-            child: Text(n,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                )),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(texto, style: AppTypography.body),
-          ),
+          ],
         ],
       ),
     );
