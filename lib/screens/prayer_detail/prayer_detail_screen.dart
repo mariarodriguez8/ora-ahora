@@ -8,6 +8,7 @@ import '../../services/prefs_service.dart';
 import '../../services/purchase_service.dart';
 import '../../services/streak_service.dart';
 import '../../services/voice_prayer_service.dart';
+import '../../widgets/amen_celebration.dart';
 import '../voice_explainer/voice_explainer_screen.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
@@ -208,17 +209,23 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
     final yaHabiaOrado = streak.prayedToday;
     await _confirmPrayed();
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          yaHabiaOrado
-              ? '¡Amén! Tu árbol de fe sigue creciendo 🌱 '
-                  '(+${widget.prayer.duracionEstimadaMin} min)'
-              : 'Racha actualizada: ${streak.currentStreak} '
-                  '${streak.currentStreak == 1 ? "día" : "días"} seguidos 🔥',
+    if (yaHabiaOrado) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '¡Amén! Tu árbol de fe sigue creciendo 🌱 '
+            '(+${widget.prayer.duracionEstimadaMin} min)',
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      // Primera oracion del dia: momento Amen a pantalla completa.
+      await showAmenCelebration(
+        context,
+        streak: streak.currentStreak,
+        referencia: widget.prayer.referenciaBiblica,
+      );
+    }
   }
 
   Future<void> _startListening() async {
@@ -275,17 +282,23 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
     setState(() => _listening = false);
 
     final streak = context.read<StreakService>();
+    final yaHabiaOrado = streak.prayedToday;
     await _confirmPrayed();
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '¡Amén! 🙏 Te escuchamos orar. Racha actualizada: '
-          '${streak.currentStreak} '
-          '${streak.currentStreak == 1 ? "día" : "días"} seguidos 🙏',
+    if (yaHabiaOrado) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('¡Amén! Te escuchamos orar 🙏 Tu árbol sigue '
+              'creciendo 🌱'),
         ),
-      ),
-    );
+      );
+    } else {
+      await showAmenCelebration(
+        context,
+        streak: streak.currentStreak,
+        referencia: widget.prayer.referenciaBiblica,
+      );
+    }
   }
 
   /// Se llama cuando `speech_to_text` deja de escuchar sin que la

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/prayer.dart';
+import '../../services/prefs_service.dart';
 import '../../services/purchase_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
@@ -94,11 +96,19 @@ class _PaywallScreenState extends State<PaywallScreen> {
               style: AppTypography.caption.copyWith(color: AppColors.amber),
             ),
             const SizedBox(height: 8),
-            Text(
-              'Lleva tu vida de oración\nmás lejos',
-              textAlign: TextAlign.center,
-              style: AppTypography.display.copyWith(fontSize: 27),
-            ),
+            Builder(builder: (context) {
+              final cats = context.read<PrefsService>().preferredCategories;
+              final tema = cats.isEmpty
+                  ? null
+                  : PrayerCategories.displayName(cats.first).toLowerCase();
+              return Text(
+                tema == null
+                    ? 'Lleva tu vida de oración\nmás lejos'
+                    : 'Tu plan para\n$tema está listo',
+                textAlign: TextAlign.center,
+                style: AppTypography.display.copyWith(fontSize: 27),
+              );
+            }),
             const SizedBox(height: 24),
             const _FeatureRow(
               icon: Icons.lock_open,

@@ -8,8 +8,9 @@ import '../../services/purchase_service.dart';
 import '../../services/streak_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
+import '../../widgets/amen_celebration.dart';
 import 'onboarding_progress_dots.dart';
-import 'onboarding_reminders_screen.dart';
+import 'onboarding_commitment_screen.dart';
 
 /// El momento "aha" del onboarding: la persona ora AQUI MISMO su primera
 /// oracion (corta, elegida segun sus intereses) y arranca su racha en el
@@ -52,6 +53,11 @@ class _OnboardingFirstPrayerScreenState
     );
     if (!mounted) return;
     setState(() => _amen = true);
+    await showAmenCelebration(
+      context,
+      streak: 1,
+      referencia: _prayer?.referenciaBiblica ?? '',
+    );
   }
 
   @override
@@ -59,7 +65,7 @@ class _OnboardingFirstPrayerScreenState
     final prayer = _prayer;
     return Scaffold(
       backgroundColor: AppColors.cream,
-      appBar: const OnboardingTopBar(step: 3),
+      appBar: const OnboardingTopBar(step: 5),
       body: SafeArea(
         top: false,
         child: Padding(
@@ -126,7 +132,7 @@ class _OnboardingFirstPrayerScreenState
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) =>
-                                        const OnboardingRemindersScreen(),
+                                        const OnboardingCommitmentScreen(),
                                   ),
                                 );
                               }
