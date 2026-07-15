@@ -9,7 +9,7 @@ Funciones: oración del día · 152 oraciones locales en 14 categorías · racha
 ## 2. Dónde vive todo
 - **Repo:** `github.com/mariarodriguez8/ora-ahora` (a veces público temporalmente; debe volver a privado).
 - **Compilación:** GitHub Codespace "expert dollop" del repo (Flutter 3.44 ya configurado y parchado). Maria NO programa: todo se hace por ella.
-- **Estado actual: v5 compilada y pusheada** (commit "v5"). Los scripts `apply_redesign.sh`, `apply_v2..v5.sh` en la raíz son históricos (cada versión se entregó como script autocontenido); el código fuente en `lib/` ya los tiene aplicados.
+- **Estado actual: v7 compilada y pusheada** (commit "v7b", build EXITO_TOTAL_V7). Los scripts `apply_*.sh` en la raíz son históricos; el código fuente en `lib/` ya los tiene todo aplicado. Logo nuevo YA aplicado en mipmaps + store icon.
 
 ### Estructura del código
 ```
@@ -55,20 +55,20 @@ Gradle wrapper 8.9 · AGP 8.7.3 · coreLibraryDesugaring 2.1.4 · gradle.propert
 ## 4. Instalación en el teléfono de Maria (tester)
 APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono → instalar. **Android 13+ bloquea Accesibilidad a apps instaladas por APK** ("Configuración restringida"): se desbloquea en Ajustes → Aplicaciones → Ora Ahora → menú ⋮ → "Permitir configuración restringida". Esto desaparece al publicar en Play Store.
 
-## 5. PENDIENTES INMEDIATOS (hacer en este orden)
-0. **`bash apply_logo.sh`** en el Codespace (logo nuevo ya decidido, ver sección 6) y verificar que el ícono cambió en el APK.
-1. **Pantalla 1 del onboarding aburrida**: rehacerla nivel "WOW" inspirada en las primeras pantallas de las apps top actuales (movimiento, emoción, no un SVG + texto).
-2. **Coherencia oración↔tema elegido**: eligió "duelo/pérdida" y la primera oración salió de ansiedad. La primera oración y el feed deben respetar la PRIMERA categoría elegida (hoy `onboarding_first_prayer_screen._load()` ordena todo el pool por duración y toma la más corta).
-3. **Overlay "Amén"** (le encanta): al tocarlo debe AVANZAR directo a la siguiente pantalla, sin segundo botón "Continuar".
-4. **Pantalla del nombre**: "Continuar" con campo vacío NO debe avanzar — vibrar el campo; vacío solo con "Prefiero no decirlo".
-5. **GateExplainer**: tras conceder Accesibilidad, el botón "Ya activé el permiso" no aparece/no refresca; toca "Volver" para salir. Arreglar detección al volver (didChangeAppLifecycleState ya existe, revisar) + CTA visible.
-6. **Micrófono AÚN sin contexto**: la hoja de priming no aparece (sospecha: flags `voiceDisclosureSeen`/`micPrimingDone` persistidos por backup de instalación anterior). Basar el priming en el PERMISO REAL (checar RECORD_AUDIO/`hasPermission` de speech_to_text), no en flags guardados. Y **una sola pregunta**, no doble (hoja + explainer duplican).
-7. **UI de escucha del micrófono**: grande, central, con ondas/pulso "escuchando", integrada a la pantalla (no una sección abajo). Debe ser ultra-llamativa: se grabarán TikToks con esto.
-8. Añadir al GateExplainer el paso de "Configuración restringida" (sección 4).
+## 5. HECHO EN v6/v7 (feedback de Maria ya resuelto) + PENDIENTES
+
+### Resuelto y compilado (no rehacer):
+✅ Logo "halo+cruz+amanecer" aplicado (mipmaps + store icon) · ✅ Bienvenida WOW con degradado índigo→esmeralda y halo/cruz de luz animados · ✅ Onboarding de 11 pantallas con quiz, "preparando tu plan", testimonio, primera oración, pantalla de micrófono con contexto, pacto, recordatorios, Pausa y Ora · ✅ Coherencia oración↔tema (oración del día y primera oración salen del PRIMER tema elegido; feed ordenado por temas) · ✅ Overlay "Amén" dorado a pantalla completa que avanza solo · ✅ Campo de nombre vibra/sacude si está vacío · ✅ Botón "ya activé el permiso" responde siempre (celebra y cierra, o explica qué falta) + fallback nativo por packageName + guía de "Configuración restringida" · ✅ Micrófono: permiso basado en estado REAL del sistema, una sola pregunta, motor siempre inicializado antes de escuchar (bug "no lee" corregido) · ✅ UI de escucha: mic dorado gigante con ondas y degradado, oración compactada · ✅ 2 oraciones gratis + candados → paywall personalizado con el tema del quiz · ✅ Orar varias veces al día suma minutos al árbol · ✅ Mini-semilla con progreso junto a la racha.
+
+### Pendientes reales:
+1. Maria debe PROBAR v7 en su teléfono y reportar (especialmente: voz leyendo la oración, botón de permiso, coherencia de temas).
+2. Migración a "Acceso de uso" + overlay para Play Store (ver sección 6) — el pendiente grande.
+3. Ideas de retención aún no implementadas: widget de pantalla de inicio, retos "Ora40", compañeros de oración, anti-churn, notificaciones con nombre.
+4. Splash/launch screen aún es marfil plano — armonizarlo con el degradado del logo.
 
 ## 6. Backlog estratégico (decidido con investigación)
 - **Play Store**: migrar "Pausa y Ora" de Accesibilidad → "Acceso de uso" + overlay (Google rechaza Accesibilidad para esto) · build release firmado · política de privacidad URL · formularios Play Console · cuenta developer $25.
-- **Logo: DECIDIDO** — "Halo + cruz + amanecer" estilo 2026 (aro de luz dorado con cruz luminosa pequeña y resplandor de amanecer, sobre degradado índigo→esmeralda). Los PNGs finales (5 mipmaps + icon_512) están en `apply_logo.sh` en la raíz del repo: **correrlo en el Codespace es el PRIMER paso de la próxima sesión** (`bash apply_logo.sh`), antes de compilar. También conviene rediseñar el splash/launch para que combine con el degradado nuevo.
+- **Logo: DECIDIDO** — "Halo + cruz + amanecer" estilo 2026 (aro de luz dorado con cruz luminosa pequeña y resplandor de amanecer, sobre degradado índigo→esmeralda). **YA APLICADO en v6** (mipmaps + icon_512 en el código). Solo falta armonizar el splash/launch con el degradado nuevo.
 - Investigación completa (Cal AI 33 pantallas, paywall tras quiz 5x, Coconote UGC, Hallow) ya hecha: onboarding largo ✓ (11 pantallas), falta: widget de pantalla de inicio, retos ("Ora40"), compañeros de oración, anti-churn 7 días extra, notificaciones emocionales con nombre.
 - Backend futuro (cuentas/nube/comunidad): hoy TODO es local/offline (racha se pierde al desinstalar).
 - Paywall se mantiene SUAVE por decisión de Maria; 2 oraciones gratis en feed + resto candado.
