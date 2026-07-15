@@ -142,7 +142,7 @@ class _OnboardingFirstPrayerScreenState
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) =>
-                                        const OnboardingCommitmentScreen(),
+                                        const OnboardingMicScreen(),
                                   ),
                                 );
                               }
