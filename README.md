@@ -423,7 +423,7 @@ ora_ahora/
   android/
     app/src/main/
       AndroidManifest.xml
-      kotlin/com/proqube/oraahora/
+      kotlin/com.oraahora.app/
         MainActivity.kt
         PrayerGateAccessibilityService.kt
         PrayerGateActivity.kt

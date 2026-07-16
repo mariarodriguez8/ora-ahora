@@ -17,7 +17,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.proqube.oraahora"
+    namespace "com.oraahora.app"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.proqube.oraahora"
+        applicationId "com.oraahora.app"
         // flutter_local_notifications y device_apps funcionan desde API 21,
         // pero se fija 23 para simplificar el manejo de permisos en tiempo
         // de ejecucion (Android 6.0+) usados por "Pausa y Ora".

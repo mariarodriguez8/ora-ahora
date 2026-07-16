@@ -1,4 +1,4 @@
-package com.proqube.oraahora
+package com.oraahora.app
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -1,4 +1,4 @@
-package com.proqube.oraahora
+package com.oraahora.app
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,7 @@ import io.flutter.plugin.common.MethodChannel
 
 /**
  * Activity principal de Flutter. Ademas de arrancar el motor de Flutter,
- * expone un MethodChannel ("com.proqube.oraahora/gate") con operaciones
+ * expone un MethodChannel ("com.oraahora.app/gate") con operaciones
  * puntuales que si requieren codigo nativo:
  * - abrir las pantallas de Ajustes de Android para los dos permisos de
  *   "Pausa y Ora": "Acceso de uso" y "Mostrar sobre otras apps".
@@ -28,7 +28,7 @@ import io.flutter.plugin.common.MethodChannel
  * PrayerGateForegroundService.kt), sin necesidad de MethodChannel.
  */
 class MainActivity : FlutterActivity() {
-    private val channelName = "com.proqube.oraahora/gate"
+    private val channelName = "com.oraahora.app/gate"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

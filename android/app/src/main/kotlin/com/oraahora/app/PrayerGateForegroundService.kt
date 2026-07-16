@@ -1,4 +1,4 @@
-package com.proqube.oraahora
+package com.oraahora.app
 
 import android.app.AppOpsManager
 import android.app.Notification
@@ -95,7 +95,7 @@ class PrayerGateForegroundService : Service() {
         // Paquetes que nunca deben disparar el gate (la propia app y UI
         // del sistema que tambien genera eventos de primer plano).
         private val IGNORED_PACKAGES = setOf(
-            "com.proqube.oraahora",
+            "com.oraahora.app",
             "com.android.systemui",
             "android",
             "com.android.launcher3",

@@ -23,7 +23,7 @@ import 'prefs_service.dart';
 /// solo se usa para operaciones que si requieren codigo nativo puntual
 /// (abrir Ajustes, comprobar permisos, sincronizar el servicio detector).
 class GateService extends ChangeNotifier {
-  static const _channel = MethodChannel('com.proqube.oraahora/gate');
+  static const _channel = MethodChannel('com.oraahora.app/gate');
 
   final PrefsService _prefs;
 
