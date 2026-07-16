@@ -23,3 +23,8 @@ android/keystore-ora-ahora.jks
 *.jks
 ora-ahora-v8.apk.zip
 *.apk.zip
+
+# binarios de entrega
+*.aab
+ficha_play.zip
+ora-ahora.apk.zip

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 
 /// Barra superior compartida por TODAS las pantallas del onboarding:
-/// boton de volver + puntos de progreso. v11c: la ovejita (que eres tu,
-/// Juan 10:27) CAMINA sobre los puntos y avanza contigo en cada paso —
-/// asi la mascota acompana todo el onboarding de forma coherente con la
-/// narrativa "tu caminar con el Pastor".
+/// boton de volver + puntos de progreso + la ovejita.
+///
+/// v11d (pedido de Maria): la ovejita aparece COMPLETA (nunca recortada)
+/// en la esquina superior, alternando lado y POSE segun la pantalla —
+/// pensativa con signo de interrogacion cuando se pregunta el nombre,
+/// orando antes de la primera oracion, celebrando en el pacto, etc.
 class OnboardingTopBar extends StatelessWidget implements PreferredSizeWidget {
   final int step; // 0-indexado
   final int totalSteps;
@@ -20,16 +22,52 @@ class OnboardingTopBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(64);
+  Size get preferredSize => const Size.fromHeight(76);
+
+  /// Pose de la ovejita y lado (true = derecha) por paso del onboarding.
+  /// 0 nombre · 1 temas · 2 horarios · 3 plan · 4 testimonio ·
+  /// 5 primera oracion · 6 pacto · 7 recordatorios · 8 permisos · 9 final
+  static (String, bool) _poseFor(int step) {
+    switch (step) {
+      case 0:
+        return ('assets/mascot/ovejita_pensativa.png', true);
+      case 1:
+        return ('assets/mascot/ovejita_esperando.png', false);
+      case 2:
+        return ('assets/mascot/ovejita.png', true);
+      case 3:
+        return ('assets/mascot/ovejita_pensativa.png', false);
+      case 4:
+        return ('assets/mascot/ovejita_celebrando.png', true);
+      case 5:
+        return ('assets/mascot/ovejita_orando.png', false);
+      case 6:
+        return ('assets/mascot/ovejita_celebrando.png', true);
+      case 7:
+        return ('assets/mascot/ovejita_esperando.png', false);
+      case 8:
+        return ('assets/mascot/ovejita.png', true);
+      default:
+        return ('assets/mascot/ovejita_celebrando.png', true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Ancho fijo de la fila de puntos: (totalSteps) puntos de 7px con
-    // 6px de margen + 13px extra del punto activo (que mide 20px).
-    final dotsWidth = totalSteps * 13.0 + 13.0;
-    final sheepX = totalSteps <= 1
-        ? 0.0
-        : -1.0 + 2.0 * (step.clamp(0, totalSteps - 1)) / (totalSteps - 1);
+    final (asset, right) = _poseFor(step);
+
+    // La ovejita entra con un pequeno "pop" suave, completa y visible.
+    final sheep = TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.6, end: 1),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOutBack,
+      builder: (context, v, child) => Transform.scale(scale: v, child: child),
+      child: Image.asset(
+        asset,
+        height: 56,
+        fit: BoxFit.contain,
+      ),
+    );
 
     return SizedBox(
       height: preferredSize.height,
@@ -38,46 +76,28 @@ class OnboardingTopBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           children: [
             _BackCircle(onTap: onBack ?? () => Navigator.of(context).maybePop()),
+            if (!right) ...[const SizedBox(width: 10), sheep],
             const Spacer(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                // La ovejita avanza hasta quedar sobre el punto activo.
-                SizedBox(
-                  width: dotsWidth,
-                  height: 26,
-                  child: AnimatedAlign(
-                    duration: const Duration(milliseconds: 450),
-                    curve: Curves.easeOutCubic,
-                    alignment: Alignment(sheepX, 1),
-                    child: Image.asset(
-                      'assets/mascot/ovejita.png',
-                      height: 24,
-                      fit: BoxFit.contain,
-                    ),
+              children: List.generate(totalSteps, (i) {
+                final active = i == step;
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  width: active ? 20 : 7,
+                  height: 7,
+                  decoration: BoxDecoration(
+                    color: active ? AppColors.tealDeep : AppColors.tealLight,
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                ),
-                const SizedBox(height: 3),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(totalSteps, (i) {
-                    final active = i == step;
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 3),
-                      width: active ? 20 : 7,
-                      height: 7,
-                      decoration: BoxDecoration(
-                        color: active ? AppColors.tealDeep : AppColors.tealLight,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    );
-                  }),
-                ),
-              ],
+                );
+              }),
             ),
             const Spacer(),
-            const SizedBox(width: 40),
+            if (right)
+              sheep
+            else
+              const SizedBox(width: 56),
           ],
         ),
       ),

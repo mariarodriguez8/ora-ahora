@@ -194,10 +194,10 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                           ),
                           const SizedBox(height: 14),
                           Text(
-                            'Esta ovejita eres tú: "Mis ovejas oyen mi voz, '
-                            'y me siguen" (Juan 10:27). Oraciones que se '
-                            'sienten tuyas, una pausa antes de las apps que '
-                            'te roban la paz, y una fe que crece día a día 🌱',
+                            'Una oración corta cada día, a tu hora. Y una '
+                            'pausa para orar antes de abrir las apps que '
+                            'más te distraen. La ovejita eres tú: "Mis '
+                            'ovejas oyen mi voz, y me siguen" (Juan 10:27).',
                             style: AppTypography.bodyLarge.copyWith(
                                 color: _marfil.withValues(alpha: 0.78)),
                           ),
@@ -246,8 +246,8 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
             // PANTALLA (recorte transparente, mirando hacia la cruz),
             // entrando con un deslizamiento suave.
             Positioned(
-              right: -34,
-              bottom: -26,
+              right: 16,
+              bottom: 10,
               child: AnimatedBuilder(
                 animation: sheepIn,
                 builder: (context, child) {
@@ -255,18 +255,16 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                   return Opacity(
                     opacity: t,
                     child: Transform.translate(
-                      offset: Offset(60 * (1 - t), 60 * (1 - t)),
+                      offset: Offset(40 * (1 - t), 0),
                       child: child,
                     ),
                   );
                 },
-                child: Transform.rotate(
-                  angle: -0.18,
-                  child: Image.asset(
-                    'assets/mascot/ovejita_esperando.png',
-                    height: 150,
-                    fit: BoxFit.contain,
-                  ),
+                // v11d: la mascota OFICIAL, completa y sin recortar.
+                child: Image.asset(
+                  'assets/mascot/ovejita.png',
+                  height: 124,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),

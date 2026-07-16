@@ -294,6 +294,17 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       start: 0.05,
                       end: 0.6,
                     ),
+                    const SizedBox(height: 14),
+                    // 1b. v11d: guia clara de que hacer hoy (pedido de
+                    // Maria: "no queda claro que tengo que hacer").
+                    _staggeredSection(
+                      _NextStepCard(
+                        prayedToday: streak.prayedToday,
+                        onOrar: () => _openDetail(data.oracionDelDia),
+                      ),
+                      start: 0.1,
+                      end: 0.65,
+                    ),
                     const SizedBox(height: 24),
                     // 2. La oracion del dia, ahora segunda en jerarquia
                     // visual despues de la pradera (sigue siendo la
@@ -349,6 +360,56 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
   void _openDetail(Prayer prayer) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => PrayerDetailScreen(prayer: prayer)),
+    );
+  }
+}
+
+/// Tarjeta-guia del dia (v11d): le dice a la persona exactamente cual es
+/// su siguiente paso. Si aun no oro hoy, invita a la oracion del dia (y
+/// tocarla la abre); si ya oro, sugiere el diario o el feed, sin presion.
+class _NextStepCard extends StatelessWidget {
+  final bool prayedToday;
+  final VoidCallback onOrar;
+
+  const _NextStepCard({required this.prayedToday, required this.onOrar});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Material(
+      color: scheme.primaryContainer.withValues(alpha: 0.45),
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: prayedToday ? null : onOrar,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          child: Row(
+            children: [
+              Text(
+                prayedToday ? '✨' : '👉',
+                style: const TextStyle(fontSize: 20),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  prayedToday
+                      ? 'Ya oraste hoy. Si quieres más, escribe una '
+                          'intención en tu Diario o explora "Para ti".'
+                      : 'Tu paso de hoy: ora la oración del día. '
+                          'Toma 2 minutos — toca aquí.',
+                  style: AppTypography.body.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: scheme.onSurface,
+                  ),
+                ),
+              ),
+              if (!prayedToday)
+                Icon(Icons.chevron_right, color: scheme.primary),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

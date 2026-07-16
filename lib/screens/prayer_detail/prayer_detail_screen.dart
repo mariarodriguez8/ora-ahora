@@ -64,10 +64,12 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
       : _matchedTokens.length / _prayerTokens.length;
 
   /// Cobertura minima de la oracion dicha en voz alta para confirmarla.
-  static const double _coverageToConfirm = 0.55;
+  /// v11d (pedido de Maria): 90% — antes se confirmaba a mitad de la
+  /// oracion, ahora hay que decirla casi completa.
+  static const double _coverageToConfirm = 0.90;
 
   /// Si la persona cierra con "amen", basta con esta cobertura.
-  static const double _coverageWithAmen = 0.30;
+  static const double _coverageWithAmen = 0.75;
 
   @override
   void initState() {
@@ -392,6 +394,19 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
                     ),
                   ),
                 ),
+                // v11d: al terminar (por voz o manual) aparece un boton
+                // claro para continuar, sin tener que usar "atras".
+                if (_markedNow) ...[
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.check_rounded),
+                      label: const Text('Continuar 🌿'),
+                    ),
+                  ),
+                ],
                 if (!_markedNow) ...[
                   const SizedBox(height: 14),
                   _VoicePrayerSection(
@@ -604,10 +619,11 @@ class _VoicePrayerSection extends StatelessWidget {
                               ],
                             ),
                           ),
-                          // La ovejita, grande y al centro, ora contigo.
+                          // La ovejita COMPLETA (no cortada), grande y
+                          // al centro, orando contigo (v11d).
                           Image.asset(
-                            'assets/mascot/ovejita_escuchando.png',
-                            height: 154,
+                            'assets/mascot/ovejita_orando.png',
+                            height: 158,
                             fit: BoxFit.contain,
                           ),
                           // El microfono queda como insignia pequena.

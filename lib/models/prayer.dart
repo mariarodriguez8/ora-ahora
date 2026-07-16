@@ -114,4 +114,41 @@ class PrayerCategories {
         return categoria;
     }
   }
+
+  /// Emoji de cada categoria (v11d): los MISMOS que usa el onboarding,
+  /// para que toda la app hable igual (Ajustes > Mis intereses incluido).
+  static String emojiFor(String categoria) {
+    switch (categoria) {
+      case manana:
+        return '🌅';
+      case noche:
+        return '😴';
+      case ansiedad:
+        return '😟';
+      case gratitud:
+        return '🙌';
+      case familia:
+        return '👨‍👩‍👧';
+      case trabajo:
+        return '💼';
+      case tentacionEnfoque:
+        return '📵';
+      case sanidad:
+        return '🌿';
+      case perdon:
+        return '🤝';
+      case duelo:
+        return '🕯️';
+      case soledad:
+        return '🫂';
+      case matrimonio:
+        return '💛';
+      case finanzas:
+        return '🪙';
+      case paz:
+        return '🕊️';
+      default:
+        return '🙏';
+    }
+  }
 }
