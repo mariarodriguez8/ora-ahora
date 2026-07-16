@@ -17,7 +17,8 @@ import 'privacy_screen.dart';
 import 'reminders_screen.dart';
 
 /// Pantalla de Ajustes: punto de entrada a recordatorios, "Pausa y Ora",
-/// intereses, plan Plus, privacidad y acerca de.
+/// intereses, plan Plus, privacidad y acerca de. v11c: la ovejita
+/// acompana tambien esta pantalla desde el encabezado.
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -26,7 +27,20 @@ class SettingsScreen extends StatelessWidget {
     final isPlus = context.watch<PurchaseService>().isPlusUser;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Ajustes')),
+      appBar: AppBar(
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/mascot/ovejita.png',
+              height: 28,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 10),
+            const Text('Ajustes'),
+          ],
+        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 12),
         children: [

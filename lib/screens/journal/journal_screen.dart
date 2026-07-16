@@ -11,6 +11,8 @@ import 'journal_entry_editor_screen.dart';
 
 /// Diario de oracion: lista de intenciones/peticiones escritas por el
 /// usuario, agrupadas por fecha, con opcion de marcar como "Respondida".
+/// v11c: la ovejita acompana el diario — en el estado vacio mira el libro
+/// abierto contigo, y con entradas te saluda desde el encabezado.
 class JournalScreen extends StatefulWidget {
   const JournalScreen({super.key});
 
@@ -111,12 +113,29 @@ class _JournalScreenState extends State<JournalScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Ilustracion original (libro abierto con paginas en
-                  // blanco, ver `assets/illustrations/journal_empty.svg`)
-                  // en reemplazo del icono generico `Icons.menu_book_outlined`.
-                  SvgPicture.asset(
-                    'assets/illustrations/journal_empty.svg',
-                    width: 168,
+                  // Libro abierto + la ovejita mirandolo contigo (v11c).
+                  SizedBox(
+                    width: 220,
+                    height: 150,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.none,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/illustrations/journal_empty.svg',
+                          width: 168,
+                        ),
+                        Positioned(
+                          right: -6,
+                          bottom: -8,
+                          child: Image.asset(
+                            'assets/mascot/ovejita_esperando.png',
+                            height: 86,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Text(
@@ -140,9 +159,33 @@ class _JournalScreenState extends State<JournalScreen> {
 
           return ListView.builder(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 100),
-            itemCount: dateKeys.length,
+            itemCount: dateKeys.length + 1,
             itemBuilder: (context, index) {
-              final key = dateKeys[index];
+              if (index == 0) {
+                // Encabezado con la ovejita (v11c): el diario tambien es
+                // parte del caminar con el Pastor.
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/mascot/ovejita.png',
+                        height: 34,
+                        fit: BoxFit.contain,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Él escucha cada una de tus intenciones 🌿',
+                          style: AppTypography.caption
+                              .copyWith(color: AppColors.inkSoft),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              final key = dateKeys[index - 1];
               final entries = grouped[key]!;
               final label =
                   DateFormat("d 'de' MMMM, y", 'es').format(entries.first.fecha);

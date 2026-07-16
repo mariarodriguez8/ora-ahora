@@ -490,10 +490,10 @@ class _PrayerHeroCard extends StatelessWidget {
 /// de la propia oracion (que porcentaje del texto ya se dijo). Todo el
 /// estado vive en `_PrayerDetailScreenState`.
 ///
-/// v11b: mientras se escucha, la ovejita asoma SOLO LA CABEZA por el
-/// borde inferior del panel (ojos cerrados, escuchando en paz), como
-/// pide el rediseno "Tu caminar con el Pastor". La imagen queda recortada
-/// por el propio panel (`clipBehavior`), asi que literalmente "se asoma".
+/// v11c (pedido de Maria): mientras se escucha, la ovejita esta en
+/// GRANDE y AL CENTRO del panel, orando contigo — el halo dorado respira
+/// detras de ella y el microfono queda como una insignia pequena a su
+/// lado. Nada de esquinas: ella es la protagonista de este momento.
 class _VoicePrayerSection extends StatelessWidget {
   final bool listening;
   final String partialText;
@@ -580,9 +580,10 @@ class _VoicePrayerSection extends StatelessWidget {
                         children: [
                           onda(150, 0.35),
                           onda(118, 0.55),
+                          // Halo dorado que respira DETRAS de la ovejita.
                           Container(
-                            width: 104,
-                            height: 104,
+                            width: 126,
+                            height: 126,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: const RadialGradient(
@@ -602,8 +603,28 @@ class _VoicePrayerSection extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: const Icon(Icons.mic_rounded,
-                                size: 48, color: Color(0xFF241F10)),
+                          ),
+                          // La ovejita, grande y al centro, ora contigo.
+                          Image.asset(
+                            'assets/mascot/ovejita_escuchando.png',
+                            height: 154,
+                            fit: BoxFit.contain,
+                          ),
+                          // El microfono queda como insignia pequena.
+                          Positioned(
+                            bottom: 6,
+                            right: 24,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFFFD18C),
+                              ),
+                              child: const Icon(Icons.mic_rounded,
+                                  size: 22, color: Color(0xFF241F10)),
+                            ),
                           ),
                         ],
                       );
@@ -656,21 +677,7 @@ class _VoicePrayerSection extends StatelessWidget {
                           color: const Color(0xFFF7F3EA)
                               .withValues(alpha: 0.6))),
                 ),
-                // Aire extra para que la cabeza de la ovejita no tape el
-                // boton de cancelar.
-                const SizedBox(height: 30),
               ],
-            ),
-          ),
-          // La ovejita asoma solo la cabeza por el borde inferior,
-          // escuchando en paz (el panel la recorta con clipBehavior).
-          Positioned(
-            bottom: -16,
-            right: 14,
-            child: Image.asset(
-              'assets/mascot/ovejita_escuchando.png',
-              height: 82,
-              fit: BoxFit.contain,
             ),
           ),
         ],
