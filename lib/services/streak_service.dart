@@ -301,4 +301,14 @@ class StreakService extends ChangeNotifier {
         _dateOnly(DateTime.now()).difference(_dateOnly(last)).inDays;
     return daysSince >= 1;
   }
+
+  /// Dias completos desde la ultima oracion (0 = oro hoy), o `null` si
+  /// nunca ha orado. 2+ dias = momento "oveja perdida" (Lucas 15): la
+  /// pradera y las notificaciones reciben a la persona con gracia,
+  /// nunca con culpa.
+  int? get daysSinceLastPrayed {
+    final last = _state.lastPrayedDate;
+    if (last == null) return null;
+    return _dateOnly(DateTime.now()).difference(_dateOnly(last)).inDays;
+  }
 }

@@ -27,6 +27,10 @@ class MeadowHero extends StatelessWidget {
   final int minutesToday;
   final int cumulativeMinutes;
 
+  /// `true` cuando pasaron 2+ dias sin orar (la "oveja perdida" de
+  /// Lucas 15): la pradera recibe con gracia, nunca con culpa.
+  final bool sheepLost;
+
   /// Fichas de congelacion visibles (solo usuarios Plus con fichas > 0),
   /// o `null` para no mostrar nada.
   final int? freezeTokens;
@@ -38,6 +42,7 @@ class MeadowHero extends StatelessWidget {
     required this.prayedToday,
     required this.minutesToday,
     required this.cumulativeMinutes,
+    this.sheepLost = false,
     this.freezeTokens,
   });
 
@@ -49,8 +54,20 @@ class MeadowHero extends StatelessWidget {
 
   String get _statusMessage {
     if (prayedToday) return 'Hoy ya caminaste con Él ✨';
+    if (sheepLost) return 'Él deja las 99 y viene por ti 💛';
     if (atRisk && streak > 0) return 'El Pastor te espera hoy 🌿';
     return '«En verdes pastos me hace descansar»';
+  }
+
+  /// Expresion de la ovejita segun el momento: celebrando si ya oro,
+  /// "oveja perdida" (mirando hacia atras, esperanzada) si pasaron 2+
+  /// dias, esperando si la racha esta en riesgo, y caminando feliz el
+  /// resto del tiempo. Todas derivan del personaje oficial.
+  String get _mascotAsset {
+    if (prayedToday) return 'assets/mascot/ovejita_celebrando.png';
+    if (sheepLost) return 'assets/mascot/ovejita_perdida.png';
+    if (atRisk && streak > 0) return 'assets/mascot/ovejita_esperando.png';
+    return 'assets/mascot/ovejita.png';
   }
 
   @override
@@ -119,14 +136,25 @@ class MeadowHero extends StatelessWidget {
                 ),
               ),
             ),
-            // La ovejita (eres tu, siempre feliz) junto al arroyo.
+            // La ovejita (eres tu, siempre feliz) junto al arroyo, con
+            // la expresion del momento (celebrando / esperando / perdida
+            // que vuelve / caminando). El cambio se anima suave.
             Positioned(
               left: 20,
               bottom: 12,
-              child: Image.asset(
-                'assets/mascot/ovejita.png',
-                height: 66,
-                fit: BoxFit.contain,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 450),
+                switchInCurve: Curves.easeOutBack,
+                transitionBuilder: (child, animation) => ScaleTransition(
+                  scale: animation,
+                  child: FadeTransition(opacity: animation, child: child),
+                ),
+                child: Image.asset(
+                  _mascotAsset,
+                  key: ValueKey(_mascotAsset),
+                  height: 66,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             // Contenido principal: overline + numero gigante + etiqueta +

@@ -286,6 +286,7 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                         prayedToday: streak.prayedToday,
                         minutesToday: streak.minutesToday,
                         cumulativeMinutes: streak.cumulativeMinutes,
+                        sheepLost: (streak.daysSinceLastPrayed ?? 0) >= 2,
                         freezeTokens: (isPlus && streak.freezeTokens > 0)
                             ? streak.freezeTokens
                             : null,
@@ -706,8 +707,14 @@ class _MilestoneCelebrationOverlayState
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.celebration, size: 48, color: AppColors.amber),
-                    const SizedBox(height: 16),
+                    // v11b: la ovejita celebra el hito contigo (antes era
+                    // un icono generico de Material).
+                    Image.asset(
+                      'assets/mascot/ovejita_celebrando.png',
+                      height: 96,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 12),
                     Text(
                       StreakService.milestoneMessage(widget.milestone),
                       textAlign: TextAlign.center,

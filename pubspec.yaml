@@ -34,7 +34,10 @@ flutter:
 
   assets:
     - assets/data/prayers_es.json
-    - assets/mascot/ovejita.png
+    # v11b: carpeta completa de la mascota (ovejita.png + expresiones
+    # celebrando / esperando / escuchando / perdida, derivadas del
+    # personaje oficial).
+    - assets/mascot/
     - assets/illustrations/onboarding_hero.svg
     - assets/illustrations/tree_semilla.svg
     - assets/illustrations/tree_brote.svg

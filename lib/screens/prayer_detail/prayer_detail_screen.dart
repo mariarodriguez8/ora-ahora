@@ -489,6 +489,11 @@ class _PrayerHeroCard extends StatelessWidget {
 /// Boton "Orar en voz alta" + indicador de escucha con barra de progreso
 /// de la propia oracion (que porcentaje del texto ya se dijo). Todo el
 /// estado vive en `_PrayerDetailScreenState`.
+///
+/// v11b: mientras se escucha, la ovejita asoma SOLO LA CABEZA por el
+/// borde inferior del panel (ojos cerrados, escuchando en paz), como
+/// pide el rediseno "Tu caminar con el Pastor". La imagen queda recortada
+/// por el propio panel (`clipBehavior`), asi que literalmente "se asoma".
 class _VoicePrayerSection extends StatelessWidget {
   final bool listening;
   final String partialText;
@@ -535,7 +540,7 @@ class _VoicePrayerSection extends StatelessWidget {
     final pct = (coverage * 100).clamp(0, 100).round();
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 26, 18, 14),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
@@ -544,108 +549,129 @@ class _VoicePrayerSection extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(26),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          // MIC GIGANTE con ondas que respiran (hecho para grabarse)
-          SizedBox(
-            width: 190,
-            height: 190,
-            child: AnimatedBuilder(
-              animation: pulseController,
-              builder: (context, _) {
-                final v = pulseController.value;
-                Widget onda(double base, double alpha) => Container(
-                      width: base + 46 * v,
-                      height: base + 46 * v,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFFFD18C)
-                              .withValues(alpha: alpha * (1 - v * 0.6)),
-                          width: 2.5,
-                        ),
-                      ),
-                    );
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    onda(150, 0.35),
-                    onda(118, 0.55),
-                    Container(
-                      width: 104,
-                      height: 104,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: const RadialGradient(
-                          colors: [
-                            Color(0xFFFFE7C2),
-                            Color(0xFFFFD18C),
-                            Color(0xFFE2A85B),
-                          ],
-                          stops: [0.0, 0.6, 1.0],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFFFFD18C)
-                                .withValues(alpha: 0.45 + 0.3 * v),
-                            blurRadius: 34 + 18 * v,
-                            spreadRadius: 4,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 26, 18, 14),
+            child: Column(
+              children: [
+                // MIC GIGANTE con ondas que respiran (hecho para grabarse)
+                SizedBox(
+                  width: 190,
+                  height: 190,
+                  child: AnimatedBuilder(
+                    animation: pulseController,
+                    builder: (context, _) {
+                      final v = pulseController.value;
+                      Widget onda(double base, double alpha) => Container(
+                            width: base + 46 * v,
+                            height: base + 46 * v,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: const Color(0xFFFFD18C)
+                                    .withValues(alpha: alpha * (1 - v * 0.6)),
+                                width: 2.5,
+                              ),
+                            ),
+                          );
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          onda(150, 0.35),
+                          onda(118, 0.55),
+                          Container(
+                            width: 104,
+                            height: 104,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: const RadialGradient(
+                                colors: [
+                                  Color(0xFFFFE7C2),
+                                  Color(0xFFFFD18C),
+                                  Color(0xFFE2A85B),
+                                ],
+                                stops: [0.0, 0.6, 1.0],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFFFFD18C)
+                                      .withValues(alpha: 0.45 + 0.3 * v),
+                                  blurRadius: 34 + 18 * v,
+                                  spreadRadius: 4,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(Icons.mic_rounded,
+                                size: 48, color: Color(0xFF241F10)),
                           ),
                         ],
-                      ),
-                      child: const Icon(Icons.mic_rounded,
-                          size: 48, color: Color(0xFF241F10)),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text('Te escucho… sigue orando 🙏',
+                    style: AppTypography.headline.copyWith(
+                        fontSize: 20, color: const Color(0xFFF7F3EA))),
+                const SizedBox(height: 12),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(999),
+                  child: LinearProgressIndicator(
+                    value: coverage.clamp(0.0, 1.0),
+                    minHeight: 10,
+                    backgroundColor: Colors.white.withValues(alpha: 0.15),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color(0xFFFFD18C)),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  pct == 0
+                      ? 'Lee la oración en voz alta, con calma'
+                      : 'Ya llevas el $pct% · cierra con "Amén"',
+                  style: AppTypography.caption.copyWith(
+                      color: const Color(0xFFF7F3EA).withValues(alpha: 0.7),
+                      letterSpacing: 0.4),
+                  textAlign: TextAlign.center,
+                ),
+                if (partialText.trim().isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    partialText,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.quote.copyWith(
+                      fontSize: 13.5,
+                      color: const Color(0xFFF7F3EA).withValues(alpha: 0.75),
                     ),
-                  ],
-                );
-              },
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+                const SizedBox(height: 4),
+                TextButton(
+                  onPressed: onCancel,
+                  child: Text('Cancelar',
+                      style: TextStyle(
+                          color: const Color(0xFFF7F3EA)
+                              .withValues(alpha: 0.6))),
+                ),
+                // Aire extra para que la cabeza de la ovejita no tape el
+                // boton de cancelar.
+                const SizedBox(height: 30),
+              ],
             ),
           ),
-          const SizedBox(height: 8),
-          Text('Te escucho… sigue orando 🙏',
-              style: AppTypography.headline.copyWith(
-                  fontSize: 20, color: const Color(0xFFF7F3EA))),
-          const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: coverage.clamp(0.0, 1.0),
-              minHeight: 10,
-              backgroundColor: Colors.white.withValues(alpha: 0.15),
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                  Color(0xFFFFD18C)),
+          // La ovejita asoma solo la cabeza por el borde inferior,
+          // escuchando en paz (el panel la recorta con clipBehavior).
+          Positioned(
+            bottom: -16,
+            right: 14,
+            child: Image.asset(
+              'assets/mascot/ovejita_escuchando.png',
+              height: 82,
+              fit: BoxFit.contain,
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            pct == 0
-                ? 'Lee la oración en voz alta, con calma'
-                : 'Ya llevas el $pct% · cierra con "Amén"',
-            style: AppTypography.caption.copyWith(
-                color: const Color(0xFFF7F3EA).withValues(alpha: 0.7),
-                letterSpacing: 0.4),
-            textAlign: TextAlign.center,
-          ),
-          if (partialText.trim().isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              partialText,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: AppTypography.quote.copyWith(
-                fontSize: 13.5,
-                color: const Color(0xFFF7F3EA).withValues(alpha: 0.75),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-          const SizedBox(height: 4),
-          TextButton(
-            onPressed: onCancel,
-            child: Text('Cancelar',
-                style: TextStyle(
-                    color: const Color(0xFFF7F3EA)
-                        .withValues(alpha: 0.6))),
           ),
         ],
       ),
