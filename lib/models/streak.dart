@@ -12,6 +12,14 @@
 /// acumula los minutos estimados de todas las oraciones marcadas como
 /// oradas a lo largo del tiempo (independientemente de si la racha se
 /// reinicio o no), y alimenta el widget visual "Semilla/Arbol de fe".
+///
+/// v11: `minutesToday` + `minutesTodayDayKey` guardan los minutos orados
+/// SOLO hoy (alimentan el "anillo de minutos del dia" de la pradera del
+/// Salmo 23 en el inicio). `minutesTodayDayKey` es la fecha local
+/// "yyyy-MM-dd" a la que pertenece el conteo: si al leer no coincide con
+/// hoy, el conteo efectivo es 0 (ver `StreakService.minutesToday`). Ambos
+/// campos son opcionales en el JSON, asi el estado guardado por versiones
+/// anteriores sigue cargando sin migracion.
 class StreakState {
   final int currentStreak;
   final int longestStreak;
@@ -21,6 +29,13 @@ class StreakState {
   final int freezeTokens;
   final String? freezeTokensGrantMonthKey;
   final int cumulativeMinutes;
+
+  /// Minutos orados en el dia indicado por [minutesTodayDayKey].
+  final int minutesToday;
+
+  /// Fecha local "yyyy-MM-dd" a la que pertenece [minutesToday], o `null`
+  /// si nunca se registro un minuto diario (instalaciones previas a v11).
+  final String? minutesTodayDayKey;
 
   /// Ultimo hito de racha (ver `StreakService.milestones`) que ya se
   /// celebro con la animacion del inicio, para que la celebracion se
@@ -37,6 +52,8 @@ class StreakState {
     this.freezeTokens = 0,
     this.freezeTokensGrantMonthKey,
     this.cumulativeMinutes = 0,
+    this.minutesToday = 0,
+    this.minutesTodayDayKey,
     this.lastCelebratedMilestone = 0,
   });
 
@@ -50,6 +67,8 @@ class StreakState {
       freezeTokens: 0,
       freezeTokensGrantMonthKey: null,
       cumulativeMinutes: 0,
+      minutesToday: 0,
+      minutesTodayDayKey: null,
       lastCelebratedMilestone: 0,
     );
   }
@@ -68,6 +87,8 @@ class StreakState {
     int? freezeTokens,
     String? freezeTokensGrantMonthKey,
     int? cumulativeMinutes,
+    int? minutesToday,
+    String? minutesTodayDayKey,
     int? lastCelebratedMilestone,
   }) {
     return StreakState(
@@ -80,6 +101,8 @@ class StreakState {
       freezeTokensGrantMonthKey:
           freezeTokensGrantMonthKey ?? this.freezeTokensGrantMonthKey,
       cumulativeMinutes: cumulativeMinutes ?? this.cumulativeMinutes,
+      minutesToday: minutesToday ?? this.minutesToday,
+      minutesTodayDayKey: minutesTodayDayKey ?? this.minutesTodayDayKey,
       lastCelebratedMilestone:
           lastCelebratedMilestone ?? this.lastCelebratedMilestone,
     );
@@ -99,6 +122,8 @@ class StreakState {
       freezeTokens: json['freezeTokens'] as int? ?? 0,
       freezeTokensGrantMonthKey: json['freezeTokensGrantMonthKey'] as String?,
       cumulativeMinutes: json['cumulativeMinutes'] as int? ?? 0,
+      minutesToday: json['minutesToday'] as int? ?? 0,
+      minutesTodayDayKey: json['minutesTodayDayKey'] as String?,
       lastCelebratedMilestone: json['lastCelebratedMilestone'] as int? ?? 0,
     );
   }
@@ -113,6 +138,8 @@ class StreakState {
       'freezeTokens': freezeTokens,
       'freezeTokensGrantMonthKey': freezeTokensGrantMonthKey,
       'cumulativeMinutes': cumulativeMinutes,
+      'minutesToday': minutesToday,
+      'minutesTodayDayKey': minutesTodayDayKey,
       'lastCelebratedMilestone': lastCelebratedMilestone,
     };
   }

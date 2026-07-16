@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/prayer.dart';
@@ -12,9 +11,8 @@ import '../../services/route_observer.dart';
 import '../../services/streak_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
-import '../../widgets/faith_tree_widget.dart';
+import '../../widgets/meadow_hero.dart';
 import '../../widgets/prayer_card.dart';
-import '../../widgets/streak_badge.dart';
 import '../journal/journal_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../prayer_detail/prayer_detail_screen.dart';
@@ -98,7 +96,7 @@ class _HomeFeedTab extends StatefulWidget {
 /// `SingleTickerProviderStateMixin` se agrega unicamente para poder animar
 /// la entrada escalonada ("staggered") de las secciones del inicio la
 /// primera vez que se construyen (ver `_entranceController`/
-/// `_sectionAnimation`), con una curva organica en vez del aparecer seco
+/// `_staggeredSection`), con una curva organica en vez del aparecer seco
 /// de antes.
 class _HomeFeedTabState extends State<_HomeFeedTab>
     with RouteAware, SingleTickerProviderStateMixin {
@@ -118,8 +116,8 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
     );
     _entranceController.forward();
     // Se aprovecha para refrescar el cupo mensual de fichas de
-    // congelación (solo aplica si el usuario es Plus), asi la insignia de
-    // racha muestra el conteo correcto sin que el usuario tenga que orar
+    // congelación (solo aplica si el usuario es Plus), asi la pradera
+    // muestra el conteo correcto sin que el usuario tenga que orar
     // primero.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -262,51 +260,62 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                   children: [
-                    // 0. Encabezado calido: saludo segun la hora del dia +
-                    // insignia de racha, en vez de un AppBar generico.
+                    // 0. Encabezado calido: saludo segun la hora del dia,
+                    // ahora mas liviano (la racha y el arbol viven en la
+                    // pradera de abajo, no aqui).
                     _staggeredSection(
                       SafeArea(
                         bottom: false,
                         child: _GreetingHeader(
-                          streak: streak.currentStreak,
-                          atRisk: streak.streakAtRisk,
                           nombre: context.read<PrefsService>().userName,
-                          cumulativeMinutes: streak.cumulativeMinutes,
-                          freezeTokens:
-                              (isPlus && streak.freezeTokens > 0)
-                                  ? streak.freezeTokens
-                                  : null,
                         ),
                       ),
                       start: 0.0,
-                      end: 0.5,
+                      end: 0.45,
                     ),
-                    const SizedBox(height: 20),
-                    // 1. Hero: la oracion del dia es el unico elemento
-                    // dominante de la pantalla (fondo tonal propio,
-                    // capas suaves de profundidad, tipografia mas grande).
+                    const SizedBox(height: 16),
+                    // 1. HERO v11: la pradera del Salmo 23 — numero
+                    // gigante de racha ("dias caminando con el Pastor"),
+                    // anillo de minutos del dia, arbol de fe, arroyo,
+                    // flores que crecen con los minutos orados y la
+                    // ovejita (que eres tu).
+                    _staggeredSection(
+                      MeadowHero(
+                        streak: streak.currentStreak,
+                        atRisk: streak.streakAtRisk,
+                        prayedToday: streak.prayedToday,
+                        minutesToday: streak.minutesToday,
+                        cumulativeMinutes: streak.cumulativeMinutes,
+                        freezeTokens: (isPlus && streak.freezeTokens > 0)
+                            ? streak.freezeTokens
+                            : null,
+                      ),
+                      start: 0.05,
+                      end: 0.6,
+                    ),
+                    const SizedBox(height: 24),
+                    // 2. La oracion del dia, ahora segunda en jerarquia
+                    // visual despues de la pradera (sigue siendo la
+                    // accion principal del dia).
                     _staggeredSection(
                       _HeroPrayerSection(
                         prayer: data.oracionDelDia,
                         onTap: () => _openDetail(data.oracionDelDia),
                       ),
-                      start: 0.0,
-                      end: 0.65,
+                      start: 0.15,
+                      end: 0.75,
                     ),
-                    const SizedBox(height: 24),
-                    // 2. Soporte secundario: arbol de fe + prueba social,
-                    // visualmente mas pequeños/ligeros que el hero.
+                    const SizedBox(height: 16),
+                    // 3. Prueba social honesta.
                     _staggeredSection(
-                      _SecondarySupportSection(
-                        cumulativeMinutes: streak.cumulativeMinutes,
+                      _SocialProofBanner(
                         prayingNowEstimate: data.prayingNowEstimate,
                       ),
-                      start: 0.15,
-                      end: 0.8,
+                      start: 0.3,
+                      end: 0.85,
                     ),
                     const SizedBox(height: 28),
-                    // 3. Feed personalizado + banner Plus, tambien
-                    // secundario frente al hero.
+                    // 4. Feed personalizado + banner Plus.
                     _staggeredSection(
                       _ParaTiSection(
                         feed: data.feed,
@@ -318,7 +327,7 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                           );
                         },
                       ),
-                      start: 0.3,
+                      start: 0.4,
                       end: 1.0,
                     ),
                   ],
@@ -343,23 +352,14 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
   }
 }
 
-/// Encabezado calido del inicio: saludo serif segun la hora del dia,
-/// fecha en espanol y la insignia de racha a la derecha. Reemplaza al
-/// AppBar generico de Material.
+/// Encabezado calido del inicio: avatar de la ovejita, fecha en español y
+/// saludo serif segun la hora del dia. Desde v11 es deliberadamente
+/// liviano: la racha, el arbol y los minutos viven en la pradera
+/// (`MeadowHero`), no aqui.
 class _GreetingHeader extends StatelessWidget {
-  final int streak;
-  final bool atRisk;
-  final int? freezeTokens;
   final String nombre;
-  final int cumulativeMinutes;
 
-  const _GreetingHeader({
-    required this.streak,
-    required this.atRisk,
-    required this.nombre,
-    required this.cumulativeMinutes,
-    this.freezeTokens,
-  });
+  const _GreetingHeader({required this.nombre});
 
   String get _saludo {
     final hour = DateTime.now().hour;
@@ -401,14 +401,14 @@ class _GreetingHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 18),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 12, top: 2),
+            padding: const EdgeInsets.only(right: 12),
             child: ClipOval(
               child: Container(
-                width: 54,
-                height: 54,
+                width: 48,
+                height: 48,
                 color: scheme.primaryContainer,
                 padding: const EdgeInsets.all(5),
                 child: Image.asset(
@@ -428,93 +428,15 @@ class _GreetingHeader extends StatelessWidget {
                     color: scheme.secondary,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
-                  nombre.isEmpty ? _saludo : '$_saludo,\n$nombre 🌅',
+                  nombre.isEmpty ? _saludo : '$_saludo, $nombre 🌅',
                   style: AppTypography.display.copyWith(
-                    fontSize: 27,
+                    fontSize: 24,
                     color: scheme.onSurface,
                   ),
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  'Dios tiene algo para ti hoy ✨',
-                  style: AppTypography.body.copyWith(
-                    color: scheme.onSurfaceVariant,
-                  ),
-                ),
               ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              StreakBadge(streak: streak, atRisk: atRisk),
-              const SizedBox(height: 8),
-              _MiniSemilla(cumulativeMinutes: cumulativeMinutes),
-              if (freezeTokens != null) ...[
-                const SizedBox(height: 8),
-                _FreezeTokensChip(tokens: freezeTokens!),
-              ],
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Semilla compacta junto a la racha: muestra la etapa actual del arbol
-/// de fe y una barrita de progreso hacia la siguiente etapa. Al crecer,
-/// la ilustracion cambia con una animacion suave (dopamina del progreso
-/// visible cada dia, sin numeros grandes).
-class _MiniSemilla extends StatelessWidget {
-  final int cumulativeMinutes;
-  const _MiniSemilla({required this.cumulativeMinutes});
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final stage = FaithTreeStages.stageFor(cumulativeMinutes);
-    final progress = FaithTreeStages.progressWithinStage(cumulativeMinutes);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: scheme.primaryContainer.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            switchInCurve: Curves.easeOutBack,
-            transitionBuilder: (child, anim) =>
-                ScaleTransition(scale: anim, child: child),
-            child: SvgPicture.asset(
-              FaithTreeStages.illustrationFor(stage),
-              key: ValueKey(stage),
-              width: 22,
-              height: 22,
-            ),
-          ),
-          const SizedBox(width: 6),
-          SizedBox(
-            width: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(999),
-              child: TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0, end: progress),
-                duration: const Duration(milliseconds: 700),
-                curve: Curves.easeOutCubic,
-                builder: (context, v, _) => LinearProgressIndicator(
-                  value: v,
-                  minHeight: 5,
-                  backgroundColor:
-                      scheme.onPrimaryContainer.withValues(alpha: 0.15),
-                ),
-              ),
             ),
           ),
         ],
@@ -523,10 +445,9 @@ class _MiniSemilla extends StatelessWidget {
   }
 }
 
-/// Seccion "hero" del inicio: overline dorada + titulo serif + la tarjeta
-/// destacada (fondo primario profundo, ver `PrayerCard(destacada: true)`).
-/// Es el unico bloque oscuro/dominante de la pantalla, para que la
-/// oracion del dia sea inconfundiblemente lo mas importante.
+/// Seccion de la oracion del dia: overline dorada + titulo serif + la
+/// tarjeta destacada (fondo primario profundo, ver
+/// `PrayerCard(destacada: true)`).
 class _HeroPrayerSection extends StatelessWidget {
   final Prayer prayer;
   final VoidCallback onTap;
@@ -565,33 +486,8 @@ class _HeroPrayerSection extends StatelessWidget {
   }
 }
 
-/// Agrupa el "Arbol de fe" y la prueba social honesta como soporte
-/// claramente secundario debajo del hero: sin fondo propio, tipografia
-/// mas pequeña, menos aire alrededor.
-class _SecondarySupportSection extends StatelessWidget {
-  final int cumulativeMinutes;
-  final int? prayingNowEstimate;
-
-  const _SecondarySupportSection({
-    required this.cumulativeMinutes,
-    required this.prayingNowEstimate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FaithTreeWidget(cumulativeMinutes: cumulativeMinutes),
-        const SizedBox(height: 12),
-        _SocialProofBanner(prayingNowEstimate: prayingNowEstimate),
-      ],
-    );
-  }
-}
-
 /// Feed personalizado ("Para ti") y banner de Plus: tercer nivel de
-/// jerarquia, debajo del hero y del soporte secundario.
+/// jerarquia, debajo de la pradera y de la oracion del dia.
 class _ParaTiSection extends StatelessWidget {
   final List<Prayer> feed;
   final bool isPlus;
@@ -643,37 +539,6 @@ class _ParaTiSection extends StatelessWidget {
         const SizedBox(height: 12),
         if (!isPlus) _PlusBanner(onTap: onOpenPaywall),
       ],
-    );
-  }
-}
-
-class _FreezeTokensChip extends StatelessWidget {
-  final int tokens;
-
-  const _FreezeTokensChip({required this.tokens});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.tealLight,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.ac_unit, size: 16, color: AppColors.tealDeep),
-          const SizedBox(width: 4),
-          Text(
-            '$tokens',
-            style: AppTypography.caption.copyWith(
-              color: AppColors.tealDeep,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -769,7 +634,7 @@ class _FeedData {
 
 /// Overlay breve mostrado al alcanzar un nuevo hito de racha (ver
 /// `StreakService.milestones`/`pendingMilestone`). Se descarta al tocar en
-/// cualquier parte de la pantalla. Ahora entra con una animacion organica
+/// cualquier parte de la pantalla. Entra con una animacion organica
 /// de "rebote" (`Curves.elasticOut` en la escala) en vez de aparecer sin
 /// transicion.
 class _MilestoneCelebrationOverlay extends StatefulWidget {

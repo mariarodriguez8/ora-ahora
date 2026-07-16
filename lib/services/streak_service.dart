@@ -16,6 +16,10 @@ import 'prefs_service.dart';
 /// extensión del mismo espíritu de "retención ética" del día libre
 /// gratuito: nunca castiga con dureza, solo da un margen extra a quienes
 /// apoyan la app.
+///
+/// v11: ademas de `cumulativeMinutes` (total historico, alimenta el arbol
+/// de fe), se lleva `minutesToday` (minutos orados SOLO hoy) para el
+/// anillo de minutos del dia en la pradera del Salmo 23 del inicio.
 class StreakService extends ChangeNotifier {
   final PrefsService _prefs;
   late StreakState _state;
@@ -86,6 +90,15 @@ class StreakService extends ChangeNotifier {
   int get cumulativeMinutes => _state.cumulativeMinutes;
   bool get hasGraceAvailableThisWeek => _state.missesUsedThisWeek < 1;
 
+  /// Minutos orados HOY (para el anillo de minutos del dia de la pradera).
+  /// Si el conteo guardado pertenece a otro dia, vale 0 sin necesidad de
+  /// escribir nada (el proximo minuto orado ya se guarda con la fecha de
+  /// hoy, ver [_minutesTodayPlus]).
+  int get minutesToday {
+    if (_state.minutesTodayDayKey != _dayKeyOf(DateTime.now())) return 0;
+    return _state.minutesToday;
+  }
+
   bool get prayedToday {
     final last = _state.lastPrayedDate;
     if (last == null) return false;
@@ -122,7 +135,21 @@ class StreakService extends ChangeNotifier {
   static String _monthKeyOf(DateTime d) =>
       '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}';
 
+  /// Fecha local "yyyy-MM-dd" (clave del conteo de minutos diarios).
+  static String _dayKeyOf(DateTime d) =>
+      '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
   static int _minInt(int a, int b) => a < b ? a : b;
+
+  /// Conteo de minutos de hoy despues de sumar [minutes] en el instante
+  /// [now]: continua el conteo si el guardado es de hoy, o arranca de
+  /// cero si es de otro dia.
+  int _minutesTodayPlus(int minutes, DateTime now) {
+    final key = _dayKeyOf(now);
+    return _state.minutesTodayDayKey == key
+        ? _state.minutesToday + minutes
+        : minutes;
+  }
 
   /// Si comenzo un mes calendario nuevo desde el ultimo otorgamiento,
   /// suma [freeTokensPerMonth] fichas (solo si [isPlusUser]), respetando
@@ -170,7 +197,8 @@ class StreakService extends ChangeNotifier {
   ///   fichas), la racha se reinicia a 1.
   /// - `cumulativeMinutes` suma [minutes] cada vez que se marca un dia
   ///   nuevo como orado (sin importar si la racha continuo o se reinicio),
-  ///   y alimenta el widget "Semilla/Arbol de fe" del inicio.
+  ///   y alimenta el widget "Semilla/Arbol de fe". `minutesToday` suma
+  ///   los mismos minutos al conteo del dia (anillo de la pradera, v11).
   Future<void> markPrayedToday({
     required bool isPlusUser,
     required int minutes,
@@ -238,6 +266,8 @@ class StreakService extends ChangeNotifier {
       missesUsedThisWeek: missesUsedThisWeek,
       freezeTokens: freezeTokens,
       cumulativeMinutes: newCumulativeMinutes,
+      minutesToday: _minutesTodayPlus(minutes, now),
+      minutesTodayDayKey: _dayKeyOf(now),
       lastCelebratedMilestone: newLastCelebratedMilestone,
     );
 
@@ -247,11 +277,14 @@ class StreakService extends ChangeNotifier {
 
   /// Suma minutos de oraciones ADICIONALES del mismo dia (la racha no
   /// cambia, pero el arbol de fe sigue creciendo — orar mas veces al dia
-  /// siempre suma).
+  /// siempre suma). Tambien alimenta el anillo de minutos del dia (v11).
   Future<void> addExtraMinutes(int minutes) async {
     if (minutes <= 0) return;
+    final now = DateTime.now();
     _state = _state.copyWith(
       cumulativeMinutes: _state.cumulativeMinutes + minutes,
+      minutesToday: _minutesTodayPlus(minutes, now),
+      minutesTodayDayKey: _dayKeyOf(now),
     );
     await _save();
     notifyListeners();
@@ -259,7 +292,7 @@ class StreakService extends ChangeNotifier {
 
   /// `true` si la racha corre riesgo de perderse si la persona no ora hoy
   /// (ya paso al menos un dia completo desde la ultima vez que oro). Se usa
-  /// para resaltar visualmente [StreakBadge] en el inicio.
+  /// para resaltar visualmente la pradera del inicio.
   bool get streakAtRisk {
     if (currentStreak == 0 || prayedToday) return false;
     final last = _state.lastPrayedDate;
