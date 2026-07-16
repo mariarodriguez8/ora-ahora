@@ -16,18 +16,22 @@ import 'package:speech_to_text/speech_to_text.dart';
 /// reconocimiento en el dispositivo falla: si `onDevice: true` no puede
 /// completarse, esta clase simplemente reporta que no hubo exito
 /// (`success: false`) y la pantalla que la usa se degrada en silencio al
-/// boton manual de "Marcar como orada hoy", sin mostrar dialogos de error
-/// ni insistirle a la persona.
+/// boton manual de "Marcar como orada hoy".
 ///
-/// LIMITE CONOCIDO (no se puede verificar sin un telefono real, ver
-/// README.md): si el dispositivo no tiene descargado el modelo de voz
-/// offline (comun en equipos antiguos, ROMs personalizadas, o telefonos
-/// sin los servicios de voz de Google), Android puede: (a) devolver
-/// `false` ya en `initialize()`, (b) permitir `initialize()` pero fallar
-/// silenciosamente al pedir `listen(onDevice: true)`, o (c) escuchar pero
-/// no reconocer ninguna palabra. Los tres casos se tratan igual aqui: se
-/// considera que la deteccion por voz no esta disponible y se recurre al
-/// boton manual.
+/// SESION AUTO-REINICIABLE (v10b, corrige el bug "el microfono se cierra
+/// a mitad de la oracion"): el `SpeechRecognizer` de Android tiene un
+/// limite interno de sesion (30-60s tipicos) e IGNORA valores grandes de
+/// `listenFor`; al llegar a ese limite emite el estado 'done' aunque la
+/// persona siga orando. Antes ese 'done' se reportaba como fin de la
+/// oracion. Ahora esta clase mantiene una SESION LOGICA por encima de las
+/// sesiones fisicas del motor: cuando Android corta, se acumula el texto
+/// reconocido y se vuelve a escuchar de inmediato, hasta que (a) la
+/// pantalla llama a [stopListening] (p. ej. detecto "amén" o exito), (b)
+/// hay silencio real (varios reinicios seguidos sin palabras nuevas), (c)
+/// se agota el presupuesto total [listenFor], o (d) hay un error
+/// permanente. [onPartialResult] siempre recibe el texto ACUMULADO de
+/// todos los segmentos, por lo que la deteccion de "amén" y el heuristico
+/// de duracion de la pantalla siguen funcionando sin cambios.
 class VoicePrayerService {
   final SpeechToText _speech = SpeechToText();
 
@@ -37,17 +41,30 @@ class VoicePrayerService {
   void Function(String recognizedWords)? _onPartialResult;
   void Function({required bool success})? _onDone;
 
+  // --- Estado de la sesion logica (ver comentario de clase) ---
+  bool _sessionActive = false;
+  bool _stopping = false;
+  bool _restartPending = false;
+  String _accumulated = '';
+  String _currentSegment = '';
+  int _silentRestarts = 0;
+  DateTime _sessionDeadline = DateTime.fromMillisecondsSinceEpoch(0);
+  Duration _pauseFor = const Duration(seconds: 8);
+
+  /// Cuantos reinicios seguidos SIN palabras nuevas se toleran antes de
+  /// considerar que la persona dejo de hablar de verdad. Con pauseFor=8s
+  /// esto equivale a ~25-35s de silencio real.
+  static const int _maxSilentRestarts = 3;
+
+  /// Duracion pedida a cada sesion fisica del motor. Por debajo de los
+  /// limites internos tipicos de Android para minimizar cortes a mitad
+  /// de frase (el corte igual se maneja, esto solo lo hace menos comun).
+  static const Duration _segmentListenFor = Duration(seconds: 55);
+
+  static const Duration _restartDelay = Duration(milliseconds: 250);
+
   bool get isListening => _speech.isListening;
 
-  /// Inicializa el motor de reconocimiento de voz nativo (una sola vez
-  /// por instancia) y devuelve si hay reconocimiento de voz disponible en
-  /// este telefono en terminos generales. Es una condicion necesaria pero
-  /// no 100% suficiente para el reconocimiento en el dispositivo (algunos
-  /// equipos reportan disponibilidad general pero no tienen el modelo
-  /// offline descargado; eso solo se puede confirmar al intentar escuchar
-  /// de verdad, ver [startListening]). Nunca lanza excepciones: cualquier
-  /// error de la plataforma se trata como "no disponible" para no romper
-  /// la pantalla de Ajustes ni la de la oracion.
   /// `true` si el sistema YA concedio el permiso de microfono (sin
   /// disparar ningun dialogo). Base del "permission priming" honesto.
   Future<bool> get hasMicPermission async {
@@ -58,14 +75,20 @@ class VoicePrayerService {
     }
   }
 
+  /// Inicializa el motor de reconocimiento de voz nativo (una sola vez
+  /// por instancia) y devuelve si hay reconocimiento disponible. Nunca
+  /// lanza excepciones: cualquier error de la plataforma se trata como
+  /// "no disponible" para no romper la pantalla de Ajustes ni la de la
+  /// oracion.
   Future<bool> checkAvailability() async {
     if (_initialized) return _available;
     try {
       _available = await _speech.initialize(
-        onError: (error) => _onDone?.call(success: false),
+        onError: (error) =>
+            _handleEngineStop(permanent: error.permanent),
         onStatus: (status) {
           if (status == 'done' || status == 'notListening') {
-            _onDone?.call(success: true);
+            _handleEngineStop(permanent: false);
           }
         },
         debugLogging: false,
@@ -80,13 +103,13 @@ class VoicePrayerService {
   /// Empieza a escuchar EXCLUSIVAMENTE con reconocimiento en el
   /// dispositivo (`onDevice: true`, ver comentario de privacidad arriba).
   ///
-  /// [onPartialResult] se llama con el texto reconocido hasta el momento
-  /// cada vez que el motor actualiza su hipotesis (para mostrarlo en
-  /// pantalla). [onDone] se llama cuando el motor deja de escuchar por
-  /// cualquier motivo que no sea una llamada explicita a [stopListening]
-  /// (p. ej. silencio prolongado, error, o no disponibilidad), con
-  /// `success: false` si fue por un error para que la pantalla se
-  /// degrade en silencio.
+  /// [onPartialResult] se llama con TODO el texto reconocido en la sesion
+  /// logica hasta el momento (acumulado entre reinicios del motor).
+  /// [onDone] se llama cuando la sesion logica termina por cualquier
+  /// motivo que no sea una llamada explicita a [stopListening], con
+  /// `success: false` solo si fue por un error permanente o por no
+  /// disponibilidad. [listenFor] es el presupuesto TOTAL de la sesion
+  /// logica (no de cada sesion fisica del motor).
   ///
   /// Devuelve `true` si se pudo iniciar la escucha.
   Future<bool> startListening({
@@ -102,13 +125,39 @@ class VoicePrayerService {
       onDone(success: false);
       return false;
     }
+    _sessionActive = true;
+    _stopping = false;
+    _restartPending = false;
+    _accumulated = '';
+    _currentSegment = '';
+    _silentRestarts = 0;
+    _sessionDeadline = DateTime.now().add(listenFor);
+    _pauseFor = pauseFor;
+    return _beginPhysicalListen();
+  }
+
+  String _joinedText() {
+    final joined = '$_accumulated $_currentSegment'.trim();
+    return joined;
+  }
+
+  /// Arranca UNA sesion fisica del motor nativo. Los cortes del motor
+  /// llegan por onStatus/onError (ver [checkAvailability]) y se manejan
+  /// en [_handleEngineStop].
+  Future<bool> _beginPhysicalListen() async {
+    _restartPending = false;
     try {
       await _speech.listen(
         onResult: (SpeechRecognitionResult result) {
-          _onPartialResult?.call(result.recognizedWords);
+          if (!_sessionActive || _stopping) return;
+          _currentSegment = result.recognizedWords;
+          if (_currentSegment.trim().isNotEmpty) {
+            _silentRestarts = 0;
+          }
+          _onPartialResult?.call(_joinedText());
         },
-        listenFor: listenFor,
-        pauseFor: pauseFor,
+        listenFor: _segmentListenFor,
+        pauseFor: _pauseFor,
         partialResults: true,
         cancelOnError: true,
         listenMode: ListenMode.dictation,
@@ -116,27 +165,73 @@ class VoicePrayerService {
       );
       return true;
     } catch (_) {
-      _onDone?.call(success: false);
+      _finishSession(success: false);
       return false;
     }
+  }
+
+  /// El motor nativo dejo de escuchar (limite interno, pausa larga o
+  /// error). Decide si la sesion logica continua (reinicio) o termina.
+  void _handleEngineStop({required bool permanent}) {
+    if (!_sessionActive || _stopping || _restartPending) return;
+
+    // Consolida lo reconocido en el segmento que acaba de terminar.
+    if (_currentSegment.trim().isNotEmpty) {
+      _accumulated = _joinedText();
+      _currentSegment = '';
+    } else {
+      _silentRestarts++;
+    }
+
+    final budgetExpired = DateTime.now().isAfter(_sessionDeadline);
+    final realSilence = _silentRestarts > _maxSilentRestarts;
+    if (permanent || budgetExpired || realSilence) {
+      _finishSession(success: !permanent);
+      return;
+    }
+
+    // Reencender el microfono: pequeño respiro para que el motor nativo
+    // libere recursos antes del siguiente listen().
+    _restartPending = true;
+    Future.delayed(_restartDelay, () {
+      if (!_sessionActive || _stopping) return;
+      _beginPhysicalListen();
+    });
+  }
+
+  void _finishSession({required bool success}) {
+    if (!_sessionActive) return;
+    _sessionActive = false;
+    _restartPending = false;
+    final onDone = _onDone;
+    _onPartialResult = null;
+    _onDone = null;
+    onDone?.call(success: success);
   }
 
   /// Detiene la escucha de forma deliberada (por ejemplo, porque ya se
   /// detecto "amén" o la persona toco "Cancelar"). Limpia los callbacks
   /// antes de detener para que el `onStatus`/`onError` posterior de
-  /// `speech_to_text` no vuelva a invocar [onDone] con informacion ya
+  /// `speech_to_text` no vuelva a invocar `onDone` con informacion ya
   /// obsoleta.
   Future<void> stopListening() async {
+    _stopping = true;
+    _sessionActive = false;
+    _restartPending = false;
     _onPartialResult = null;
     _onDone = null;
     if (_speech.isListening) {
       await _speech.stop();
     }
+    _stopping = false;
   }
 
   /// Libera los callbacks y cancela cualquier escucha en curso. Se llama
   /// desde `dispose()` de la pantalla que usa este servicio.
   void dispose() {
+    _stopping = true;
+    _sessionActive = false;
+    _restartPending = false;
     _onPartialResult = null;
     _onDone = null;
     if (_speech.isListening) {
