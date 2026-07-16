@@ -104,41 +104,17 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                                 ],
                               ),
                             ),
-                            // cruz de luz (geometria fija 84x84)
-                            SizedBox(
-                              width: 84,
-                              height: 84,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Container(
-                                    width: 13,
-                                    height: 84,
-                                    decoration: BoxDecoration(
-                                      color: _marfil,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: _dorado.withValues(alpha: 0.9),
-                                          blurRadius: 22,
-                                          spreadRadius: 2,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: const Alignment(0, -0.42),
-                                    child: Container(
-                                      width: 56,
-                                      height: 13,
-                                      decoration: BoxDecoration(
-                                        color: _marfil,
-                                        borderRadius:
-                                            BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            // La ovejita (mascota oficial) dentro del halo
+                            ClipOval(
+                              child: Container(
+                                width: 160,
+                                height: 160,
+                                color: _marfil.withValues(alpha: 0.10),
+                                padding: const EdgeInsets.all(14),
+                                child: Image.asset(
+                                  'assets/mascot/ovejita.png',
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                           ],
@@ -160,9 +136,10 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                       ),
                       const SizedBox(height: 14),
                       Text(
-                        'Oraciones que se sienten tuyas, una pausa antes '
-                        'de las apps que te roban la paz, y una fe que '
-                        'crece día a día 🌱',
+                        'Esta ovejita eres tú: "Mis ovejas oyen mi voz, '
+                        'y me siguen" (Juan 10:27). Oraciones que se '
+                        'sienten tuyas, una pausa antes de las apps que '
+                        'te roban la paz, y una fe que crece día a día 🌱',
                         style: AppTypography.bodyLarge.copyWith(
                             color: _marfil.withValues(alpha: 0.78)),
                       ),

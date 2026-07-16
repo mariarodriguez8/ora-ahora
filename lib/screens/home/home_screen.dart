@@ -403,6 +403,21 @@ class _GreetingHeader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12, top: 2),
+            child: ClipOval(
+              child: Container(
+                width: 54,
+                height: 54,
+                color: scheme.primaryContainer,
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/mascot/ovejita.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

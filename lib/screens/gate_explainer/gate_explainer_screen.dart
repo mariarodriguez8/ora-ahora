@@ -98,8 +98,10 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.pause_circle_outline,
-                        size: 48, color: AppColors.tealDeep),
+                    Center(
+                      child: Image.asset('assets/mascot/ovejita.png',
+                          height: 110),
+                    ),
                     const SizedBox(height: 20),
                     Text('Dos permisos, una sola misión 🙏',
                         style: AppTypography.headline),
