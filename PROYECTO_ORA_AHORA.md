@@ -79,3 +79,15 @@ APK renombrado a `.zip` para descargar → renombrar a `.apk` en el teléfono �
 3. Trabaja los pendientes de la sección 5 en orden; empaqueta como `apply_vN.sh` (heredocs de archivos completos + binarios en base64, autocontenido e idempotente, probado contra copia limpia).
 4. Sube el script por github.com/upload (file_upload del navegador), córrelo en el Codespace, compila, sirve la descarga con http.server, y commit+push al final.
 5. Estilo de trabajo con Maria: español, directa, no técnica, aprecia listas claras y que se le pregunte poco pero decisiones de negocio son SUYAS (paywall, logo, precios). Verificación estática siempre antes de compilar (balance de llaves, imports, frases católicas prohibidas).
+
+## 8. v11 APROBADA: rediseno narrativo "Tu caminar con el Pastor" (PENDIENTE de construir)
+Narrativa columna vertebral (aprobada por Maria 16-jul-2026, ICP: cristianos 25-35):
+- La ovejita ERES TU (Juan 10:27), presentada DESDE EL ONBOARDING. NUNCA representa a Cristo. SIEMPRE FELIZ/sonriente (pedido explicito); ojos cerrados solo un instante al amen. En pantalla de voz: SOLO LA CABEZA asomada abajo.
+- Home = pradera del Salmo 23 que florece con minutos orados (arbol de fe + arroyo + ovejita). Numero GIGANTE de racha como heroe + anillo de minutos del dia. Estilo: "Santuario energizado" (paleta intacta, tarjetas blancas limpias, gamificacion profunda, NO clonar apps genericas).
+- Racha = dias caminando con el Pastor. Racha rota = oveja perdida (Lucas 15): notificacion "El deja las 99 y viene por ti", volver se CELEBRA, nunca culpa.
+- Pausa y Ora = "La Puerta del Redil" (Juan 10 "Yo soy la puerta"): pantalla completa al abrir app elegida (gracia 20 min, max ~6/dia luego version mini, "hoy no" existente); boton dorado "Mejor no entro" = VICTORIA celebrada y contada ("El Pastor te cuido N veces hoy").
+- NUEVO: burbuja overlay a los ~20 min de uso continuo dentro de la app (mismo detector UsageStats): ovejita "Seguimos aqui? Hay pastos mas verdes" con Orar 30 seg / 10 min mas. Invita, no bloquea.
+- Notificacion inteligente pre-habito (base ya existe: usage_pattern_log) + resumen nocturno ("Hoy la Puerta te cuido 4 veces").
+- Retos = senderos (Sendero de la gratitud 7 dias, Ora40) con insignias. Nueva pestana stats = mapa del camino (barras semanales + anillo).
+- Bocetos aprobados en la conversacion (home, mic con cabeza de oveja, Puerta del Redil, notificaciones).
+NOTA v10b: bug microfono corregido (sesion logica auto-reiniciable en voice_prayer_service.dart; Android corta su reconocedor cada 30-60s e ignora listenFor).
