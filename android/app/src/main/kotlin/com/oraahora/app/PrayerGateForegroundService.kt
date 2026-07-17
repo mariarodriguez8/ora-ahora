@@ -432,7 +432,7 @@ class PrayerGateForegroundService : Service() {
         val channel = NotificationChannel(
             CHANNEL_ID,
             "Pausa y Ora activa",
-            NotificationManager.IMPORTANCE_MIN,
+            NotificationManager.IMPORTANCE_LOW,
         )
         channel.description =
             "Notificación silenciosa que indica que la Pausa y Ora antes de abrir apps está activa."

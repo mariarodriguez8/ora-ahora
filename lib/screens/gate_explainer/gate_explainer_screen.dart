@@ -29,9 +29,16 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
   bool _checking = false;
   bool? _usageGranted;
   bool? _overlayGranted;
+  bool _isMiui = false;
+  bool? _miuiGranted;
   bool _celebrated = false;
 
-  bool get _allGranted => (_usageGranted ?? false) && (_overlayGranted ?? false);
+  // En MIUI el tercer permiso cuenta; si no se pudo comprobar (null),
+  // no bloquea el "Continuar".
+  bool get _allGranted =>
+      (_usageGranted ?? false) &&
+      (_overlayGranted ?? false) &&
+      (!_isMiui || (_miuiGranted ?? true));
 
   @override
   void initState() {
@@ -65,10 +72,14 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
     final gate = context.read<GateService>();
     final usage = await gate.hasUsageAccess();
     final overlay = await gate.hasOverlayPermission();
+    final isMiui = await gate.isMiuiDevice();
+    final miui = isMiui ? await gate.isMiuiBackgroundStartAllowed() : null;
     if (!mounted) return;
     setState(() {
       _usageGranted = usage;
       _overlayGranted = overlay;
+      _isMiui = isMiui;
+      _miuiGranted = miui;
       _checking = false;
     });
     if (usage && overlay) {
@@ -103,7 +114,10 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                           height: 110),
                     ),
                     const SizedBox(height: 20),
-                    Text('Dos permisos, una sola misión 🙏',
+                    Text(
+                        _isMiui
+                            ? 'Tres permisos, una sola misión 🙏'
+                            : 'Dos permisos, una sola misión 🙏',
                         style: AppTypography.headline),
                     const SizedBox(height: 12),
                     Text(
@@ -150,6 +164,25 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                           'interruptor de "Ora Ahora".',
                       onPressed: () => _markSeenAnd(gate.openOverlaySettings),
                     ),
+                    if (_isMiui) ...[
+                      const SizedBox(height: 14),
+                      _PermisoCard(
+                        numero: '3',
+                        titulo: 'Xiaomi: ventanas en segundo plano',
+                        descripcion:
+                            'Tu teléfono Xiaomi/Redmi pide un permiso extra '
+                            'para que la pausa de oración pueda aparecer '
+                            'cuando Ora Ahora trabaja en segundo plano.',
+                        granted: _miuiGranted,
+                        botonTexto: 'Abrir "Otros permisos"',
+                        instruccion:
+                            'En la pantalla que se abre, activa "Mostrar '
+                            'ventanas emergentes mientras se ejecuta en '
+                            'segundo plano".',
+                        onPressed: () =>
+                            _markSeenAnd(gate.openMiuiOtherPermissions),
+                      ),
+                    ],
                     const SizedBox(height: 16),
                     Text(
                       'Puedes apagar estos permisos cuando quieras desde el '
@@ -203,11 +236,17 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                                   ));
                                   Navigator.of(context).pop(true);
                                 } else {
-                                  final falta = (_usageGranted ?? false)
-                                      ? 'el permiso 2: "Mostrar sobre otras apps"'
-                                      : ((_overlayGranted ?? false)
-                                          ? 'el permiso 1: "Acceso de uso"'
-                                          : 'los dos permisos');
+                                  final pendientes = <String>[
+                                    if (!(_usageGranted ?? false))
+                                      '1: "Acceso de uso"',
+                                    if (!(_overlayGranted ?? false))
+                                      '2: "Mostrar sobre otras apps"',
+                                    if (_isMiui && _miuiGranted == false)
+                                      '3: "Ventanas en segundo plano"',
+                                  ];
+                                  final falta = pendientes.length == 1
+                                      ? 'el permiso ${pendientes.first}'
+                                      : 'los permisos ${pendientes.join(' y ')}';
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content: Text(

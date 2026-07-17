@@ -151,6 +151,38 @@ class GateService extends ChangeNotifier {
     }
   }
 
+  // ---- v12: permiso extra de MIUI (Xiaomi/Redmi/POCO) ----
+
+  /// true si el telefono es Xiaomi/Redmi/POCO (MIUI/HyperOS).
+  Future<bool> isMiuiDevice() async {
+    try {
+      final miui = await _channel.invokeMethod<bool>('isMiuiDevice');
+      return miui ?? false;
+    } on PlatformException {
+      return false;
+    }
+  }
+
+  /// MIUI: estado de su permiso "Mostrar ventanas emergentes mientras se
+  /// ejecuta en segundo plano". `null` = no aplica o no se pudo comprobar.
+  Future<bool?> isMiuiBackgroundStartAllowed() async {
+    try {
+      return await _channel
+          .invokeMethod<bool?>('isMiuiBackgroundStartAllowed');
+    } on PlatformException {
+      return null;
+    }
+  }
+
+  /// Abre la pantalla "Otros permisos" de MIUI para Ora Ahora.
+  Future<void> openMiuiOtherPermissions() async {
+    try {
+      await _channel.invokeMethod('openMiuiOtherPermissions');
+    } on PlatformException {
+      // Nunca bloquear el flujo; el usuario puede llegar manualmente.
+    }
+  }
+
   /// Comprueba si Android ya excluyo a Ora Ahora de la optimizacion de
   /// bateria (`PowerManager.isIgnoringBatteryOptimizations`). Si es
   /// `false`, "Pausa y Ora" corre el riesgo de ser silenciada por el
