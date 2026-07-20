@@ -119,6 +119,9 @@ ICP: cristianos evangélicos hispanohablantes, 25-35 núcleo + mayores, NO técn
 Luego: testimonios + vista previa de notificación → permiso notificaciones → PRUEBA GRATIS 3 días ("ningún pago hoy — te avisamos antes de que termine"; requiere in_app_purchase real + producto en Play Console; purchase_service hoy es stub) → "¿dónde nos conociste?".
 PERMISOS: SOLO notificaciones antes de la prueba. Micrófono al primer uso de voz; Acceso de uso + superposición al activar la Puerta — cada uno con UNA pantalla: título claro, 3 líneas honestas, imagen de lo que verá en Ajustes.
 
+### v14 — MODO NOCHE/DÍA como beneficio PLUS (pedido Maria 23-jul):
+Botón pequeño en una esquina de la pestaña HOY (icono luna/sol 🌙/☀️). Usuario PLUS: alterna al toque entre paleta clara (Bosque y Lino) y oscura (Vigilia) vía AppearanceService.setExplicitPalette. Usuario gratis: al tocarlo ve mini-aviso "Con Plus eliges día o noche 🌙" → abre paywall. Beneficio Plus VISIBLE (misma filosofía que colores de lana). El default general sigue siendo claro (fix Huawei v13); esto es un toggle explícito, no vuelve al modo sistema.
+
 ### v14 — INTERIOR (adiós chorro):
 - 3 pestañas: HOY (solo pradera + ovejita + racha gigante + UN botón "Orar ahora") · MI CAMINO (racha, minutos, mapa de calor, hitos + diario integrado como "mis notas con Dios") · LA PUERTA (apps elegidas, tiempos, marcador "hoy la Puerta te cuidó N veces" — victorias, no bloqueos). Ajustes → ícono de perfil.
 - FILOSOFÍA ANTI-CATÁLOGO: nunca mostrar lista de 152 oraciones. La app pregunta "¿qué llevas en el corazón hoy?" → tema → sirve UNA oración. Consejería, no biblioteca.
