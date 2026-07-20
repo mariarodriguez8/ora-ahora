@@ -9,7 +9,7 @@ Funciones: oración del día · 152 oraciones locales en 14 categorías · racha
 ## 2. Dónde vive todo
 - **Repo:** `github.com/mariarodriguez8/ora-ahora` (a veces público temporalmente; debe volver a privado).
 - **Compilación:** GitHub Codespace "expert dollop" del repo (Flutter 3.44 ya configurado y parchado). Maria NO programa: todo se hace por ella.
-- **Estado actual: v8 — migración Play Store** ("Pausa y Ora" ya NO usa Accesibilidad: ahora usa Acceso de uso + overlay, ver sección 6). v7 y v8 fueron probadas y aprobadas por Maria. v9: firma de release configurada (build.gradle lee android/key.properties si existe; si no, debug). La llave la crea Maria con `bash crear_llave_release.sh` (contraseña SOLO de Maria, keystore y key.properties en .gitignore). Con la llave creada: `flutter build appbundle --release` para el .aab de Play Store. Los scripts `apply_*.sh` en la raíz son históricos; el código fuente en `lib/` ya los tiene todo aplicado. Logo nuevo YA aplicado en mipmaps + store icon.
+- **Estado actual: v13 pendiente de compilar** (v12 = AAB firmado 1.0.3+4 ya en prueba cerrada de Play). Antes: v8 — migración Play Store ("Pausa y Ora" ya NO usa Accesibilidad: ahora usa Acceso de uso + overlay, ver sección 6). v7 y v8 fueron probadas y aprobadas por Maria. v9: firma de release configurada (build.gradle lee android/key.properties si existe; si no, debug). La llave la crea Maria con `bash crear_llave_release.sh` (contraseña SOLO de Maria, keystore y key.properties en .gitignore). Con la llave creada: `flutter build appbundle --release` para el .aab de Play Store. Los scripts `apply_*.sh` en la raíz son históricos; el código fuente en `lib/` ya los tiene todo aplicado. Logo nuevo YA aplicado en mipmaps + store icon.
 
 ### Estructura del código
 ```
@@ -97,3 +97,36 @@ MASCOTA OFICIAL v11 (elegida por Maria, 16-jul): store_assets/ovejita_oficial.jp
 
 v11a APLICADA (16-jul): LOGO OFICIAL = ovejita asomada sosteniendo el movil con cruz dorada fina brillando (movil_3 con esquinas extendidas a verde full-bleed, store_assets/logo_oficial_fullbleed.png). icon_512.png y los 5 mipmaps ic_launcher REEMPLAZADOS con el logo nuevo. MASCOTA EN LA APP (assets/mascot/ovejita.png, recorte sin fondo): (1) onboarding welcome: ovejita dentro del halo + copy Juan 10:27 "esta ovejita eres tu"; (2) home: avatar circular de la ovejita junto al saludo; (3) gate explainer: la ovejita presenta los 2 permisos. Resto de integraciones (pradera, voz, Puerta, burbuja, notificaciones, expresiones, colores Plus) quedan para la v11 completa.
 COLORES PLUS v11 (confirmado): paleta PREDEFINIDA de lanas (crema default, rosada, celeste, lavanda, dorada, carbon) con variantes de la mascota identicas en cada color. EL ICONO DE LA APP CAMBIA con el color elegido via activity-alias de Android (un alias por color con su set de mipmaps; enable/disable con PackageManager.setComponentEnabledSetting; advertir parpadeo breve en algunos launchers). Beneficio Plus visible hacia afuera.
+
+
+## 9. PLAN MAESTRO v13-v15 (APROBADO POR MARIA 23-jul-2026 — LEY, NO REINTERPRETAR)
+
+### Reglas de lenguaje (INQUEBRANTABLES)
+ICP: cristianos evangélicos hispanohablantes, 25-35 núcleo + mayores, NO técnicos. Diccionario permitido: celular, redes, orar, Dios, el Señor, la Biblia, horas, minutos, pena, día. PROHIBIDO: scroll, desbloqueos, apps, notificaciones (en copy visible), pantalla de bloqueo, tecnicismos, lenguaje IA, poesía que necesite explicación. Prueba de fuego: si no se lo dirías a tu hermana en la cocina, NO va. El peso emocional lo pone la conciencia de la persona, no la frase. PROHIBIDO copiar a Prayer Lock (referencia estudiada, pantallas vistas): mismo peso, cero copia.
+
+### v13 (HECHO, compilar): 1) tema SIEMPRE claro salvo elección explícita (bug Huawei textos blancos); 3) recordatorios se reprograman en cada apertura; 18) Amén → popUntil inicio (2 vías). Script: apply_v13.sh. (2: allowBackup ya estaba true; pérdida de datos de testers fue por instalar builds con firmas distintas — no repetir mezcla debug/release.)
+
+### v14 — EMBUDO NUEVO (guion CONGELADO, una frase por pantalla, ovejita animada COHERENTE con el texto en cada una):
+1. "¿te ha pasado? dices \'ahorita oro\'... y se te va el día." → todos los días 😔 / a veces / casi nunca
+2. "¿cuánto tiempo pasaste ayer en el celular?" (sé honesta) → 1-2 / 3-4 / 5 o más horas
+3. "¿y cuánto tiempo le diste a Dios?" → nada 💔 / unos minutitos / media hora o más
+4. ESPEJO con sus respuestas: "ayer le diste **X horas** al celular... y **Y** a Dios."
+5. "y no es que no ames a Dios. es que el celular siempre gana."
+6. GRACIA (fondo amanece): "la buena noticia: Dios no está enojado contigo. está esperándote." (ovejita mira a la luz)
+7. "¿y si empezamos con 1 minuto al día?" → botón: "sí, con 1 minuto sí puedo"
+8. "¿te da pena orar en voz alta?" → un poquito 🙈 / no → "tranquila. empieza en susurro. Dios escucha igual."
+9. nombre → temas → hora → PRIMERA ORACIÓN repetida EN VOZ ALTA con pradera floreciendo → "día 1 con Dios 🐑"
+Luego: testimonios + vista previa de notificación → permiso notificaciones → PRUEBA GRATIS 3 días ("ningún pago hoy — te avisamos antes de que termine"; requiere in_app_purchase real + producto en Play Console; purchase_service hoy es stub) → "¿dónde nos conociste?".
+PERMISOS: SOLO notificaciones antes de la prueba. Micrófono al primer uso de voz; Acceso de uso + superposición al activar la Puerta — cada uno con UNA pantalla: título claro, 3 líneas honestas, imagen de lo que verá en Ajustes.
+
+### v14 — INTERIOR (adiós chorro):
+- 3 pestañas: HOY (solo pradera + ovejita + racha gigante + UN botón "Orar ahora") · MI CAMINO (racha, minutos, mapa de calor, hitos + diario integrado como "mis notas con Dios") · LA PUERTA (apps elegidas, tiempos, marcador "hoy la Puerta te cuidó N veces" — victorias, no bloqueos). Ajustes → ícono de perfil.
+- FILOSOFÍA ANTI-CATÁLOGO: nunca mostrar lista de 152 oraciones. La app pregunta "¿qué llevas en el corazón hoy?" → tema → sirve UNA oración. Consejería, no biblioteca.
+
+### v15 — EXPERIENCIAS ESTRELLA:
+- "REPITE CONMIGO" (eco): flutter_tts con voz del teléfono (es, offline) dice la oración FRASE A FRASE (partir por puntuación); la persona repite; el matching existente valida; pradera florece por frase; Amén dicho juntos. Si silencio ~8s: repetir con paciencia, nunca regañar. Voces humanas grabadas = Plus futuro ("elige quién ora contigo").
+- PRADERA VIVA: el % de cobertura de voz (ya existe) anima en vivo pradera seca→verde, luz dorada sube, ovejita se acerca al arroyo. ES el momento UGC.
+- LA PUERTA QUE ORA CONTIGO: al abrir app elegida → ovejita + NOMBRE + una frase para repetir + contador 10 segundos → "ve en paz 🐑". Branding completo (degradado marca), NUNCA pantalla genérica. Sin "¿cómo te sientes?".
+- CELEBRACIÓN DIARIA: pantalla completa verde marca, ovejita GIGANTE centro, felicita POR NOMBRE, animación.
+
+### Decisiones registradas: prueba gratis 3 días SÍ · voz del teléfono al lanzar · SIN cuentas ni base de datos (todo local + allowBackup; login opcional SOLO si algún día hay comunidad, estilo "continuar con Google" únicamente ahí) · Ángulo marketing bandera: "¿recuerdas cuando repetiste la oración de fe? esta app hace eso contigo cada mañana." + gancho confesión "¿te da pena orar en voz alta?" + gancho abuela.
