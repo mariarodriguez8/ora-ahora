@@ -239,6 +239,9 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
         streak: streak.currentStreak,
         referencia: widget.prayer.referenciaBiblica,
       );
+      // Directo al inicio: cero pasos de mas despues del Amen.
+      if (!mounted) return;
+      Navigator.of(context).popUntil((route) => route.isFirst);
     }
   }
 
@@ -312,6 +315,9 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
         streak: streak.currentStreak,
         referencia: widget.prayer.referenciaBiblica,
       );
+      // Directo al inicio: cero pasos de mas despues del Amen.
+      if (!mounted) return;
+      Navigator.of(context).popUntil((route) => route.isFirst);
     }
   }
 

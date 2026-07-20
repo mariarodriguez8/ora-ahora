@@ -28,6 +28,11 @@ Future<void> main() async {
 
   final notificationService = NotificationService();
   await notificationService.init();
+  // Recordatorios a prueba de reinicios y de limpiadores de memoria
+  // (Huawei/Xiaomi): se reprograman en CADA apertura de la app.
+  try {
+    await notificationService.refreshSchedule(prefsService.reminderTimes);
+  } catch (_) {}
 
   runApp(OraAhoraApp(
     prefsService: prefsService,
@@ -84,7 +89,7 @@ class OraAhoraApp extends StatelessWidget {
           } else {
             lightTheme = AppTheme.fromPalette(AppPalette.zafiroCalmo, simpleMode: simpleMode);
             darkTheme = AppTheme.fromPalette(AppPalette.maresProfundos, simpleMode: simpleMode);
-            themeMode = ThemeMode.system;
+            themeMode = ThemeMode.light;
           }
 
           return MaterialApp(
