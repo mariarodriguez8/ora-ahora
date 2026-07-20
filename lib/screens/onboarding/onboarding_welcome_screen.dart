@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/app_typography.dart';
-import 'onboarding_name_screen.dart';
+import 'funnel_screens.dart';
 
 /// Bienvenida "WOW" 2026: fondo degradado profundo (como el logo), halo
 /// de luz dorado que respira con una CRUZ LUMINOSA (restaurada en v11c),
@@ -220,7 +220,7 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (_) =>
-                                      const OnboardingNameScreen()),
+                                      const FunnelQ1()),
                             );
                           },
                           child: const Text('Comenzar mi camino 🙏'),

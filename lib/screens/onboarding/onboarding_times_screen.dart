@@ -5,7 +5,7 @@ import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import '../../widgets/time_wheel_picker.dart';
-import 'onboarding_plan_screen.dart';
+import 'onboarding_first_prayer_screen.dart';
 import 'onboarding_progress_dots.dart';
 
 class OnboardingTimesScreen extends StatefulWidget {
@@ -87,7 +87,7 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
                     if (!context.mounted) return;
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const OnboardingPlanScreen(),
+                        builder: (_) => const OnboardingFirstPrayerScreen(),
                       ),
                     );
                   },

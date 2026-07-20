@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../services/prefs_service.dart';
 import '../../services/voice_prayer_service.dart';
 import '../../theme/app_typography.dart';
-import 'onboarding_commitment_screen.dart';
+import 'onboarding_reminders_screen.dart';
 import 'onboarding_progress_dots.dart';
 
 /// Contexto del microfono DENTRO del onboarding, justo despues de la
@@ -35,7 +35,7 @@ class _OnboardingMicScreenState extends State<OnboardingMicScreen>
 
   void _next() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const OnboardingCommitmentScreen()),
+      MaterialPageRoute(builder: (_) => const OnboardingRemindersScreen()),
     );
   }
 

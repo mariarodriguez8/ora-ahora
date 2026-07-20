@@ -5,11 +5,13 @@ import 'package:provider/provider.dart';
 import '../../models/prayer.dart';
 import '../../services/community_stats_service.dart';
 import '../../services/prayer_repository.dart';
+import '../../services/appearance_service.dart';
 import '../../services/prefs_service.dart';
 import '../../services/purchase_service.dart';
 import '../../services/route_observer.dart';
 import '../../services/streak_service.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_palettes.dart';
 import '../../theme/app_typography.dart';
 import '../../widgets/meadow_hero.dart';
 import '../../widgets/prayer_card.dart';
@@ -501,7 +503,51 @@ class _GreetingHeader extends StatelessWidget {
               ],
             ),
           ),
+          const _NightModeCorner(),
         ],
+      ),
+    );
+  }
+}
+
+/// Boton de esquina dia/noche 🌙☀️: beneficio VISIBLE de Plus. Los Plus
+/// alternan la paleta al toque; los gratis ven la invitacion y el paywall.
+class _NightModeCorner extends StatelessWidget {
+  const _NightModeCorner();
+
+  @override
+  Widget build(BuildContext context) {
+    final appearance = context.watch<AppearanceService>();
+    final esNoche = appearance.explicitPaletteId == AppPaletteId.maresProfundos;
+    final scheme = Theme.of(context).colorScheme;
+    return InkWell(
+      borderRadius: BorderRadius.circular(999),
+      onTap: () async {
+        final esPlus = context.read<PurchaseService>().isPlusUser;
+        if (esPlus) {
+          await appearance.setPalette(esNoche
+              ? AppPaletteId.zafiroCalmo
+              : AppPaletteId.maresProfundos);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Con Plus eliges día o noche 🌙'),
+          ));
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const PaywallScreen()),
+          );
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: scheme.primaryContainer.withValues(alpha: 0.6),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          esNoche ? Icons.wb_sunny_rounded : Icons.nightlight_round,
+          size: 18,
+          color: scheme.onPrimaryContainer,
+        ),
       ),
     );
   }
