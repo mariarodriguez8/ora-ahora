@@ -4,51 +4,26 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import org.json.JSONArray
-import org.json.JSONObject
 import kotlin.random.Random
 
 /**
- * Pantalla nativa (100% Kotlin + layout XML, sin un segundo motor de
- * Flutter) que se muestra encima de una app "gateada" cuando el usuario
- * intenta abrirla.
+ * La Puerta del Redil (rediseño 2026). Pantalla nativa que se muestra
+ * encima de una app "gateada" cuando la persona intenta abrirla.
  *
- * DECISION DE DISEÑO / TRADEOFF (ver tambien el informe final):
- * Se eligio una Activity puramente nativa en lugar de hospedar un
- * `FlutterFragment`/segundo `FlutterEngine` porque:
- *  - Arrancar un motor de Flutter adicional añade latencia perceptible
- *    justo en el momento en que el usuario espera abrir otra app (mala
- *    experiencia para una interrupcion que debe sentirse instantanea).
- *  - Evita la complejidad y el consumo de memoria de mantener un
- *    `FlutterEngineCache` vivo en segundo plano solo para esta pantalla.
- *  - Al no poder compilar/probar en este entorno, una Activity nativa
- *    simple es mas facil de verificar por lectura cuidadosa que la
- *    integracion de un segundo engine de Flutter.
- * La desventaja es duplicar un poco de UI (esta pantalla no comparte
- * widgets con el resto de la app Flutter), pero se mantiene el mismo
- * catalogo de datos: este archivo lee el mismo
- * `assets/data/prayers_es.json` que usa Flutter, directamente desde los
- * assets empaquetados de Flutter dentro del APK
- * ("flutter_assets/assets/data/prayers_es.json").
- *
- * CHECK-IN DE ANIMO (mood check-in): antes de mostrar la oracion, esta
- * pantalla ahora pregunta brevemente como se siente la persona (6 opciones
- * en espanol) y elige una oracion de la categoria mas relevante para ese
- * animo. Es una personalizacion real (no una mecanica de manipulacion): si
- * no se elige nada en unos segundos, o si se toca "Solo muéstrame algo", se
- * usa el mismo comportamiento por defecto que existia antes (una oracion
- * aleatoria de la categoria "tentacion_enfoque", ya que esta pantalla se
- * muestra para apps que distraen).
+ * Sin encuesta de ánimo (se eliminó por decisión de producto). Muestra:
+ * la ovejita, un saludo con el nombre, UNA oración corta rotada del
+ * repertorio exclusivo `assets/data/puerta_es.json` (60 oraciones), un
+ * contador de 10 s y un botón de victoria ("Mejor lo dejo").
  */
 class PrayerGateActivity : Activity() {
 
@@ -58,54 +33,25 @@ class PrayerGateActivity : Activity() {
 
         private const val MIN_DWELL_MILLIS = 10_000L
         private const val TICK_MILLIS = 1_000L
-        private const val CATEGORY_TENTACION_ENFOQUE = "tentacion_enfoque"
-        private const val FLUTTER_ASSET_PATH = "flutter_assets/assets/data/prayers_es.json"
+        private const val PUERTA_ASSET = "flutter_assets/assets/data/puerta_es.json"
 
-        /** Categorias por defecto (sin animo elegido): igual que antes. */
-        private val DEFAULT_CATEGORIES = listOf(CATEGORY_TENTACION_ENFOQUE)
+        // SharedPreferences de Flutter (plugin shared_preferences): las
+        // claves llevan el prefijo "flutter.".
+        private const val FLUTTER_PREFS = "FlutterSharedPreferences"
+        private const val KEY_USER_NAME = "flutter.user_name"
+        private const val KEY_PUERTA_INDEX = "flutter.puerta_prayer_index"
 
-        /** Cuanto se espera antes de usar el comportamiento por defecto si
-         * la persona no elige ningun animo. Corto a propósito: la pausa ya
-         * es una interrupcion, no se le debe sumar una espera larga solo
-         * para decidir si participa del check-in. */
-        private const val MOOD_AUTO_SKIP_MILLIS = 6_000L
-
-        // Respaldo por si el asset no se puede leer (no deberia ocurrir en
-        // una build normal, pero evita dejar la pantalla vacia).
-        private val FALLBACK_PRAYERS = listOf(
-            Triple(
-                "Antes de abrir esta app",
-                "Señor, antes de perder minutos sin darme cuenta, ayúdame a " +
-                    "decidir con libertad si de verdad quiero entrar ahora. " +
-                    "Dame dominio propio para usar mi tiempo de forma que " +
-                    "después no me arrepienta. Amén.",
-                "cf. Gálatas 5:22-23"
-            ),
-            Triple(
-                "Recupera tu atención",
-                "Dios, mi atención es valiosa. Ayúdame a decidir cuándo y " +
-                    "cómo uso esta app, en lugar de que ella decida por mí. " +
-                    "Guía este momento. Amén.",
-                "cf. Romanos 12:2"
-            ),
+        private val FALLBACK = listOf(
+            "Señor, antes de entrar, quédate conmigo. Que no se me vaya el rato sin darme cuenta. Amén.",
+            "Dios, dame un minuto contigo antes que a la pantalla. Solo un minuto. Amén.",
         )
     }
 
-    private lateinit var moodContainer: View
-    private lateinit var prayerContentContainer: View
-    private lateinit var textPrayerTitle: TextView
-    private lateinit var textPrayerBody: TextView
-    private lateinit var textPrayerRef: TextView
     private lateinit var buttonContinue: Button
-    private lateinit var textBreathingCue: TextView
-    private lateinit var breathingCircle: View
+    private lateinit var imageSheep: ImageView
     private var targetPackage: String? = null
     private var dwellFinished = false
-    private var moodResolved = false
     private var breathingAnimator: ValueAnimator? = null
-    private val handler = Handler(Looper.getMainLooper())
-    private var breathingToggleRunnable: Runnable? = null
-    private var moodAutoSkipRunnable: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,31 +60,23 @@ class PrayerGateActivity : Activity() {
         targetPackage = intent.getStringExtra(EXTRA_TARGET_PACKAGE)
 
         val textTargetApp = findViewById<TextView>(R.id.textTargetApp)
-        moodContainer = findViewById(R.id.moodContainer)
-        prayerContentContainer = findViewById(R.id.prayerContentContainer)
-        textPrayerTitle = findViewById(R.id.textPrayerTitle)
-        textPrayerBody = findViewById(R.id.textPrayerBody)
-        textPrayerRef = findViewById(R.id.textPrayerRef)
+        val textGreeting = findViewById<TextView>(R.id.textGreeting)
+        val textPrayerBody = findViewById<TextView>(R.id.textPrayerBody)
         val buttonSnooze = findViewById<TextView>(R.id.buttonSnooze)
-        val buttonMoodSkip = findViewById<TextView>(R.id.buttonMoodSkip)
         buttonContinue = findViewById(R.id.buttonContinue)
-        textBreathingCue = findViewById(R.id.textBreathingCue)
-        breathingCircle = findViewById(R.id.breathingCircle)
+        imageSheep = findViewById(R.id.imageSheep)
 
-        textTargetApp.text = "Pausa antes de abrir " + appLabelFor(targetPackage)
+        textTargetApp.text = "UN MOMENTO ANTES DE " +
+            appLabelFor(targetPackage).uppercase()
 
-        setupMoodButton(R.id.buttonMoodAnsioso, listOf("ansiedad"))
-        setupMoodButton(R.id.buttonMoodAgradecido, listOf("gratitud"))
-        setupMoodButton(R.id.buttonMoodCansado, listOf("sanidad"))
-        setupMoodButton(R.id.buttonMoodTriste, listOf("duelo", "perdon"))
-        setupMoodButton(R.id.buttonMoodDistraido, listOf(CATEGORY_TENTACION_ENFOQUE))
-        setupMoodButton(R.id.buttonMoodPaz, listOf("gratitud"))
+        val nombre = readUserName()
+        textGreeting.text = if (nombre.isNullOrBlank())
+            "Espera un momento" else "Espera, $nombre"
 
-        buttonMoodSkip.setOnClickListener { resolveMood(DEFAULT_CATEGORIES) }
+        textPrayerBody.text = nextPrayer()
 
-        val autoSkip = Runnable { resolveMood(DEFAULT_CATEGORIES) }
-        moodAutoSkipRunnable = autoSkip
-        handler.postDelayed(autoSkip, MOOD_AUTO_SKIP_MILLIS)
+        startBreathingAnimation()
+        startDwellTimer()
 
         buttonContinue.setOnClickListener {
             if (!dwellFinished) return@setOnClickListener
@@ -146,35 +84,51 @@ class PrayerGateActivity : Activity() {
             continueToTargetApp()
         }
 
+        // Victoria: la persona decide NO entrar. Se cuenta como cuidado.
         buttonSnooze.setOnClickListener {
             targetPackage?.let { PrayerGateForegroundService.markSnoozedForToday(this, it) }
-            continueToTargetApp()
+            Toast.makeText(this, "Bien hecho 🕊️ El Pastor te cuidó", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
-    private fun setupMoodButton(viewId: Int, categories: List<String>) {
-        findViewById<Button>(viewId).setOnClickListener { resolveMood(categories) }
+    /** Lee el nombre guardado por Flutter (shared_preferences). */
+    private fun readUserName(): String? {
+        return try {
+            val prefs = getSharedPreferences(FLUTTER_PREFS, Context.MODE_PRIVATE)
+            prefs.getString(KEY_USER_NAME, null)
+        } catch (e: Exception) {
+            null
+        }
     }
 
-    /** Se llama una sola vez: por un toque de animo, el boton de saltar, o
-     * el temporizador de auto-salto. Cualquier via posterior se ignora. */
-    private fun resolveMood(categories: List<String>) {
-        if (moodResolved) return
-        moodResolved = true
+    /** Devuelve la siguiente oración del repertorio, rotando el índice y
+     * guardándolo, para que casi nunca se repita el mismo día. */
+    private fun nextPrayer(): String {
+        val lista = loadPrayers()
+        if (lista.isEmpty()) return FALLBACK[Random.nextInt(FALLBACK.size)]
+        val prefs = getSharedPreferences(FLUTTER_PREFS, Context.MODE_PRIVATE)
+        val last = prefs.getInt(KEY_PUERTA_INDEX, -1)
+        val next = (last + 1) % lista.size
+        prefs.edit().putInt(KEY_PUERTA_INDEX, next).apply()
+        return lista[next]
+    }
 
-        moodAutoSkipRunnable?.let { handler.removeCallbacks(it) }
-        moodAutoSkipRunnable = null
-
-        moodContainer.visibility = View.GONE
-        prayerContentContainer.visibility = View.VISIBLE
-
-        val (titulo, texto, referencia) = loadRandomPrayer(categories)
-        textPrayerTitle.text = titulo
-        textPrayerBody.text = texto
-        textPrayerRef.text = referencia
-
-        startBreathingAnimation()
-        startDwellTimer()
+    private fun loadPrayers(): List<String> {
+        return try {
+            assets.open(PUERTA_ASSET).use { input ->
+                val json = input.bufferedReader(Charsets.UTF_8).readText()
+                val array = JSONArray(json)
+                val out = ArrayList<String>(array.length())
+                for (i in 0 until array.length()) {
+                    out.add(array.getJSONObject(i).getString("texto"))
+                }
+                out
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "No se pudo leer puerta_es.json: ${e.message}")
+            FALLBACK
+        }
     }
 
     private fun appLabelFor(packageName: String?): String {
@@ -187,64 +141,15 @@ class PrayerGateActivity : Activity() {
         }
     }
 
-    /**
-     * Elige una oracion al azar de la primera categoria en [categories] que
-     * tenga al menos una coincidencia en el catalogo (asi "Triste" puede
-     * intentar primero "duelo" y usar "perdon" como respaldo, por ejemplo).
-     * Si ninguna categoria tiene coincidencias, o el asset no se puede leer,
-     * usa [FALLBACK_PRAYERS].
-     */
-    private fun loadRandomPrayer(categories: List<String>): Triple<String, String, String> {
-        try {
-            assets.open(FLUTTER_ASSET_PATH).use { input ->
-                val json = input.bufferedReader(Charsets.UTF_8).readText()
-                val array = JSONArray(json)
-                val byCategory = mutableMapOf<String, MutableList<JSONObject>>()
-                for (i in 0 until array.length()) {
-                    val obj = array.getJSONObject(i)
-                    val categoria = obj.optString("categoria")
-                    byCategory.getOrPut(categoria) { mutableListOf() }.add(obj)
-                }
-                for (categoria in categories) {
-                    val matches = byCategory[categoria]
-                    if (!matches.isNullOrEmpty()) {
-                        val chosen = matches[Random.nextInt(matches.size)]
-                        return Triple(
-                            chosen.getString("titulo"),
-                            chosen.getString("texto"),
-                            chosen.getString("referencia_biblica"),
-                        )
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "No se pudo leer prayers_es.json, usando respaldo local: ${e.message}")
-        }
-        val fallback = FALLBACK_PRAYERS[Random.nextInt(FALLBACK_PRAYERS.size)]
-        return fallback
-    }
-
     private fun startBreathingAnimation() {
-        val scaleUp = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.3f)
-        val scaleUpY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.3f)
-        val animator = ObjectAnimator.ofPropertyValuesHolder(breathingCircle, scaleUp, scaleUpY)
-        animator.duration = 4000
+        val scaleUp = PropertyValuesHolder.ofFloat(android.view.View.SCALE_X, 1f, 1.06f)
+        val scaleUpY = PropertyValuesHolder.ofFloat(android.view.View.SCALE_Y, 1f, 1.06f)
+        val animator = ObjectAnimator.ofPropertyValuesHolder(imageSheep, scaleUp, scaleUpY)
+        animator.duration = 2600
         animator.repeatMode = ValueAnimator.REVERSE
         animator.repeatCount = ValueAnimator.INFINITE
         animator.start()
         breathingAnimator = animator
-
-        var inhaling = true
-        textBreathingCue.text = "Inhala..."
-        val toggle = object : Runnable {
-            override fun run() {
-                inhaling = !inhaling
-                textBreathingCue.text = if (inhaling) "Inhala..." else "Exhala..."
-                handler.postDelayed(this, 4000)
-            }
-        }
-        breathingToggleRunnable = toggle
-        handler.postDelayed(toggle, 4000)
     }
 
     private fun startDwellTimer() {
@@ -258,7 +163,7 @@ class PrayerGateActivity : Activity() {
             override fun onFinish() {
                 dwellFinished = true
                 buttonContinue.isEnabled = true
-                buttonContinue.text = "Continuar a la app"
+                buttonContinue.text = "Ve tranquila 🐑"
             }
         }.start()
     }
@@ -280,15 +185,8 @@ class PrayerGateActivity : Activity() {
     }
 
     override fun onBackPressed() {
-        if (!moodResolved) {
-            // Todavia en el check-in de animo: tratar "atras" como la
-            // opcion de saltar, en vez de bloquear (aqui no hay una espera
-            // minima que proteger todavia).
-            resolveMood(DEFAULT_CATEGORIES)
-            return
-        }
         if (!dwellFinished) {
-            Toast.makeText(this, "Espera unos segundos antes de continuar", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Respira unos segundos 🕊️", Toast.LENGTH_SHORT).show()
             return
         }
         super.onBackPressed()
@@ -297,7 +195,5 @@ class PrayerGateActivity : Activity() {
     override fun onDestroy() {
         super.onDestroy()
         breathingAnimator?.cancel()
-        breathingToggleRunnable?.let { handler.removeCallbacks(it) }
-        moodAutoSkipRunnable?.let { handler.removeCallbacks(it) }
     }
 }
