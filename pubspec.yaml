@@ -1,7 +1,7 @@
 name: ora_ahora
 description: "Ora Ahora - pausa, ora y enfoca. App de oracion cristiana interdenominacional en espanol con pausa de oracion antes de abrir apps que distraen."
 publish_to: 'none'
-version: 1.0.6+7
+version: 1.0.7+8
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

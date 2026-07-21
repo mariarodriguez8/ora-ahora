@@ -513,6 +513,35 @@ class _MeadowPainter extends CustomPainter {
         ..color = Colors.white.withValues(alpha: _isDark ? 0.18 : 0.50),
     );
 
+    // 5b. v17: CAMINO DE LUZ + el PASTOR que guia (Salmo 23 / Juan 10).
+    // Un sendero calido de luz sube desde abajo (donde esta la ovejita)
+    // hacia el amanecer, y el Pastor camina ADELANTE en ese camino con su
+    // cayado. La ovejita (PNG, encima) lo sigue: "mis ovejas oyen mi voz...
+    // y me siguen".
+    final pathLight = Path()
+      ..moveTo(w * 0.16, h * 0.98)
+      ..quadraticBezierTo(w * 0.42, h * 0.86, w * 0.56, h * 0.72)
+      ..quadraticBezierTo(
+          w * 0.70, h * 0.58, sunCenter.dx, sunCenter.dy + h * 0.14);
+    canvas.drawPath(
+      pathLight,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = w * 0.11
+        ..strokeCap = StrokeCap.round
+        ..color = scheme.secondary.withValues(alpha: _isDark ? 0.14 : 0.26)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 9),
+    );
+    canvas.drawPath(
+      pathLight,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = w * 0.03
+        ..strokeCap = StrokeCap.round
+        ..color = scheme.secondary.withValues(alpha: _isDark ? 0.22 : 0.44),
+    );
+    _drawShepherd(canvas, Offset(w * 0.55, h * 0.71), h * 0.20);
+
     // 6. Flores: la pradera FLORECE con los minutos orados (cada ~12 min
     // acumulados brota una flor nueva, hasta un maximo sereno).
     final flowerCount = (3 + cumulativeMinutes ~/ 12).clamp(3, 44);
@@ -563,6 +592,59 @@ class _MeadowPainter extends CustomPainter {
         grassPaint,
       );
     }
+  }
+
+  /// Dibuja al Pastor como una silueta calida caminando hacia el amanecer,
+  /// con su cayado. [feet] es el punto donde apoya los pies y [height] su
+  /// altura total. En modo oscuro se aclara para seguir siendo visible.
+  void _drawShepherd(Canvas canvas, Offset feet, double height) {
+    final h = height;
+    final fx = feet.dx;
+    final fy = feet.dy;
+    final color = _isDark
+        ? scheme.primary.withValues(alpha: 0.62)
+        : Color.lerp(scheme.primary, Colors.black, 0.22)!
+            .withValues(alpha: 0.92);
+    final fill = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final shoulderY = fy - h * 0.66;
+    final shoulderHalf = h * 0.15;
+    final hemHalf = h * 0.24;
+
+    // Manto / tunica.
+    final robe = Path()
+      ..moveTo(fx - shoulderHalf, shoulderY)
+      ..quadraticBezierTo(fx - hemHalf * 1.15, fy - h * 0.28, fx - hemHalf, fy)
+      ..quadraticBezierTo(fx, fy - h * 0.06, fx + hemHalf, fy)
+      ..quadraticBezierTo(
+          fx + hemHalf * 1.15, fy - h * 0.28, fx + shoulderHalf, shoulderY)
+      ..quadraticBezierTo(
+          fx, shoulderY - h * 0.10, fx - shoulderHalf, shoulderY)
+      ..close();
+    canvas.drawPath(robe, fill);
+
+    // Cabeza.
+    final headR = h * 0.11;
+    canvas.drawCircle(
+        Offset(fx, shoulderY - h * 0.08 - headR * 0.5), headR, fill);
+
+    // Cayado con gancho, un poco adelante (hacia el amanecer).
+    final staffPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = h * 0.045
+      ..strokeCap = StrokeCap.round;
+    final staffX = fx + hemHalf + h * 0.12;
+    final staffTop = fy - h * 1.02;
+    canvas.drawLine(Offset(staffX, fy), Offset(staffX, staffTop), staffPaint);
+    final crook = Path()
+      ..moveTo(staffX, staffTop)
+      ..quadraticBezierTo(
+          staffX - h * 0.02, staffTop - h * 0.11, staffX - h * 0.13,
+          staffTop - h * 0.02);
+    canvas.drawPath(crook, staffPaint);
   }
 
   @override

@@ -16,8 +16,8 @@ import '../../theme/app_typography.dart';
 import '../../widgets/meadow_hero.dart';
 import '../../widgets/prayer_card.dart';
 import '../journal/journal_screen.dart';
-import '../gate_explainer/gate_explainer_screen.dart';
 import '../paywall/paywall_screen.dart';
+import '../themes/theme_prayers_screen.dart';
 import '../prayer_detail/prayer_detail_screen.dart';
 import '../settings/settings_screen.dart';
 
@@ -49,14 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
     if (prefs.paywallShownAfterOnboarding) return;
     await prefs.setPaywallShownAfterOnboarding(true);
     if (!mounted) return;
-    // Primero el paywall (prueba/compra); SOLO despues se piden los permisos
-    // pesados de "Pausa y Ora" (acceso de uso + mostrarse encima).
+    // Se abre el paywall (prueba/compra). El propio paywall, JUSTO despues
+    // del pago, encadena el flujo guiado de permisos de "Pausa y Ora" si
+    // hacen falta (ver PaywallScreen._purchase), asi no dependemos de esta
+    // ruta unica del onboarding para pedirlos.
     await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const PaywallScreen()),
-    );
-    if (!mounted) return;
-    await Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const GateExplainerScreen()),
     );
   }
 
@@ -336,12 +334,14 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       end: 0.85,
                     ),
                     const SizedBox(height: 28),
-                    // 4. Feed personalizado + banner Plus.
+                    // 4. v17: "¿Algo te pesa hoy?" — carpetas de temas
+                    // (reemplaza el "chorro" de oraciones sueltas) + banner
+                    // Plus. Cada carpeta abre SOLO las oraciones de ese tema.
                     _staggeredSection(
-                      _ParaTiSection(
-                        feed: data.feed,
+                      _TemasSection(
+                        preferredCategories:
+                            context.read<PrefsService>().preferredCategories,
                         isPlus: isPlus,
-                        onOpenPrayer: _openDetail,
                         onOpenPaywall: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) => const PaywallScreen()),
@@ -601,57 +601,68 @@ class _HeroPrayerSection extends StatelessWidget {
   }
 }
 
-/// Feed personalizado ("Para ti") y banner de Plus: tercer nivel de
-/// jerarquia, debajo de la pradera y de la oracion del dia.
-class _ParaTiSection extends StatelessWidget {
-  final List<Prayer> feed;
+/// v17 — "¿Algo te pesa hoy?": en vez del "chorro" de oraciones sueltas,
+/// el inicio muestra CARPETAS de temas (emoji + nombre). Se muestran los
+/// temas que la persona eligio en el onboarding (o un set inicial util si
+/// no eligio ninguno) y un boton "Ver todos los temas". Cada carpeta abre
+/// la [ThemePrayersScreen] con SOLO las oraciones de ese tema. Inspirado
+/// en como organizan Glorify/Abide su contenido por estado de animo/tema.
+class _TemasSection extends StatelessWidget {
+  final List<String> preferredCategories;
   final bool isPlus;
-  final ValueChanged<Prayer> onOpenPrayer;
   final VoidCallback onOpenPaywall;
 
-  const _ParaTiSection({
-    required this.feed,
+  const _TemasSection({
+    required this.preferredCategories,
     required this.isPlus,
-    required this.onOpenPrayer,
     required this.onOpenPaywall,
   });
 
   @override
   Widget build(BuildContext context) {
+    final temas = preferredCategories.isNotEmpty
+        ? preferredCategories.take(6).toList()
+        : const [
+            PrayerCategories.ansiedad,
+            PrayerCategories.familia,
+            PrayerCategories.gratitud,
+            PrayerCategories.paz,
+            PrayerCategories.finanzas,
+            PrayerCategories.perdon,
+          ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Para ti', style: AppTypography.headline),
+        Text('¿Algo te pesa hoy?', style: AppTypography.headline),
         const SizedBox(height: 4),
         Text(
-          'Según los temas que elegiste en tu perfil.',
+          'Toca un tema y ora sobre eso.',
           style: AppTypography.body.copyWith(color: AppColors.inkSoft),
         ),
+        const SizedBox(height: 14),
+        GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: 14,
+          crossAxisSpacing: 14,
+          childAspectRatio: 1.55,
+          children: [
+            for (final c in temas) ThemeFolderCard(categoria: c),
+          ],
+        ),
         const SizedBox(height: 12),
-        if (feed.isEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Text(
-              'Aún no elegiste temas de interés. Ve a Ajustes > '
-              'Mis intereses para personalizar tu inicio.',
-              style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const AllThemesScreen()),
             ),
-          )
-        else
-          ...List.generate(feed.length, (i) {
-            final p = feed[i];
-            final bloqueada = !isPlus && i >= 2;
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 14),
-              child: PrayerCard(
-                prayer: p,
-                bloqueada: bloqueada,
-                insignia: (!isPlus && i == 1) ? '🎙️ Órala en voz alta' : null,
-                onTap: bloqueada ? onOpenPaywall : () => onOpenPrayer(p),
-              ),
-            );
-          }),
-        const SizedBox(height: 12),
+            icon: const Icon(Icons.grid_view_rounded, size: 18),
+            label: const Text('Ver todos los temas'),
+          ),
+        ),
+        const SizedBox(height: 16),
         if (!isPlus) _PlusBanner(onTap: onOpenPaywall),
       ],
     );
