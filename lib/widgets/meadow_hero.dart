@@ -169,10 +169,24 @@ class MeadowHero extends StatelessWidget {
               child: LayoutBuilder(
                 builder: (context, c) {
                   const sheepSize = 60.0;
+                  const pastorSize = 96.0;
                   final pt = meadowPathPoint(
                       meadowSheepT(streak), c.maxWidth, c.maxHeight);
+                  final pastorPt =
+                      meadowPathPoint(0.95, c.maxWidth, c.maxHeight);
                   return Stack(
                     children: [
+                      // El Pastor (ilustración premium) al final del camino,
+                      // sobre el MISMO punto de la curva que usa la oveja ->
+                      // siempre alineado en cualquier móvil.
+                      Positioned(
+                        left: pastorPt.dx - pastorSize / 2,
+                        top: pastorPt.dy - pastorSize,
+                        width: pastorSize,
+                        height: pastorSize,
+                        child: Image.asset('assets/mascot/pastor.png',
+                            fit: BoxFit.contain),
+                      ),
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 800),
                         curve: Curves.easeOutCubic,
@@ -584,7 +598,9 @@ class _MeadowPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round
         ..color = scheme.secondary.withValues(alpha: _isDark ? 0.22 : 0.44),
     );
-    _drawShepherd(canvas, meadowPathPoint(0.99, w, h), h * 0.19);
+    // (El Pastor ya NO se dibuja por código: ahora es la ilustración
+    // premium `assets/mascot/pastor.png`, colocada como widget sobre el
+    // mismo punto del camino en MeadowHero.build.)
 
     // 6. Flores: la pradera FLORECE con los minutos orados (cada ~12 min
     // acumulados brota una flor nueva, hasta un maximo sereno).
