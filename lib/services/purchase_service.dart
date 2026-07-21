@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'prefs_service.dart';
 
 /// Planes disponibles de Ora Ahora Plus.
-enum PlusPlan { mensual, anual }
+enum PlusPlan { pruebaAnual, anual, semanal }
 
 /// Servicio de compras "stub" para el MVP.
 ///
@@ -28,15 +28,13 @@ class PurchaseService extends ChangeNotifier {
 
   bool get isPlusUser => _prefs.isPlusUser;
 
-  static const precioMensual = r'$4.99 USD/mes';
+  // Precios de EJEMPLO (Maria puede cambiarlos; deben coincidir con los
+  // productos configurados en Play Console).
   static const precioAnual = r'$39.99 USD/año';
-
-  /// Precio anual reformulado como monto diario equivalente
-  /// ($39.99 / 365 dias ~= $0.11 USD/dia), para que la comparacion de
-  /// valor sea mas concreta en el paywall (practica estandar y
-  /// transparente de la industria, no un patron oscuro: el precio total
-  /// real sigue mostrandose siempre junto a este).
+  static const precioSemanal = r'$4.99 USD/semana';
   static const precioAnualDiario = r'equivale a $0.11 USD/día';
+  // La prueba gratis dura 3 dias y al terminar cobra el plan ANUAL.
+  static const textoPrueba = r'3 días gratis, luego $39.99 USD/año';
 
   /// Simula la compra del plan mensual. En producción esto debe abrir el
   /// flujo de compra nativo de Google Play a través de RevenueCat/Billing.

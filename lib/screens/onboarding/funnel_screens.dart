@@ -63,18 +63,14 @@ class FunnelQ3 extends StatelessWidget {
       );
 }
 
-/// 4. el espejo (sus propios numeros)
+/// 4. el espejo: no repite los numeros, va al corazon.
 class FunnelMirror extends StatelessWidget {
   const FunnelMirror({super.key});
   @override
   Widget build(BuildContext context) {
-    final cel = FunnelAnswers.horasCelular.isEmpty
-        ? 'varias horas'
-        : FunnelAnswers.horasCelular;
-    final dios =
-        FunnelAnswers.tiempoDios.isEmpty ? 'casi nada' : FunnelAnswers.tiempoDios;
     return FunnelScreen(
-      frase: 'ayer le diste\n$cel al celular...\n\ny $dios a Dios.',
+      frase: 'no es que te falte tiempo.\n\nes que el celular siempre pide '
+          'primero...\ny Dios espera callado.',
       mascota: 'assets/mascot/ovejita_perdida.png',
       opciones: [
         ('continuar', () => _go(context, const FunnelWins())),

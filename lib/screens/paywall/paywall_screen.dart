@@ -38,7 +38,7 @@ class PaywallScreen extends StatefulWidget {
 }
 
 class _PaywallScreenState extends State<PaywallScreen> {
-  PlusPlan _selected = PlusPlan.anual;
+  PlusPlan _selected = PlusPlan.pruebaAnual;
   bool _loading = false;
 
   Future<void> _purchase() async {
@@ -148,6 +148,15 @@ class _PaywallScreenState extends State<PaywallScreen> {
               )
             else ...[
               _PlanOption(
+                plan: PlusPlan.pruebaAnual,
+                title: 'Prueba 3 días gratis',
+                price: PurchaseService.textoPrueba,
+                badge: 'Sin pago hoy',
+                selected: _selected == PlusPlan.pruebaAnual,
+                onTap: () => setState(() => _selected = PlusPlan.pruebaAnual),
+              ),
+              const SizedBox(height: 12),
+              _PlanOption(
                 plan: PlusPlan.anual,
                 title: 'Anual',
                 price: PurchaseService.precioAnual,
@@ -158,11 +167,11 @@ class _PaywallScreenState extends State<PaywallScreen> {
               ),
               const SizedBox(height: 12),
               _PlanOption(
-                plan: PlusPlan.mensual,
-                title: 'Mensual',
-                price: PurchaseService.precioMensual,
-                selected: _selected == PlusPlan.mensual,
-                onTap: () => setState(() => _selected = PlusPlan.mensual),
+                plan: PlusPlan.semanal,
+                title: 'Semanal',
+                price: PurchaseService.precioSemanal,
+                selected: _selected == PlusPlan.semanal,
+                onTap: () => setState(() => _selected = PlusPlan.semanal),
               ),
               const SizedBox(height: 8),
               Text(
@@ -182,7 +191,9 @@ class _PaywallScreenState extends State<PaywallScreen> {
                           child: CircularProgressIndicator(
                               strokeWidth: 2, color: Colors.white),
                         )
-                      : const Text('Continuar'),
+                      : Text(_selected == PlusPlan.pruebaAnual
+                          ? 'Empezar prueba gratis'
+                          : 'Continuar'),
                 ),
               ),
               const SizedBox(height: 10),

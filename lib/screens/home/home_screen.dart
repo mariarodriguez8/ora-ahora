@@ -16,6 +16,7 @@ import '../../theme/app_typography.dart';
 import '../../widgets/meadow_hero.dart';
 import '../../widgets/prayer_card.dart';
 import '../journal/journal_screen.dart';
+import '../gate_explainer/gate_explainer_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../prayer_detail/prayer_detail_screen.dart';
 import '../settings/settings_screen.dart';
@@ -48,8 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
     if (prefs.paywallShownAfterOnboarding) return;
     await prefs.setPaywallShownAfterOnboarding(true);
     if (!mounted) return;
-    Navigator.of(context).push(
+    // Primero el paywall (prueba/compra); SOLO despues se piden los permisos
+    // pesados de "Pausa y Ora" (acceso de uso + mostrarse encima).
+    await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const PaywallScreen()),
+    );
+    if (!mounted) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const GateExplainerScreen()),
     );
   }
 

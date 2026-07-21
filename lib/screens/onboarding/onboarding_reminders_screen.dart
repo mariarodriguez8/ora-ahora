@@ -5,7 +5,7 @@ import '../../services/notification_service.dart';
 import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
-import 'onboarding_gate_screen.dart';
+import 'onboarding_done_screen.dart';
 import 'onboarding_progress_dots.dart';
 
 /// Priming del permiso de notificaciones: primero se explica el beneficio
@@ -16,7 +16,7 @@ class OnboardingRemindersScreen extends StatelessWidget {
 
   void _next(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const OnboardingGateScreen()),
+      MaterialPageRoute(builder: (_) => const OnboardingDoneScreen()),
     );
   }
 
@@ -73,10 +73,15 @@ class OnboardingRemindersScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    final notif = context.read<NotificationService>();
-                    final ok = await notif.requestPermission();
-                    if (ok) {
-                      await notif.refreshSchedule(prefs.reminderTimes);
+                    try {
+                      final notif = context.read<NotificationService>();
+                      final ok = await notif.requestPermission();
+                      if (ok) {
+                        await notif.refreshSchedule(prefs.reminderTimes);
+                      }
+                    } catch (_) {
+                      // Aunque falle el permiso, nunca dejamos a la persona
+                      // atascada: seguimos siempre.
                     }
                     if (!context.mounted) return;
                     _next(context);
