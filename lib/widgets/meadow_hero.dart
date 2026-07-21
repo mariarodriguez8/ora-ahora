@@ -20,6 +20,29 @@ import 'faith_tree_widget.dart';
 /// (incluida "Vigilia" oscura, donde el amanecer es mas tenue). No se
 /// agrega ningun asset nuevo: la escena es un `CustomPainter` + los SVG
 /// del arbol y el PNG de la mascota que ya existen.
+/// Punto sobre el CAMINO del Salmo 23, como curva de Bézier cuadrática.
+/// La MISMA función la usan el pintor (para dibujar el camino y al Pastor)
+/// y el widget (para posar a la ovejita encima), con coordenadas
+/// proporcionales al tamaño real (w,h). Así la oveja SIEMPRE cae parada
+/// sobre el camino, en cualquier tamaño de móvil. [t] va de 0 (inicio,
+/// abajo-izquierda) a 1 (final, junto al Pastor).
+Offset meadowPathPoint(double t, double w, double h) {
+  final p0 = Offset(w * 0.14, h * 0.92);
+  final p1 = Offset(w * 0.46, h * 0.74);
+  final p2 = Offset(w * 0.74, h * 0.44);
+  final mt = 1 - t;
+  return Offset(
+    mt * mt * p0.dx + 2 * mt * t * p1.dx + t * t * p2.dx,
+    mt * mt * p0.dy + 2 * mt * t * p1.dy + t * t * p2.dy,
+  );
+}
+
+/// Progreso de la ovejita sobre el camino según la racha: empieza atrás
+/// (t=0) y a los 30 días llega justo detrás del Pastor (t=0.80, siempre
+/// queda un pasito por dar). Si la racha se rompe (streak 0), vuelve al
+/// inicio con gracia.
+double meadowSheepT(int streak) => (streak.clamp(0, 30) / 30.0) * 0.80;
+
 class MeadowHero extends StatelessWidget {
   final int streak;
   final bool atRisk;
@@ -136,25 +159,46 @@ class MeadowHero extends StatelessWidget {
                 ),
               ),
             ),
-            // La ovejita (eres tu, siempre feliz) junto al arroyo, con
-            // la expresion del momento (celebrando / esperando / perdida
-            // que vuelve / caminando). El cambio se anima suave.
-            Positioned(
-              left: 20,
-              bottom: 12,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 450),
-                switchInCurve: Curves.easeOutBack,
-                transitionBuilder: (child, animation) => ScaleTransition(
-                  scale: animation,
-                  child: FadeTransition(opacity: animation, child: child),
-                ),
-                child: Image.asset(
-                  _mascotAsset,
-                  key: ValueKey(_mascotAsset),
-                  height: 66,
-                  fit: BoxFit.contain,
-                ),
+            // La ovejita (eres tú). AVANZA sobre el camino según la racha:
+            // su posición es un punto EXACTO de la curva del camino (misma
+            // función `meadowPathPoint` que dibuja el camino), con
+            // proporciones del tamaño real -> SIEMPRE queda parada sobre el
+            // camino en cualquier móvil. Camina suave a su nuevo lugar
+            // cuando sube la racha; si la racha se rompe, vuelve al inicio.
+            Positioned.fill(
+              child: LayoutBuilder(
+                builder: (context, c) {
+                  const sheepSize = 60.0;
+                  final pt = meadowPathPoint(
+                      meadowSheepT(streak), c.maxWidth, c.maxHeight);
+                  return Stack(
+                    children: [
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 800),
+                        curve: Curves.easeOutCubic,
+                        left: pt.dx - sheepSize / 2,
+                        top: pt.dy - sheepSize,
+                        width: sheepSize,
+                        height: sheepSize,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 450),
+                          switchInCurve: Curves.easeOutBack,
+                          transitionBuilder: (child, animation) =>
+                              ScaleTransition(
+                            scale: animation,
+                            child: FadeTransition(
+                                opacity: animation, child: child),
+                          ),
+                          child: Image.asset(
+                            _mascotAsset,
+                            key: ValueKey(_mascotAsset),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
             // Contenido principal: overline + numero gigante + etiqueta +
@@ -518,11 +562,11 @@ class _MeadowPainter extends CustomPainter {
     // hacia el amanecer, y el Pastor camina ADELANTE en ese camino con su
     // cayado. La ovejita (PNG, encima) lo sigue: "mis ovejas oyen mi voz...
     // y me siguen".
+    final camA = meadowPathPoint(0.0, w, h);
+    final camZ = meadowPathPoint(1.0, w, h);
     final pathLight = Path()
-      ..moveTo(w * 0.16, h * 0.98)
-      ..quadraticBezierTo(w * 0.42, h * 0.86, w * 0.56, h * 0.72)
-      ..quadraticBezierTo(
-          w * 0.70, h * 0.58, sunCenter.dx, sunCenter.dy + h * 0.14);
+      ..moveTo(camA.dx, camA.dy)
+      ..quadraticBezierTo(w * 0.46, h * 0.74, camZ.dx, camZ.dy);
     canvas.drawPath(
       pathLight,
       Paint()
@@ -540,7 +584,7 @@ class _MeadowPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round
         ..color = scheme.secondary.withValues(alpha: _isDark ? 0.22 : 0.44),
     );
-    _drawShepherd(canvas, Offset(w * 0.55, h * 0.71), h * 0.20);
+    _drawShepherd(canvas, meadowPathPoint(0.99, w, h), h * 0.19);
 
     // 6. Flores: la pradera FLORECE con los minutos orados (cada ~12 min
     // acumulados brota una flor nueva, hasta un maximo sereno).

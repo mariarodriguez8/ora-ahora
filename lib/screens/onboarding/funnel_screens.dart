@@ -63,15 +63,45 @@ class FunnelQ3 extends StatelessWidget {
       );
 }
 
-/// 4. el espejo: no repite los numeros, va al corazon.
+/// 4. el espejo: gamificado segun las respuestas. No repite numeros secos,
+/// va al corazon y cambia el tono (y la ovejita) segun cuanto tiempo le
+/// dio a Dios.
 class FunnelMirror extends StatelessWidget {
   const FunnelMirror({super.key});
+
+  String get _horas =>
+      FunnelAnswers.horasCelular.isEmpty ? 'horas' : FunnelAnswers.horasCelular;
+
+  String _frase() {
+    switch (FunnelAnswers.tiempoDios) {
+      case 'nada':
+        return '$_horas en el celular.\n\ny para Dios... nada.\n'
+            'no es que no te importe —\nes que nunca le llega el turno.';
+      case 'unos minutitos':
+        return '$_horas en el celular.\n\ny para Dios, unos minutitos.\n'
+            'tu corazón siente esa diferencia.';
+      default: // media hora o más
+        return '$_horas en el celular,\n\ny un buen rato con Dios.\n'
+            'vas por buen camino —\nÉl quiere seguir cerca de ti.';
+    }
+  }
+
+  String _mascota() {
+    switch (FunnelAnswers.tiempoDios) {
+      case 'nada':
+        return 'assets/mascot/ovejita_perdida.png';
+      case 'unos minutitos':
+        return 'assets/mascot/ovejita_pensativa.png';
+      default:
+        return 'assets/mascot/ovejita_esperando.png';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FunnelScreen(
-      frase: 'no es que te falte tiempo.\n\nes que el celular siempre pide '
-          'primero...\ny Dios espera callado.',
-      mascota: 'assets/mascot/ovejita_perdida.png',
+      frase: _frase(),
+      mascota: _mascota(),
       opciones: [
         ('continuar', () => _go(context, const FunnelWins())),
       ],
@@ -84,7 +114,8 @@ class FunnelWins extends StatelessWidget {
   const FunnelWins({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-        frase: 'y no es que no ames a Dios.\n\nes que el celular\nsiempre gana.',
+        frase: 'y no es que no ames a Dios.\n\nes que el celular grita...\n'
+            'y Él te habla bajito.\npor eso casi siempre gana la pantalla.',
         mascota: 'assets/mascot/ovejita_pensativa.png',
         opciones: [
           ('así me siento 😔', () => _go(context, const FunnelGrace())),

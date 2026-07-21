@@ -114,39 +114,29 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                           height: 110),
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                        _isMiui
-                            ? 'Tres permisos, una sola misión 🙏'
-                            : 'Dos permisos, una sola misión 🙏',
+                    Text('Activa Pausa y Ora',
                         style: AppTypography.headline),
                     const SizedBox(height: 12),
                     Text(
-                      'Para detenerte con una oración justo antes de que se '
-                      'abra una app que te distrae, tu teléfono nos pide '
-                      'activar dos permisos. Los dos se encienden en un '
-                      'minuto y aquí te llevamos directo al lugar exacto.',
+                      'Activa estos permisos para que Pausa y Ora funcione. '
+                      'Toca cada botón y te llevamos al lugar exacto.',
                       style: AppTypography.body,
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 8),
                     Text(
-                      'Con ellos, Ora Ahora solo conoce el NOMBRE de la app '
-                      'que abres (por ejemplo "Instagram"), nunca lo que ves '
-                      'o escribes dentro. No leemos mensajes, contraseñas ni '
-                      'fotos, y nada sale de tu teléfono.',
-                      style: AppTypography.body,
+                      'Solo vemos el nombre de la app que abres. Nada sale de '
+                      'tu teléfono.',
+                      style:
+                          AppTypography.body.copyWith(color: AppColors.inkSoft),
                     ),
                     const SizedBox(height: 20),
                     _PermisoCard(
                       numero: '1',
                       titulo: 'Acceso de uso',
-                      descripcion:
-                          'Le dice a Ora Ahora qué app acabas de abrir, '
-                          'para saber cuándo proponerte la pausa.',
+                      descripcion: 'Para saber cuándo mostrarte la pausa.',
                       granted: _usageGranted,
-                      botonTexto: 'Activar Acceso de uso',
-                      instruccion:
-                          'En la pantalla que se abre, busca "Ora Ahora", '
-                          'tócala y enciende "Permitir acceso de uso".',
+                      botonTexto: 'Abrir ajustes',
+                      instruccion: 'Activa el interruptor de Ora Ahora.',
                       onPressed: () =>
                           _markSeenAnd(gate.openUsageAccessSettings),
                     ),
@@ -154,14 +144,10 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                     _PermisoCard(
                       numero: '2',
                       titulo: 'Mostrar sobre otras apps',
-                      descripcion:
-                          'Permite que la pausa de oración aparezca encima '
-                          'de la app que ibas a abrir.',
+                      descripcion: 'Para que la pausa aparezca encima.',
                       granted: _overlayGranted,
-                      botonTexto: 'Permitir mostrar encima',
-                      instruccion:
-                          'En la pantalla que se abre, enciende el '
-                          'interruptor de "Ora Ahora".',
+                      botonTexto: 'Abrir ajustes',
+                      instruccion: 'Busca Ora Ahora y enciende el permiso.',
                       onPressed: () => _markSeenAnd(gate.openOverlaySettings),
                     ),
                     if (_isMiui) ...[
@@ -170,14 +156,11 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                         numero: '3',
                         titulo: 'Xiaomi: ventanas en segundo plano',
                         descripcion:
-                            'Tu teléfono Xiaomi/Redmi pide un permiso extra '
-                            'para que la pausa de oración pueda aparecer '
-                            'cuando Ora Ahora trabaja en segundo plano.',
+                            'Tu teléfono Xiaomi pide un permiso extra.',
                         granted: _miuiGranted,
-                        botonTexto: 'Abrir "Otros permisos"',
+                        botonTexto: 'Abrir ajustes',
                         instruccion:
-                            'En la pantalla que se abre, activa "Mostrar '
-                            'ventanas emergentes mientras se ejecuta en '
+                            'Enciende "Mostrar ventanas emergentes en '
                             'segundo plano".',
                         onPressed: () =>
                             _markSeenAnd(gate.openMiuiOtherPermissions),

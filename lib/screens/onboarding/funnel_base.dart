@@ -53,6 +53,7 @@ class FunnelScreen extends StatelessWidget {
                 const Spacer(),
                 Center(
                   child: Image.asset(mascota, height: 170,
+                      fit: BoxFit.contain,
                       filterQuality: FilterQuality.medium),
                 ),
                 const Spacer(),

@@ -633,10 +633,11 @@ class _TemasSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('¿Algo te pesa hoy?', style: AppTypography.headline),
+        Text('Lo que sientes hoy tiene oración.',
+            style: AppTypography.headline),
         const SizedBox(height: 4),
         Text(
-          'Toca un tema y ora sobre eso.',
+          'Toca el tema que más te pesa.',
           style: AppTypography.body.copyWith(color: AppColors.inkSoft),
         ),
         const SizedBox(height: 14),
