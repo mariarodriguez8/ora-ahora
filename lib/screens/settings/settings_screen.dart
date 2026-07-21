@@ -6,6 +6,7 @@ import '../../services/purchase_service.dart';
 import '../../services/voice_prayer_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
+import '../onboarding/onboarding_welcome_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../voice_explainer/voice_explainer_screen.dart';
 import 'about_screen.dart';
@@ -118,6 +119,20 @@ class SettingsScreen extends StatelessWidget {
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const AboutScreen()),
             ),
+          ),
+          _SettingsTile(
+            icon: Icons.replay_outlined,
+            title: 'Ver la introducción otra vez',
+            subtitle: 'Repite el recorrido de bienvenida',
+            onTap: () async {
+              await context.read<PrefsService>().setOnboardingComplete(false);
+              if (!context.mounted) return;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (_) => const OnboardingWelcomeScreen()),
+                (route) => false,
+              );
+            },
           ),
         ],
       ),
