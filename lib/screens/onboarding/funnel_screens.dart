@@ -168,10 +168,11 @@ class FunnelShame extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FunnelScreen(
         frase: '¿te da pena orar\nen voz alta?',
-        // v23: ovejita_escuchando es un "busto" (solo cabeza/torso) y en
-        // esta pantalla se veia CORTADA. Se usa una ovejita de cuerpo
-        // completo (pensativa/timida, acorde a "¿te da pena?").
-        mascota: 'assets/mascot/ovejita_pensativa.png',
+        // v24: ovejita_escuchando era un "busto" (solo cabeza/torso) y se
+        // veia CORTADA. Se reemplaza por una ovejita NUEVA de cuerpo
+        // completo generada a partir de la mascota oficial (elegida por
+        // Maria), cabeza a patas, sin recortes.
+        mascota: 'assets/mascot/ovejita_vozalta.png',
         opciones: [
           ('un poquito 🙈', () => _answer(context, true)),
           ('no, para nada', () => _answer(context, false)),

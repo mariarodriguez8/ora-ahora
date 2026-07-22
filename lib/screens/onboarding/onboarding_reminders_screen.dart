@@ -7,6 +7,7 @@ import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import '../gate_explainer/gate_explainer_screen.dart';
+import '../home/home_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../settings/gated_apps_screen.dart';
 import 'onboarding_done_screen.dart';
@@ -42,11 +43,20 @@ class OnboardingRemindersScreen extends StatelessWidget {
       );
     }
     if (!context.mounted) return;
-    // Paso C: elegir QUE apps piden una pausa (TikTok, Instagram, etc.).
+    // Paso C: pantalla "tu semilla ya esta plantada" con boton CONTINUAR
+    // (NO "ir a mi inicio"): todavia falta elegir las apps. El boton solo
+    // cierra esta pantalla para seguir al ultimo paso.
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => OnboardingDoneScreen(
+          onContinue: () => Navigator.of(ctx).pop(),
+        ),
+      ),
+    );
+    if (!context.mounted) return;
+    // Paso D: elegir QUE apps piden una pausa (TikTok, Instagram, etc.).
     // Este paso SIEMPRE aparece en el onboarding: nadie deberia tener que
     // adivinar que hay que ir a Ajustes a configurarlo (pedido de Maria).
-    // "Continuar" (o el gesto de volver) simplemente cierra esta pantalla;
-    // el cierre del onboarding se hace una sola vez, abajo.
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => GatedAppsScreen(
@@ -55,10 +65,12 @@ class OnboardingRemindersScreen extends StatelessWidget {
       ),
     );
     if (!context.mounted) return;
-    // Paso D: cierre del onboarding (una sola vez, venga de "Continuar" o
-    // del gesto de volver desde la seleccion de apps).
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const OnboardingDoneScreen()),
+    // Paso E: AHORA si, cierre real del onboarding -> al inicio.
+    await prefs.setOnboardingComplete(true);
+    if (!context.mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      (route) => false,
     );
   }
 

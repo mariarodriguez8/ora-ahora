@@ -7,7 +7,13 @@ import '../../theme/app_typography.dart';
 import '../home/home_screen.dart';
 
 class OnboardingDoneScreen extends StatelessWidget {
-  const OnboardingDoneScreen({super.key});
+  /// Si se pasa [onContinue], esta pantalla NO es el final del onboarding:
+  /// el boton dice "Continuar" y lleva al siguiente paso (elegir apps de
+  /// Pausa y Ora) en vez de ir directo al inicio (pedido de Maria: el
+  /// boton "Ir a mi inicio" saltaba el paso de elegir apps).
+  final VoidCallback? onContinue;
+
+  const OnboardingDoneScreen({super.key, this.onContinue});
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +47,12 @@ class OnboardingDoneScreen extends StatelessWidget {
               ),
               const SizedBox(height: 14),
               Text(
-                'Hoy oraste por primera vez aquí. Cada día que vuelvas, '
-                'tu árbol de fe crecerá un poquito más. Nos vemos mañana '
-                'a la misma hora — no vengas tarde 😄',
+                onContinue != null
+                    ? 'Hoy oraste por primera vez aquí 🌱 Falta un último '
+                        'paso: elige qué apps te pedirán una pausa para orar.'
+                    : 'Hoy oraste por primera vez aquí. Cada día que vuelvas, '
+                        'tu árbol de fe crecerá un poquito más. Nos vemos '
+                        'mañana a la misma hora — no vengas tarde 😄',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),
@@ -52,6 +61,13 @@ class OnboardingDoneScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
+                    // Caso onboarding: NO terminamos aqui; seguimos al paso
+                    // de elegir apps. Solo cuando NO hay onContinue esta es
+                    // la pantalla final y se va al inicio.
+                    if (onContinue != null) {
+                      onContinue!();
+                      return;
+                    }
                     final prefs = context.read<PrefsService>();
                     await prefs.setOnboardingComplete(true);
                     if (!context.mounted) return;
@@ -60,7 +76,8 @@ class OnboardingDoneScreen extends StatelessWidget {
                       (route) => false,
                     );
                   },
-                  child: const Text('Ir a mi inicio 🏡'),
+                  child: Text(
+                      onContinue != null ? 'Continuar 🙏' : 'Ir a mi inicio 🏡'),
                 ),
               ),
             ],
