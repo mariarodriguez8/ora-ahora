@@ -300,7 +300,12 @@ class _PlanOption extends StatelessWidget {
           ),
           color: selected ? AppColors.tealLight.withValues(alpha: 0.3) : null,
         ),
+        // v23: layout en COLUMNA (titulo+insignia arriba, precio debajo)
+        // para que los textos NUNCA se superpongan, sin importar el ancho
+        // del telefono ni lo largo del texto (bug de superposicion que
+        // reporto Maria en la opcion de prueba).
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
               selected ? Icons.radio_button_checked : Icons.radio_button_off,
@@ -308,36 +313,52 @@ class _PlanOption extends StatelessWidget {
             ),
             const SizedBox(width: 14),
             Expanded(
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: AppTypography.title),
-                  if (badge != null) ...[
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.amber,
-                        borderRadius: BorderRadius.circular(999),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          title,
+                          style: AppTypography.title,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      child: Text(
-                        badge!,
-                        style: AppTypography.caption.copyWith(color: Colors.white),
-                      ),
+                      if (badge != null) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.amber,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            badge!,
+                            style: AppTypography.caption
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    price,
+                    style: AppTypography.body.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.tealDeep,
                     ),
-                  ],
+                  ),
+                  if (priceSubtitle != null)
+                    Text(
+                      priceSubtitle!,
+                      style: AppTypography.caption
+                          .copyWith(color: AppColors.inkSoft),
+                    ),
                 ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(price, style: AppTypography.title),
-                if (priceSubtitle != null)
-                  Text(
-                    priceSubtitle!,
-                    style: AppTypography.caption.copyWith(color: AppColors.inkSoft),
-                  ),
-              ],
             ),
           ],
         ),

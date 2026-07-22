@@ -8,6 +8,7 @@ import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import '../gate_explainer/gate_explainer_screen.dart';
 import '../paywall/paywall_screen.dart';
+import '../settings/gated_apps_screen.dart';
 import 'onboarding_done_screen.dart';
 import 'onboarding_progress_dots.dart';
 
@@ -41,7 +42,21 @@ class OnboardingRemindersScreen extends StatelessWidget {
       );
     }
     if (!context.mounted) return;
-    // Paso C: cierre del onboarding.
+    // Paso C: elegir QUE apps piden una pausa (TikTok, Instagram, etc.).
+    // Este paso SIEMPRE aparece en el onboarding: nadie deberia tener que
+    // adivinar que hay que ir a Ajustes a configurarlo (pedido de Maria).
+    // "Continuar" (o el gesto de volver) simplemente cierra esta pantalla;
+    // el cierre del onboarding se hace una sola vez, abajo.
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => GatedAppsScreen(
+          onboardingContinue: () => Navigator.of(ctx).pop(),
+        ),
+      ),
+    );
+    if (!context.mounted) return;
+    // Paso D: cierre del onboarding (una sola vez, venga de "Continuar" o
+    // del gesto de volver desde la seleccion de apps).
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const OnboardingDoneScreen()),
     );

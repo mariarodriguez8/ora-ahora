@@ -11,8 +11,16 @@ import '../gate_explainer/gate_explainer_screen.dart';
 /// Pantalla para elegir que apps instaladas requeriran una "Pausa y Ora"
 /// antes de abrirse. La version gratuita permite 1 app; Ora Ahora Plus
 /// permite apps ilimitadas.
+///
+/// v23: esta pantalla tambien se usa DENTRO del onboarding (justo despues
+/// de conceder los permisos), porque nadie va a intuir que debe entrar a
+/// Ajustes a elegir sus apps. Cuando se pasa [onboardingContinue], se
+/// muestra una intro corta y un boton fijo "Continuar" abajo que avanza
+/// el onboarding en vez de volver atras.
 class GatedAppsScreen extends StatefulWidget {
-  const GatedAppsScreen({super.key});
+  final VoidCallback? onboardingContinue;
+
+  const GatedAppsScreen({super.key, this.onboardingContinue});
 
   @override
   State<GatedAppsScreen> createState() => _GatedAppsScreenState();
@@ -24,6 +32,8 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
   late Future<List<Application>> _appsFuture;
   bool? _permissionsOk;
 
+  bool get _onboarding => widget.onboardingContinue != null;
+
   @override
   void initState() {
     super.initState();
@@ -32,7 +42,14 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
   }
 
   Future<void> _checkPermissions() async {
-    final granted = await context.read<GateService>().hasAllGatePermissions();
+    final gate = context.read<GateService>();
+    final granted = await gate.hasAllGatePermissions();
+    // En onboarding, si los permisos ya estan concedidos, encendemos la
+    // Pausa y Ora automaticamente para que la persona solo tenga que
+    // marcar sus apps (un paso menos).
+    if (_onboarding && granted && !gate.gateEnabled) {
+      await gate.setGateEnabled(true);
+    }
     if (mounted) setState(() => _permissionsOk = granted);
   }
 
@@ -60,10 +77,37 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
     final isPlus = context.watch<PurchaseService>().isPlusUser;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Pausa y Ora')),
+      appBar: AppBar(
+        title: Text(_onboarding ? 'Elige tus apps' : 'Pausa y Ora'),
+        automaticallyImplyLeading: !_onboarding,
+      ),
+      bottomNavigationBar: _onboarding
+          ? SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: widget.onboardingContinue,
+                    child: const Text('Continuar 🙏'),
+                  ),
+                ),
+              ),
+            )
+          : null,
       body: SafeArea(
         child: Column(
           children: [
+            if (_onboarding)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
+                child: Text(
+                  'Elige qué apps te van a pedir una pausa para orar antes '
+                  'de abrirlas (por ejemplo TikTok, Instagram o YouTube). '
+                  'Podrás cambiarlas cuando quieras desde Ajustes.',
+                  style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+                ),
+              ),
             SwitchListTile(
               value: gate.gateEnabled,
               onChanged: _onMasterSwitch,

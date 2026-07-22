@@ -63,13 +63,17 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
       ? 0
       : _matchedTokens.length / _prayerTokens.length;
 
-  /// Cobertura minima de la oracion dicha en voz alta para confirmarla.
-  /// v11d (pedido de Maria): 90% — antes se confirmaba a mitad de la
-  /// oracion, ahora hay que decirla casi completa.
-  static const double _coverageToConfirm = 0.90;
+  /// Cobertura minima de la oracion dicha en voz alta para confirmarla
+  /// SOLA (sin decir "amén"). v23: el reconocimiento de voz EN EL
+  /// DISPOSITIVO en español es imperfecto y suele captar ~50-60% aunque
+  /// la persona lea completa; exigir 90% dejaba a la gente atascada (bug
+  /// reportado por Maria). Bajamos el umbral para que refleje lo que un
+  /// motor on-device realmente reconoce leyendo la oracion entera.
+  static const double _coverageToConfirm = 0.55;
 
-  /// Si la persona cierra con "amen", basta con esta cobertura.
-  static const double _coverageWithAmen = 0.75;
+  /// Si la persona cierra con "amén", basta con esta cobertura mucho mas
+  /// baja: decir "amén" es una señal clara e intencional de que terminó.
+  static const double _coverageWithAmen = 0.20;
 
   @override
   void initState() {
@@ -422,6 +426,7 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
                     pulseController: _pulseController,
                     onStart: _ensureVoiceReadyAndStart,
                     onCancel: _cancelListening,
+                    onFinish: _handleAutoConfirm,
                   ),
                 ],
               ],
@@ -522,6 +527,7 @@ class _VoicePrayerSection extends StatelessWidget {
   final AnimationController pulseController;
   final VoidCallback onStart;
   final VoidCallback onCancel;
+  final VoidCallback onFinish;
 
   const _VoicePrayerSection({
     required this.listening,
@@ -530,6 +536,7 @@ class _VoicePrayerSection extends StatelessWidget {
     required this.pulseController,
     required this.onStart,
     required this.onCancel,
+    required this.onFinish,
   });
 
   @override
@@ -672,7 +679,7 @@ class _VoicePrayerSection extends StatelessWidget {
                 Text(
                   pct == 0
                       ? 'Lee la oración en voz alta, con calma'
-                      : 'Ya llevas el $pct% · cierra con "Amén"',
+                      : 'Ya llevas el $pct% · di "Amén" o toca "Ya terminé"',
                   style: AppTypography.caption.copyWith(
                       color: const Color(0xFFF7F3EA).withValues(alpha: 0.7),
                       letterSpacing: 0.4),
@@ -691,7 +698,23 @@ class _VoicePrayerSection extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ],
-                const SizedBox(height: 4),
+                const SizedBox(height: 12),
+                // Boton SIEMPRE visible para cerrar la oracion a mano: si el
+                // reconocimiento de voz no capta todo (comun en on-device),
+                // la persona nunca se queda atascada — toca aqui y termina.
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: onFinish,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFFD18C),
+                      foregroundColor: const Color(0xFF241F10),
+                    ),
+                    icon: const Icon(Icons.check_circle_rounded),
+                    label: const Text('Ya terminé de orar 🙏'),
+                  ),
+                ),
+                const SizedBox(height: 2),
                 TextButton(
                   onPressed: onCancel,
                   child: Text('Cancelar',

@@ -34,7 +34,9 @@ class PurchaseService extends ChangeNotifier {
   static const precioAnual = r'$39.99 USD/año';
   static const precioAnualEquiv = r'equivale a $3.33 USD/mes';
   // La prueba gratis dura 3 dias y al terminar cobra el plan MENSUAL.
-  static const textoPrueba = r'3 días gratis, luego $4.99 USD/mes';
+  // (El titulo de la opcion ya dice "Prueba 3 días gratis", aqui solo el
+  // precio para no repetir ni encimar textos.)
+  static const textoPrueba = r'Luego $4.99 USD/mes';
 
   /// Simula la compra del plan mensual. En producción esto debe abrir el
   /// flujo de compra nativo de Google Play a través de RevenueCat/Billing.
