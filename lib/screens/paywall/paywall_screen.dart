@@ -38,7 +38,7 @@ class PaywallScreen extends StatefulWidget {
 }
 
 class _PaywallScreenState extends State<PaywallScreen> {
-  PlusPlan _selected = PlusPlan.pruebaAnual;
+  PlusPlan _selected = PlusPlan.pruebaMensual;
   bool _loading = false;
 
   Future<void> _purchase() async {
@@ -152,30 +152,30 @@ class _PaywallScreenState extends State<PaywallScreen> {
               )
             else ...[
               _PlanOption(
-                plan: PlusPlan.pruebaAnual,
+                plan: PlusPlan.pruebaMensual,
                 title: 'Prueba 3 días gratis',
                 price: PurchaseService.textoPrueba,
                 badge: 'Sin pago hoy',
-                selected: _selected == PlusPlan.pruebaAnual,
-                onTap: () => setState(() => _selected = PlusPlan.pruebaAnual),
+                selected: _selected == PlusPlan.pruebaMensual,
+                onTap: () => setState(() => _selected = PlusPlan.pruebaMensual),
+              ),
+              const SizedBox(height: 12),
+              _PlanOption(
+                plan: PlusPlan.mensual,
+                title: 'Mensual',
+                price: PurchaseService.precioMensual,
+                selected: _selected == PlusPlan.mensual,
+                onTap: () => setState(() => _selected = PlusPlan.mensual),
               ),
               const SizedBox(height: 12),
               _PlanOption(
                 plan: PlusPlan.anual,
                 title: 'Anual',
                 price: PurchaseService.precioAnual,
-                priceSubtitle: PurchaseService.precioAnualDiario,
+                priceSubtitle: PurchaseService.precioAnualEquiv,
                 badge: 'Ahorra más',
                 selected: _selected == PlusPlan.anual,
                 onTap: () => setState(() => _selected = PlusPlan.anual),
-              ),
-              const SizedBox(height: 12),
-              _PlanOption(
-                plan: PlusPlan.semanal,
-                title: 'Semanal',
-                price: PurchaseService.precioSemanal,
-                selected: _selected == PlusPlan.semanal,
-                onTap: () => setState(() => _selected = PlusPlan.semanal),
               ),
               const SizedBox(height: 8),
               Text(
@@ -195,7 +195,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                           child: CircularProgressIndicator(
                               strokeWidth: 2, color: Colors.white),
                         )
-                      : Text(_selected == PlusPlan.pruebaAnual
+                      : Text(_selected == PlusPlan.pruebaMensual
                           ? 'Empezar prueba gratis'
                           : 'Continuar'),
                 ),

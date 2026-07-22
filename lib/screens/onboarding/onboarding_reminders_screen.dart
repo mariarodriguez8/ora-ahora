@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/gate_service.dart';
 import '../../services/notification_service.dart';
 import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
+import '../gate_explainer/gate_explainer_screen.dart';
+import '../paywall/paywall_screen.dart';
 import 'onboarding_done_screen.dart';
 import 'onboarding_progress_dots.dart';
 
@@ -14,8 +17,32 @@ import 'onboarding_progress_dots.dart';
 class OnboardingRemindersScreen extends StatelessWidget {
   const OnboardingRemindersScreen({super.key});
 
-  void _next(BuildContext context) {
-    Navigator.of(context).push(
+  Future<void> _next(BuildContext context) async {
+    // El paywall y los permisos de "Pausa y Ora" viven AQUI, dentro del
+    // onboarding, justo despues de los permisos esenciales. Son pasos de
+    // NAVEGACION garantizados (no dependen de ninguna marca guardada que
+    // Android pueda restaurar), asi que SIEMPRE aparecen para un usuario
+    // nuevo, en el orden correcto: esenciales -> paywall -> Pausa y Ora.
+    final prefs = context.read<PrefsService>();
+    // Marca para que el inicio no vuelva a mostrar el paywall (ya se ve aqui).
+    await prefs.setPaywallShownAfterOnboarding(true);
+    if (!context.mounted) return;
+    // Paso A: Paywall (prueba/compra), ultimo gran paso del onboarding.
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const PaywallScreen()),
+    );
+    if (!context.mounted) return;
+    // Paso B: JUSTO despues, permisos de Pausa y Ora si aun faltan.
+    final gate = context.read<GateService>();
+    final tienePermisos = await gate.hasAllGatePermissions();
+    if (context.mounted && !tienePermisos) {
+      await Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const GateExplainerScreen()),
+      );
+    }
+    if (!context.mounted) return;
+    // Paso C: cierre del onboarding.
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const OnboardingDoneScreen()),
     );
   }
