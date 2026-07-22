@@ -3,12 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/prayer.dart';
-import '../../services/gate_service.dart';
 import '../../services/prefs_service.dart';
 import '../../services/purchase_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
-import '../gate_explainer/gate_explainer_screen.dart';
 
 /// Pantalla de paywall de Ora Ahora Plus.
 ///
@@ -52,19 +50,10 @@ class _PaywallScreenState extends State<PaywallScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('¡Bienvenido a Ora Ahora Plus!')),
       );
-      // JUSTO DESPUES DEL PAGO: si faltan los permisos de "Pausa y Ora"
-      // (acceso de uso + mostrarse encima), se piden aqui mismo con el
-      // flujo guiado, sin dejar que el usuario tenga que ir a buscarlos a
-      // Ajustes. Funciona sin importar desde donde se abrio el paywall.
-      final gate = context.read<GateService>();
-      final tienePermisos = await gate.hasAllGatePermissions();
-      if (!mounted) return;
-      if (!tienePermisos) {
-        await Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const GateExplainerScreen()),
-        );
-        if (!mounted) return;
-      }
+      // Los permisos de "Pausa y Ora" se piden SIEMPRE justo despues de
+      // cerrar el paywall (compre o no), garantizados desde el flujo del
+      // inicio (ver HomeScreen._maybeShowOnboardingPaywall). Aqui solo se
+      // cierra el paywall.
       Navigator.of(context).pop();
     }
   }

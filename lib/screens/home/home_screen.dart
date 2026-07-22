@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/prayer.dart';
 import '../../services/community_stats_service.dart';
+import '../../services/gate_service.dart';
 import '../../services/prayer_repository.dart';
 import '../../services/appearance_service.dart';
 import '../../services/prefs_service.dart';
@@ -15,6 +16,7 @@ import '../../theme/app_palettes.dart';
 import '../../theme/app_typography.dart';
 import '../../widgets/meadow_hero.dart';
 import '../../widgets/prayer_card.dart';
+import '../gate_explainer/gate_explainer_screen.dart';
 import '../journal/journal_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../themes/theme_prayers_screen.dart';
@@ -49,12 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
     if (prefs.paywallShownAfterOnboarding) return;
     await prefs.setPaywallShownAfterOnboarding(true);
     if (!mounted) return;
-    // Se abre el paywall (prueba/compra). El propio paywall, JUSTO despues
-    // del pago, encadena el flujo guiado de permisos de "Pausa y Ora" si
-    // hacen falta (ver PaywallScreen._purchase), asi no dependemos de esta
-    // ruta unica del onboarding para pedirlos.
+    // Paso 1: se abre el paywall (prueba/compra).
     await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const PaywallScreen()),
+    );
+    if (!mounted) return;
+    // Paso 2: JUSTO despues del paywall —COMPRE O NO— se piden los permisos de
+    // "Pausa y Ora" (acceso de uso + mostrarse encima) si aun faltan. Antes
+    // esto solo ocurria si el usuario compraba, y por eso a veces "faltaban"
+    // los permisos. Ahora se piden siempre, aqui, de forma garantizada.
+    final gate = context.read<GateService>();
+    final tienePermisos = await gate.hasAllGatePermissions();
+    if (!mounted || tienePermisos) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const GateExplainerScreen()),
     );
   }
 
