@@ -4,7 +4,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import 'app_globals.dart';
 import 'screens/home/home_screen.dart';
+import 'screens/momento/momento_oracion_screen.dart';
 import 'screens/onboarding/onboarding_welcome_screen.dart';
 import 'services/appearance_service.dart';
 import 'services/gate_service.dart';
@@ -34,10 +36,23 @@ Future<void> main() async {
     await notificationService.refreshSchedule(prefsService.reminderTimes);
   } catch (_) {}
 
+  // v29: ¿la app se abrió por tocar un recordatorio de la hora? Si es así,
+  // al primer frame la llevamos directo a la pantalla de "momento de
+  // oración" (oración corta + "Amén, ya oré").
+  final abrirMomento = await notificationService.wasLaunchedByNotification();
+
   runApp(OraAhoraApp(
     prefsService: prefsService,
     notificationService: notificationService,
   ));
+
+  if (abrirMomento) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(builder: (_) => const MomentoOracionScreen()),
+      );
+    });
+  }
 }
 
 class OraAhoraApp extends StatelessWidget {
@@ -94,6 +109,7 @@ class OraAhoraApp extends StatelessWidget {
 
           return MaterialApp(
             title: 'Ora Ahora',
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             darkTheme: darkTheme,

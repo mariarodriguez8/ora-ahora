@@ -1,7 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
+
+import '../app_globals.dart';
+import '../screens/momento/momento_oracion_screen.dart';
+
+/// v29: al TOCAR un recordatorio de la hora, la app abre directo la
+/// pantalla de "momento de oracion" (oracion corta + "Amen, ya ore").
+/// Se maneja aqui, a nivel top-level, para poder navegar con la
+/// `navigatorKey` global sin necesitar un BuildContext.
+void _handleNotificationTap(NotificationResponse response) {
+  if (response.payload == kMomentoPayload) {
+    navigatorKey.currentState?.push(
+      MaterialPageRoute(builder: (_) => const MomentoOracionScreen()),
+    );
+  }
+}
 
 /// Programa recordatorios diarios de oracion usando notificaciones locales.
 ///
@@ -70,7 +86,10 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
 
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
     const initSettings = InitializationSettings(android: androidInit);
-    await _plugin.initialize(initSettings);
+    await _plugin.initialize(
+      initSettings,
+      onDidReceiveNotificationResponse: _handleNotificationTap,
+    );
 
     const androidChannel = AndroidNotificationChannel(
       _channelId,
@@ -112,6 +131,19 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
         AndroidFlutterLocalNotificationsPlugin>();
     final enabled = await androidImpl?.areNotificationsEnabled();
     return enabled ?? false;
+  }
+
+  /// v29: `true` si la app se abrió (desde cero) por tocar un recordatorio
+  /// de la hora. `main.dart` lo usa para llevar directo a la pantalla de
+  /// "momento de oración".
+  Future<bool> wasLaunchedByNotification() async {
+    try {
+      final details = await _plugin.getNotificationAppLaunchDetails();
+      if (details?.didNotificationLaunchApp != true) return false;
+      return details?.notificationResponse?.payload == kMomentoPayload;
+    } catch (_) {
+      return false;
+    }
   }
 
   /// Cancela todo lo programado y vuelve a programar [_daysAhead] dias
@@ -157,7 +189,8 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
               priority: Priority.defaultPriority,
             ),
           ),
-         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+         payload: kMomentoPayload,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
         );
@@ -203,7 +236,8 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
           priority: Priority.defaultPriority,
         ),
       ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      payload: kMomentoPayload,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );
