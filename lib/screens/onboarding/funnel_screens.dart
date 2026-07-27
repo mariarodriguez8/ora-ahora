@@ -33,7 +33,7 @@ class FunnelQ2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FunnelScreen(
         frase: '¿cuánto tiempo pasaste\nayer en el celular?',
-        subtitulo: 'sé honesta',
+        subtitulo: 'con toda sinceridad',
         mascota: 'assets/mascot/ovejita_esperando.png',
         opciones: [
           ('1 o 2 horas', () => _pick(context, '1 o 2 horas')),
@@ -79,7 +79,7 @@ class FunnelMirror extends StatelessWidget {
             'no es que no te importe —\nes que nunca le llega el turno.';
       case 'unos minutitos':
         return '$_horas en el celular.\n\ny para Dios, unos minutitos.\n'
-            'tu corazón siente esa diferencia.';
+            'y en el fondo sabes que te hace falta más de Él.';
       default: // media hora o más
         return '$_horas en el celular,\n\ny un buen rato con Dios.\n'
             'vas por buen camino —\nÉl quiere seguir cerca de ti.';
@@ -114,8 +114,9 @@ class FunnelWins extends StatelessWidget {
   const FunnelWins({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-        frase: 'y no es que no ames a Dios.\n\nes que el celular grita...\n'
-            'y Él te habla bajito.\npor eso casi siempre gana la pantalla.',
+        frase: 'y no es que no ames a Dios.\n\nes que el celu siempre está '
+            'a la mano,\ny sentarte a orar cuesta un poquito más.\n'
+            'le pasa a muchísima gente, de verdad.',
         mascota: 'assets/mascot/ovejita_pensativa.png',
         opciones: [
           ('así me siento 😔', () => _go(context, const FunnelGrace())),
@@ -157,7 +158,7 @@ class FunnelShame extends StatelessWidget {
   void _answer(BuildContext c, bool pena) {
     if (pena) {
       ScaffoldMessenger.of(c).showSnackBar(SnackBar(
-        content: Text('tranquila. empieza en susurro. Dios escucha igual 🤍',
+        content: Text('sin miedo. empieza en susurro. Dios te escucha igual 🤍',
             style: AppTypography.body),
         duration: const Duration(seconds: 3),
       ));

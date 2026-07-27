@@ -34,7 +34,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
     ('día 3 — suelta lo que pesa',
         'le entregas eso que cargas. la raíz respira.'),
     ('día 4 — el primer verde',
-        'dejas de sentirte seca. vuelve la sensación de que Él está.'),
+        'dejas de sentirte tan lejos. vuelve la sensación de que Él está.'),
     ('día 5 — mira atrás',
         'relees tu diario y ves 5 días de agua. Dios sí estaba obrando.'),
     ('día 6 — echa raíces',

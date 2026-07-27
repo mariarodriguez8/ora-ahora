@@ -20,12 +20,12 @@ class OnboardingSocialScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('No vas a caminar\nesto sola ✨',
+              Text('No vas a caminar\nesto a solas ✨',
                   style: AppTypography.display.copyWith(fontSize: 28)),
               const SizedBox(height: 12),
               Text(
                 'Cada día, personas de toda Hispanoamérica hacen una pausa '
-                'con Ora Ahora para respirar y volver a lo importante.',
+                'con Ora Ahora para orar y volver a lo importante.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),
