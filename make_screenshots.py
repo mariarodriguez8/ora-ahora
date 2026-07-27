@@ -32,8 +32,8 @@ def font(sz): return ImageFont.truetype(FP, sz) if FP else ImageFont.load_defaul
 
 titulos = [
     "tu momento\ncon Dios,\ntodos los días",
-    "bloquea las apps\nque te distraen\nhasta que ores 🙏",
-    "y mira crecer\ntu fe,\nun día a la vez 🌱",
+    "bloquea las apps\nque te distraen\nhasta que ores",
+    "y mira crecer\ntu fe,\nun día a la vez",
 ]
 
 os.makedirs("store_assets/capturas", exist_ok=True)
