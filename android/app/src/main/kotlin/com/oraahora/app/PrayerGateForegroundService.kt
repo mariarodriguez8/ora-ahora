@@ -462,7 +462,7 @@ class PrayerGateForegroundService : Service() {
 
         builder
             .setContentTitle("Ora Ahora")
-            .setContentText("Pausa y Ora está activa, cuidando tu atención 🙏")
+            .setContentText("Antes de abrir una app, respira y ora un momento 🙏")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setOngoing(true)
             .setCategory(Notification.CATEGORY_SERVICE)

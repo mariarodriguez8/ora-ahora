@@ -13,11 +13,12 @@ import 'package:timezone/timezone.dart' as tz;
 /// cada vez que la app se abre (y cada vez que cambian los horarios) para
 /// mantener la "cola" de notificaciones futuras llena.
 ///
-/// Se usa `AndroidScheduleMode.inexactAllowWhileIdle` a proposito: así
-/// evitamos pedir el permiso especial "Alarmas y recordatorios exactos"
-/// (`SCHEDULE_EXACT_ALARM`/`USE_EXACT_ALARM`) de Android 12+, que exige
-/// una justificacion adicional en la ficha de Play Store. Para
-/// recordatorios de oracion, +/- unos minutos de margen es aceptable.
+/// v25: se usa `AndroidScheduleMode.exactAllowWhileIdle` (alarmas EXACTAS).
+/// Antes se usaban alarmas inexactas para evitar el permiso especial, pero
+/// en fabricantes con gestion agresiva de bateria (Xiaomi/MIUI, Samsung,
+/// Huawei...) las alarmas inexactas se retrasan horas o NO llegan. El
+/// permiso `SCHEDULE_EXACT_ALARM` ya esta en el manifiesto y se solicita
+/// en `requestPermission`.
 class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
@@ -90,6 +91,16 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
         AndroidFlutterLocalNotificationsPlugin>();
     if (androidImpl == null) return false;
     final granted = await androidImpl.requestNotificationsPermission();
+    // v25: ademas del permiso de notificaciones, pedimos el de "alarmas y
+    // recordatorios exactos" (Android 12+). Sin el, las alarmas exactas se
+    // degradan a inexactas y en Xiaomi/MIUI dejan de llegar a tiempo. No
+    // bloquea nada si el usuario lo niega: las notificaciones seguiran, solo
+    // que menos puntuales.
+    try {
+      await androidImpl.requestExactAlarmsPermission();
+    } catch (_) {
+      // En Android < 12 o si el fabricante no lo expone, se ignora.
+    }
     return granted ?? false;
   }
 
@@ -143,7 +154,7 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
               priority: Priority.defaultPriority,
             ),
           ),
-         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
         );
@@ -189,7 +200,7 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
           priority: Priority.defaultPriority,
         ),
       ),
-      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );

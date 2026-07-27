@@ -44,6 +44,16 @@ class PrayerGateActivity : Activity() {
         private val FALLBACK = listOf(
             "Señor, antes de entrar, quédate conmigo. Que no se me vaya el rato sin darme cuenta. Amén.",
             "Dios, dame un minuto contigo antes que a la pantalla. Solo un minuto. Amén.",
+        "Padre, sé que vine por costumbre. Ayúdame a decidir con calma. Amén.",
+        "Señor, calma mi prisa. No necesito llenar cada silencio con el celular. Amén.",
+        "Dios, gracias por este alto. Respiro, y me acuerdo de que estás aquí. Amén.",
+        "Padre, que este momento sea mío otra vez, y no de la pantalla. Amén.",
+        "Jesús, antes de scrollear, quiero mirarte a ti primero. Amén.",
+        "Señor, cuida mi mente de lo que estoy por ver. Guárdame. Amén.",
+        "Dios, si abro esto, que sea con paz y no por ansiedad. Amén.",
+        "Padre, un respiro contigo vale más que mil videos. Gracias. Amén.",
+        "Señor, ayúdame a soltar el teléfono cuando toque soltarlo. Amén.",
+        "Jesús, ocupa tú el lugar que le doy a esta pantalla. Amén.",
         )
     }
 
