@@ -14,7 +14,7 @@ import '../../services/streak_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_palettes.dart';
 import '../../theme/app_typography.dart';
-import '../../widgets/meadow_hero.dart';
+import '../../widgets/plant_hero.dart';
 import '../../widgets/prayer_card.dart';
 import '../gate_explainer/gate_explainer_screen.dart';
 import '../journal/journal_screen.dart';
@@ -297,16 +297,11 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                     // flores que crecen con los minutos orados y la
                     // ovejita (que eres tu).
                     _staggeredSection(
-                      MeadowHero(
+                      PlantHero(
                         streak: streak.currentStreak,
-                        atRisk: streak.streakAtRisk,
                         prayedToday: streak.prayedToday,
-                        minutesToday: streak.minutesToday,
-                        cumulativeMinutes: streak.cumulativeMinutes,
-                        sheepLost: (streak.daysSinceLastPrayed ?? 0) >= 2,
-                        freezeTokens: (isPlus && streak.freezeTokens > 0)
-                            ? streak.freezeTokens
-                            : null,
+                        daysSinceLastPrayed: streak.daysSinceLastPrayed ?? 0,
+                        isPlus: isPlus,
                       ),
                       start: 0.05,
                       end: 0.6,

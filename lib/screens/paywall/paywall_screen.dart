@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/prayer.dart';
-import '../../services/prefs_service.dart';
 import '../../services/purchase_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 
-/// Pantalla de paywall de Ora Ahora Plus.
+/// Paywall "el viaje de 7 días para reverdecer" (v26).
 ///
-/// Los precios mostrados ($4.99/mes y $39.99/año) son de ejemplo: se
-/// deben configurar los productos y precios reales en Google Play
-/// Console antes de publicar. Las compras se procesan a traves de
-/// `PurchaseService`, que hoy es un stub (ver TODOs alli).
+/// Concepto Sequía → Avivamiento: no vende funciones, vende "volver a Dios".
+/// Desarma la objeción #1 del ICP ("me falta disciplina"), le hace pre-vivir
+/// la transformación día a día, y ancla todo en gracia. La prueba real es de
+/// 3 días gratis y luego el plan mensual (el "viaje de 7 días" es la historia
+/// de la primera semana, no el tiempo de prueba).
 ///
-/// DISEÑO DEL PAYWALL (paywall "suave", no un patron oscuro):
-/// - El plan Anual aparece preseleccionado por defecto (practica estandar
-///   de la industria, no oculta el plan Mensual: ambos son visibles y
-///   elegibles con un toque).
-/// - El precio anual se muestra tambien como equivalente diario
-///   ("$39.99 USD/año — equivale a $0.11 USD/día") para dar contexto de
-///   valor real, sin ocultar el monto total.
-/// - Debajo del boton principal se muestra siempre, de forma clara y
-///   visible, "Cancela cuando quieras desde Google Play".
-/// - Esta pantalla es una `Scaffold` normal con boton de "atras" del
-///   `AppBar`/gesto del sistema: el usuario puede cerrarla en cualquier
-///   momento sin ninguna interceptacion ni oferta forzada de reemplazo
-///   (deliberadamente NO se implementa ningun "exit drawer" ni mecanismo
-///   que intercepte el cierre o el boton atras para insistir con otra
-///   oferta antes de dejar salir al usuario).
+/// IMPORTANTE: `PurchaseService.purchase` es todavía un stub (no cobra de
+/// verdad). Ver el documento de estrategia para los pasos de RevenueCat /
+/// Play Billing que faltan para cobrar.
 class PaywallScreen extends StatefulWidget {
   const PaywallScreen({super.key});
 
@@ -38,22 +24,36 @@ class PaywallScreen extends StatefulWidget {
 }
 
 class _PaywallScreenState extends State<PaywallScreen> {
-  PlusPlan _selected = PlusPlan.pruebaMensual;
   bool _loading = false;
 
-  Future<void> _purchase() async {
+  static const List<(String, String)> _dias = [
+    ('día 1 — la primera gota',
+        'hoy oras antes de abrir el celu. la tierra vuelve a sentir agua.'),
+    ('día 2 — aguanta la sequía',
+        'el 2º día vas a querer volver al scroll. justo ahí riegas de nuevo.'),
+    ('día 3 — suelta lo que pesa',
+        'le entregas eso que cargas. la raíz respira.'),
+    ('día 4 — el primer verde',
+        'dejas de sentirte seca. vuelve la sensación de que Él está.'),
+    ('día 5 — mira atrás',
+        'relees tu diario y ves 5 días de agua. Dios sí estaba obrando.'),
+    ('día 6 — echa raíces',
+        'tu racha ya no es número, es raíz que agarra.'),
+    ('día 7 — el primer fruto',
+        'una semana regando sin fallar. ¿hace cuánto no lo lograbas?'),
+  ];
+
+  Future<void> _empezar() async {
     setState(() => _loading = true);
-    final ok = await context.read<PurchaseService>().purchase(_selected);
+    final ok = await context
+        .read<PurchaseService>()
+        .purchase(PlusPlan.pruebaMensual);
     if (!mounted) return;
     setState(() => _loading = false);
     if (ok) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('¡Bienvenido a Ora Ahora Plus!')),
+        const SnackBar(content: Text('¡Empezaste tu viaje! 🌱')),
       );
-      // Los permisos de "Pausa y Ora" se piden SIEMPRE justo despues de
-      // cerrar el paywall (compre o no), garantizados desde el flujo del
-      // inicio (ver HomeScreen._maybeShowOnboardingPaywall). Aqui solo se
-      // cierra el paywall.
       Navigator.of(context).pop();
     }
   }
@@ -66,7 +66,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(restored
-            ? 'Se restauró tu suscripción Plus.'
+            ? 'Se restauró tu suscripción.'
             : 'No se encontró ninguna suscripción activa.'),
       ),
     );
@@ -74,151 +74,111 @@ class _PaywallScreenState extends State<PaywallScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isPlus = context.watch<PurchaseService>().isPlusUser;
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Ora Ahora Plus')),
+      backgroundColor: AppColors.cream,
+      appBar: AppBar(backgroundColor: AppColors.cream, elevation: 0),
       body: SafeArea(
+        top: false,
         child: ListView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
           children: [
-            // Ilustracion original de "destello premium" (ver
-            // `assets/illustrations/paywall_hero.svg`) en reemplazo del
-            // icono generico `Icons.workspace_premium`, como elemento
-            // dominante de la pantalla.
             Center(
-              child: SvgPicture.asset(
-                'assets/illustrations/paywall_hero.svg',
-                width: 120,
-                height: 120,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'PLUS',
-              textAlign: TextAlign.center,
-              style: AppTypography.caption.copyWith(color: AppColors.amber),
+              child: Image.asset('assets/mascot/ovejita_planta_fruto.png',
+                  height: 130, fit: BoxFit.contain),
             ),
             const SizedBox(height: 8),
-            Builder(builder: (context) {
-              final cats = context.read<PrefsService>().preferredCategories;
-              final tema = cats.isEmpty
-                  ? null
-                  : PrayerCategories.displayName(cats.first).toLowerCase();
-              return Text(
-                tema == null
-                    ? 'Lleva tu vida de oración\nmás lejos'
-                    : 'Tu plan para\n$tema está listo',
+            // Reframe: desarma "me falta disciplina".
+            Text('no es que te falte disciplina.',
                 textAlign: TextAlign.center,
-                style: AppTypography.display.copyWith(fontSize: 27),
-              );
-            }),
-            const SizedBox(height: 24),
-            const _FeatureRow(
-              icon: Icons.lock_open,
-              title: 'Apps ilimitadas en Pausa y Ora',
-              subtitle: 'El plan gratuito siempre incluye 1 app gratis',
+                style: AppTypography.display.copyWith(fontSize: 26)),
+            const SizedBox(height: 6),
+            Text('es que tu fe tiene sed.',
+                textAlign: TextAlign.center,
+                style: AppTypography.title.copyWith(color: AppColors.tealDeep)),
+            const SizedBox(height: 12),
+            Text(
+              'no se secó de un día para otro — fue día tras día sin regarla. '
+              'estos 7 días la traen de vuelta.',
+              textAlign: TextAlign.center,
+              style: AppTypography.body.copyWith(color: AppColors.inkSoft),
             ),
-            const _FeatureRow(
-              icon: Icons.ac_unit,
-              title: 'Fichas de congelación de racha',
-              subtitle: '2 fichas al mes para proteger tu racha si un día se te pasa',
-            ),
-            const _FeatureRow(
-              icon: Icons.headphones,
-              title: 'Oraciones narradas en audio',
-              subtitle: 'Próximamente',
-            ),
-            const _FeatureRow(
-              icon: Icons.auto_stories,
-              title: 'Paquetes de oración exclusivos',
-              subtitle: 'Series temáticas para profundizar cada mes',
-            ),
-            const SizedBox(height: 24),
-            if (isPlus)
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.success.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: const [
-                    Icon(Icons.check_circle, color: AppColors.success),
-                    SizedBox(width: 10),
-                    Expanded(child: Text('Ya eres miembro de Ora Ahora Plus')),
-                  ],
-                ),
-              )
-            else ...[
-              _PlanOption(
-                plan: PlusPlan.pruebaMensual,
-                title: 'Prueba 3 días gratis',
-                price: PurchaseService.textoPrueba,
-                badge: 'Sin pago hoy',
-                selected: _selected == PlusPlan.pruebaMensual,
-                onTap: () => setState(() => _selected = PlusPlan.pruebaMensual),
-              ),
-              const SizedBox(height: 12),
-              _PlanOption(
-                plan: PlusPlan.mensual,
-                title: 'Mensual',
-                price: PurchaseService.precioMensual,
-                selected: _selected == PlusPlan.mensual,
-                onTap: () => setState(() => _selected = PlusPlan.mensual),
-              ),
-              const SizedBox(height: 12),
-              _PlanOption(
-                plan: PlusPlan.anual,
-                title: 'Anual',
-                price: PurchaseService.precioAnual,
-                priceSubtitle: PurchaseService.precioAnualEquiv,
-                badge: 'Ahorra más',
-                selected: _selected == PlusPlan.anual,
-                onTap: () => setState(() => _selected = PlusPlan.anual),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Precios de ejemplo. Los precios finales se configuran en '
-                'Google Play Console y pueden variar según tu país.',
-                style: AppTypography.caption.copyWith(color: AppColors.inkSoft),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _loading ? null : _purchase,
-                  child: _loading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                              strokeWidth: 2, color: Colors.white),
-                        )
-                      : Text(_selected == PlusPlan.pruebaMensual
-                          ? 'Empezar prueba gratis'
-                          : 'Continuar'),
-                ),
-              ),
+            const SizedBox(height: 20),
+            for (var i = 0; i < _dias.length; i++) ...[
+              _DiaCard(numero: i + 1, titulo: _dias[i].$1, texto: _dias[i].$2),
               const SizedBox(height: 10),
-              Center(
-                child: Text(
-                  'Cancela cuando quieras desde Google Play. Sin compromiso.',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.body.copyWith(
-                    color: AppColors.inkSoft,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Center(
-                child: TextButton(
-                  onPressed: _loading ? null : _restore,
-                  child: const Text('Restaurar compras'),
-                ),
-              ),
             ],
+            const SizedBox(height: 6),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.tealLight.withValues(alpha: 0.4),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                children: [
+                  Text('ya no estás en sequía.',
+                      textAlign: TextAlign.center,
+                      style: AppTypography.title
+                          .copyWith(color: AppColors.tealDeep)),
+                  const SizedBox(height: 4),
+                  Text(
+                    'ahora esto se vuelve tu vida, no una tarea.',
+                    textAlign: TextAlign.center,
+                    style:
+                        AppTypography.body.copyWith(color: AppColors.inkSoft),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 22),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _loading ? null : _empezar,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.tealDeep,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: _loading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2, color: Colors.white),
+                      )
+                    : const Text('empezar a reverdecer 🌱'),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: Text(
+                '3 días gratis, después ${PurchaseService.precioMensual}',
+                textAlign: TextAlign.center,
+                style: AppTypography.body.copyWith(
+                    color: AppColors.inkSoft, fontWeight: FontWeight.w600),
+              ),
+            ),
+            const SizedBox(height: 2),
+            Center(
+              child: Text('cancelas cuando quieras desde Google Play',
+                  textAlign: TextAlign.center,
+                  style: AppTypography.caption
+                      .copyWith(color: AppColors.inkSoft)),
+            ),
+            const SizedBox(height: 6),
+            Center(
+              child: TextButton(
+                onPressed: _loading ? null : _restore,
+                child: const Text('Restaurar compras'),
+              ),
+            ),
+            Text(
+              'Precios de ejemplo. Los precios finales se configuran en '
+              'Google Play Console y pueden variar según tu país.',
+              textAlign: TextAlign.center,
+              style: AppTypography.caption.copyWith(color: AppColors.inkSoft),
+            ),
           ],
         ),
       ),
@@ -226,142 +186,54 @@ class _PaywallScreenState extends State<PaywallScreen> {
   }
 }
 
-class _FeatureRow extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
+class _DiaCard extends StatelessWidget {
+  final int numero;
+  final String titulo;
+  final String texto;
 
-  const _FeatureRow({required this.icon, required this.title, required this.subtitle});
+  const _DiaCard(
+      {required this.numero, required this.titulo, required this.texto});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.tealLight),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 42,
-            height: 42,
+            width: 30,
+            height: 30,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
               color: AppColors.tealLight,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: AppColors.tealDeep, size: 20),
+            child: Text('$numero',
+                style: AppTypography.body.copyWith(
+                    color: AppColors.tealDeep, fontWeight: FontWeight.w700)),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: AppTypography.title),
-                Text(subtitle, style: AppTypography.body.copyWith(color: AppColors.inkSoft)),
+                Text(titulo,
+                    style: AppTypography.body
+                        .copyWith(fontWeight: FontWeight.w700)),
+                const SizedBox(height: 2),
+                Text(texto,
+                    style: AppTypography.caption
+                        .copyWith(color: AppColors.inkSoft)),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _PlanOption extends StatelessWidget {
-  final PlusPlan plan;
-  final String title;
-  final String price;
-  final String? priceSubtitle;
-  final String? badge;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _PlanOption({
-    required this.plan,
-    required this.title,
-    required this.price,
-    this.priceSubtitle,
-    this.badge,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: selected ? AppColors.tealDeep : AppColors.tealLight,
-            width: selected ? 2 : 1,
-          ),
-          color: selected ? AppColors.tealLight.withValues(alpha: 0.3) : null,
-        ),
-        // v23: layout en COLUMNA (titulo+insignia arriba, precio debajo)
-        // para que los textos NUNCA se superpongan, sin importar el ancho
-        // del telefono ni lo largo del texto (bug de superposicion que
-        // reporto Maria en la opcion de prueba).
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              selected ? Icons.radio_button_checked : Icons.radio_button_off,
-              color: AppColors.tealDeep,
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          title,
-                          style: AppTypography.title,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      if (badge != null) ...[
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.amber,
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                          child: Text(
-                            badge!,
-                            style: AppTypography.caption
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    price,
-                    style: AppTypography.body.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.tealDeep,
-                    ),
-                  ),
-                  if (priceSubtitle != null)
-                    Text(
-                      priceSubtitle!,
-                      style: AppTypography.caption
-                          .copyWith(color: AppColors.inkSoft),
-                    ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
