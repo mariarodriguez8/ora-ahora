@@ -36,18 +36,21 @@ class NotificationService {
   static const int _smartReminderBaseId = 9000;
 
   static const String _smartReminderMessage =
-      'En unos minutos sueles abrir el teléfono para distraerte. '
-      '¿Oramos primero?';
+      'en un ratito vas a agarrar el celu sin pensar. ¿y si primero '
+      'hablas con Dios?';
 
+  // v27: recordatorios en la voz del ICP (culpa + nostalgia de Su presencia,
+  // referencia al celular/scroll), no lenguaje de app de meditación. Con
+  // gracia, nunca condenando.
   static const List<String> _mensajes = [
-    'Un minuto para respirar y poner tu día en manos de Dios.',
-    '¿Y si haces una pausa ahora mismo para orar?',
-    'Este es un buen momento para agradecer algo pequeño.',
-    'Tu oración de hoy te está esperando en Ora Ahora.',
-    'Una pausa breve, una oración sincera. Vamos.',
-    'Antes de seguir con el día, respira y ora un momento.',
-    'No tienes que decir mucho. Solo abre tu corazón un momento.',
-    'Hoy también puedes elegir la calma antes que la prisa.',
+    '¿ya abriste el celu mil veces y a Dios ni un "hola"? ven, es un ratito.',
+    'tu oveja tiene sed 🌱 dale 2 minutos a Dios antes del scroll.',
+    'sé que el día se te va en la pantalla. este es tu momento con Él.',
+    'antes de Instagram, antes de todo… háblale a Dios un minuto.',
+    'no te alejes otra vez sin darte cuenta. ven a orar tantito.',
+    'Dios te extraña más que cualquier notificación. ven 🙏',
+    '¿hace cuánto no le hablas? aquí te espera, sin reproches.',
+    'un minuto con Dios ahorita vale más que mil videos. tú sabes.',
   ];
 
   bool _initialized = false;

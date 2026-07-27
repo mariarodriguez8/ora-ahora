@@ -96,8 +96,8 @@ class _OnboardingFirstPrayerScreenState
                       _amen
                           ? 'Tu primera oración ya cuenta. Así de simple '
                               'va a ser cada día.'
-                          : 'Nada de configurar más cosas todavía. '
-                              'Respira hondo y ora esto, con calma:',
+                          : 'no tienes que decirlo bien ni sentir algo raro. '
+                              'solo léela y háblale a Dios:',
                       style: AppTypography.bodyLarge
                           .copyWith(color: AppColors.inkSoft),
                     ),

@@ -86,7 +86,7 @@ class _ThemePrayersScreenState extends State<ThemePrayersScreen> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
-                      'Respira. Elige una y ora sobre eso.',
+                      'elige la que más te pese hoy y ora sobre eso.',
                       style: AppTypography.body
                           .copyWith(color: AppColors.inkSoft),
                     ),
