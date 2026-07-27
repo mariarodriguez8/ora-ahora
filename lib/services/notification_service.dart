@@ -55,18 +55,46 @@ class NotificationService {
       'en un ratito vas a agarrar el celu sin pensar. ¿y si primero '
       'hablas con Dios?';
 
-  // v27: recordatorios en la voz del ICP (culpa + nostalgia de Su presencia,
-  // referencia al celular/scroll), no lenguaje de app de meditación. Con
-  // gracia, nunca condenando.
-  static const List<String> _mensajes = [
-    '¿ya abriste el celu mil veces y a Dios ni un "hola"? ven, es un ratito.',
-    'tu oveja tiene sed 🌱 dale 2 minutos a Dios antes del scroll.',
-    'sé que el día se te va en la pantalla. este es tu momento con Él.',
-    'antes de Instagram, antes de todo… háblale a Dios un minuto.',
-    'no te alejes otra vez sin darte cuenta. ven a orar tantito.',
-    'Dios te extraña más que cualquier notificación. ven 🙏',
-    '¿hace cuánto no le hablas? aquí te espera, sin reproches.',
-    'un minuto con Dios ahorita vale más que mil videos. tú sabes.',
+  // v30: la notificación es EXPANDIBLE. Colapsada muestra una invitación
+  // corta (_nudges); al desplegarla, una oración corta (_oracionesNotif)
+  // que se puede leer/orar en la pantalla de bloqueo. Ambas rotan. Voz del
+  // ICP, lenguaje NEUTRO (no asume género), con gracia (nunca condena).
+  static const List<String> _nudges = [
+    'es tu momento con Dios 🙏',
+    '¿un minuto con Dios antes del scroll? 🙏',
+    'Él te espera, sin reproches 🙏',
+    'para esto sí hay tiempo 🙏',
+    '¿ya le hablaste a Dios hoy?',
+    'un ratito con Él cambia el día 🌱',
+    'antes del celu, un momento con Dios 🙏',
+    'Dios te extraña. ven un momento 🤍',
+    'tu cita de hoy con Dios te espera',
+    'para un minuto y háblale a Dios',
+    'hoy no lo dejes para el final 🙏',
+    'vuelve a lo que de verdad importa',
+    'es tu momento, no lo dejes pasar 🙏',
+    'Dios está, aunque no lo sientas',
+    'un minuto con Él vale más que mil videos',
+    '"aquí estoy, ven a hablar conmigo" — Dios',
+  ];
+
+  static const List<String> _oracionesNotif = [
+    'Señor, aquí estoy. antes que nada y antes que nadie, quiero buscarte a ti. gracias por esperarme. Amén.',
+    'Dios, este ratito es tuyo. calma lo que traigo por dentro y recuérdame que estás cerca. Amén.',
+    'Padre, gracias por hoy. ayúdame a no dejarte para el final del día. quiero volver a ti. Amén.',
+    'Jesús, sé que me distraigo fácil. hoy elijo parar un momento y hablarte. gracias por escucharme. Amén.',
+    'Señor, no traigo palabras bonitas, solo mi corazón. quédate conmigo en lo que venga hoy. Amén.',
+    'Dios, gracias porque no te cansas de mí. dame paz y guíame en lo de hoy. Amén.',
+    'Padre, aquí me tienes otra vez. gracias por recibirme sin reproches. te necesito. Amén.',
+    'Señor, ordena mi día y mi mente. que lo primero seas tú, no la pantalla. Amén.',
+    'Señor, gracias por este día. quiero dártelo a ti antes que a nada. Amén.',
+    'Dios, cuando quiera huir a la pantalla, recuérdame que tú me llenas. Amén.',
+    'Padre, calma mi cabeza. hoy quiero caminar contigo. Amén.',
+    'Jesús, perdona que te dejo para el final. hoy empiezo por ti. Amén.',
+    'Señor, aquí traigo mi cansancio. dame del descanso bueno. Amén.',
+    'Dios, gracias por no soltarme aunque yo te suelte. Amén.',
+    'Padre, quiero volver a sentirte cerca. ábreme el corazón. Amén.',
+    'Señor, que hoy busque tu voz más que las notificaciones. Amén.',
   ];
 
   bool _initialized = false;
@@ -172,21 +200,28 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
           scheduled = scheduled.add(const Duration(days: 1));
         }
 
-        final variantIndex = (dayOffset + slot) % _mensajes.length;
+        final vi = dayOffset + slot;
+        final nudge = _nudges[vi % _nudges.length];
+        final oracion = _oracionesNotif[vi % _oracionesNotif.length];
         final id = slot * 1000 + dayOffset;
 
         await _plugin.zonedSchedule(
           id,
-          'Ora Ahora',
-          _mensajes[variantIndex],
+          nudge,
+          'toca para orar tu momento de hoy 🌱',
           scheduled,
-          const NotificationDetails(
+          NotificationDetails(
             android: AndroidNotificationDetails(
               _channelId,
               _channelName,
               channelDescription: _channelDescription,
               importance: Importance.defaultImportance,
               priority: Priority.defaultPriority,
+              styleInformation: BigTextStyleInformation(
+                oracion,
+                contentTitle: nudge,
+                summaryText: 'Ora Ahora',
+              ),
             ),
           ),
          payload: kMomentoPayload,

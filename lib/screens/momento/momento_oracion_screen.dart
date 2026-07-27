@@ -35,6 +35,17 @@ class MomentoOracionScreen extends StatelessWidget {
         'te necesito.\n\nAmén.',
     'Señor, ordena mi día y mi mente. que lo primero seas tú, no la '
         'pantalla.\n\nAmén.',
+    'Señor, gracias por este día. quiero dártelo a ti antes que a '
+        'nada.\n\nAmén.',
+    'Dios, cuando quiera huir a la pantalla, recuérdame que tú me '
+        'llenas.\n\nAmén.',
+    'Padre, calma mi cabeza. hoy quiero caminar contigo.\n\nAmén.',
+    'Jesús, perdona que te dejo para el final. hoy empiezo por '
+        'ti.\n\nAmén.',
+    'Señor, aquí traigo mi cansancio. dame del descanso bueno.\n\nAmén.',
+    'Dios, gracias por no soltarme aunque yo te suelte.\n\nAmén.',
+    'Padre, quiero volver a sentirte cerca. ábreme el corazón.\n\nAmén.',
+    'Señor, que hoy busque tu voz más que las notificaciones.\n\nAmén.',
   ];
 
   String get _oracionDeHoy {
