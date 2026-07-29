@@ -18,6 +18,7 @@ import '../../widgets/plant_hero.dart';
 import '../../widgets/prayer_card.dart';
 import '../gate_explainer/gate_explainer_screen.dart';
 import '../journal/journal_screen.dart';
+import '../cancion/cancion_semana_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../themes/theme_prayers_screen.dart';
 import '../prayer_detail/prayer_detail_screen.dart';
@@ -337,6 +338,23 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       ),
                       start: 0.3,
                       end: 0.85,
+                    ),
+                    const SizedBox(height: 20),
+                    _staggeredSection(
+                      CancionSemanaCard(
+                        isPlus: isPlus,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => isPlus
+                                  ? const CancionSemanaScreen()
+                                  : const PaywallScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      start: 0.33,
+                      end: 0.9,
                     ),
                     const SizedBox(height: 28),
                     // 4. v17: "¿Algo te pesa hoy?" — carpetas de temas

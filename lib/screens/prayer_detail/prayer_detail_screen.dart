@@ -53,7 +53,15 @@ class _PrayerDetailScreenState extends State<PrayerDetailScreen>
 
   Future<void> _initTts() async {
     try {
-      await _tts.setLanguage('es-ES');
+      const prefs = ['es-US', 'es-MX', 'es-419', 'es-CO', 'es-AR', 'es-ES', 'es'];
+      for (final l in prefs) {
+        try {
+          if (await _tts.isLanguageAvailable(l) == true) {
+            await _tts.setLanguage(l);
+            break;
+          }
+        } catch (_) {}
+      }
       await _tts.setSpeechRate(0.44);
       await _tts.setPitch(1.0);
       _tts.setCompletionHandler(() {

@@ -1,7 +1,7 @@
 name: ora_ahora
 description: "Ora Ahora - pausa, ora y enfoca. App de oracion cristiana interdenominacional en espanol con pausa de oracion antes de abrir apps que distraen."
 publish_to: 'none'
-version: 1.0.21+22
+version: 1.0.22+23
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -23,6 +23,7 @@ dependencies:
   uuid: ^4.4.0
   flutter_svg: ^2.0.10+1
   flutter_tts: ^3.8.5
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:
@@ -69,3 +70,6 @@ flutter:
           weight: 700
         - asset: assets/fonts/Figtree-ExtraBold.ttf
           weight: 800
+
+dependency_overrides:
+  url_launcher_android: 6.3.14
