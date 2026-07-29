@@ -19,6 +19,7 @@ import '../../widgets/prayer_card.dart';
 import '../gate_explainer/gate_explainer_screen.dart';
 import '../journal/journal_screen.dart';
 import '../cancion/cancion_semana_screen.dart';
+import '../estampas/estampas_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../themes/theme_prayers_screen.dart';
 import '../prayer_detail/prayer_detail_screen.dart';
@@ -355,6 +356,22 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       ),
                       start: 0.33,
                       end: 0.9,
+                    ),
+                    const SizedBox(height: 14),
+                    _staggeredSection(
+                      EstampasCard(
+                        racha: streak.currentStreak,
+                        vistaHasta:
+                            context.read<PrefsService>().estampasSeenStreak,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => const EstampasScreen()),
+                          );
+                        },
+                      ),
+                      start: 0.36,
+                      end: 0.95,
                     ),
                     const SizedBox(height: 28),
                     // 4. v17: "¿Algo te pesa hoy?" — carpetas de temas

@@ -29,6 +29,7 @@ class PrefsKeys {
 
   // --- Racha ---
   static const streakState = 'streak_state'; // String JSON
+  static const estampasSeenStreak = 'estampas_seen_streak'; // int
 
   // --- Recordatorios ---
   static const reminderTimes = 'reminder_times'; // String JSON List<"HH:mm">
@@ -166,6 +167,14 @@ class PrefsService {
 
   Future<void> setIsPlusUser(bool value) =>
       _prefs.setBool(PrefsKeys.isPlusUser, value);
+
+  /// Mayor racha con la que la persona ya abrió la galería de estampas
+  /// (para avisar cuando hay una estampa nueva por ver).
+  int get estampasSeenStreak =>
+      _prefs.getInt(PrefsKeys.estampasSeenStreak) ?? 0;
+
+  Future<void> setEstampasSeenStreak(int value) =>
+      _prefs.setInt(PrefsKeys.estampasSeenStreak, value);
 
   // --- Paywall ---
   bool get paywallShownAfterOnboarding =>
