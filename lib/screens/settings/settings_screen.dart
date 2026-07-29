@@ -3,12 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../../services/prefs_service.dart';
 import '../../services/purchase_service.dart';
-import '../../services/voice_prayer_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import '../onboarding/onboarding_welcome_screen.dart';
 import '../paywall/paywall_screen.dart';
-import '../voice_explainer/voice_explainer_screen.dart';
 import 'about_screen.dart';
 import 'appearance_screen.dart';
 import 'battery_optimization_screen.dart';
@@ -88,9 +86,6 @@ class SettingsScreen extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const BatteryOptimizationScreen()),
             ),
           ),
-          const Divider(height: 32),
-          _SectionLabel('Voz'),
-          const _VoiceDetectionTile(),
           const Divider(height: 32),
           _SectionLabel('Tu cuenta'),
           _SettingsTile(
@@ -205,101 +200,3 @@ class _SettingsTile extends StatelessWidget {
   }
 }
 
-/// Interruptor (opt-in, apagado por defecto) de la deteccion automatica
-/// de fin de oracion por voz (ver `VoicePrayerService`, `PrayerDetailScreen`
-/// y `VoiceExplainerScreen`).
-///
-/// Comprueba la disponibilidad de reconocimiento de voz en este telefono
-/// UNA sola vez al abrir Ajustes: si no hay reconocimiento disponible en
-/// este dispositivo, el interruptor se muestra deshabilitado (gris) con
-/// el subtitulo "No disponible en este dispositivo", sin dialogos de
-/// error ni insistencia, tal como pide el diseño de la función.
-class _VoiceDetectionTile extends StatefulWidget {
-  const _VoiceDetectionTile();
-
-  @override
-  State<_VoiceDetectionTile> createState() => _VoiceDetectionTileState();
-}
-
-class _VoiceDetectionTileState extends State<_VoiceDetectionTile> {
-  final VoicePrayerService _voiceService = VoicePrayerService();
-
-  bool _checkingAvailability = true;
-  bool _available = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkAvailability();
-  }
-
-  Future<void> _checkAvailability() async {
-    final available = await _voiceService.checkAvailability();
-    if (!mounted) return;
-    setState(() {
-      _available = available;
-      _checkingAvailability = false;
-    });
-  }
-
-  Future<void> _onChanged(bool value) async {
-    final prefs = context.read<PrefsService>();
-
-    if (!value) {
-      await prefs.setVoiceDetectionEnabled(false);
-      setState(() {});
-      return;
-    }
-
-    if (!_available) return; // el interruptor deberia estar deshabilitado
-
-    if (!prefs.voiceDisclosureSeen) {
-      final result = await Navigator.of(context).push<bool>(
-        MaterialPageRoute(builder: (_) => const VoiceExplainerScreen()),
-      );
-      if (result != true) return;
-    } else {
-      // Ya se vio el aviso antes, pero el permiso de microfono pudo
-      // haberse revocado manualmente desde los ajustes del sistema desde
-      // entonces: se vuelve a comprobar sin mostrar la pantalla de aviso
-      // de nuevo (ya se explico una vez), y simplemente no se activa el
-      // interruptor si ya no esta disponible.
-      final granted = await _voiceService.checkAvailability();
-      if (!granted) return;
-    }
-
-    await prefs.setVoiceDetectionEnabled(true);
-    if (mounted) setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final prefs = context.watch<PrefsService>();
-    final enabled = prefs.voiceDetectionEnabled;
-
-    final voiceColor = _available ? AppColors.tealDeep : AppColors.inkSoft;
-    return SwitchListTile(
-      secondary: Container(
-        width: 40,
-        height: 40,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: voiceColor.withValues(alpha: 0.12),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(Icons.mic_none, color: voiceColor, size: 20),
-      ),
-      value: enabled && _available,
-      onChanged: _checkingAvailability || !_available ? null : _onChanged,
-      title: const Text('Detectar cuando termino de orar (con micrófono)'),
-      subtitle: Text(
-        _checkingAvailability
-            ? 'Comprobando disponibilidad...'
-            : _available
-                ? 'Opcional. Escucha en tu propio teléfono para confirmar tu '
-                    'oración; nunca se envía a un servidor.'
-                : 'No disponible en este dispositivo',
-      ),
-    );
-  }
-}

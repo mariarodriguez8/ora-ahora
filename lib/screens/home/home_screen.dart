@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
           NavigationDestination(
             icon: Icon(Icons.menu_book_outlined),
             selectedIcon: Icon(Icons.menu_book),
-            label: 'Diario',
+            label: 'Peticiones',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings_outlined),
@@ -409,7 +409,7 @@ class _NextStepCard extends StatelessWidget {
                 child: Text(
                   prayedToday
                       ? 'Ya oraste hoy. Si quieres más, escribe una '
-                          'intención en tu Diario o explora "Para ti".'
+                          'petición en tus Peticiones o explora "Para ti".'
                       : 'Tu paso de hoy: ora la oración del día. '
                           'Toma 2 minutos — toca aquí.',
                   style: AppTypography.body.copyWith(

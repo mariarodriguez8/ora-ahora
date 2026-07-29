@@ -7,14 +7,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- Deteccion opcional (opt-in, apagada por defecto) de fin de oracion
-         por voz en PrayerDetailScreen (ver VoicePrayerService, paquete
-         speech_to_text). El microfono SOLO se activa mientras esa pantalla
-         esta abierta y la persona toca "Escuchar mi oración"; el
-         reconocimiento se pide siempre con onDevice=true (100% local, ver
-         PLAY_STORE_LISTING.md), nunca se envia audio a un servidor. -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <!-- Permite reprogramar recordatorios ya guardados tras un reinicio,
          usado internamente por flutter_local_notifications. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"

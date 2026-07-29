@@ -57,7 +57,7 @@ class _JournalEntryEditorScreenState extends State<JournalEntryEditorScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Eliminar entrada'),
-        content: const Text('¿Seguro que quieres eliminar esta intención de tu diario?'),
+        content: const Text('¿Seguro que quieres eliminar esta petición?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -83,7 +83,7 @@ class _JournalEntryEditorScreenState extends State<JournalEntryEditorScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Intención de oración'),
+        title: const Text('Petición de oración'),
         actions: [
           IconButton(
             onPressed: _delete,
@@ -104,7 +104,7 @@ class _JournalEntryEditorScreenState extends State<JournalEntryEditorScreen> {
                 maxLines: 6,
                 style: AppTypography.bodyLarge,
                 decoration: const InputDecoration(
-                  hintText: 'Escribe tu intención de oración...',
+                  hintText: 'Escribe tu petición de oración...',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -113,8 +113,8 @@ class _JournalEntryEditorScreenState extends State<JournalEntryEditorScreen> {
                 contentPadding: EdgeInsets.zero,
                 value: _respondida,
                 onChanged: (v) => setState(() => _respondida = v),
-                title: const Text('Marcar como respondida'),
-                subtitle: const Text('Dios contestó esta oración'),
+                title: const Text('Dios respondió ✅'),
+                subtitle: const Text('Marca cuando veas Su respuesta'),
               ),
               if (_respondida) ...[
                 const SizedBox(height: 8),

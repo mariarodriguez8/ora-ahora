@@ -57,14 +57,14 @@ class _JournalScreenState extends State<JournalScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Nueva intención de oración', style: AppTypography.title),
+              Text('Nueva petición de oración', style: AppTypography.title),
               const SizedBox(height: 12),
               TextField(
                 controller: _newEntryController,
                 maxLines: 4,
                 autofocus: true,
                 decoration: const InputDecoration(
-                  hintText: 'Por ejemplo: "Por la salud de mi mamá..."',
+                  hintText: 'Por ejemplo: "Que Dios cuide a mi mamá..."',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -94,11 +94,11 @@ class _JournalScreenState extends State<JournalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Diario de oración')),
+      appBar: AppBar(title: const Text('Mis peticiones')),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openNewEntrySheet,
         icon: const Icon(Icons.add),
-        label: const Text('Nueva intención'),
+        label: const Text('Nueva petición'),
       ),
       body: FutureBuilder<Map<String, List<JournalEntry>>>(
         future: _future,
@@ -139,14 +139,14 @@ class _JournalScreenState extends State<JournalScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Tu diario está en blanco, listo para tu primera intención',
+                    'Aún no tienes peticiones. Escribe la primera 🌱',
                     textAlign: TextAlign.center,
                     style: AppTypography.title.copyWith(color: AppColors.ink),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Todavía no has escrito ninguna intención de oración. '
-                    'Toca "Nueva intención" para empezar tu diario.',
+                    'Escribe lo que le estás pidiendo a Dios. Cuando Él '
+                    'responda, lo marcas aquí.',
                     textAlign: TextAlign.center,
                     style: AppTypography.body.copyWith(color: AppColors.inkSoft),
                   ),
@@ -176,7 +176,7 @@ class _JournalScreenState extends State<JournalScreen> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'Él escucha cada una de tus intenciones 🌿',
+                          'Él escucha cada una de tus peticiones 🌿',
                           style: AppTypography.caption
                               .copyWith(color: AppColors.inkSoft),
                         ),
