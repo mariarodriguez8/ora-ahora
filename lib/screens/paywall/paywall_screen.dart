@@ -25,6 +25,7 @@ class PaywallScreen extends StatefulWidget {
 
 class _PaywallScreenState extends State<PaywallScreen> {
   bool _loading = false;
+  PlusPlan _plan = PlusPlan.anual;
 
   static const List<(String, String)> _dias = [
     ('día 1 — la primera gota',
@@ -43,11 +44,22 @@ class _PaywallScreenState extends State<PaywallScreen> {
         'una semana regando sin fallar. ¿hace cuánto no lo lograbas?'),
   ];
 
+  String _notaPrecio() {
+    switch (_plan) {
+      case PlusPlan.anual:
+        return '3 días gratis, después ${PurchaseService.precioAnual}';
+      case PlusPlan.semanal:
+        return 'Se cobra ${PurchaseService.precioSemanal}';
+      default:
+        return '3 días gratis, después ${PurchaseService.precioMensual}';
+    }
+  }
+
   Future<void> _empezar() async {
     setState(() => _loading = true);
     final ok = await context
         .read<PurchaseService>()
-        .purchase(PlusPlan.pruebaMensual);
+        .purchase(_plan);
     if (!mounted) return;
     setState(() => _loading = false);
     if (ok) {
@@ -131,6 +143,35 @@ class _PaywallScreenState extends State<PaywallScreen> {
               ),
             ),
             const SizedBox(height: 22),
+            Text('elige tu plan',
+                textAlign: TextAlign.center,
+                style: AppTypography.title.copyWith(color: AppColors.ink)),
+            const SizedBox(height: 12),
+            _PlanCard(
+              seleccionado: _plan == PlusPlan.anual,
+              titulo: 'Anual',
+              precio: PurchaseService.precioAnual,
+              subtitulo: PurchaseService.precioAnualEquiv,
+              badge: 'MÁS POPULAR',
+              onTap: () => setState(() => _plan = PlusPlan.anual),
+            ),
+            const SizedBox(height: 10),
+            _PlanCard(
+              seleccionado: _plan == PlusPlan.mensual,
+              titulo: 'Mensual',
+              precio: PurchaseService.precioMensual,
+              subtitulo: '3 días gratis',
+              onTap: () => setState(() => _plan = PlusPlan.mensual),
+            ),
+            const SizedBox(height: 10),
+            _PlanCard(
+              seleccionado: _plan == PlusPlan.semanal,
+              titulo: 'Semanal',
+              precio: PurchaseService.precioSemanal,
+              subtitulo: 'para probar',
+              onTap: () => setState(() => _plan = PlusPlan.semanal),
+            ),
+            const SizedBox(height: 18),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -153,7 +194,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
             const SizedBox(height: 10),
             Center(
               child: Text(
-                '3 días gratis, después ${PurchaseService.precioMensual}',
+                _notaPrecio(),
                 textAlign: TextAlign.center,
                 style: AppTypography.body.copyWith(
                     color: AppColors.inkSoft, fontWeight: FontWeight.w600),
@@ -179,6 +220,91 @@ class _PaywallScreenState extends State<PaywallScreen> {
               textAlign: TextAlign.center,
               style: AppTypography.caption.copyWith(color: AppColors.inkSoft),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PlanCard extends StatelessWidget {
+  final bool seleccionado;
+  final String titulo;
+  final String precio;
+  final String subtitulo;
+  final String? badge;
+  final VoidCallback onTap;
+
+  const _PlanCard({
+    required this.seleccionado,
+    required this.titulo,
+    required this.precio,
+    required this.subtitulo,
+    this.badge,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: seleccionado
+              ? AppColors.tealLight.withValues(alpha: 0.5)
+              : Colors.white.withValues(alpha: 0.7),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: seleccionado ? AppColors.tealDeep : AppColors.tealLight,
+            width: seleccionado ? 2 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              seleccionado
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_unchecked,
+              color: seleccionado ? AppColors.tealDeep : AppColors.inkSoft,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(titulo,
+                          style: AppTypography.body
+                              .copyWith(fontWeight: FontWeight.w700)),
+                      if (badge != null) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 7, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.amber,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(badge!,
+                              style: AppTypography.caption.copyWith(
+                                  color: AppColors.ink,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(subtitulo,
+                      style: AppTypography.caption
+                          .copyWith(color: AppColors.inkSoft)),
+                ],
+              ),
+            ),
+            Text(precio,
+                style: AppTypography.body.copyWith(
+                    color: AppColors.tealDeep, fontWeight: FontWeight.w700)),
           ],
         ),
       ),

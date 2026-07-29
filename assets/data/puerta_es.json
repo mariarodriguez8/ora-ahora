@@ -1,242 +1,182 @@
 [
  {
   "id": "puerta_01",
-  "texto": "Señor, antes de entrar, quédate conmigo. Que no se me vaya el rato sin darme cuenta. Amén."
+  "texto": "Señor, lo que ando buscando en esta pantalla, en el fondo solo tú lo llenas. Amén."
  },
  {
   "id": "puerta_02",
-  "texto": "Dios, dame un minuto contigo antes que a la pantalla. Solo un minuto. Amén."
+  "texto": "Dios, no me dejes cambiar tu paz por otro rato de ruido. Amén."
  },
  {
   "id": "puerta_03",
-  "texto": "Padre, sé que vine por costumbre. Ayúdame a decidir con calma si de verdad quiero entrar. Amén."
+  "texto": "Padre, aquí estoy otra vez. Gracias porque tú nunca te cansas de mí. Amén."
  },
  {
   "id": "puerta_04",
-  "texto": "Señor, calma mi prisa. No necesito llenar cada silencio con el celular. Amén."
+  "texto": "Señor, que mi valor no dependa de lo que vea aquí adentro. Amén."
  },
  {
   "id": "puerta_05",
-  "texto": "Dios, gracias por este alto. Respiro, y me acuerdo de que tú estás aquí. Amén."
+  "texto": "Dios, ayúdame a no comparar mi vida real con la vida editada de los demás. Amén."
  },
  {
   "id": "puerta_06",
-  "texto": "Padre, que mi tiempo sea mío otra vez, y no de esta app. Guíame. Amén."
+  "texto": "Padre, si abro esto para no sentir, mejor quédate tú conmigo en lo que siento. Amén."
  },
  {
   "id": "puerta_07",
-  "texto": "Señor, si entro, que sea con paz, no huyendo de lo que siento. Amén."
+  "texto": "Señor, dame de tu paz: esa que la pantalla promete y nunca cumple. Amén."
  },
  {
   "id": "puerta_08",
-  "texto": "Dios, antes de scroll y scroll, dame descanso de verdad en ti. Amén."
+  "texto": "Dios, que hoy tu voz suene más fuerte que todas estas notificaciones. Amén."
  },
  {
   "id": "puerta_09",
-  "texto": "Padre, hoy elijo mirarte a ti primero. Ayúdame a sostener esa decisión. Amén."
+  "texto": "Padre, no quiero terminar el día con las manos vacías otra vez. Lléname tú primero. Amén."
  },
  {
   "id": "puerta_10",
-  "texto": "Señor, quita de mí las ganas de escapar en la pantalla. Quédate tú. Amén."
+  "texto": "Señor, este impulso de huir, conviértelo en ganas de buscarte. Amén."
  },
  {
   "id": "puerta_11",
-  "texto": "Dios, este momento es tuyo. Que no lo pierda sin pensar. Amén."
+  "texto": "Dios, recuérdame quién soy antes de que el mundo intente decírmelo. Amén."
  },
  {
   "id": "puerta_12",
-  "texto": "Padre, dame dominio propio ahora mismo. Tú puedes donde yo no. Amén."
+  "texto": "Padre, un minuto contigo vale más que una hora perdida aquí. Amén."
  },
  {
   "id": "puerta_13",
-  "texto": "Señor, gracias porque me detuviste justo aquí. Te escucho. Amén."
+  "texto": "Señor, calma la ansiedad que me hace tomar el teléfono sin pensar. Amén."
  },
  {
   "id": "puerta_14",
-  "texto": "Dios, no quiero llegar cansada al final del día por horas perdidas. Ayúdame. Amén."
+  "texto": "Dios, gracias por frenarme justo aquí. Te estaba necesitando. Amén."
  },
  {
   "id": "puerta_15",
-  "texto": "Padre, aquieta mi mente. No todo lo que aparece merece mi atención. Amén."
+  "texto": "Padre, no cargo esto en soledad: tú estás peleando conmigo. Amén."
  },
  {
   "id": "puerta_16",
-  "texto": "Señor, antes de abrir, abro mi corazón a ti. Habla tú primero. Amén."
+  "texto": "Señor, que no cambie tu presencia por likes que se apagan en un rato. Amén."
  },
  {
   "id": "puerta_17",
-  "texto": "Dios, si busco algo aquí, que en realidad te busque a ti. Amén."
+  "texto": "Dios, respiro. Suelto. Tú tienes el control, yo no. Amén."
  },
  {
   "id": "puerta_18",
-  "texto": "Padre, dame la paz que ninguna pantalla me da. Amén."
+  "texto": "Padre, lo que me falta no está en este feed. Está en ti. Amén."
  },
  {
   "id": "puerta_19",
-  "texto": "Señor, hazme libre de esta necesidad de mirar el celular. Amén."
+  "texto": "Señor, hazme libre de necesitar esto para sentirme bien. Amén."
  },
  {
   "id": "puerta_20",
-  "texto": "Dios, gracias por recordarme que hay algo mejor que este ruido: tú. Amén."
+  "texto": "Dios, cada vez que me pierdo, tú sales a buscarme. Aquí estoy. Amén."
  },
  {
   "id": "puerta_21",
-  "texto": "Padre, que este rato no me robe lo que importa. Cuídame. Amén."
+  "texto": "Padre, no dejes que el ruido de afuera apague tu voz aquí dentro. Amén."
  },
  {
   "id": "puerta_22",
-  "texto": "Señor, respiro hondo. Contigo, ni la prisa manda ni el miedo. Amén."
+  "texto": "Señor, quiero volver a sentirte cerca. Empiezo ahora mismo, contigo. Amén."
  },
  {
   "id": "puerta_23",
-  "texto": "Dios, dame ojos para ver cuándo esta app me hace bien y cuándo no. Amén."
+  "texto": "Dios, gracias porque tu amor no depende de cuánto scroll haga hoy. Amén."
  },
  {
   "id": "puerta_24",
-  "texto": "Padre, hoy no quiero huir. Quiero quedarme contigo un momento. Amén."
+  "texto": "Padre, en vez de llenar el silencio con esto, lléname tú. Amén."
  },
  {
   "id": "puerta_25",
-  "texto": "Señor, tú conoces por qué abrí esto. Ayúdame con lo que de verdad necesito. Amén."
+  "texto": "Señor, si vengo triste, no me escondas en la pantalla. Sáname. Amén."
  },
  {
   "id": "puerta_26",
-  "texto": "Dios, que mi descanso venga de ti y no de una pantalla. Amén."
+  "texto": "Dios, hazme volver a mi propia vida, contigo, y no perderme aquí. Amén."
  },
  {
   "id": "puerta_27",
-  "texto": "Padre, protégeme de perder la mañana antes de empezarla. Amén."
+  "texto": "Padre, tú eres suficiente. Aunque ahora no lo sienta, hoy lo creo. Amén."
  },
  {
   "id": "puerta_28",
-  "texto": "Señor, protégeme de perder la noche que debería ser para dormir. Amén."
+  "texto": "Señor, líbrame de vivir mirando la vida de los demás y no la mía contigo. Amén."
  },
  {
   "id": "puerta_29",
-  "texto": "Dios, aquí estoy. Antes de entrar, gracias por seguir esperándome. Amén."
+  "texto": "Dios, cuando quiera escapar, recuérdame que en ti hay descanso de verdad. Amén."
  },
  {
   "id": "puerta_30",
-  "texto": "Padre, que mi paz no dependa de likes ni de nada de aquí adentro. Amén."
+  "texto": "Padre, este peso que traigo no lo dejo en el celular: lo dejo en tus manos. Amén."
  },
  {
   "id": "puerta_31",
-  "texto": "Señor, dame fuerza para dejar el celular cuando toque dejarlo. Amén."
+  "texto": "Señor, que mi paz no la decidan las noticias ni los comentarios. Amén."
  },
  {
   "id": "puerta_32",
-  "texto": "Dios, un respiro contigo vale más que una hora ahí. Recuérdamelo. Amén."
+  "texto": "Dios, gracias por amarme igual en mi mejor y en mi peor día. Amén."
  },
  {
   "id": "puerta_33",
-  "texto": "Padre, calma la ansiedad que me empuja a mirar el celular. Amén."
+  "texto": "Padre, no quiero anestesiar lo que siento. Quiero sanarlo contigo. Amén."
  },
  {
   "id": "puerta_34",
-  "texto": "Señor, hoy quiero elegir bien. Acompáñame en esta pequeña decisión. Amén."
+  "texto": "Señor, un respiro: tú aquí, yo aquí. Con eso me basta. Amén."
  },
  {
   "id": "puerta_35",
-  "texto": "Dios, gracias por este segundo de pausa. Lo recibo como un regalo. Amén."
+  "texto": "Dios, que lo primero de hoy seas tú, y no esta app. Amén."
  },
  {
   "id": "puerta_36",
-  "texto": "Padre, que no confunda estar entretenida con estar en paz. Amén."
+  "texto": "Padre, dame fuerzas para hacer lo que sé que debo, aunque no me nazca. Amén."
  },
  {
   "id": "puerta_37",
-  "texto": "Señor, si sigo, que sea sin culpa; si me detengo, que sea con gozo. Amén."
+  "texto": "Señor, antes de entrar: ¿de verdad lo necesito, o solo estoy huyendo? Guíame. Amén."
  },
  {
   "id": "puerta_38",
-  "texto": "Dios, ayúdame a no vivir mirando la vida de otros y sí la mía contigo. Amén."
+  "texto": "Dios, quita de mí la costumbre de buscarlo todo aquí, menos a ti. Amén."
  },
  {
   "id": "puerta_39",
-  "texto": "Padre, este momento pequeño te lo entrego. Haz algo bueno en él. Amén."
+  "texto": "Padre, cansancio traigo. Dame del descanso que solo tú das. Amén."
  },
  {
   "id": "puerta_40",
-  "texto": "Señor, quiero volver a ti tantas veces como haga falta hoy. Amén."
+  "texto": "Señor, que este alto no sea un castigo, sino un abrazo tuyo. Amén."
  },
  {
   "id": "puerta_41",
-  "texto": "Dios, líbrame de la costumbre de abrir sin pensar. Despiértame. Amén."
+  "texto": "Dios, aquí me tienes tal como estoy. No necesito arreglarme para venir a ti. Amén."
  },
  {
   "id": "puerta_42",
-  "texto": "Padre, dame paz para soltar el teléfono y estar presente. Amén."
+  "texto": "Padre, enséñame a estar presente donde estoy, y no perderme en otra pantalla. Amén."
  },
  {
   "id": "puerta_43",
-  "texto": "Señor, gracias por amarme aun cuando me distraigo tanto. Amén."
+  "texto": "Señor, más de ti y menos de este ruido. Esa es mi oración de hoy. Amén."
  },
  {
   "id": "puerta_44",
-  "texto": "Dios, en medio del ruido, tu voz. Ayúdame a oírte. Amén."
+  "texto": "Dios, si me siento sin valor, recuérdame que diste tu vida por mí. Amén."
  },
  {
   "id": "puerta_45",
-  "texto": "Padre, que mis manos busquen menos el celular y más lo que da vida. Amén."
- },
- {
-  "id": "puerta_46",
-  "texto": "Señor, hoy respiro contigo antes de dejarme llevar. Gracias. Amén."
- },
- {
-  "id": "puerta_47",
-  "texto": "Dios, cuida mi corazón de lo que voy a ver ahí adentro. Amén."
- },
- {
-  "id": "puerta_48",
-  "texto": "Padre, este alto es tuyo. Que me devuelva a lo que importa. Amén."
- },
- {
-  "id": "puerta_49",
-  "texto": "Señor, no dejes que el celular tenga la primera palabra de mi día. Amén."
- },
- {
-  "id": "puerta_50",
-  "texto": "Dios, dame contentamiento, para no buscar en la pantalla lo que ya tengo en ti. Amén."
- },
- {
-  "id": "puerta_51",
-  "texto": "Padre, tranquiliza mi mente inquieta. Aquí estoy contigo. Amén."
- },
- {
-  "id": "puerta_52",
-  "texto": "Señor, gracias porque siempre puedo volver a empezar, incluso ahora. Amén."
- },
- {
-  "id": "puerta_53",
-  "texto": "Dios, que este momento me acerque a ti y no me aleje. Amén."
- },
- {
-  "id": "puerta_54",
-  "texto": "Padre, sé mi fuerza cuando no quiero soltar el teléfono. Amén."
- },
- {
-  "id": "puerta_55",
-  "texto": "Señor, un minuto contigo cambia el resto. Empiezo aquí. Amén."
- },
- {
-  "id": "puerta_56",
-  "texto": "Dios, ayúdame a cuidar mi tiempo como algo que tú me diste. Amén."
- },
- {
-  "id": "puerta_57",
-  "texto": "Padre, quita el peso que traigo; no lo voy a encontrar en esta app. Amén."
- },
- {
-  "id": "puerta_58",
-  "texto": "Señor, respiro, me calmo, y recuerdo que tú tienes el control. Amén."
- },
- {
-  "id": "puerta_59",
-  "texto": "Dios, gracias por este pequeño freno. Lo necesitaba. Amén."
- },
- {
-  "id": "puerta_60",
-  "texto": "Padre, que salga de este momento más en paz de lo que entré. Amén."
+  "texto": "Padre, hoy elijo mirarte a ti primero. Ayúdame a sostener esa decisión. Amén."
  }
 ]

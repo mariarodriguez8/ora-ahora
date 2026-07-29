@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'prefs_service.dart';
 
 /// Planes disponibles de Ora Ahora Plus.
-enum PlusPlan { pruebaMensual, mensual, anual }
+enum PlusPlan { pruebaMensual, semanal, mensual, anual }
 
 /// Servicio de compras "stub" para el MVP.
 ///
@@ -33,6 +33,7 @@ class PurchaseService extends ChangeNotifier {
   static const precioMensual = r'$4.99 USD/mes';
   static const precioAnual = r'$39.99 USD/año';
   static const precioAnualEquiv = r'equivale a $3.33 USD/mes';
+  static const precioSemanal = r'$1.99 USD/semana';
   // La prueba gratis dura 3 dias y al terminar cobra el plan MENSUAL.
   // (El titulo de la opcion ya dice "Prueba 3 días gratis", aqui solo el
   // precio para no repetir ni encimar textos.)

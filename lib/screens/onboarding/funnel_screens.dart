@@ -63,9 +63,7 @@ class FunnelQ3 extends StatelessWidget {
       );
 }
 
-/// 4. el espejo: gamificado segun las respuestas. No repite numeros secos,
-/// va al corazon y cambia el tono (y la ovejita) segun cuanto tiempo le
-/// dio a Dios.
+/// 4. el espejo: gamificado segun las respuestas.
 class FunnelMirror extends StatelessWidget {
   const FunnelMirror({super.key});
 
@@ -103,28 +101,13 @@ class FunnelMirror extends StatelessWidget {
       frase: _frase(),
       mascota: _mascota(),
       opciones: [
-        ('continuar', () => _go(context, const FunnelWins())),
+        ('continuar', () => _go(context, const FunnelGrace())),
       ],
     );
   }
 }
 
-/// 5. la validacion
-class FunnelWins extends StatelessWidget {
-  const FunnelWins({super.key});
-  @override
-  Widget build(BuildContext context) => FunnelScreen(
-        frase: 'y no es que no ames a Dios.\n\nes que el celu siempre está '
-            'a la mano,\ny sentarte a orar cuesta un poquito más.\n'
-            'le pasa a muchísima gente, de verdad.',
-        mascota: 'assets/mascot/ovejita_pensativa.png',
-        opciones: [
-          ('así me siento 😔', () => _go(context, const FunnelGrace())),
-        ],
-      );
-}
-
-/// 6. la gracia (el fondo amanece)
+/// 5. la gracia (el fondo amanece)
 class FunnelGrace extends StatelessWidget {
   const FunnelGrace({super.key});
   @override
@@ -138,7 +121,7 @@ class FunnelGrace extends StatelessWidget {
       );
 }
 
-/// 7. 1 minuto
+/// 6. 1 minuto
 class FunnelMinute extends StatelessWidget {
   const FunnelMinute({super.key});
   @override
@@ -147,36 +130,86 @@ class FunnelMinute extends StatelessWidget {
         mascota: 'assets/mascot/ovejita_esperando.png',
         opciones: [
           ('sí, con 1 minuto sí puedo 🙏',
-              () => _go(context, const FunnelShame())),
+              () => _go(context, const FunnelRegalo())),
         ],
       );
 }
 
-/// 8. la pena de orar en voz alta
-class FunnelShame extends StatelessWidget {
-  const FunnelShame({super.key});
-  void _answer(BuildContext c, bool pena) {
-    if (pena) {
-      ScaffoldMessenger.of(c).showSnackBar(SnackBar(
-        content: Text('sin miedo. empieza en susurro. Dios te escucha igual 🤍',
-            style: AppTypography.body),
-        duration: const Duration(seconds: 3),
-      ));
-    }
-    _go(c, const OnboardingNameScreen());
-  }
+/// 7. regalo de bienvenida: una estampa apenas entra (se guarda en su
+/// colección; cada racha desbloquea una nueva para compartir).
+class FunnelRegalo extends StatelessWidget {
+  const FunnelRegalo({super.key});
 
   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [kFunnelIndigo, kFunnelEsmeralda],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(28),
+            child: Column(
+              children: [
+                const Spacer(),
+                Text('un regalo de bienvenida 🌿',
+                    textAlign: TextAlign.center,
+                    style: AppTypography.display
+                        .copyWith(fontSize: 26, color: kFunnelMarfil)),
+                const SizedBox(height: 18),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(
+                    'store_assets/estampas/estampa_01.png',
+                    height: 300,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Text(
+                  'esta es tu primera estampa. cada racha que hagas '
+                  'desbloquea una nueva para guardar y compartir.',
+                  textAlign: TextAlign.center,
+                  style: AppTypography.body.copyWith(
+                      color: kFunnelMarfil.withValues(alpha: 0.75)),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kFunnelDorado,
+                      foregroundColor: const Color(0xFF241F10),
+                    ),
+                    onPressed: () => _go(context, const FunnelCancion()),
+                    child: const Text('Gracias, guardar 🤍'),
+                  ),
+                ),
+                const SizedBox(height: 6),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 8. la canción de la semana (deleite + gancho a una función Plus).
+class FunnelCancion extends StatelessWidget {
+  const FunnelCancion({super.key});
+  @override
   Widget build(BuildContext context) => FunnelScreen(
-        frase: '¿te da pena orar\nen voz alta?',
-        // v24: ovejita_escuchando era un "busto" (solo cabeza/torso) y se
-        // veia CORTADA. Se reemplaza por una ovejita NUEVA de cuerpo
-        // completo generada a partir de la mascota oficial (elegida por
-        // Maria), cabeza a patas, sin recortes.
-        mascota: 'assets/mascot/ovejita_vozalta.png',
+        frase: 'y cada semana,\nuna canción para\ntu momento con Dios.',
+        mascota: 'assets/mascot/ovejita_escuchando.png',
         opciones: [
-          ('un poquito 🙈', () => _answer(context, true)),
-          ('no, para nada', () => _answer(context, false)),
+          ('me encanta, seguir 🎧',
+              () => _go(context, const OnboardingNameScreen())),
         ],
       );
 }
