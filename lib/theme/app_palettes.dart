@@ -207,11 +207,13 @@ class AppPalette {
     ),
   );
 
+  // Modo noche (maresProfundos) desactivado por ahora: varias pantallas
+  // usan colores de texto fijos que no adaptan y quedaba ilegible. Se
+  // ofrecen solo paletas claras hasta armar un modo oscuro bien hecho.
   static const List<AppPalette> all = [
     zafiroCalmo,
     fusionFresca,
     naturalezaSerena,
-    maresProfundos,
   ];
 
   static AppPalette byId(AppPaletteId id) {

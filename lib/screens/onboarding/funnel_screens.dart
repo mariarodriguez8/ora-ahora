@@ -206,7 +206,7 @@ class FunnelCancion extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FunnelScreen(
         frase: 'y cada semana,\nuna canción para\ntu momento con Dios.',
-        mascota: 'assets/mascot/ovejita_escuchando.png',
+        mascota: 'assets/mascot/ovejita_musica.png',
         opciones: [
           ('me encanta, seguir 🎧',
               () => _go(context, const OnboardingNameScreen())),
