@@ -20,7 +20,7 @@ class Estampa {
 }
 
 const List<Estampa> kEstampas = [
-  Estampa(dia: 3, asset: 'store_assets/estampas/estampa_01.png', versiculo: 'Lamentaciones 3:23'),
+  Estampa(dia: 0, asset: 'store_assets/estampas/estampa_01.png', versiculo: 'Lamentaciones 3:23'), // estampa de bienvenida (siempre desbloqueada)
   Estampa(dia: 5, asset: 'store_assets/estampas/estampa_02.png', versiculo: 'Filipenses 1:6'),
   Estampa(dia: 7, asset: 'store_assets/estampas/estampa_03.png', versiculo: 'Salmo 23:1'),
   Estampa(dia: 10, asset: 'store_assets/estampas/estampa_04.png', versiculo: 'Salmo 118:24'),
