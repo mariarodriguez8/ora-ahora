@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/prayer.dart';
+import '../../data/gate_prayers.dart';
 import '../../services/prefs_service.dart';
 import '../../theme/app_typography.dart';
 import '../../widgets/category_chip.dart';
@@ -26,7 +27,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Future<void> _save() async {
-    await context.read<PrefsService>().setPreferredCategories(_selected.toList());
+    final prefs = context.read<PrefsService>();
+    await prefs.setPreferredCategories(_selected.toList());
+    await syncGatePrayers(prefs);
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Intereses actualizados')),

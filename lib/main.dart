@@ -13,6 +13,7 @@ import 'services/gate_service.dart';
 import 'services/journal_repository.dart';
 import 'services/notification_service.dart';
 import 'services/prayer_repository.dart';
+import 'data/gate_prayers.dart';
 import 'services/prefs_service.dart';
 import 'services/purchase_service.dart';
 import 'services/route_observer.dart';
@@ -34,6 +35,11 @@ Future<void> main() async {
   // (Huawei/Xiaomi): se reprograman en CADA apertura de la app.
   try {
     await notificationService.refreshSchedule(prefsService.reminderTimes);
+  } catch (_) {}
+
+  // Oraciones de la pausa personalizadas segun las necesidades elegidas.
+  try {
+    await syncGatePrayers(prefsService);
   } catch (_) {}
 
   // v29: ¿la app se abrió por tocar un recordatorio de la hora? Si es así,

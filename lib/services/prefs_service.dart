@@ -58,6 +58,7 @@ class PrefsKeys {
   // --- Pausa y Ora (leido tambien por Kotlin) ---
   /// String con JSON array de package names, ej: ["com.instagram.android"]
   static const gatedApps = 'gated_apps';
+  static const gatePrayers = 'gate_prayers'; // JSON array de textos (leido por Kotlin)
 
   /// "true"/"false" como String (no bool) para lectura nativa sin ambiguedad.
   static const gateEnabledFlag = 'gate_enabled_flag';
@@ -207,6 +208,9 @@ class PrefsService {
     if (raw == null || raw.isEmpty) return [];
     return (jsonDecode(raw) as List).cast<String>();
   }
+
+  Future<void> setGatePrayersJson(String json) =>
+      _prefs.setString(PrefsKeys.gatePrayers, json);
 
   Future<void> setGatedApps(List<String> packageNames) {
     return _prefs.setString(PrefsKeys.gatedApps, jsonEncode(packageNames));

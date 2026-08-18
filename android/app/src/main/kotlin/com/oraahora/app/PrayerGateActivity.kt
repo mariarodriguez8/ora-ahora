@@ -40,6 +40,7 @@ class PrayerGateActivity : Activity() {
         private const val FLUTTER_PREFS = "FlutterSharedPreferences"
         private const val KEY_USER_NAME = "flutter.user_name"
         private const val KEY_PUERTA_INDEX = "flutter.puerta_prayer_index"
+        private const val KEY_GATE_PRAYERS = "flutter.gate_prayers"
 
         private val FALLBACK = listOf(
             "Señor, antes de entrar, quédate conmigo. Que no se me vaya el rato sin darme cuenta. Amén.",
@@ -125,6 +126,22 @@ class PrayerGateActivity : Activity() {
     }
 
     private fun loadPrayers(): List<String> {
+        // 1) Lista PERSONALIZADA segun las necesidades que la persona eligio
+        //    (ansiedad, familia, etc.). Flutter la escribe en SharedPreferences
+        //    como un JSON array de textos.
+        try {
+            val prefs = getSharedPreferences(FLUTTER_PREFS, Context.MODE_PRIVATE)
+            val raw = prefs.getString(KEY_GATE_PRAYERS, null)
+            if (!raw.isNullOrBlank()) {
+                val array = JSONArray(raw)
+                val out = ArrayList<String>(array.length())
+                for (i in 0 until array.length()) out.add(array.getString(i))
+                if (out.isNotEmpty()) return out
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "gate_prayers personalizadas invalidas: ${e.message}")
+        }
+        // 2) Fallback: repertorio generico del asset.
         return try {
             assets.open(PUERTA_ASSET).use { input ->
                 val json = input.bufferedReader(Charsets.UTF_8).readText()
