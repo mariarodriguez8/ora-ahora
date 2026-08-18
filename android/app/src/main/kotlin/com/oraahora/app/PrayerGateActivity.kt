@@ -97,10 +97,22 @@ class PrayerGateActivity : Activity() {
 
         // Victoria: la persona decide NO entrar. Se cuenta como cuidado.
         buttonSnooze.setOnClickListener {
-            targetPackage?.let { PrayerGateForegroundService.markSnoozedForToday(this, it) }
+            targetPackage?.let { PrayerGateForegroundService.markVictoryCooldown(this, it) }
             Toast.makeText(this, "Bien hecho 🕊️ El Pastor te cuidó", Toast.LENGTH_SHORT).show()
-            finish()
+            salirAlInicio()
         }
+    }
+
+    /**
+     * Saca a la persona de la app vigilada y la deja en la pantalla de inicio.
+     * Con finish() solo se cerraba la pausa y quedaba la app abierta debajo.
+     */
+    private fun salirAlInicio() {
+        val home = Intent(Intent.ACTION_MAIN)
+        home.addCategory(Intent.CATEGORY_HOME)
+        home.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(home)
+        finishAndRemoveTask()
     }
 
     /** Lee el nombre guardado por Flutter (shared_preferences). */

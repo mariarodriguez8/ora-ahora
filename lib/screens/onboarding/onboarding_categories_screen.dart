@@ -53,8 +53,8 @@ class _OnboardingCategoriesScreenState
                   style: AppTypography.display.copyWith(fontSize: 28)),
               const SizedBox(height: 12),
               Text(
-                'Toca todas las que sientas tuyas — pueden ser varias. '
-                'Con esto elegimos las oraciones para ti.',
+                'Toca todo lo que estés cargando hoy — nadie más va a ver esto. '
+                'Con esto armamos tus oraciones: van a hablar de lo tuyo, no de cosas generales.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),

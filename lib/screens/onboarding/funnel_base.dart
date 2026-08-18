@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'onboarding_anim.dart';
+
 import '../../theme/app_typography.dart';
 
 /// Respuestas del embudo emocional (viven solo durante el onboarding).
@@ -51,24 +53,24 @@ class FunnelScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Spacer(),
-                Center(
+                AparicionSuave(orden: 0, child: Center(
                   child: Image.asset(mascota, height: 170,
                       fit: BoxFit.contain,
                       filterQuality: FilterQuality.medium),
-                ),
+                )),
                 const Spacer(),
-                Text(frase,
+                AparicionSuave(orden: 1, child: Text(frase,
                     style: AppTypography.display
-                        .copyWith(fontSize: 30, color: kFunnelMarfil)),
+                        .copyWith(fontSize: 30, color: kFunnelMarfil))),
                 if (subtitulo != null) ...[
                   const SizedBox(height: 8),
-                  Text(subtitulo!,
+                  AparicionSuave(orden: 2, child: Text(subtitulo!,
                       style: AppTypography.body.copyWith(
-                          color: kFunnelMarfil.withValues(alpha: 0.6))),
+                          color: kFunnelMarfil.withValues(alpha: 0.6)))),
                 ],
                 const SizedBox(height: 24),
-                for (final (texto, onTap) in opciones) ...[
-                  SizedBox(
+                for (final (i, (texto, onTap)) in opciones.indexed) ...[
+                  AparicionSuave(orden: 3 + i, child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -81,7 +83,7 @@ class FunnelScreen extends StatelessWidget {
                       onPressed: onTap,
                       child: Text(texto, textAlign: TextAlign.center),
                     ),
-                  ),
+                  )),
                   const SizedBox(height: 10),
                 ],
                 const SizedBox(height: 6),

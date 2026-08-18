@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/onboarding/onboarding_anim.dart';
+
 import 'app_colors.dart';
 import 'app_palettes.dart';
 import 'app_typography.dart';
@@ -45,6 +47,14 @@ class AppTheme {
     );
 
     return ThemeData(
+      // Transicion propia para TODAS las pantallas: la nueva entra deslizando
+      // con un fundido y la anterior retrocede. Sin esto se veia un corte seco.
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: TransicionOra(),
+          TargetPlatform.iOS: TransicionOra(),
+        },
+      ),
       useMaterial3: true,
       brightness: scheme.brightness,
       colorScheme: scheme,

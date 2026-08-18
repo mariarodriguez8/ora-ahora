@@ -36,7 +36,7 @@ class OnboardingGateScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 '¿Te pasa que abres el celular "un minutito" y de repente '
-                'se fue media hora? A todos nos pasa.',
+                'se fue media hora? No es que te falte fuerza de voluntad: es que nadie te interrumpe.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),

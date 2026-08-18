@@ -24,8 +24,8 @@ class OnboardingSocialScreen extends StatelessWidget {
                   style: AppTypography.display.copyWith(fontSize: 28)),
               const SizedBox(height: 12),
               Text(
-                'Cada día, personas de toda Hispanoamérica hacen una pausa '
-                'con Ora Ahora para orar y volver a lo importante.',
+                'No estás en esto por tu cuenta. Cada día, miles de personas '
+                'en toda Hispanoamérica paran un minuto para lo mismo que tú.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),

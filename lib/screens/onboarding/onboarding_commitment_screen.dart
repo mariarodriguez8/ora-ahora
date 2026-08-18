@@ -39,8 +39,8 @@ class _OnboardingCommitmentScreenState
                   style: AppTypography.display.copyWith(fontSize: 28)),
               const SizedBox(height: 12),
               Text(
-                'No es una obligación: es una decisión. Los hábitos que '
-                'permanecen empiezan con una promesa dicha en serio.',
+                'Él ya te recibió. No tienes que ganártelo ni llegar perfecto. '
+                'Esto no es una obligación: es tu respuesta.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),

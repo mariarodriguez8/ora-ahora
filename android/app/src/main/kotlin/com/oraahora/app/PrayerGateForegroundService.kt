@@ -183,6 +183,17 @@ class PrayerGateForegroundService : Service() {
                 .apply()
         }
 
+        /**
+         * Victoria: la persona decidio NO entrar. Solo damos 60 s de gracia
+         * para que no se vuelva a disparar la pausa mientras sale de la app.
+         * NO se apaga la guardia el resto del dia.
+         */
+        fun markVictoryCooldown(context: Context, packageName: String) {
+            prefs(context).edit()
+                .putLong(SNOOZE_KEY_PREFIX + packageName, System.currentTimeMillis() + 60_000L)
+                .apply()
+        }
+
         private fun prefs(context: Context): SharedPreferences =
             context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
