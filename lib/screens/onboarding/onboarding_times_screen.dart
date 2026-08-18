@@ -56,7 +56,7 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
               const SizedBox(height: 12),
               Text(
                 'Un momento al despertar y otro antes de dormir. '
-                'Toca cada tarjeta para ajustar la hora — luego puedes '
+                '¿A qué hora quieres que te busque? Toca cada tarjeta. Puedes '
                 'cambiarla cuando quieras.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),

@@ -93,9 +93,9 @@ class OnboardingRemindersScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'A las ${prefs.morningTime} y a las ${prefs.nightTime} te '
-                'mandaremos un recordatorio cortito y amable'
+                'vamos a recordar, sin ruido, que Él está esperando'
                 '${nombre.isEmpty ? '' : ', $nombre'}. '
-                'Es lo que más ayuda a no romper la racha 🔥',
+                'Es lo que más ayuda a no dejarlo para mañana 🔥',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),

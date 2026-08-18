@@ -60,8 +60,8 @@ class OnboardingSocialScreen extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Tu árbol de fe crece con cada oración — y nunca '
-                      'retrocede.',
+                      'Tu árbol crece con cada oración. Y si un día faltas no se muere: '
+                      'te espera.',
                       style: AppTypography.body
                           .copyWith(color: AppColors.inkSoft),
                     ),

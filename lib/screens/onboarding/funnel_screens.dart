@@ -172,8 +172,8 @@ class FunnelRegalo extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 Text(
-                  'esta es tu primera estampa. cada racha que hagas '
-                  'desbloquea una nueva para guardar y compartir.',
+                  'guárdala en tu teléfono. es para el día en que se te olvide '
+                  'lo que Él acaba de decirte.',
                   textAlign: TextAlign.center,
                   style: AppTypography.body.copyWith(
                       color: kFunnelMarfil.withValues(alpha: 0.75)),
@@ -205,10 +205,10 @@ class FunnelCancion extends StatelessWidget {
   const FunnelCancion({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-        frase: 'y cada semana,\nuna canción para\ntu momento con Dios.',
+        frase: 'y cada semana,\nuna canción para\nlos días que pesan.',
         mascota: 'assets/mascot/ovejita_musica.png',
         opciones: [
-          ('me encanta, seguir 🎧',
+          ('la voy a necesitar 🎧',
               () => _go(context, const OnboardingNameScreen())),
         ],
       );
