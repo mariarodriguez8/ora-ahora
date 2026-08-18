@@ -95,8 +95,7 @@ class MainActivity : FlutterActivity() {
                             if (!isIgnoringBatteryOptimizations()) {
                                 val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
                                 intent.data = Uri.parse("package:$packageName")
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                startActivity(intent)
+                                startActivityForResult(intent, 9021)
                             }
                             result.success(null)
                         } catch (e: Exception) {
@@ -132,13 +131,11 @@ class MainActivity : FlutterActivity() {
             Settings.ACTION_USAGE_ACCESS_SETTINGS,
             Uri.parse("package:$packageName"),
         )
-        direct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
-            startActivity(direct)
+            startActivityForResult(direct, 9021)
         } catch (e: Exception) {
             val general = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-            general.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(general)
+            startActivityForResult(general, 9021)
         }
     }
 
@@ -148,13 +145,11 @@ class MainActivity : FlutterActivity() {
             Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
             Uri.parse("package:$packageName"),
         )
-        direct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
-            startActivity(direct)
+            startActivityForResult(direct, 9021)
         } catch (e: Exception) {
             val general = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
-            general.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(general)
+            startActivityForResult(general, 9021)
         }
     }
 
@@ -204,16 +199,14 @@ class MainActivity : FlutterActivity() {
             "com.miui.permcenter.permissions.PermissionsEditorActivity",
         )
         editor.putExtra("extra_pkgname", packageName)
-        editor.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
-            startActivity(editor)
+            startActivityForResult(editor, 9021)
         } catch (e: Exception) {
             val fallback = Intent(
                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.parse("package:$packageName"),
             )
-            fallback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(fallback)
+            startActivityForResult(fallback, 9021)
         }
     }
 
