@@ -119,8 +119,13 @@ class PrayerGateActivity : Activity() {
         val lista = loadPrayers()
         if (lista.isEmpty()) return FALLBACK[Random.nextInt(FALLBACK.size)]
         val prefs = getSharedPreferences(FLUTTER_PREFS, Context.MODE_PRIVATE)
+        // AL AZAR: la pausa sale varias veces al dia, por eso se elige una
+        // oracion aleatoria y solo se evita repetir la ultima mostrada.
         val last = prefs.getInt(KEY_PUERTA_INDEX, -1)
-        val next = (last + 1) % lista.size
+        var next = Random.nextInt(lista.size)
+        if (lista.size > 1 && next == last) {
+            next = (next + 1 + Random.nextInt(lista.size - 1)) % lista.size
+        }
         prefs.edit().putInt(KEY_PUERTA_INDEX, next).apply()
         return lista[next]
     }
