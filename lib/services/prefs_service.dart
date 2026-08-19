@@ -224,7 +224,10 @@ class PrefsService {
 
   int get gateGraceMinutes {
     final raw = _prefs.getString(PrefsKeys.gateGraceMinutes);
-    return int.tryParse(raw ?? '') ?? 20;
+    final valor = int.tryParse(raw ?? '') ?? 3;
+    // 20 minutos era el valor viejo y dejaba pasar sesiones enteras sin una
+    // sola pausa. Quien lo tenga guardado de una version anterior pasa a 3.
+    return valor == 20 ? 3 : valor;
   }
 
   Future<void> setGateGraceMinutes(int minutes) {

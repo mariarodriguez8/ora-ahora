@@ -79,7 +79,7 @@ class PrayerGateForegroundService : Service() {
         private const val UNLOCK_KEY_PREFIX = "native_unlock_"
         private const val SNOOZE_KEY_PREFIX = "native_snooze_"
 
-        private const val DEFAULT_GRACE_MINUTES = 20
+        private const val DEFAULT_GRACE_MINUTES = 3
 
         /** Tope de eventos guardados en el registro de patrones de uso. */
         private const val MAX_USAGE_LOG_ENTRIES = 50
