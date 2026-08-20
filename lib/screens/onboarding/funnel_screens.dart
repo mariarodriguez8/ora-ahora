@@ -207,7 +207,6 @@ class FunnelCancion extends StatelessWidget {
   Widget build(BuildContext context) => FunnelScreen(
         frase: 'y cada semana,\nuna canción nueva\npara cuando estés mal.',
         mascota: 'assets/mascot/ovejita_musica.png',
-        extra: const TarjetasCanciones(),
         opciones: [
           ('la voy a necesitar 🎧',
               () => _go(context, const OnboardingNameScreen())),
