@@ -74,7 +74,7 @@ class FunnelMirror extends StatelessWidget {
     switch (FunnelAnswers.tiempoDios) {
       case 'nada':
         return '$_horas en el celular.\n\ny para Dios... nada.\n'
-            'no es que no te importe —\nes que nunca le llega el turno.';
+            'siempre encuentras tiempo.\nsolo que no para Él.';
       case 'unos minutitos':
         return '$_horas en el celular.\n\ny para Dios, unos minutitos.\n'
             'y en el fondo sabes que te hace falta más de Él.';
@@ -126,7 +126,7 @@ class FunnelMinute extends StatelessWidget {
   const FunnelMinute({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-        frase: '¿y si empezamos\ncon 1 minuto al día?',
+        frase: 'Él te espera hoy.\n¿le das 1 minuto?',
         mascota: 'assets/mascot/ovejita_esperando.png',
         opciones: [
           ('sí, con 1 minuto sí puedo 🙏',
@@ -157,7 +157,7 @@ class FunnelRegalo extends StatelessWidget {
             child: Column(
               children: [
                 const Spacer(),
-                Text('un regalo de bienvenida 🌿',
+                Text('Un regalo de bienvenida',
                     textAlign: TextAlign.center,
                     style: AppTypography.display
                         .copyWith(fontSize: 26, color: kFunnelMarfil)),
@@ -172,8 +172,8 @@ class FunnelRegalo extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 Text(
-                  'guárdala en tu teléfono. es para el día en que se te olvide '
-                  'lo que Él acaba de decirte.',
+                  'Guárdala en tu teléfono. Cuando te sientas lejos, '
+                  'mírala y acuérdate de hoy.',
                   textAlign: TextAlign.center,
                   style: AppTypography.body.copyWith(
                       color: kFunnelMarfil.withValues(alpha: 0.75)),
@@ -205,8 +205,9 @@ class FunnelCancion extends StatelessWidget {
   const FunnelCancion({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-        frase: 'y cada semana,\nuna canción para\nlos días que pesan.',
+        frase: 'y cada semana,\nuna canción nueva\npara cuando estés mal.',
         mascota: 'assets/mascot/ovejita_musica.png',
+        extra: const TarjetasCanciones(),
         opciones: [
           ('la voy a necesitar 🎧',
               () => _go(context, const OnboardingNameScreen())),

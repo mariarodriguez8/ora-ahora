@@ -13,12 +13,15 @@ class Cancion {
 
   /// Enlace al video oficial en YouTube.
   final String url;
+  /// Que orar mientras suena. Es el diferenciador de la app.
+  final String oracion;
 
   const Cancion({
     required this.titulo,
     required this.artista,
     required this.mensaje,
     required this.url,
+    this.oracion = 'Señor, mientras la escucho, quédate conmigo.',
   });
 }
 
@@ -29,30 +32,35 @@ const List<Cancion> kCanciones = [
     mensaje: 'para cuando sientes que te alejaste. da igual cuánto tiempo '
         'pasó: la puerta sigue abierta.',
     url: 'https://www.youtube.com/watch?v=KqRWUCqjeAE',
+    oracion: 'Señor, aquí estoy otra vez. Recíbeme como si no me hubiera ido.',
   ),
   Cancion(
     titulo: 'Océanos',
     artista: 'Hillsong United (español)',
     mensaje: 'cuando no ves piso firme, esta te recuerda que Él te sostiene.',
     url: 'https://www.youtube.com/watch?v=2BJ0OA0nXPY',
+    oracion: 'Dios, donde no hago pie, sostenme tú.',
   ),
   Cancion(
     titulo: 'Gracias / Tu Fidelidad',
     artista: 'Marcos Witt ft. Un Corazón',
     mensaje: 'acuérdate de todo lo que Él ya hizo por ti, aunque hoy pese.',
     url: 'https://www.youtube.com/watch?v=53BatKbRO2A',
+    oracion: 'Padre, gracias por lo que hiciste cuando yo no estaba mirando.',
   ),
   Cancion(
     titulo: 'Gracias',
     artista: 'Marcela Gándara',
     mensaje: 'un minuto para agradecer lo simple: hoy, respirar, seguir aquí.',
     url: 'https://www.youtube.com/watch?v=HkZhNE3n-i4',
+    oracion: 'Señor, gracias por lo que tengo hoy, aunque no sea todo lo que quería.',
   ),
   Cancion(
     titulo: 'Renuévame',
     artista: 'Marcos Witt',
     mensaje: 'para cuando por dentro te sientes seco. pídele que te renueve.',
     url: 'https://www.youtube.com/watch?v=F5gMNbGfy1g',
+    oracion: 'Dios, cambia en mí lo que yo solo no puedo cambiar.',
   ),
   Cancion(
     titulo: 'Todo Va a Estar Bien',
@@ -60,6 +68,7 @@ const List<Cancion> kCanciones = [
     mensaje: 'no es fingir que todo está bien; es soltar en Sus manos lo que '
         'no lo está.',
     url: 'https://www.youtube.com/watch?v=UjDiKcjYKCM',
+    oracion: 'Padre, calma mi cabeza. Tú tienes esto.',
   ),
   Cancion(
     titulo: 'Santo Espíritu',

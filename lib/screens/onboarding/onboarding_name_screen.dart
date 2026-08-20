@@ -58,8 +58,8 @@ class _OnboardingNameScreenState extends State<OnboardingNameScreen>
                   style: AppTypography.display.copyWith(fontSize: 28)),
               const SizedBox(height: 12),
               Text(
-                'Nos gusta hablar por tu nombre, como se habla '
-                'con alguien de confianza.',
+                'Dios te llama por tu nombre. '
+                'Aquí también.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
               ),

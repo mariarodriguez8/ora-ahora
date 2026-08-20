@@ -28,19 +28,19 @@ class _PaywallScreenState extends State<PaywallScreen> {
   PlusPlan _plan = PlusPlan.anual;
 
   static const List<(String, String)> _dias = [
-    ('día 1 — la primera gota',
+    ('Día 1 · Rompes el silencio',
         'hoy oras antes de abrir el celu. la tierra vuelve a sentir agua.'),
-    ('día 2 — aguanta la sequía',
-        'el 2º día vas a querer volver al scroll. justo ahí riegas de nuevo.'),
-    ('día 3 — suelta lo que pesa',
+    ('Día 2 · El día que vas a querer rendirte',
+        'Hoy vas a querer volver al celular. Ahí es donde se gana.'),
+    ('Día 3 · Le entregas lo que más te duele',
         'le entregas eso que cargas. la raíz respira.'),
-    ('día 4 — el primer verde',
+    ('Día 4 · Te sale solo, sin recordatorio',
         'dejas de sentirte tan lejos. vuelve la sensación de que Él está.'),
-    ('día 5 — mira atrás',
-        'relees tu diario y ves 5 días de agua. Dios sí estaba obrando.'),
-    ('día 6 — echa raíces',
+    ('Día 5 · Relees tu diario y ves lo que Dios hizo',
+        'Cinco días seguidos escritos. Dios sí estaba ahí.'),
+    ('Día 6 · El celular deja de mandarte',
         'tu racha ya no es número, es raíz que agarra.'),
-    ('día 7 — el primer fruto',
+    ('Día 7 · Ya no es un plan, es tu vida',
         'una semana regando sin fallar. ¿hace cuánto no lo lograbas?'),
   ];
 
@@ -100,17 +100,18 @@ class _PaywallScreenState extends State<PaywallScreen> {
             ),
             const SizedBox(height: 8),
             // Reframe: desarma "me falta disciplina".
-            Text('no es que te falte disciplina.',
+            Text('Dios no se movió.',
                 textAlign: TextAlign.center,
                 style: AppTypography.display.copyWith(fontSize: 26)),
             const SizedBox(height: 6),
-            Text('es que tu fe tiene sed.',
+            Text('Te alejaste tú.',
                 textAlign: TextAlign.center,
                 style: AppTypography.title.copyWith(color: AppColors.tealDeep)),
             const SizedBox(height: 12),
             Text(
-              'no se secó de un día para otro — fue día tras día sin regarla. '
-              'estos 7 días la traen de vuelta.',
+              'Y aun así sigue esperándote en el mismo lugar. '
+              'No necesitas llegar perfecto ni ponerte al día. '
+              'Solo volver a Él. Y llegó el momento.',
               textAlign: TextAlign.center,
               style: AppTypography.body.copyWith(color: AppColors.inkSoft),
             ),

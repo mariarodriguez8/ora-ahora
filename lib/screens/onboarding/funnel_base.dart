@@ -23,6 +23,8 @@ class FunnelScreen extends StatelessWidget {
   final String mascota; // ruta del asset de la ovejita
   final List<(String, VoidCallback)> opciones;
   final bool amanecer; // true = el fondo amanece (momento de gracia)
+  /// Contenido opcional entre el subtitulo y los botones.
+  final Widget? extra;
 
   const FunnelScreen({
     super.key,
@@ -31,6 +33,7 @@ class FunnelScreen extends StatelessWidget {
     required this.mascota,
     required this.opciones,
     this.amanecer = false,
+    this.extra,
   });
 
   @override
@@ -68,9 +71,13 @@ class FunnelScreen extends StatelessWidget {
                       style: AppTypography.body.copyWith(
                           color: kFunnelMarfil.withValues(alpha: 0.6)))),
                 ],
+                if (extra != null) ...[
+                  const SizedBox(height: 18),
+                  AparicionSuave(orden: 3, child: extra!),
+                ],
                 const SizedBox(height: 24),
                 for (final (i, (texto, onTap)) in opciones.indexed) ...[
-                  AparicionSuave(orden: 3 + i, child: SizedBox(
+                  AparicionSuave(orden: 4 + i, child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -91,6 +98,94 @@ class FunnelScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Tres tarjetas de canciones, en el estilo de la app.
+///
+/// A proposito NO usamos las portadas reales de los discos: son material con
+/// derechos de sus sellos y ademas chocan con el trazo ilustrado de la
+/// ovejita. Estas se ven propias y sirven despues para el home.
+class TarjetasCanciones extends StatelessWidget {
+  const TarjetasCanciones({super.key});
+
+  static const _lista = <(String, String)>[
+    ('Vuelvo a Ti', 'Un Corazón'),
+    ('Océanos', 'Hillsong United'),
+    ('Todo Va a Estar Bien', 'Redimi2'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final (idx, (titulo, artista)) in _lista.indexed) ...[
+          if (idx > 0) const SizedBox(width: 10),
+          Expanded(child: _Tarjeta(titulo: titulo, artista: artista)),
+        ],
+      ],
+    );
+  }
+}
+
+class _Tarjeta extends StatelessWidget {
+  final String titulo;
+  final String artista;
+  const _Tarjeta({required this.titulo, required this.artista});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 108,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: kFunnelMarfil.withValues(alpha: 0.18)),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            kFunnelMarfil.withValues(alpha: 0.17),
+            kFunnelMarfil.withValues(alpha: 0.05),
+          ],
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 26,
+            height: 26,
+            decoration: const BoxDecoration(
+                color: kFunnelDorado, shape: BoxShape.circle),
+            child: const Icon(Icons.play_arrow_rounded,
+                size: 18, color: Color(0xFF241F10)),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(titulo,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.body.copyWith(
+                      fontSize: 12,
+                      height: 1.15,
+                      fontWeight: FontWeight.w600,
+                      color: kFunnelMarfil)),
+              const SizedBox(height: 2),
+              Text(artista,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.body.copyWith(
+                      fontSize: 10,
+                      color: kFunnelMarfil.withValues(alpha: 0.6))),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../widgets/nube_notas.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
@@ -291,6 +293,12 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       ),
                       start: 0.0,
                       end: 0.45,
+                    ),
+                    const SizedBox(height: 14),
+                    _staggeredSection(
+                      const NubeNotas(),
+                      start: 0.12,
+                      end: 0.6,
                     ),
                     const SizedBox(height: 16),
                     // 1. HERO v11: la pradera del Salmo 23 — numero

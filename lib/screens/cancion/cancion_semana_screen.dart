@@ -127,13 +127,16 @@ class CancionSemanaCard extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.tealDeep,
-              AppColors.tealDeep.withValues(alpha: 0.82),
+              const Color(0xFFB07A1E),
+              AppColors.amber,
             ],
           ),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Row(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
           children: [
             Container(
               width: 46,
@@ -162,7 +165,7 @@ class CancionSemanaCard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 7, vertical: 2),
                           decoration: BoxDecoration(
-                            color: AppColors.amber,
+                            color: AppColors.cream,
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: Text('Plus',
@@ -188,6 +191,28 @@ class CancionSemanaCard extends StatelessWidget {
             const Icon(Icons.chevron_right, color: Colors.white),
           ],
         ),
+              const SizedBox(height: 12),
+              Text(c.mensaje,
+                  style: AppTypography.body.copyWith(
+                      fontSize: 13,
+                      height: 1.35,
+                      color: Colors.white.withValues(alpha: 0.92))),
+              if (isPlus) ...[
+                const SizedBox(height: 10),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.18),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text('Mientras la escuchas, ora:\n' + c.oracion,
+                      style: AppTypography.body.copyWith(
+                          fontSize: 12.5, height: 1.35, color: Colors.white)),
+                ),
+              ],
+            ],
+          ),
       ),
     );
   }
