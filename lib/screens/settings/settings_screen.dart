@@ -10,6 +10,7 @@ import '../paywall/paywall_screen.dart';
 import 'about_screen.dart';
 import 'appearance_screen.dart';
 import 'battery_optimization_screen.dart';
+import 'diagnostico_screen.dart';
 import 'categories_screen.dart';
 import 'gated_apps_screen.dart';
 import 'privacy_screen.dart';
@@ -76,6 +77,14 @@ class SettingsScreen extends StatelessWidget {
             subtitle: 'Elige qué apps requieren una pausa antes de abrirse',
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const GatedAppsScreen()),
+            ),
+          ),
+          _SettingsTile(
+            icon: Icons.health_and_safety_outlined,
+            title: 'Estado de la pausa',
+            subtitle: 'Comprueba si de verdad está funcionando',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const DiagnosticoScreen()),
             ),
           ),
           _SettingsTile(

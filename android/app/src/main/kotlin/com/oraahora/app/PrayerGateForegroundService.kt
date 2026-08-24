@@ -217,7 +217,11 @@ class PrayerGateForegroundService : Service() {
         override fun run() {
             if (!polling) return
             try {
-                pollForegroundApp()
+                val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+                if (pm.isInteractive) {
+                    marcarLatido()
+                    pollForegroundApp()
+                }
             } catch (e: Exception) {
                 Log.w(TAG, "Error consultando eventos de uso: ${e.message}")
             }
@@ -238,7 +242,11 @@ class PrayerGateForegroundService : Service() {
         // Evita procesar eventos viejos acumulados de antes de arrancar.
         lastEventTimestamp = System.currentTimeMillis()
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
-        if (powerManager.isInteractive) startPolling()
+        // Antes solo arrancaba si la pantalla estaba encendida en ese instante,
+        // y si el receptor de pantalla se perdia el bucle quedaba muerto para
+        // siempre con la notificacion todavia visible. Ahora arranca siempre y
+        // es el propio bucle el que se saltea el trabajo con la pantalla apagada.
+        startPolling()
         return START_STICKY
     }
 
@@ -348,23 +356,53 @@ class PrayerGateForegroundService : Service() {
         // abrir estas apps, para "Recordatorio inteligente" (ver
         // UsagePatternService en el lado Flutter).
         appendUsageTimestamp(sharedPrefs)
+        diag("ultima_deteccion", packageName)
 
         val snoozeUntil = sharedPrefs.getLong(SNOOZE_KEY_PREFIX + packageName, 0L)
-        if (snoozeUntil > System.currentTimeMillis()) return
+        if (snoozeUntil > System.currentTimeMillis()) {
+            diag("ultimo_salto", "en pausa breve: " + packageName)
+            return
+        }
 
         val graceMinutes = readGraceMinutes(sharedPrefs)
         val lastUnlockAt = sharedPrefs.getLong(UNLOCK_KEY_PREFIX + packageName, 0L)
         val graceMillis = graceMinutes * 60_000L
-        if (System.currentTimeMillis() - lastUnlockAt < graceMillis) return
+        if (System.currentTimeMillis() - lastUnlockAt < graceMillis) {
+            diag("ultimo_salto", "dentro de los " + graceMinutes + " min de gracia: " + packageName)
+            return
+        }
 
         if (!hasOverlayPermission(applicationContext)) {
             // Sin "Mostrar sobre otras apps", Android bloquearia el inicio
             // de la actividad desde este servicio en segundo plano.
             Log.w(TAG, "Falta el permiso de superposicion; no se muestra la pausa")
+            diag("ultimo_salto", "falta el permiso de superposicion")
             return
         }
 
         launchPrayerGate(packageName)
+    }
+
+    /**
+     * Deja rastro de lo que hace el servicio para la pantalla de diagnostico.
+     * Sin esto los fallos son invisibles: la app se calla y parece rota.
+     */
+    private fun diag(clave: String, valor: String) {
+        try {
+            getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()
+                .putString("flutter.diag_" + clave, valor)
+                .putLong("flutter.diag_" + clave + "_ts", System.currentTimeMillis())
+                .apply()
+        } catch (e: Exception) {
+            Log.w(TAG, "No se pudo guardar diagnostico: ${e.message}")
+        }
+    }
+
+    /** Prueba de vida del bucle de vigilancia. Se escribe cada ~30 s. */
+    private var latidos = 0
+    private fun marcarLatido() {
+        latidos++
+        if (latidos % 30 == 1) diag("latido", "vivo")
     }
 
     private fun launchPrayerGate(targetPackage: String) {
@@ -374,8 +412,10 @@ class PrayerGateForegroundService : Service() {
                 putExtra(PrayerGateActivity.EXTRA_TARGET_PACKAGE, targetPackage)
             }
             startActivity(intent)
+            diag("ultimo_lanzamiento", "abierta para " + targetPackage)
         } catch (e: Exception) {
             Log.e(TAG, "No se pudo abrir PrayerGateActivity para $targetPackage", e)
+            diag("ultimo_lanzamiento", "ERROR al abrir: " + e.javaClass.simpleName + " " + e.message)
         }
     }
 
