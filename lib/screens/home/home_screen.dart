@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../momento/momento_oracion_screen.dart';
 
 import '../../widgets/nube_notas.dart';
 import 'package:flutter/services.dart';
@@ -37,11 +40,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  /// Si la persona llego tocando la notificacion, la llevamos directo a una
+  /// oracion del tema que eligio en vez de dejarla en el inicio.
+  Future<void> _abrirTemaSiVieneDeNotificacion() async {
+    final p = await SharedPreferences.getInstance();
+    await p.reload();
+    final tema = p.getString('abrir_tema');
+    if (tema == null || tema.isEmpty) return;
+    await p.remove('abrir_tema');
+    if (!mounted) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => MomentoOracionScreen(categoria: tema),
+      ),
+    );
+  }
   int _index = 0;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _abrirTemaSiVieneDeNotificacion(),
+    );
     // El paywall se muestra UNA sola vez, justo despues de terminar el
     // onboarding (el momento "aha" del usuario): ver
     // `PrefsService.paywallShownAfterOnboarding`. Es un paywall "suave":

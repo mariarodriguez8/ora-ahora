@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../data/gate_prayers.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/purchase_service.dart';
@@ -14,7 +16,10 @@ import '../home/home_screen.dart';
 /// igual que orar dentro de la app: riega la plantita y sube la racha
 /// (usa `StreakService.markPrayedToday`, la misma fuente de verdad).
 class MomentoOracionScreen extends StatelessWidget {
-  const MomentoOracionScreen({super.key});
+  /// Tema concreto por el que orar. Llega cuando la persona toca la
+  /// notificacion, para que la oracion sea la suya y no una generica.
+  final String? categoria;
+  const MomentoOracionScreen({super.key, this.categoria});
 
   /// Oraciones cortas, voz del ICP, lenguaje NEUTRO (no asume genero).
   /// Se elige una por dia para que vaya cambiando.
@@ -51,6 +56,13 @@ class MomentoOracionScreen extends StatelessWidget {
   String get _oracionDeHoy {
     final now = DateTime.now();
     final doy = now.difference(DateTime(now.year, 1, 1)).inDays;
+    // Si venimos de la notificacion, oramos por ese tema concreto.
+    if (categoria != null) {
+      final delTema = buildGatePrayers([categoria!]);
+      if (delTema.isNotEmpty) {
+        return delTema[now.millisecondsSinceEpoch ~/ 60000 % delTema.length];
+      }
+    }
     return _oraciones[doy % _oraciones.length];
   }
 

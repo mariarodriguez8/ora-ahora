@@ -519,6 +519,19 @@ class PrayerGateForegroundService : Service() {
         }
     }
 
+    /** Clave cruda del tema elegido, para mandarla al abrir la app. */
+    private fun claveTema(): String? {
+        return try {
+            val raw = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getString(KEY_CATEGORIAS, null) ?: return null
+            val arr = JSONArray(raw)
+            if (arr.length() == 0) return null
+            arr.getString((System.currentTimeMillis() / 3600000L % arr.length()).toInt())
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     /** Un tema de los que la persona eligio, para que la oracion sea suya. */
     private fun temaElegido(): String {
         val etiquetas = mapOf(
@@ -586,6 +599,9 @@ class PrayerGateForegroundService : Service() {
 
     private fun buildNotification(): Notification {
         val openAppIntent = packageManager.getLaunchIntentForPackage(packageName)
+        // Al tocar la notificacion queremos caer en una oracion del tema
+        // elegido, no en la pantalla de inicio.
+        claveTema()?.let { openAppIntent?.putExtra("ora_tema", it) }
         val contentIntent = if (openAppIntent != null) {
             PendingIntent.getActivity(
                 this,

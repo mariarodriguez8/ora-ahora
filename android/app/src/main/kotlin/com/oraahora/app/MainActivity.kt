@@ -34,6 +34,7 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        guardarTemaDeNotificacion(intent)
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName)
             .setMethodCallHandler { call, result ->
@@ -214,5 +215,21 @@ class MainActivity : FlutterActivity() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         return powerManager.isIgnoringBatteryOptimizations(packageName)
+    }
+
+    /**
+     * Si la app se abrio tocando la notificacion, deja el tema anotado para
+     * que Flutter lleve a la persona directo a una oracion de ese tema.
+     */
+    private fun guardarTemaDeNotificacion(intent: android.content.Intent?) {
+        val tema = intent?.getStringExtra("ora_tema") ?: return
+        getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+            .edit().putString("flutter.abrir_tema", tema).apply()
+        intent.removeExtra("ora_tema")
+    }
+
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        guardarTemaDeNotificacion(intent)
     }
 }
