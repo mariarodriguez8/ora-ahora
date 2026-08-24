@@ -29,6 +29,9 @@ class PrefsKeys {
 
   // --- Racha ---
   static const streakState = 'streak_state'; // String JSON
+  /// Fecha (yyyy-MM-dd) del ultimo dia orado. La lee el servicio nativo
+  /// para el marcador de la notificacion.
+  static const oradoHoyFecha = 'orado_hoy_fecha';
   static const estampasSeenStreak = 'estampas_seen_streak'; // int
 
   // --- Recordatorios ---
@@ -142,6 +145,12 @@ class PrefsService {
 
   // --- Racha ---
   String? get streakStateJson => _prefs.getString(PrefsKeys.streakState);
+
+  String get oradoHoyFecha =>
+      _prefs.getString(PrefsKeys.oradoHoyFecha) ?? '';
+
+  Future<void> setOradoHoyFecha(String v) =>
+      _prefs.setString(PrefsKeys.oradoHoyFecha, v);
 
   Future<void> setStreakStateJson(String json) =>
       _prefs.setString(PrefsKeys.streakState, json);

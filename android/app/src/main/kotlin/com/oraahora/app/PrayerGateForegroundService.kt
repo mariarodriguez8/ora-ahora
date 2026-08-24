@@ -74,6 +74,8 @@ class PrayerGateForegroundService : Service() {
         private const val PREFS_NAME = "FlutterSharedPreferences"
         private const val KEY_GATE_ENABLED = "flutter.gate_enabled_flag"
         private const val KEY_GATED_APPS = "flutter.gated_apps"
+        private const val KEY_CATEGORIAS = "flutter.preferred_categories"
+        private const val KEY_ORADO_HOY = "flutter.orado_hoy_fecha"
         private const val KEY_GRACE_MINUTES = "flutter.gate_grace_minutes"
         private const val KEY_USAGE_PATTERN_LOG = "flutter.usage_pattern_log"
         private const val UNLOCK_KEY_PREFIX = "native_unlock_"
@@ -403,6 +405,8 @@ class PrayerGateForegroundService : Service() {
     private fun marcarLatido() {
         latidos++
         if (latidos % 30 == 1) diag("latido", "vivo")
+        // El marcador tiene que ir cambiando solo durante el dia.
+        if (latidos % 60 == 1) refrescarNotificacion()
     }
 
     private fun launchPrayerGate(targetPackage: String) {
@@ -491,6 +495,95 @@ class PrayerGateForegroundService : Service() {
         manager.createNotificationChannel(channel)
     }
 
+    /** Minutos de hoy en las apps que la persona eligio vigilar. */
+    private fun minutosVigiladasHoy(): Int {
+        return try {
+            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val vigiladas = readGatedApps(prefs)
+            if (vigiladas.isEmpty()) return 0
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.HOUR_OF_DAY, 0)
+            cal.set(Calendar.MINUTE, 0)
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
+            val usm = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+            val stats = usm.queryUsageStats(
+                UsageStatsManager.INTERVAL_DAILY, cal.timeInMillis, System.currentTimeMillis()
+            ) ?: return 0
+            var total = 0L
+            for (u in stats) if (vigiladas.contains(u.packageName)) total += u.totalTimeInForeground
+            (total / 60000L).toInt()
+        } catch (e: Exception) {
+            Log.w(TAG, "No se pudo calcular el uso de hoy: ${e.message}")
+            0
+        }
+    }
+
+    /** Un tema de los que la persona eligio, para que la oracion sea suya. */
+    private fun temaElegido(): String {
+        val etiquetas = mapOf(
+            "ansiedad" to "tu ansiedad", "paz" to "tu paz",
+            "gratitud" to "lo que agradeces", "familia" to "tu familia",
+            "trabajo" to "tu trabajo", "tentacion_enfoque" to "esa lucha",
+            "sanidad" to "esa herida", "perdon" to "el perdon",
+            "duelo" to "esa ausencia", "soledad" to "esa soledad",
+            "matrimonio" to "tu matrimonio", "finanzas" to "lo que te falta",
+            "manana" to "tu dia", "noche" to "tu descanso"
+        )
+        return try {
+            val raw = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getString(KEY_CATEGORIAS, null) ?: return "ti"
+            val arr = JSONArray(raw)
+            if (arr.length() == 0) return "ti"
+            val clave = arr.getString((System.currentTimeMillis() / 3600000L % arr.length()).toInt())
+            etiquetas[clave] ?: "ti"
+        } catch (e: Exception) {
+            "ti"
+        }
+    }
+
+    /** Ya oro hoy? Lo escribe Flutter al marcar el dia. */
+    private fun yaOroHoy(): Boolean {
+        return try {
+            val guardada = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getString(KEY_ORADO_HOY, "") ?: ""
+            if (guardada.isEmpty()) return false
+            val c = Calendar.getInstance()
+            val hoy = String.format(
+                "%d-%02d-%02d", c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1,
+                c.get(Calendar.DAY_OF_MONTH)
+            )
+            guardada == hoy
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /** Linea corta: el contraste del dia. */
+    private fun marcadorCorto(): String {
+        val min = minutosVigiladasHoy()
+        val conDios = if (yaOroHoy()) "ya oraste hoy" else "0 con Dios"
+        return if (min <= 0) {
+            if (yaOroHoy()) "Ya oraste hoy. Bien ahi." else "Toca y ora un minuto"
+        } else {
+            val t = if (min >= 60) "${min / 60} h ${min % 60} min" else "$min min"
+            "$t en el celular hoy \u00b7 $conDios"
+        }
+    }
+
+    /** Linea larga: invita a orar por lo que la persona eligio. */
+    private fun marcadorLargo(): String =
+        marcadorCorto() + "\nToca y ora un minuto por " + temaElegido() + "."
+
+    private fun refrescarNotificacion() {
+        try {
+            val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(NOTIFICATION_ID, buildNotification())
+        } catch (e: Exception) {
+            Log.w(TAG, "No se pudo refrescar la notificacion: ${e.message}")
+        }
+    }
+
     private fun buildNotification(): Notification {
         val openAppIntent = packageManager.getLaunchIntentForPackage(packageName)
         val contentIntent = if (openAppIntent != null) {
@@ -513,7 +606,8 @@ class PrayerGateForegroundService : Service() {
 
         builder
             .setContentTitle("Ora Ahora")
-            .setContentText("Antes de abrir una app, respira y ora un momento 🙏")
+            .setContentText(marcadorCorto())
+            .setStyle(Notification.BigTextStyle().bigText(marcadorLargo()))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setOngoing(true)
             .setCategory(Notification.CATEGORY_SERVICE)

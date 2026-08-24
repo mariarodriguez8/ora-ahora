@@ -117,6 +117,11 @@ class StreakService extends ChangeNotifier {
 
   Future<void> _save() async {
     await _prefs.setStreakStateJson(jsonEncode(_state.toJson()));
+    // Marca simple para el servicio nativo: si ya oro hoy, guarda la fecha.
+    final h = DateTime.now();
+    final hoy = '${h.year}-${h.month.toString().padLeft(2, '0')}-'
+        '${h.day.toString().padLeft(2, '0')}';
+    await _prefs.setOradoHoyFecha(prayedToday ? hoy : '');
   }
 
   static DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
