@@ -24,33 +24,18 @@ class MomentoOracionScreen extends StatelessWidget {
   /// Oraciones cortas, voz del ICP, lenguaje NEUTRO (no asume genero).
   /// Se elige una por dia para que vaya cambiando.
   static const List<String> _oraciones = [
-    'Señor, aquí estoy. antes que nada y antes que nadie, quiero buscarte '
-        'a ti. gracias por esperarme.\n\nAmén.',
-    'Dios, este ratito es tuyo. calma lo que traigo por dentro y '
-        'recuérdame que estás cerca.\n\nAmén.',
-    'Padre, gracias por hoy. ayúdame a no dejarte para el final del día. '
-        'quiero volver a ti.\n\nAmén.',
-    'Jesús, sé que me distraigo fácil. hoy elijo parar un momento y '
-        'hablarte. gracias por escucharme.\n\nAmén.',
-    'Señor, no traigo palabras bonitas, solo mi corazón. quédate conmigo '
-        'en lo que venga hoy.\n\nAmén.',
-    'Dios, gracias porque no te cansas de mí. dame paz y guíame en lo de '
-        'hoy.\n\nAmén.',
-    'Padre, aquí me tienes otra vez. gracias por recibirme sin reproches. '
-        'te necesito.\n\nAmén.',
-    'Señor, ordena mi día y mi mente. que lo primero seas tú, no la '
-        'pantalla.\n\nAmén.',
-    'Señor, gracias por este día. quiero dártelo a ti antes que a '
-        'nada.\n\nAmén.',
-    'Dios, cuando quiera huir a la pantalla, recuérdame que tú me '
-        'llenas.\n\nAmén.',
-    'Padre, calma mi cabeza. hoy quiero caminar contigo.\n\nAmén.',
-    'Jesús, perdona que te dejo para el final. hoy empiezo por '
-        'ti.\n\nAmén.',
-    'Señor, aquí traigo mi cansancio. dame del descanso bueno.\n\nAmén.',
-    'Dios, gracias por no soltarme aunque yo te suelte.\n\nAmén.',
-    'Padre, quiero volver a sentirte cerca. ábreme el corazón.\n\nAmén.',
-    'Señor, que hoy busque tu voz más que las notificaciones.\n\nAmén.',
+    'Señor, aquí estoy. Antes que nada y antes que nadie, quiero buscarte a ti.\n\nGracias por esperarme todo este tiempo sin reclamarme nada. Tú sabes por dónde anduve y aun así me recibes.\n\nToma este día antes de que empiece.\n\nAmén.',
+    'Padre, hoy vengo cansado. No traigo palabras bonitas, traigo lo que hay.\n\nTú eres refugio y fortaleza, pronto auxilio en la tribulación. Hoy necesito que seas eso y no una frase que me sé de memoria.\n\nRenueva mis fuerzas, que las mías ya se acabaron.\n\nAmén.',
+    'Dios, este ratito es tuyo. Calma lo que traigo por dentro.\n\nTú calmaste el mar con una sola palabra. Calma también esta tormenta que nadie ve pero que a mí no me deja dormir.\n\nY si todavía no la calmas, quédate conmigo dentro de ella.\n\nAmén.',
+    'Señor, sé que me distraigo fácil. Hoy elijo parar un momento y hablarte.\n\nPerdóname por dejarte para el final del día, cuando ya no me queda nada. Hoy quiero darte lo primero y no lo que sobra.\n\nGracias por escucharme igual, siempre.\n\nAmén.',
+    'Padre, aquí estoy otra vez. Gracias porque me recibes sin reproches.\n\nCada vez que vuelvo tú estás en el mismo lugar, esperando. Tus misericordias son nuevas cada mañana y hoy me tocó otra.\n\nHazme fiel hoy, aunque sea solo hoy.\n\nAmén.',
+    'Señor, ordena mi día y mi cabeza. Que lo primero sea tu voz y no la pantalla.\n\nGuarda mi corazón y mis pensamientos, que se me van solos a donde no debo.\n\nDirige tú mis pasos, porque yo solo me pierdo.\n\nAmén.',
+    'Dios, cuando quiera huir a la pantalla, recuérdame que tú me llenas.\n\nSé lo que estoy buscando ahí y sé que nunca lo encuentro. Solo tú llenas ese hueco que ninguna otra cosa alcanza.\n\nSostenme, que hoy me siento débil.\n\nAmén.',
+    'Padre, calma mi cabeza. Hoy quiero caminar contigo y no correr solo.\n\nQuítame la prisa que no viene de ti. Enséñame a estar quieto y saber que tú eres Dios.\n\nQue tu paz guarde este día completo.\n\nAmén.',
+    'Jesús, perdona que te dejo para el final. Hoy empiezo por ti.\n\nGracias porque no me cobras las ausencias ni me pasas factura. Solo abres la puerta otra vez, como si nada.\n\nQue hoy alguien vea algo de ti en mí, aunque yo ni me dé cuenta.\n\nAmén.',
+    'Señor, no traigo palabras bonitas, solo mi corazón. Quédate conmigo en lo que venga hoy.\n\nTú conoces lo que ni yo sé explicar. Examíname y muéstrame qué tengo que soltar.\n\nAquí estoy. Haz tu obra en mí.\n\nAmén.',
+    'Padre, gracias por hoy antes de que pase nada. Gracias por lo que ya me diste y ni valoro.\n\nAbre mis ojos para ver tu bondad en las cosas chiquitas, esas que se me pasan de largo todos los días.\n\nQue hoy sepa darte gracias sin pedirte nada.\n\nAmén.',
+    'Dios, hoy no tengo ganas. Ni de esto ni de casi nada.\n\nPero vine igual, porque te lo prometí. Y sé que tú no mides mis ganas, mides que haya venido.\n\nHazte cargo tú de lo que a mí hoy me falta.\n\nAmén.',
   ];
 
   String get _oracionDeHoy {
