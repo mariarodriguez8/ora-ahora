@@ -51,7 +51,7 @@ const List<Cancion> kCanciones = [
   Cancion(
     titulo: 'Gracias',
     artista: 'Marcela Gándara',
-    mensaje: 'un minuto para agradecer lo simple: hoy, respirar, seguir aquí.',
+    mensaje: 'un minuto para darle gracias por lo que sí tienes hoy.',
     url: 'https://www.youtube.com/watch?v=HkZhNE3n-i4',
     oracion: 'Señor, gracias por lo que tengo hoy, aunque no sea todo lo que quería.',
   ),
@@ -136,7 +136,7 @@ const List<Cancion> kCanciones = [
   Cancion(
     titulo: 'Tú Estás Aquí',
     artista: 'Su Presencia',
-    mensaje: 'cierra los ojos y respira: Él ya está aquí, contigo.',
+    mensaje: 'ponla y háblale mientras suena. no tienes que decirlo bonito.',
     url: 'https://www.youtube.com/watch?v=IbGcLrYMFC8',
   ),
 ];

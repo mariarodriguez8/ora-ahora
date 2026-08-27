@@ -33,7 +33,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
     ('Día 2 · El día que vas a querer rendirte',
         'Hoy vas a querer volver al celular. Ahí es donde se gana.'),
     ('Día 3 · Le entregas lo que más te duele',
-        'le entregas eso que cargas. la raíz respira.'),
+        'le entregas eso que vienes cargando solo.'),
     ('Día 4 · Te sale solo, sin recordatorio',
         'dejas de sentirte tan lejos. vuelve la sensación de que Él está.'),
     ('Día 5 · Relees tu diario y ves lo que Dios hizo',

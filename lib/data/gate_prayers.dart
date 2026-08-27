@@ -18,7 +18,7 @@ const Map<String, List<String>> _porCategoria = {
     'Señor, cuando el corazón se me acelera, recuérdame que tú no te aceleras.',
     'Dios, cambia mi "¿y si pasa?" por "tú estás conmigo".',
     'Padre, hoy no puedo con esto. Sostenme tú.',
-    'Señor, respiro. Tú tienes lo que a mí se me sale de las manos.',
+    'Señor, esto me queda grande. Hazte cargo tú.',
   ],
   'paz': [
     'Señor, aquieta lo que llevo por dentro.',
@@ -30,7 +30,7 @@ const Map<String, List<String>> _porCategoria = {
     'Señor, guarda mi corazón de lo que me quita la calma.',
     'Dios, en medio de este día, quédate.',
     'Padre, que tu paz pese más que mi ansiedad.',
-    'Señor, respiro hondo. Tú estás.',
+    'Señor, quédate conmigo hasta que se me pase.',
   ],
   'gratitud': [
     'Señor, gracias por lo que ni pedí y aun así me diste.',
@@ -38,7 +38,7 @@ const Map<String, List<String>> _porCategoria = {
     'Padre, gracias por la gente que me quiere sin condiciones.',
     'Señor, gracias por lo que me libraste y ni me di cuenta.',
     'Dios, gracias por hoy, aunque no fue perfecto.',
-    'Padre, gracias por lo pequeño: comer, dormir, respirar.',
+    'Padre, gracias por lo que tengo y ni valoro.',
     'Señor, gracias porque tu amor no se gana ni se pierde.',
     'Dios, hoy quiero decir gracias antes de pedirte algo.',
     'Padre, gracias también por las veces que me dijiste que no.',
