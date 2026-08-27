@@ -32,6 +32,8 @@ class PrefsKeys {
   /// Fecha (yyyy-MM-dd) del ultimo dia orado. La lee el servicio nativo
   /// para el marcador de la notificacion.
   static const oradoHoyFecha = 'orado_hoy_fecha';
+  /// Ruta de la imagen del pacto firmado, para mostrarla en estampas.
+  static const pactoImagenRuta = 'pacto_imagen_ruta';
   static const estampasSeenStreak = 'estampas_seen_streak'; // int
 
   // --- Recordatorios ---
@@ -148,6 +150,12 @@ class PrefsService {
 
   String get oradoHoyFecha =>
       _prefs.getString(PrefsKeys.oradoHoyFecha) ?? '';
+
+  String get pactoImagenRuta =>
+      _prefs.getString(PrefsKeys.pactoImagenRuta) ?? '';
+
+  Future<void> setPactoImagenRuta(String v) =>
+      _prefs.setString(PrefsKeys.pactoImagenRuta, v);
 
   Future<void> setOradoHoyFecha(String v) =>
       _prefs.setString(PrefsKeys.oradoHoyFecha, v);

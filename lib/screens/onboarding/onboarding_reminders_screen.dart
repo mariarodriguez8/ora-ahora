@@ -11,6 +11,9 @@ import '../home/home_screen.dart';
 import '../paywall/paywall_screen.dart';
 import '../settings/gated_apps_screen.dart';
 import 'onboarding_done_screen.dart';
+import 'onboarding_camino_screen.dart';
+import 'onboarding_cuenta_screen.dart';
+import 'onboarding_pacto_screen.dart';
 import 'onboarding_progress_dots.dart';
 
 /// Priming del permiso de notificaciones: primero se explica el beneficio
@@ -29,6 +32,24 @@ class OnboardingRemindersScreen extends StatelessWidget {
     // Marca para que el inicio no vuelva a mostrar el paywall (ya se ve aqui).
     await prefs.setPaywallShownAfterOnboarding(true);
     if (!context.mounted) return;
+    // Antes del paywall: la cuenta del ano, el camino de 30 dias y el pacto
+    // firmado. Duele, ilusiona y compromete, en ese orden.
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (c) =>
+          OnboardingCuentaScreen(onContinuar: () => Navigator.of(c).pop()),
+    ));
+    if (!context.mounted) return;
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (c) =>
+          OnboardingCaminoScreen(onContinuar: () => Navigator.of(c).pop()),
+    ));
+    if (!context.mounted) return;
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (c) =>
+          OnboardingPactoScreen(onContinuar: () => Navigator.of(c).pop()),
+    ));
+    if (!context.mounted) return;
+
     // Paso A: Paywall (prueba/compra), ultimo gran paso del onboarding.
     await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const PaywallScreen()),
