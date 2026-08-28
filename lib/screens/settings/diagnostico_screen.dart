@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +45,19 @@ class _DiagnosticoScreenState extends State<DiagnosticoScreen> {
     return 'hace ${d.inDays} días';
   }
 
+  /// Cuenta las apps vigiladas. La clave guarda un texto JSON, no una lista:
+  /// pedirla como lista lanza excepcion y rompe toda la pantalla.
+  int _contarApps(SharedPreferences p) {
+    try {
+      final raw = p.getString('gated_apps');
+      if (raw == null || raw.trim().isEmpty) return 0;
+      final lista = jsonDecode(raw);
+      return lista is List ? lista.length : 0;
+    } catch (_) {
+      return 0;
+    }
+  }
+
   Future<void> _cargar() async {
     setState(() => _cargando = true);
     final p = await SharedPreferences.getInstance();
@@ -64,8 +79,7 @@ class _DiagnosticoScreenState extends State<DiagnosticoScreen> {
       _superposicion = sup;
       _esMiui = miui;
       _miuiFondo = miuiFondo;
-      _appsVigiladas = (p.getStringList('gated_apps')?.length) ??
-          ((p.getString('gated_apps')?.split('"').length ?? 1) ~/ 2);
+      _appsVigiladas = _contarApps(p);
       _latido = _hace(p.getInt('diag_latido_ts'));
       _deteccion = p.getString('diag_ultima_deteccion') == null
           ? 'nunca'
