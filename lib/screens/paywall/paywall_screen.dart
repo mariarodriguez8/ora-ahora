@@ -39,17 +39,28 @@ class _PaywallScreenState extends State<PaywallScreen> {
 
   Future<void> _empezar() async {
     setState(() => _loading = true);
-    final ok = await context
-        .read<PurchaseService>()
-        .purchase(_plan);
+    final r = await context.read<PurchaseService>().purchase(_plan);
     if (!mounted) return;
     setState(() => _loading = false);
-    if (ok) {
+
+    // El acceso solo se concede si RevenueCat confirmo el entitlement.
+    if (r == ResultadoCompra.exito || r == ResultadoCompra.yaSuscrito) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('¡Empezaste tu viaje! 🌱')),
+        const SnackBar(content: Text('Listo. Que Dios te acompañe.')),
       );
       Navigator.of(context).pop();
+      return;
     }
+
+    final mensaje = switch (r) {
+      ResultadoCompra.cancelada => 'No se completó la compra.',
+      ResultadoCompra.productoNoDisponible =>
+        'Los planes todavía no están disponibles. Intenta más tarde.',
+      ResultadoCompra.sinRed => 'Revisa tu conexión e intenta de nuevo.',
+      _ => 'No pudimos completar la compra. Intenta de nuevo.',
+    };
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(mensaje)));
   }
 
   Future<void> _restore() async {

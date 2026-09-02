@@ -1,69 +1,199 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
 import 'prefs_service.dart';
 
-/// Planes disponibles de Ora Ahora Plus.
+/// Planes que la pantalla de paywall puede ofrecer.
 enum PlusPlan { pruebaMensual, semanal, mensual, anual }
 
-/// Servicio de compras "stub" para el MVP.
-///
-/// IMPORTANTE: esto NO procesa pagos reales todavia. Sirve para que toda la
-/// pantalla de paywall y la logica de "usuario Plus" funcionen de extremo a
-/// extremo en el MVP, dejando un unico punto de integracion futuro.
-///
-/// TODO: integrar RevenueCat (recomendado, simplifica recibos/validacion en
-/// ambas tiendas) o directamente Play Billing Library a traves del paquete
-/// `in_app_purchase` / `in_app_purchase_android`. Esa integracion requiere:
-///   1. Crear los productos de suscripcion en Play Console (IDs, precios).
-///   2. Configurar RevenueCat (o Billing) con esos IDs de producto.
-///   3. Reemplazar los metodos `purchase*` de esta clase para llamar al SDK
-///      real y reemplazar `restorePurchases` para consultar el estado real
-///      de la suscripcion en la tienda.
-///   4. Mantener `_prefs.setIsPlusUser` como la fuente de verdad local que
-///      lee el resto de la app (para no tener que tocar las pantallas).
-class PurchaseService extends ChangeNotifier {
-  final PrefsService _prefs;
+/// Resultado de un intento de compra, para que la pantalla sepa qué mostrar.
+enum ResultadoCompra {
+  exito,
+  cancelada,
+  yaSuscrito,
+  productoNoDisponible,
+  sinRed,
+  error,
+}
 
+/// Monetizacion real con RevenueCat.
+///
+/// La unica fuente de verdad de Premium es el entitlement [entitlementId] que
+/// devuelve RevenueCat en el CustomerInfo. Nunca se marca Premium por haber
+/// pulsado un boton.
+class PurchaseService extends ChangeNotifier {
+  /// Clave de PRUEBA de RevenueCat. Reemplazar por la de produccion antes de
+  /// publicar.
+  static const apiKeyAndroid = 'test_RAlFKdRZTvrVlvZZxSRhIUMyRIl';
+
+  /// Entitlement configurado en el panel de RevenueCat.
+  static const entitlementId = 'ora_ahora_pro';
+
+  /// Identificadores de los paquetes dentro del offering.
+  static const idAnual = 'yearly';
+  static const idMensual = 'monthly';
+
+  final PrefsService _prefs;
   PurchaseService(this._prefs);
 
-  bool get isPlusUser => _prefs.isPlusUser;
+  bool _premium = false;
+  bool _listo = false;
+  Offering? _offering;
+  String? _errorOffering;
 
-  // Precios de EJEMPLO (Maria puede cambiarlos; deben coincidir con los
-  // productos configurados en Play Console).
+  /// Premium segun RevenueCat. Antes de la primera consulta se usa el ultimo
+  /// valor conocido para no parpadear, pero nunca para conceder acceso nuevo.
+  bool get isPlusUser => _listo ? _premium : _prefs.isPlusUser;
+
+  bool get listo => _listo;
+  Offering? get offering => _offering;
+  String? get errorOffering => _errorOffering;
+
+  /// Precios reales traidos de la tienda. Si el offering todavia no cargo,
+  /// se muestran los de referencia para que la pantalla no quede vacia.
+  String get precioAnualTienda =>
+      _paquete(idAnual)?.storeProduct.priceString ?? precioAnual;
+  String get precioMensualTienda =>
+      _paquete(idMensual)?.storeProduct.priceString ?? precioMensual;
+
+  // Precios de referencia. Los reales mandan.
   static const precioMensual = r'$2.99 USD/mes';
   static const precioAnual = r'$19.99 USD/año';
   static const precioAnualEquiv = r'equivale a $1.67 USD/mes';
   static const precioSemanal = r'$1.99 USD/semana';
-  // La prueba gratis dura 3 dias y al terminar cobra el plan MENSUAL.
-  // (El titulo de la opcion ya dice "Prueba 3 días gratis", aqui solo el
-  // precio para no repetir ni encimar textos.)
-  static const textoPrueba = r'Luego $4.99 USD/mes';
+  static const textoPrueba = r'Luego $19.99 USD/año';
 
-  /// Simula la compra del plan mensual. En producción esto debe abrir el
-  /// flujo de compra nativo de Google Play a través de RevenueCat/Billing.
-  Future<bool> purchase(PlusPlan plan) async {
-    // TODO: integrar RevenueCat o Play Billing aqui. Por ahora, simulamos
-    // una compra exitosa localmente para poder probar el resto del flujo
-    // (paywall -> desbloqueo de funciones Plus) sin backend de pagos.
-    await Future.delayed(const Duration(milliseconds: 400));
-    await _prefs.setIsPlusUser(true);
-    notifyListeners();
-    return true;
+  Package? _paquete(String id) {
+    final o = _offering;
+    if (o == null) return null;
+    for (final p in o.availablePackages) {
+      if (p.identifier == id) return p;
+    }
+    return null;
   }
 
-  /// Simula restaurar compras anteriores (normalmente consultaria la tienda
-  /// o RevenueCat). En el MVP solo respeta el estado local ya guardado.
+  /// Arranca RevenueCat. Se llama una sola vez al iniciar la app.
+  Future<void> init() async {
+    try {
+      await Purchases.setLogLevel(LogLevel.warn);
+      await Purchases.configure(PurchasesConfiguration(apiKeyAndroid));
+      Purchases.addCustomerInfoUpdateListener(_alActualizarCliente);
+      await refrescarEstado();
+      await cargarOffering();
+    } catch (e) {
+      debugPrint('RevenueCat no pudo iniciar: $e');
+      _listo = false;
+      notifyListeners();
+    }
+  }
+
+  void _alActualizarCliente(CustomerInfo info) {
+    _aplicar(info);
+  }
+
+  void _aplicar(CustomerInfo info) {
+    final activo = info.entitlements.active.containsKey(entitlementId);
+    _premium = activo;
+    _listo = true;
+    // Copia local solo como cache para el resto de la app (por ejemplo la
+    // notificacion nativa). Nunca es la fuente de verdad.
+    _prefs.setIsPlusUser(activo);
+    notifyListeners();
+  }
+
+  /// Consulta el estado real en RevenueCat.
+  Future<void> refrescarEstado() async {
+    try {
+      final info = await Purchases.getCustomerInfo();
+      _aplicar(info);
+    } catch (e) {
+      debugPrint('No se pudo leer CustomerInfo: $e');
+    }
+  }
+
+  /// Trae el offering actual con sus paquetes.
+  Future<void> cargarOffering() async {
+    try {
+      final offerings = await Purchases.getOfferings();
+      final actual = offerings.current;
+      if (actual == null || actual.availablePackages.isEmpty) {
+        _offering = null;
+        _errorOffering = 'No hay planes disponibles todavía.';
+      } else {
+        _offering = actual;
+        _errorOffering = null;
+      }
+    } on PlatformException catch (e) {
+      _offering = null;
+      _errorOffering = 'No pudimos conectar con la tienda. ${e.message ?? ''}';
+    } catch (e) {
+      _offering = null;
+      _errorOffering = 'No pudimos conectar con la tienda.';
+    }
+    notifyListeners();
+  }
+
+  /// Compra real. Solo devuelve exito si el entitlement queda activo.
+  Future<ResultadoCompra> purchase(PlusPlan plan) async {
+    if (isPlusUser) return ResultadoCompra.yaSuscrito;
+
+    final id = plan == PlusPlan.anual ? idAnual : idMensual;
+    var paquete = _paquete(id);
+    if (paquete == null) {
+      await cargarOffering();
+      paquete = _paquete(id);
+    }
+    if (paquete == null) return ResultadoCompra.productoNoDisponible;
+
+    try {
+      final resultado = await Purchases.purchasePackage(paquete);
+      _aplicar(resultado.customerInfo);
+      return _premium ? ResultadoCompra.exito : ResultadoCompra.error;
+    } on PlatformException catch (e) {
+      final codigo = PurchasesErrorHelper.getErrorCode(e);
+      switch (codigo) {
+        case PurchasesErrorCode.purchaseCancelledError:
+          return ResultadoCompra.cancelada;
+        case PurchasesErrorCode.productAlreadyPurchasedError:
+          await refrescarEstado();
+          return ResultadoCompra.yaSuscrito;
+        case PurchasesErrorCode.productNotAvailableForPurchaseError:
+        case PurchasesErrorCode.purchaseNotAllowedError:
+          return ResultadoCompra.productoNoDisponible;
+        case PurchasesErrorCode.networkError:
+        case PurchasesErrorCode.offlineConnectionError:
+          return ResultadoCompra.sinRed;
+        default:
+          debugPrint('Error de compra: $codigo');
+          return ResultadoCompra.error;
+      }
+    } catch (e) {
+      debugPrint('Error de compra: $e');
+      return ResultadoCompra.error;
+    }
+  }
+
+  /// Restaura compras anteriores desde la cuenta de Google Play.
   Future<bool> restorePurchases() async {
-    // TODO: reemplazar por una consulta real a RevenueCat/Play Billing.
-    await Future.delayed(const Duration(milliseconds: 300));
-    notifyListeners();
-    return isPlusUser;
+    try {
+      final info = await Purchases.restorePurchases();
+      _aplicar(info);
+      return _premium;
+    } catch (e) {
+      debugPrint('No se pudo restaurar: $e');
+      return false;
+    }
   }
 
-  /// Utilidad para pruebas manuales durante el desarrollo: revierte el
-  /// estado Plus. No debe exponerse en una build de producción final.
-  Future<void> debugResetPlus() async {
-    await _prefs.setIsPlusUser(false);
-    notifyListeners();
+  /// Centro de cliente de RevenueCat. Queda disponible por si se quiere abrir
+  /// desde Ajustes; no cambia la navegacion actual.
+  Future<void> abrirCentroDeCliente() async {
+    try {
+      await RevenueCatUI.presentCustomerCenter();
+    } catch (e) {
+      debugPrint('Centro de cliente no disponible: $e');
+    }
   }
 }

@@ -83,7 +83,7 @@ class OraAhoraApp extends StatelessWidget {
           create: (_) => StreakService(prefsService),
         ),
         ChangeNotifierProvider<PurchaseService>(
-          create: (_) => PurchaseService(prefsService),
+          create: (_) => PurchaseService(prefsService)..init(),
         ),
         ChangeNotifierProvider<GateService>(
           create: (_) => GateService(prefsService),
