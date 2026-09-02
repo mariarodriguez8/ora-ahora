@@ -27,33 +27,15 @@ class _PaywallScreenState extends State<PaywallScreen> {
   bool _loading = false;
   PlusPlan _plan = PlusPlan.anual;
 
-  static const List<(String, String)> _dias = [
-    ('Día 1 · Rompes el silencio',
-        'hoy oras antes de abrir el celu. la tierra vuelve a sentir agua.'),
-    ('Día 2 · El día que vas a querer rendirte',
-        'Hoy vas a querer volver al celular. Ahí es donde se gana.'),
-    ('Día 3 · Le entregas lo que más te duele',
-        'le entregas eso que vienes cargando solo.'),
-    ('Día 4 · Te sale solo, sin recordatorio',
-        'dejas de sentirte tan lejos. vuelve la sensación de que Él está.'),
-    ('Día 5 · Relees tu diario y ves lo que Dios hizo',
-        'Cinco días seguidos escritos. Dios sí estaba ahí.'),
-    ('Día 6 · El celular deja de mandarte',
-        'tu racha ya no es número, es raíz que agarra.'),
-    ('Día 7 · Ya no es un plan, es tu vida',
-        'una semana regando sin fallar. ¿hace cuánto no lo lograbas?'),
+  /// Solo lo que la app hace hoy. No se agregan beneficios inexistentes.
+  static const List<String> _beneficios = [
+    'Una pausa antes de entrar a las aplicaciones que te distraen',
+    'Una oración para lo que estás viviendo',
+    'Tu camino de 30 días',
+    'Una forma de ver cuánto tiempo estás dando a Dios',
   ];
 
-  String _notaPrecio() {
-    switch (_plan) {
-      case PlusPlan.anual:
-        return '3 días gratis, después ${PurchaseService.precioAnual}';
-      case PlusPlan.semanal:
-        return 'Se cobra ${PurchaseService.precioSemanal}';
-      default:
-        return '3 días gratis, después ${PurchaseService.precioMensual}';
-    }
-  }
+  String _notaPrecio() => '3 días gratis. Después \$19.99/año.';
 
   Future<void> _empezar() async {
     setState(() => _loading = true);
@@ -100,48 +82,27 @@ class _PaywallScreenState extends State<PaywallScreen> {
             ),
             const SizedBox(height: 8),
             // Reframe: desarma "me falta disciplina".
-            Text('Dios no se movió.',
-                textAlign: TextAlign.center,
-                style: AppTypography.display.copyWith(fontSize: 26)),
-            const SizedBox(height: 6),
-            Text('Te alejaste tú.',
-                textAlign: TextAlign.center,
-                style: AppTypography.title.copyWith(color: AppColors.tealDeep)),
-            const SizedBox(height: 12),
             Text(
-              'Y aun así sigue esperándote en el mismo lugar. '
-              'No necesitas llegar perfecto ni ponerte al día. '
-              'Solo volver a Él. Y llegó el momento.',
+              'Ya diste el primer paso para volver a Dios.',
               textAlign: TextAlign.center,
-              style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+              style: AppTypography.display.copyWith(fontSize: 24),
             ),
-            const SizedBox(height: 20),
-            for (var i = 0; i < _dias.length; i++) ...[
-              _DiaCard(numero: i + 1, titulo: _dias[i].$1, texto: _dias[i].$2),
-              const SizedBox(height: 10),
+            const SizedBox(height: 16),
+            Text('A partir de hoy tendrás:',
+                textAlign: TextAlign.center,
+                style: AppTypography.body
+                    .copyWith(color: AppColors.inkSoft)),
+            const SizedBox(height: 12),
+            for (final b in _beneficios) ...[
+              _Beneficio(texto: b),
+              const SizedBox(height: 8),
             ],
-            const SizedBox(height: 6),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.tealLight.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  Text('ya no estás en sequía.',
-                      textAlign: TextAlign.center,
-                      style: AppTypography.title
-                          .copyWith(color: AppColors.tealDeep)),
-                  const SizedBox(height: 4),
-                  Text(
-                    'ahora esto se vuelve tu vida, no una tarea.',
-                    textAlign: TextAlign.center,
-                    style:
-                        AppTypography.body.copyWith(color: AppColors.inkSoft),
-                  ),
-                ],
-              ),
+            const SizedBox(height: 14),
+            Text(
+              'Dale a Dios un minuto de tu día.',
+              textAlign: TextAlign.center,
+              style: AppTypography.title
+                  .copyWith(color: AppColors.tealDeep),
             ),
             const SizedBox(height: 22),
             Text('elige tu plan',
@@ -150,27 +111,19 @@ class _PaywallScreenState extends State<PaywallScreen> {
             const SizedBox(height: 12),
             _PlanCard(
               seleccionado: _plan == PlusPlan.anual,
-              titulo: 'Anual',
+              titulo: '\$19.99 / año',
               precio: PurchaseService.precioAnual,
               subtitulo: PurchaseService.precioAnualEquiv,
-              badge: 'MÁS POPULAR',
+              badge: 'Plan recomendado',
               onTap: () => setState(() => _plan = PlusPlan.anual),
             ),
             const SizedBox(height: 10),
             _PlanCard(
               seleccionado: _plan == PlusPlan.mensual,
-              titulo: 'Mensual',
+              titulo: '\$2.99 / mes',
               precio: PurchaseService.precioMensual,
-              subtitulo: '3 días gratis',
+              subtitulo: '',
               onTap: () => setState(() => _plan = PlusPlan.mensual),
-            ),
-            const SizedBox(height: 10),
-            _PlanCard(
-              seleccionado: _plan == PlusPlan.semanal,
-              titulo: 'Semanal',
-              precio: PurchaseService.precioSemanal,
-              subtitulo: 'para probar',
-              onTap: () => setState(() => _plan = PlusPlan.semanal),
             ),
             const SizedBox(height: 18),
             SizedBox(
@@ -189,7 +142,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                         child: CircularProgressIndicator(
                             strokeWidth: 2, color: Colors.white),
                       )
-                    : const Text('empezar a reverdecer 🌱'),
+                    : const Text('Empezar mis 3 días gratis'),
               ),
             ),
             const SizedBox(height: 10),
@@ -224,6 +177,31 @@ class _PaywallScreenState extends State<PaywallScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Una linea de beneficio con su palomita.
+class _Beneficio extends StatelessWidget {
+  final String texto;
+  const _Beneficio({required this.texto});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 2),
+          child: Icon(Icons.check_rounded,
+              size: 18, color: AppColors.tealDeep),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(texto,
+              style: AppTypography.body.copyWith(height: 1.35)),
+        ),
+      ],
     );
   }
 }

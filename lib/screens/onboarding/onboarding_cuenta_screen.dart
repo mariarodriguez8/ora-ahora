@@ -83,7 +83,17 @@ class _OnboardingCuentaScreenState extends State<OnboardingCuentaScreen>
                         height: 110, fit: BoxFit.contain),
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 24),
+                AparicionSuave(
+                  orden: 1,
+                  child: Text(
+                    'Al ritmo que vas, este año',
+                    style: AppTypography.body.copyWith(
+                        fontSize: 17,
+                        color: kFunnelMarfil.withValues(alpha: 0.75)),
+                  ),
+                ),
+                const SizedBox(height: 4),
                 // El numero es el golpe. Sube contando para que se sienta.
                 AnimatedBuilder(
                   animation: _curva,
@@ -110,24 +120,33 @@ class _OnboardingCuentaScreenState extends State<OnboardingCuentaScreen>
                 AparicionSuave(
                   orden: 4,
                   child: Text(
-                    'Eso es lo que te va a llevar el celular este año.',
+                    'completos los vas a pasar mirando el celular.',
                     style: AppTypography.display
-                        .copyWith(fontSize: 24, color: kFunnelMarfil),
+                        .copyWith(fontSize: 22, color: kFunnelMarfil),
                   ),
                 ),
                 const SizedBox(height: 18),
                 AparicionSuave(
                   orden: 6,
                   child: Text(
-                    'Con Dios vas a estar $_horasConDios horas.',
+                    'Con Dios solo vas a pasar unas horas.',
                     style: AppTypography.body.copyWith(
                         fontSize: 16,
                         color: kFunnelMarfil.withValues(alpha: 0.62)),
                   ),
                 ),
+                const SizedBox(height: 22),
+                AparicionSuave(
+                  orden: 7,
+                  child: Text(
+                    '¿Quieres cambiar esto?',
+                    style: AppTypography.display
+                        .copyWith(fontSize: 24, color: kFunnelDorado),
+                  ),
+                ),
                 const Spacer(),
                 AparicionSuave(
-                  orden: 8,
+                  orden: 9,
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(

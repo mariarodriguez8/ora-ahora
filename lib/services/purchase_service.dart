@@ -30,9 +30,9 @@ class PurchaseService extends ChangeNotifier {
 
   // Precios de EJEMPLO (Maria puede cambiarlos; deben coincidir con los
   // productos configurados en Play Console).
-  static const precioMensual = r'$4.99 USD/mes';
-  static const precioAnual = r'$39.99 USD/año';
-  static const precioAnualEquiv = r'equivale a $3.33 USD/mes';
+  static const precioMensual = r'$2.99 USD/mes';
+  static const precioAnual = r'$19.99 USD/año';
+  static const precioAnualEquiv = r'equivale a $1.67 USD/mes';
   static const precioSemanal = r'$1.99 USD/semana';
   // La prueba gratis dura 3 dias y al terminar cobra el plan MENSUAL.
   // (El titulo de la opcion ya dice "Prueba 3 días gratis", aqui solo el

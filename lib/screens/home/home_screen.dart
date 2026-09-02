@@ -600,19 +600,10 @@ class _NightModeCorner extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(999),
       onTap: () async {
-        final esPlus = context.read<PurchaseService>().isPlusUser;
-        if (esPlus) {
-          await appearance.setPalette(esNoche
-              ? AppPaletteId.zafiroCalmo
-              : AppPaletteId.maresProfundos);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Con Plus eliges día o noche 🌙'),
-          ));
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const PaywallScreen()),
-          );
-        }
+        // Dia y noche es comodidad basica: no va detras de Plus.
+        await appearance.setPalette(esNoche
+            ? AppPaletteId.zafiroCalmo
+            : AppPaletteId.maresProfundos);
       },
       child: Container(
         padding: const EdgeInsets.all(8),
