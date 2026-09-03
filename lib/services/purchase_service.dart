@@ -68,8 +68,21 @@ class PurchaseService extends ChangeNotifier {
   Package? _paquete(String id) {
     final o = _offering;
     if (o == null) return null;
+
+    // RevenueCat nombra los paquetes estandar \$rc_annual y \$rc_monthly,
+    // mientras que idAnual/idMensual son los IDs de producto de Google Play.
+    // Por eso se busca primero por tipo de paquete y solo despues por
+    // identificador de paquete o de producto.
+    final tipo = id == idAnual ? PackageType.annual : PackageType.monthly;
+    for (final p in o.availablePackages) {
+      if (p.packageType == tipo) return p;
+    }
     for (final p in o.availablePackages) {
       if (p.identifier == id) return p;
+    }
+    for (final p in o.availablePackages) {
+      final producto = p.storeProduct.identifier;
+      if (producto == id || producto.split(':').first == id) return p;
     }
     return null;
   }
