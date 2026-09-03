@@ -5,17 +5,13 @@ import '../../services/purchase_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 
-/// Paywall "el viaje de 7 días para reverdecer" (v26).
+/// Paywall de Ora Ahora.
 ///
-/// Concepto Sequía → Avivamiento: no vende funciones, vende "volver a Dios".
-/// Desarma la objeción #1 del ICP ("me falta disciplina"), le hace pre-vivir
-/// la transformación día a día, y ancla todo en gracia. La prueba real es de
-/// 3 días gratis y luego el plan mensual (el "viaje de 7 días" es la historia
-/// de la primera semana, no el tiempo de prueba).
+/// No vende funciones: vende volver a Dios. La prueba de 3 dias pertenece
+/// UNICAMENTE al plan anual, por eso vive dentro de la tarjeta anual y no
+/// debajo de las dos tarjetas.
 ///
-/// IMPORTANTE: `PurchaseService.purchase` es todavía un stub (no cobra de
-/// verdad). Ver el documento de estrategia para los pasos de RevenueCat /
-/// Play Billing que faltan para cobrar.
+/// La compra se resuelve siempre contra RevenueCat (entitlement ora_ahora_pro).
 class PaywallScreen extends StatefulWidget {
   const PaywallScreen({super.key});
 
@@ -27,6 +23,8 @@ class _PaywallScreenState extends State<PaywallScreen> {
   bool _loading = false;
   PlusPlan _plan = PlusPlan.anual;
 
+  bool get _esAnual => _plan == PlusPlan.anual;
+
   /// Solo lo que la app hace hoy. No se agregan beneficios inexistentes.
   static const List<String> _beneficios = [
     'Una pausa antes de entrar a las aplicaciones que te distraen',
@@ -35,7 +33,12 @@ class _PaywallScreenState extends State<PaywallScreen> {
     'Una forma de ver cuánto tiempo estás dando a Dios',
   ];
 
-  String _notaPrecio() => '3 días gratis. Después \$19.99/año.';
+  String get _textoCta =>
+      _esAnual ? 'Empezar mis 3 días gratis' : 'Suscribirme por \$2.99/mes';
+
+  String get _notaCta => _esAnual
+      ? 'Tres días gratis. Después \$19.99/año.'
+      : 'Se renueva cada mes. Sin permanencia.';
 
   Future<void> _empezar() async {
     setState(() => _loading = true);
@@ -85,105 +88,83 @@ class _PaywallScreenState extends State<PaywallScreen> {
       body: SafeArea(
         top: false,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
           children: [
             Center(
               child: Image.asset('assets/mascot/ovejita_planta_fruto.png',
-                  height: 130, fit: BoxFit.contain),
+                  height: 116, fit: BoxFit.contain),
             ),
-            const SizedBox(height: 8),
-            // Reframe: desarma "me falta disciplina".
+            const SizedBox(height: 10),
             Text(
               'Ya diste el primer paso para volver a Dios.',
               textAlign: TextAlign.center,
-              style: AppTypography.display.copyWith(fontSize: 24),
+              style: AppTypography.display.copyWith(fontSize: 23, height: 1.25),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
             Text('A partir de hoy tendrás:',
                 textAlign: TextAlign.center,
                 style: AppTypography.body
-                    .copyWith(color: AppColors.inkSoft)),
+                    .copyWith(color: AppColors.inkSoft, height: 1.2)),
             const SizedBox(height: 12),
             for (final b in _beneficios) ...[
               _Beneficio(texto: b),
-              const SizedBox(height: 8),
+              const SizedBox(height: 7),
             ],
-            const SizedBox(height: 14),
-            Text(
-              'Dale a Dios un minuto de tu día.',
-              textAlign: TextAlign.center,
-              style: AppTypography.title
-                  .copyWith(color: AppColors.tealDeep),
-            ),
-            const SizedBox(height: 22),
-            Text('elige tu plan',
+            const SizedBox(height: 16),
+            const _Separador(),
+            const SizedBox(height: 16),
+            Text('ELIGE TU PLAN',
                 textAlign: TextAlign.center,
-                style: AppTypography.title.copyWith(color: AppColors.ink)),
+                style: AppTypography.caption.copyWith(
+                  color: AppColors.inkSoft,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.6,
+                )),
             const SizedBox(height: 12),
             _PlanCard(
-              seleccionado: _plan == PlusPlan.anual,
-              titulo: '\$19.99 / año',
-              precio: PurchaseService.precioAnual,
-              subtitulo: PurchaseService.precioAnualEquiv,
+              seleccionado: _esAnual,
               badge: 'Plan recomendado',
+              precio: '\$19.99',
+              periodo: '/ año',
+              equivalente: 'equivale a \$1.67 USD/mes',
+              destacado: '3 DÍAS GRATIS',
+              pie: 'Después \$19.99/año',
               onTap: () => setState(() => _plan = PlusPlan.anual),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
             _PlanCard(
-              seleccionado: _plan == PlusPlan.mensual,
-              titulo: '\$2.99 / mes',
-              precio: PurchaseService.precioMensual,
-              subtitulo: '',
+              seleccionado: !_esAnual,
+              precio: '\$2.99',
+              periodo: '/ mes',
+              pie: 'Renovación mensual',
               onTap: () => setState(() => _plan = PlusPlan.mensual),
             ),
-            const SizedBox(height: 18),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _loading ? null : _empezar,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.tealDeep,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: _loading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2, color: Colors.white),
-                      )
-                    : const Text('Empezar mis 3 días gratis'),
-              ),
+            const SizedBox(height: 20),
+            _BotonCta(
+              texto: _textoCta,
+              cargando: _loading,
+              onPressed: _loading ? null : _empezar,
             ),
             const SizedBox(height: 10),
-            Center(
-              child: Text(
-                _notaPrecio(),
+            Text(_notaCta,
                 textAlign: TextAlign.center,
-                style: AppTypography.body.copyWith(
-                    color: AppColors.inkSoft, fontWeight: FontWeight.w600),
-              ),
-            ),
+                style: AppTypography.caption.copyWith(
+                  color: AppColors.ink,
+                  fontWeight: FontWeight.w600,
+                )),
+            const SizedBox(height: 4),
+            Text('Cancelas cuando quieras desde Google Play',
+                textAlign: TextAlign.center,
+                style: AppTypography.caption
+                    .copyWith(color: AppColors.inkSoft, fontSize: 11)),
             const SizedBox(height: 2),
-            Center(
-              child: Text('cancelas cuando quieras desde Google Play',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.caption
-                      .copyWith(color: AppColors.inkSoft)),
-            ),
-            const SizedBox(height: 6),
             Center(
               child: TextButton(
                 onPressed: _loading ? null : _restore,
-                child: const Text('Restaurar compras'),
+                child: Text('Restaurar compras',
+                    style: AppTypography.caption
+                        .copyWith(color: AppColors.inkSoft)),
               ),
-            ),
-            Text(
-              'Precios de ejemplo. Los precios finales se configuran en '
-              'Google Play Console y pueden variar según tu país.',
-              textAlign: TextAlign.center,
-              style: AppTypography.caption.copyWith(color: AppColors.inkSoft),
             ),
           ],
         ),
@@ -202,99 +183,182 @@ class _Beneficio extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 2),
-          child: Icon(Icons.check_rounded,
-              size: 18, color: AppColors.tealDeep),
+        Container(
+          margin: const EdgeInsets.only(top: 2),
+          padding: const EdgeInsets.all(3),
+          decoration: const BoxDecoration(
+            color: AppColors.tealLight,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(Icons.check_rounded,
+              size: 13, color: AppColors.tealDeep),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: Text(texto,
-              style: AppTypography.body.copyWith(height: 1.35)),
+              style: AppTypography.body.copyWith(fontSize: 14, height: 1.3)),
         ),
       ],
     );
   }
 }
 
+/// Filete decorativo entre los beneficios y los planes.
+class _Separador extends StatelessWidget {
+  const _Separador();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Expanded(child: Divider(color: AppColors.sand, thickness: 1)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Icon(Icons.brightness_1, size: 5, color: AppColors.amberLight),
+        ),
+        const Expanded(child: Divider(color: AppColors.sand, thickness: 1)),
+      ],
+    );
+  }
+}
+
+/// Tarjeta de plan. El badge y la oferta viven DENTRO de la tarjeta,
+/// cada uno en su propia fila, para que nunca se monten sobre el precio.
 class _PlanCard extends StatelessWidget {
   final bool seleccionado;
-  final String titulo;
   final String precio;
-  final String subtitulo;
+  final String periodo;
   final String? badge;
+  final String? equivalente;
+  final String? destacado;
+  final String? pie;
   final VoidCallback onTap;
 
   const _PlanCard({
     required this.seleccionado,
-    required this.titulo,
     required this.precio,
-    required this.subtitulo,
-    this.badge,
+    required this.periodo,
     required this.onTap,
+    this.badge,
+    this.equivalente,
+    this.destacado,
+    this.pie,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOut,
+        padding: const EdgeInsets.fromLTRB(14, 13, 14, 13),
         decoration: BoxDecoration(
-          color: seleccionado
-              ? AppColors.tealLight.withValues(alpha: 0.5)
-              : Colors.white.withValues(alpha: 0.7),
-          borderRadius: BorderRadius.circular(16),
+          color: seleccionado ? Colors.white : AppColors.cream,
+          borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: seleccionado ? AppColors.tealDeep : AppColors.tealLight,
-            width: seleccionado ? 2 : 1,
+            color: seleccionado ? AppColors.tealDeep : AppColors.sand,
+            width: seleccionado ? 2 : 1.2,
           ),
+          boxShadow: seleccionado
+              ? [
+                  BoxShadow(
+                    color: AppColors.tealDeep.withValues(alpha: 0.10),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ]
+              : null,
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              seleccionado
-                  ? Icons.radio_button_checked
-                  : Icons.radio_button_unchecked,
-              color: seleccionado ? AppColors.tealDeep : AppColors.inkSoft,
-            ),
+            _Radio(activo: seleccionado),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(titulo,
-                          style: AppTypography.body
-                              .copyWith(fontWeight: FontWeight.w700)),
-                      if (badge != null) ...[
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 7, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.amber,
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                          child: Text(badge!,
+                  if (badge != null) ...[
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 9, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: AppColors.amberLight,
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.star_rounded,
+                              size: 12, color: AppColors.amber),
+                          const SizedBox(width: 4),
+                          Text(badge!,
                               style: AppTypography.caption.copyWith(
-                                  color: AppColors.ink,
-                                  fontWeight: FontWeight.w700)),
-                        ),
-                      ],
+                                color: AppColors.amber,
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.3,
+                              )),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 9),
+                  ],
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(precio,
+                          style: AppTypography.display.copyWith(
+                            fontSize: 27,
+                            height: 1.0,
+                            color: AppColors.tealDeep,
+                          )),
+                      const SizedBox(width: 5),
+                      Text(periodo,
+                          style: AppTypography.body.copyWith(
+                            fontSize: 14,
+                            color: AppColors.inkSoft,
+                          )),
                     ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(subtitulo,
-                      style: AppTypography.caption
-                          .copyWith(color: AppColors.inkSoft)),
+                  if (equivalente != null) ...[
+                    const SizedBox(height: 3),
+                    Text(equivalente!,
+                        style: AppTypography.caption
+                            .copyWith(color: AppColors.inkSoft)),
+                  ],
+                  if (destacado != null) ...[
+                    const SizedBox(height: 9),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: AppColors.tealDeep,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(destacado!,
+                          style: AppTypography.caption.copyWith(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.8,
+                          )),
+                    ),
+                  ],
+                  if (pie != null) ...[
+                    const SizedBox(height: 7),
+                    Text(pie!,
+                        style: AppTypography.caption.copyWith(
+                          color: AppColors.inkSoft,
+                          fontSize: 11.5,
+                        )),
+                  ],
                 ],
               ),
             ),
-            Text(precio,
-                style: AppTypography.body.copyWith(
-                    color: AppColors.tealDeep, fontWeight: FontWeight.w700)),
           ],
         ),
       ),
@@ -302,54 +366,86 @@ class _PlanCard extends StatelessWidget {
   }
 }
 
-class _DiaCard extends StatelessWidget {
-  final int numero;
-  final String titulo;
-  final String texto;
+/// Circulo de seleccion del plan.
+class _Radio extends StatelessWidget {
+  final bool activo;
+  const _Radio({required this.activo});
 
-  const _DiaCard(
-      {required this.numero, required this.titulo, required this.texto});
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 180),
+      margin: const EdgeInsets.only(top: 2),
+      width: 21,
+      height: 21,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: activo ? AppColors.tealDeep : Colors.transparent,
+        border: Border.all(
+          color: activo ? AppColors.tealDeep : AppColors.sand,
+          width: 2,
+        ),
+      ),
+      child: activo
+          ? const Icon(Icons.check_rounded, size: 14, color: Colors.white)
+          : null,
+    );
+  }
+}
+
+/// Boton principal. Cambia de texto segun el plan elegido.
+class _BotonCta extends StatelessWidget {
+  final String texto;
+  final bool cargando;
+  final VoidCallback? onPressed;
+
+  const _BotonCta({
+    required this.texto,
+    required this.cargando,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.tealLight),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 30,
-            height: 30,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColors.tealLight,
-              shape: BoxShape.circle,
-            ),
-            child: Text('$numero',
-                style: AppTypography.body.copyWith(
-                    color: AppColors.tealDeep, fontWeight: FontWeight.w700)),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(titulo,
-                    style: AppTypography.body
-                        .copyWith(fontWeight: FontWeight.w700)),
-                const SizedBox(height: 2),
-                Text(texto,
-                    style: AppTypography.caption
-                        .copyWith(color: AppColors.inkSoft)),
-              ],
-            ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.tealDeep.withValues(alpha: 0.22),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.tealDeep,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: AppColors.tealMedium,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(vertical: 17),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          child: cargando
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: Colors.white),
+                )
+              : Text(texto,
+                  style: AppTypography.title.copyWith(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  )),
+        ),
       ),
     );
   }
