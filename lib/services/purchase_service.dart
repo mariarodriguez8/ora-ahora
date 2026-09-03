@@ -26,7 +26,7 @@ enum ResultadoCompra {
 class PurchaseService extends ChangeNotifier {
   /// Clave de PRUEBA de RevenueCat. Reemplazar por la de produccion antes de
   /// publicar.
-  static const apiKeyAndroid = 'test_RAlFKdRZTvrVlvZZxSRhIUMyRIl';
+  static const apiKeyAndroid = 'goog_EGkmXjcdLzZPVccQnPxJSUdNIBN';
 
   /// Entitlement configurado en el panel de RevenueCat.
   static const entitlementId = 'ora_ahora_pro';
