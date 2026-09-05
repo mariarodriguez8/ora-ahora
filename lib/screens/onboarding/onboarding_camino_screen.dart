@@ -40,6 +40,19 @@ class OnboardingCaminoScreen extends StatelessWidget {
     return 'Empiezas a notar la diferencia.';
   }
 
+
+  /// El dia exacto en que va a llevar treinta dias. Una fecha concreta
+  /// compromete mas que un numero abstracto.
+  String _fechaMeta() {
+    const meses = [
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+    ];
+    final d = DateTime.now().add(const Duration(days: 30));
+    return 'El ${d.day} de ${meses[d.month - 1]} vas a llevar\n'
+        '30 días hablando con Él.';
+  }
+
   @override
   Widget build(BuildContext context) {
     final hitos = <(String, String)>[
@@ -77,6 +90,16 @@ class OnboardingCaminoScreen extends StatelessWidget {
                   child: Text('Tus próximos 30 días',
                       style: AppTypography.display
                           .copyWith(fontSize: 28, color: kFunnelMarfil)),
+                ),
+                const SizedBox(height: 8),
+                // Una fecha en el calendario se siente real; "30 dias" no.
+                AparicionSuave(
+                  orden: 1,
+                  child: Text(_fechaMeta(),
+                      style: AppTypography.body.copyWith(
+                        color: kFunnelDorado,
+                        height: 1.35,
+                      )),
                 ),
                 const SizedBox(height: 20),
                 Expanded(

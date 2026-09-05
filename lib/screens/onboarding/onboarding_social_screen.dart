@@ -47,9 +47,6 @@ class OnboardingSocialScreen extends StatelessWidget {
                       style: AppTypography.quote.copyWith(fontSize: 16),
                     ),
                     const SizedBox(height: 10),
-                    Text('— Carolina, 54 años',
-                        style: AppTypography.caption
-                            .copyWith(color: AppColors.inkSoft)),
                   ],
                 ),
               ),

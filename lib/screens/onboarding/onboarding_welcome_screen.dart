@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/app_typography.dart';
-import 'funnel_screens.dart';
+import 'onboarding_name_screen.dart';
 
 /// Bienvenida "WOW" 2026: fondo degradado profundo (como el logo), halo
 /// de luz dorado que respira con una CRUZ LUMINOSA (restaurada en v11c),
@@ -194,10 +194,8 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                           ),
                           const SizedBox(height: 14),
                           Text(
-                            'Una oración corta cada día, a tu hora. Y una '
-                            'pausa para orar antes de abrir las apps que '
-                            'más te distraen. La ovejita eres tú: "Mis '
-                            'ovejas oyen mi voz, y me siguen" (Juan 10:27).',
+                            'Una oración al día. Y una pausa antes de '
+                  'abrir las apps que te distraen.',
                             style: AppTypography.bodyLarge.copyWith(
                                 color: _marfil.withValues(alpha: 0.78)),
                           ),
@@ -220,7 +218,7 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (_) =>
-                                      const FunnelQ1()),
+                                      const OnboardingNameScreen()),
                             );
                           },
                           child: const Text('Comenzar mi camino 🙏'),
@@ -232,7 +230,7 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                       padding: const EdgeInsets.only(right: 96),
                       child: Center(
                         child: Text(
-                          'Gratis · Menos de 2 minutos',
+                          'Gratis · unos minutos',
                           style: AppTypography.caption.copyWith(
                               color: _marfil.withValues(alpha: 0.5)),
                         ),

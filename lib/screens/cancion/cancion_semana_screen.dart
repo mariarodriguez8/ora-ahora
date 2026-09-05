@@ -136,6 +136,30 @@ class CancionSemanaCard extends StatelessWidget {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Un regalo tiene que anunciarse: sin esto era una fila mas.
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.24),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.card_giftcard_rounded,
+                        size: 13, color: Colors.white),
+                    const SizedBox(width: 5),
+                    Text('NUEVA ESTA SEMANA',
+                        style: AppTypography.caption.copyWith(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.8,
+                        )),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
               Row(
           children: [
             Container(

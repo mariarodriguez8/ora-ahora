@@ -71,7 +71,19 @@ class PlantHero extends StatelessWidget {
       }
       return 'riégala hoy con una oración';
     }
-    if (prayedToday) return 'hoy la regaste — sigue así 💧';
+    if (prayedToday) {
+      if (streak >= 14) {
+        return 'Van $streak días con Él. Y apenas vamos por la mitad.';
+      }
+      if (streak >= 7) {
+        return '$streak veces le hablaste. $streak veces te escuchó.';
+      }
+      if (streak >= 2 && _stage < 3) {
+        return '$streak días seguidos.\nTu árbol está a un riego de florecer.';
+      }
+      if (streak >= 2) return '$streak días seguidos. Se nota.';
+      return 'Hoy le hablaste. Y Él te escuchó.';
+    }
     return 'tu plantita tiene sed hoy 💧';
   }
 

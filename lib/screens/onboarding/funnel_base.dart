@@ -6,6 +6,7 @@ import '../../theme/app_typography.dart';
 
 /// Respuestas del embudo emocional (viven solo durante el onboarding).
 class FunnelAnswers {
+  static String nombre = '';
   static String horasCelular = '';
   static String tiempoDios = '';
 }
@@ -23,6 +24,11 @@ class FunnelScreen extends StatelessWidget {
   final String mascota; // ruta del asset de la ovejita
   final List<(String, VoidCallback)> opciones;
   final bool amanecer; // true = el fondo amanece (momento de gracia)
+  /// Cuanto ocupa la ovejita. Grande en las pantallas de golpe,
+  /// pequena donde el texto es el protagonista.
+  final double alturaMascota;
+  /// Posicion dentro del embudo (0-7) para la barra de avance.
+  final int? pasoEmbudo;
   /// Contenido opcional entre el subtitulo y los botones.
   final Widget? extra;
 
@@ -33,6 +39,8 @@ class FunnelScreen extends StatelessWidget {
     required this.mascota,
     required this.opciones,
     this.amanecer = false,
+    this.alturaMascota = 170,
+    this.pasoEmbudo,
     this.extra,
   });
 
@@ -55,9 +63,13 @@ class FunnelScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (pasoEmbudo != null) ...[
+                  const SizedBox(height: 6),
+                  _BarraEmbudo(paso: pasoEmbudo!),
+                ],
                 const Spacer(),
                 AparicionSuave(orden: 0, child: Center(
-                  child: Image.asset(mascota, height: 170,
+                  child: Image.asset(mascota, height: alturaMascota,
                       fit: BoxFit.contain,
                       filterQuality: FilterQuality.medium),
                 )),
@@ -186,6 +198,40 @@ class _Tarjeta extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Avance dentro del embudo. Son ocho pantallas antes del onboarding con
+/// formulario y no habia ninguna señal de cuanto falta.
+class _BarraEmbudo extends StatelessWidget {
+  final int paso;
+  const _BarraEmbudo({required this.paso});
+
+  @override
+  Widget build(BuildContext context) {
+    const total = 8;
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(
+        width: 110,
+        height: 4,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(3),
+          child: Stack(
+            children: [
+              Container(color: kFunnelMarfil.withValues(alpha: 0.22)),
+              AnimatedFractionallySizedBox(
+                duration: const Duration(milliseconds: 420),
+                curve: Curves.easeOut,
+                widthFactor: ((paso + 1) / total).clamp(0.0, 1.0),
+                alignment: Alignment.centerLeft,
+                child: Container(color: kFunnelDorado),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

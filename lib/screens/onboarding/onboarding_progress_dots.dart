@@ -78,21 +78,7 @@ class OnboardingTopBar extends StatelessWidget implements PreferredSizeWidget {
             _BackCircle(onTap: onBack ?? () => Navigator.of(context).maybePop()),
             if (!right) ...[const SizedBox(width: 10), sheep],
             const Spacer(),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(totalSteps, (i) {
-                final active = i == step;
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 3),
-                  width: active ? 20 : 7,
-                  height: 7,
-                  decoration: BoxDecoration(
-                    color: active ? AppColors.tealDeep : AppColors.tealLight,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                );
-              }),
-            ),
+            _BarraProgreso(fraccion: _fraccionPara(step)),
             const Spacer(),
             if (right)
               sheep
@@ -121,6 +107,51 @@ class _BackCircle extends StatelessWidget {
           width: 40,
           height: 40,
           child: Icon(Icons.arrow_back_rounded, color: AppColors.tealDeep, size: 20),
+        ),
+      ),
+    );
+  }
+}
+
+/// Progreso ponderado por esfuerzo, no por numero de pantallas.
+///
+/// Cuando aparece esta barra la persona ya paso ocho pantallas del embudo,
+/// asi que arranca lejos de cero: eso es cierto, no un truco. Y avanza mas
+/// en los pasos que cuestan poco (mirar el plan, leer el testimonio) que en
+/// los que cuestan de verdad (firmar el pacto, dar permisos). El resultado
+/// es la curva que engancha: rapido al principio, mas lento cuando ya
+/// invertiste demasiado como para irte.
+double _fraccionPara(int step) {
+  const tramos = <double>[
+    0.24, 0.35, 0.46, 0.56, 0.64, 0.73, 0.85, 0.91, 0.97, 1.00,
+  ];
+  if (step < 0) return tramos.first;
+  if (step >= tramos.length) return 1;
+  return tramos[step];
+}
+
+class _BarraProgreso extends StatelessWidget {
+  final double fraccion;
+  const _BarraProgreso({required this.fraccion});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 132,
+      height: 7,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Stack(
+          children: [
+            Container(color: AppColors.tealLight),
+            AnimatedFractionallySizedBox(
+              duration: const Duration(milliseconds: 420),
+              curve: Curves.easeOut,
+              widthFactor: fraccion.clamp(0.0, 1.0),
+              alignment: Alignment.centerLeft,
+              child: Container(color: AppColors.tealDeep),
+            ),
+          ],
         ),
       ),
     );

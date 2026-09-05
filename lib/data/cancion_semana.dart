@@ -120,7 +120,7 @@ const List<Cancion> kCanciones = [
   Cancion(
     titulo: 'Dios Conmigo Estás',
     artista: 'Generación 12 ft. Sofía Mancipe',
-    mensaje: 'para cuando te sientes solo aunque haya gente al lado.',
+    mensaje: 'para cuando sientes soledad aunque haya gente al lado.',
     url: 'https://www.youtube.com/watch?v=hbXgvM-y0ng',
     oracion: 'Padre, recuérdame que estás, aunque hoy no te sienta.',
   ),
@@ -141,7 +141,7 @@ const List<Cancion> kCanciones = [
   Cancion(
     titulo: 'Tú Estás Aquí',
     artista: 'Su Presencia',
-    mensaje: 'para empezar el día sabiendo que no estás solo.',
+    mensaje: 'para empezar el día sabiendo que Él va contigo.',
     url: 'https://www.youtube.com/watch?v=IbGcLrYMFC8',
     oracion: 'Padre, sé que estás aquí. Que hoy no se me olvide.',
   ),

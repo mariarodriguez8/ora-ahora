@@ -30,7 +30,7 @@ const Map<String, List<String>> _porCategoria = {
     'Dios, tú calmaste la tormenta con una palabra. Calma también esta. Y si todavía no, dame paz en medio de ella.',
     'Padre, no necesito entenderlo todo hoy. Confío en ti aunque no vea el camino. Dirige tú mis pasos.',
     'Señor, guarda mi corazón de lo que me roba la calma. Que tu presencia sea el lugar al que vuelvo cuando todo se mueve.',
-    'Dios, en medio de este día, quédate. No me dejes solo con mis pensamientos. Háblame aunque sea bajito.',
+    'Dios, en medio de este día, quédate. No me dejes con mis pensamientos. Háblame aunque sea bajito.',
     'Padre, que tu paz pese más que mi ansiedad. Esa que sobrepasa todo entendimiento, esa te pido hoy.',
     'Señor, aquí estoy. Cansado, pero aquí. Renueva mis fuerzas como prometiste, que ya no me quedan muchas.',
   ],
@@ -119,7 +119,7 @@ const Map<String, List<String>> _porCategoria = {
     'Padre, gracias porque la muerte no tiene la última palabra. Que esa esperanza me alcance hoy, no solo en teoría.',
   ],
   'soledad': [
-    'Padre, me siento solo aunque tenga gente alrededor. Tú prometiste no dejarme ni desampararme. Recuérdamelo hoy, que se me olvidó.',
+    'Padre, siento soledad aunque tenga gente alrededor. Tú prometiste no dejarme ni desampararme. Recuérdamelo hoy, que se me olvidó.',
     'Señor, hoy me siento a un lado, como si nadie notara si falto. Tú me ves. Con eso me sostengo.',
     'Dios, gracias porque contigo no tengo que explicar nada ni fingir que estoy bien.',
     'Padre, pon a alguien cerca con quien pueda hablar de verdad. No aguanto más conversaciones de cortesía.',

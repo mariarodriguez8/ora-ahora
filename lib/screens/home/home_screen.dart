@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../momento/momento_oracion_screen.dart';
 
 import '../../widgets/nube_notas.dart';
+import '../../widgets/aviso_pausa.dart';
+import '../../widgets/antes_de_dormir.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
@@ -303,6 +305,9 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                   children: [
+                    // Aviso cuando el sistema apago la pausa (tipico en MIUI).
+                    // No ocupa espacio si todo esta bien.
+                    const AvisoPausa(),
                     // 0. Encabezado calido: saludo segun la hora del dia,
                     // ahora mas liviano (la racha y el arbol viven en la
                     // pradera de abajo, no aqui).
@@ -371,6 +376,19 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       end: 0.85,
                     ),
                     const SizedBox(height: 20),
+                    // Solo aparece de noche: es la razon para volver a las once,
+                    // que es cuando esta app se pierde a su gente.
+                    if (AntesDeDormir.esHora()) ...[
+                      _staggeredSection(
+                        AntesDeDormir(
+                          oracion: data.oracionDelDia.texto,
+                          referencia: data.oracionDelDia.referenciaBiblica,
+                        ),
+                        start: 0.32,
+                        end: 0.88,
+                      ),
+                      const SizedBox(height: 20),
+                    ],
                     _staggeredSection(
                       CancionSemanaCard(
                         isPlus: isPlus,
@@ -407,20 +425,6 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                     // 4. v17: "¿Algo te pesa hoy?" — carpetas de temas
                     // (reemplaza el "chorro" de oraciones sueltas) + banner
                     // Plus. Cada carpeta abre SOLO las oraciones de ese tema.
-                    _staggeredSection(
-                      _TemasSection(
-                        preferredCategories:
-                            context.read<PrefsService>().preferredCategories,
-                        isPlus: isPlus,
-                        onOpenPaywall: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => const PaywallScreen()),
-                          );
-                        },
-                      ),
-                      start: 0.4,
-                      end: 1.0,
-                    ),
                   ],
                 ),
               );
@@ -473,8 +477,7 @@ class _NextStepCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   prayedToday
-                      ? 'Ya oraste hoy. Si quieres más, escribe una '
-                          'petición en tus Peticiones o explora "Para ti".'
+                      ? 'Ya oraste hoy. Él te escuchó.'
                       : 'Tu paso de hoy: ora la oración del día. '
                           'Toma 2 minutos — toca aquí.',
                   style: AppTypography.body.copyWith(

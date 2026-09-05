@@ -28,7 +28,7 @@ class AboutScreen extends StatelessWidget {
                 'orar más, sin importar su tradición o iglesia. Nuestro '
                 'contenido se basa en las Escrituras y evita elementos '
                 'específicos de una sola denominación, para que cualquiera '
-                'se sienta bienvenido.',
+                'se sienta en casa.',
                 style: AppTypography.body,
               ),
               const SizedBox(height: 14),

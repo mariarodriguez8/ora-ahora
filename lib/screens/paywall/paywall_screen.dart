@@ -21,6 +21,7 @@ class PaywallScreen extends StatefulWidget {
 
 class _PaywallScreenState extends State<PaywallScreen> {
   bool _loading = false;
+  bool _avisar = true;
   PlusPlan _plan = PlusPlan.anual;
 
   bool get _esAnual => _plan == PlusPlan.anual;
@@ -34,7 +35,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
   ];
 
   String get _textoCta =>
-      _esAnual ? 'Empezar mis 3 días gratis' : 'Suscribirme por \$2.99/mes';
+      _esAnual ? 'Reclama tus 3 días' : 'Suscribirme por \$2.99/mes';
 
   String get _notaCta => _esAnual
       ? 'Tres días gratis. Después \$19.99/año.'
@@ -101,16 +102,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
               style: AppTypography.display.copyWith(fontSize: 23, height: 1.25),
             ),
             const SizedBox(height: 14),
-            Text('A partir de hoy tendrás:',
-                textAlign: TextAlign.center,
-                style: AppTypography.body
-                    .copyWith(color: AppColors.inkSoft, height: 1.2)),
-            const SizedBox(height: 12),
-            for (final b in _beneficios) ...[
-              _Beneficio(texto: b),
-              const SizedBox(height: 7),
-            ],
-            const SizedBox(height: 16),
+            const SizedBox(height: 18),
             const _Separador(),
             const SizedBox(height: 16),
             Text('ELIGE TU PLAN',
@@ -139,7 +131,27 @@ class _PaywallScreenState extends State<PaywallScreen> {
               pie: 'Renovación mensual',
               onTap: () => setState(() => _plan = PlusPlan.mensual),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
+            GestureDetector(
+              onTap: () => setState(() => _avisar = !_avisar),
+              behavior: HitTestBehavior.opaque,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text('Avísame antes de que termine la prueba',
+                        style: AppTypography.caption
+                            .copyWith(color: AppColors.ink, fontSize: 12.5)),
+                  ),
+                  Switch(
+                    value: _avisar,
+                    onChanged: (v) => setState(() => _avisar = v),
+                    activeThumbColor: Colors.white,
+                    activeTrackColor: AppColors.tealDeep,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
             _BotonCta(
               texto: _textoCta,
               cargando: _loading,

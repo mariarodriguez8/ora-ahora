@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/app_typography.dart';
 import 'funnel_base.dart';
-import 'onboarding_name_screen.dart';
+import 'onboarding_categories_screen.dart';
 
 void _go(BuildContext c, Widget s) =>
     Navigator.of(c).push(MaterialPageRoute(builder: (_) => s));
@@ -12,6 +12,8 @@ class FunnelQ1 extends StatelessWidget {
   const FunnelQ1({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
+      pasoEmbudo: 0,
+      alturaMascota: 150,
         frase: '¿Te ha pasado?\nDices "más tarde oro"...\ny se te va el día.',
         mascota: 'assets/mascot/ovejita_pensativa.png',
         opciones: [
@@ -32,6 +34,8 @@ class FunnelQ2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FunnelScreen(
+      pasoEmbudo: 1,
+      alturaMascota: 185,
         frase: '¿Cuánto tiempo pasaste\nayer en el celular?',
         subtitulo: 'con toda sinceridad',
         mascota: 'assets/mascot/ovejita_esperando.png',
@@ -53,6 +57,8 @@ class FunnelQ3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FunnelScreen(
+      pasoEmbudo: 2,
+      alturaMascota: 155,
         frase: '¿Y cuánto tiempo\nle diste a Dios?',
         mascota: 'assets/mascot/ovejita_orando.png',
         opciones: [
@@ -67,13 +73,18 @@ class FunnelQ3 extends StatelessWidget {
 class FunnelMirror extends StatelessWidget {
   const FunnelMirror({super.key});
 
+  /// El nombre delante hace que la frase deje de ser un dato y pase a
+  /// ser algo dicho a ella.
+  String get _saludo =>
+      FunnelAnswers.nombre.isEmpty ? '' : '${FunnelAnswers.nombre}, ';
+
   String get _horas =>
       FunnelAnswers.horasCelular.isEmpty ? 'horas' : FunnelAnswers.horasCelular;
 
   String _frase() {
     switch (FunnelAnswers.tiempoDios) {
       case 'nada':
-        return '$_horas en el celular.\n\nY para Dios... nada.\n'
+        return '$_saludo$_horas en el celular.\n\nY para Dios... nada.\n'
             'Siempre encuentras tiempo.\nSolo que no para Él.';
       case 'unos minutitos':
         return '$_horas en el celular.\n\ny para Dios, unos minutitos.\n'
@@ -98,6 +109,8 @@ class FunnelMirror extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FunnelScreen(
+      pasoEmbudo: 3,
+      alturaMascota: 235,
       frase: _frase(),
       mascota: _mascota(),
       opciones: [
@@ -112,6 +125,8 @@ class FunnelGrace extends StatelessWidget {
   const FunnelGrace({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
+      pasoEmbudo: 4,
+      alturaMascota: 225,
         amanecer: true,
         frase: 'La buena noticia:\n\nDios no está enojado contigo.\nEstá esperándote.',
         mascota: 'assets/mascot/ovejita_celebrando.png',
@@ -126,6 +141,8 @@ class FunnelMinute extends StatelessWidget {
   const FunnelMinute({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
+      pasoEmbudo: 5,
+      alturaMascota: 165,
         frase: 'Él te espera hoy.\n¿le das 1 minuto?',
         mascota: 'assets/mascot/ovejita_esperando.png',
         opciones: [
@@ -205,11 +222,14 @@ class FunnelCancion extends StatelessWidget {
   const FunnelCancion({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-        frase: 'Y cada semana,\nuna canción nueva\npara cuando estés mal.',
+      pasoEmbudo: 7,
+      alturaMascota: 195,
+        frase: 'Te desbloqueé\nla canción de esta semana.',
+        subtitulo: 'Para cuando no te salgan las palabras.',
         mascota: 'assets/mascot/ovejita_musica.png',
         opciones: [
           ('la voy a necesitar 🎧',
-              () => _go(context, const OnboardingNameScreen())),
+              () => _go(context, const OnboardingCategoriesScreen())),
         ],
       );
 }

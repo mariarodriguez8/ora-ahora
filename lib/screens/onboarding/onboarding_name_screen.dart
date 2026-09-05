@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/prefs_service.dart';
+import 'funnel_base.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
-import 'onboarding_categories_screen.dart';
+import 'funnel_screens.dart';
 import 'onboarding_progress_dots.dart';
 
 class OnboardingNameScreen extends StatefulWidget {
@@ -36,9 +37,10 @@ class _OnboardingNameScreenState extends State<OnboardingNameScreen>
     }
     final prefs = context.read<PrefsService>();
     await prefs.setUserName(_controller.text);
+    FunnelAnswers.nombre = _controller.text.trim();
     if (!mounted) return;
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const OnboardingCategoriesScreen()),
+      MaterialPageRoute(builder: (_) => const FunnelQ1()),
     );
   }
 

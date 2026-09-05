@@ -2,6 +2,9 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
+import 'onboarding_sellado_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +62,29 @@ class _OnboardingPactoScreenState extends State<OnboardingPactoScreen> {
     }
     if (!mounted) return;
     setState(() => _guardando = false);
+    // Primero la celebracion: acaba de firmar y el gesto necesita existir
+    // antes de que aparezca nada mas.
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => const OnboardingSelladoScreen(),
+      ),
+    );
+    if (!mounted) return;
+    // Y ahi, en el pico emocional, se pide la resena. Nunca dos veces.
+    await _pedirResena();
+    if (!mounted) return;
     widget.onContinuar();
+  }
+
+  Future<void> _pedirResena() async {
+    try {
+      final p = await SharedPreferences.getInstance();
+      if (p.getBool('resena_pedida') == true) return;
+      final review = InAppReview.instance;
+      if (!await review.isAvailable()) return;
+      await p.setBool('resena_pedida', true);
+      await review.requestReview();
+    } catch (_) {}
   }
 
   @override
