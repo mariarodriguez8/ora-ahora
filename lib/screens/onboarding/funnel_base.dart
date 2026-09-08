@@ -211,14 +211,14 @@ class _BarraEmbudo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const total = 8;
-    return Align(
-      alignment: Alignment.centerLeft,
+    // 18 pasos en total: los 8 del embudo mas los 10 del onboarding.
+    const total = 18;
+    return Center(
       child: SizedBox(
-        width: 110,
-        height: 4,
+        width: 132,
+        height: 7,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(3),
+          borderRadius: BorderRadius.circular(4),
           child: Stack(
             children: [
               Container(color: kFunnelMarfil.withValues(alpha: 0.22)),

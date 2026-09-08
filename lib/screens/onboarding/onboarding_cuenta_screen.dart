@@ -139,7 +139,7 @@ class _OnboardingCuentaScreenState extends State<OnboardingCuentaScreen>
                 AparicionSuave(
                   orden: 7,
                   child: Text(
-                    '¿Quieres cambiar esto?',
+                    '¿Y si lo que queda de este año fuera distinto?',
                     style: AppTypography.display
                         .copyWith(fontSize: 24, color: kFunnelDorado),
                   ),
@@ -156,7 +156,7 @@ class _OnboardingCuentaScreenState extends State<OnboardingCuentaScreen>
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       onPressed: widget.onContinuar,
-                      child: const Text('No quiero que sea así'),
+                      child: const Text('Que sea distinto'),
                     ),
                   ),
                 ),

@@ -318,21 +318,30 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                           nombre: context.read<PrefsService>().userName,
                         ),
                       ),
-                      start: 0.0,
-                      end: 0.45,
+                      start: 0.06,
+                      end: 0.61,
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 18),
+                    // 1. Lo primero es la oracion de hoy, completa. Es la razon
+                    // por la que se abre la app; ya no hay que bajar a buscarla.
+                    _staggeredSection(
+                      _HeroPrayerSection(
+                        prayer: data.oracionDelDia,
+                        prayedToday: streak.prayedToday,
+                        onTap: () => _openDetail(data.oracionDelDia),
+                      ),
+                      start: 0.109,
+                      end: 0.659,
+                    ),
+                    const SizedBox(height: 24),
                     _staggeredSection(
                       const NubeNotas(),
-                      start: 0.12,
-                      end: 0.6,
+                      start: 0.157,
+                      end: 0.707,
                     ),
                     const SizedBox(height: 16),
-                    // 1. HERO v11: la pradera del Salmo 23 — numero
-                    // gigante de racha ("dias caminando con el Pastor"),
-                    // anillo de minutos del dia, arbol de fe, arroyo,
-                    // flores que crecen con los minutos orados y la
-                    // ovejita (que eres tu).
+                    // 2. La pradera del Salmo 23 pasa a ser la recompensa:
+                    // se ve despues de orar, no antes.
                     _staggeredSection(
                       PlantHero(
                         streak: streak.currentStreak,
@@ -340,31 +349,8 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                         daysSinceLastPrayed: streak.daysSinceLastPrayed ?? 0,
                         isPlus: isPlus,
                       ),
-                      start: 0.05,
-                      end: 0.6,
-                    ),
-                    const SizedBox(height: 14),
-                    // 1b. v11d: guia clara de que hacer hoy (pedido de
-                    // Maria: "no queda claro que tengo que hacer").
-                    _staggeredSection(
-                      _NextStepCard(
-                        prayedToday: streak.prayedToday,
-                        onOrar: () => _openDetail(data.oracionDelDia),
-                      ),
-                      start: 0.1,
-                      end: 0.65,
-                    ),
-                    const SizedBox(height: 24),
-                    // 2. La oracion del dia, ahora segunda en jerarquia
-                    // visual despues de la pradera (sigue siendo la
-                    // accion principal del dia).
-                    _staggeredSection(
-                      _HeroPrayerSection(
-                        prayer: data.oracionDelDia,
-                        onTap: () => _openDetail(data.oracionDelDia),
-                      ),
-                      start: 0.15,
-                      end: 0.75,
+                      start: 0.206,
+                      end: 0.756,
                     ),
                     const SizedBox(height: 16),
                     // 3. Prueba social honesta.
@@ -372,8 +358,8 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       _SocialProofBanner(
                         prayingNowEstimate: data.prayingNowEstimate,
                       ),
-                      start: 0.3,
-                      end: 0.85,
+                      start: 0.254,
+                      end: 0.804,
                     ),
                     const SizedBox(height: 20),
                     // Solo aparece de noche: es la razon para volver a las once,
@@ -384,8 +370,8 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                           oracion: data.oracionDelDia.texto,
                           referencia: data.oracionDelDia.referenciaBiblica,
                         ),
-                        start: 0.32,
-                        end: 0.88,
+                        start: 0.303,
+                        end: 0.853,
                       ),
                       const SizedBox(height: 20),
                     ],
@@ -402,8 +388,8 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                           );
                         },
                       ),
-                      start: 0.33,
-                      end: 0.9,
+                      start: 0.351,
+                      end: 0.901,
                     ),
                     const SizedBox(height: 14),
                     _staggeredSection(
@@ -418,7 +404,7 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                           );
                         },
                       ),
-                      start: 0.36,
+                      start: 0.4,
                       end: 0.95,
                     ),
                     const SizedBox(height: 28),
@@ -449,52 +435,6 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
 
 /// Tarjeta-guia del dia (v11d): le dice a la persona exactamente cual es
 /// su siguiente paso. Si aun no oro hoy, invita a la oracion del dia (y
-/// tocarla la abre); si ya oro, sugiere el diario o el feed, sin presion.
-class _NextStepCard extends StatelessWidget {
-  final bool prayedToday;
-  final VoidCallback onOrar;
-
-  const _NextStepCard({required this.prayedToday, required this.onOrar});
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Material(
-      color: scheme.primaryContainer.withValues(alpha: 0.45),
-      borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: prayedToday ? null : onOrar,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          child: Row(
-            children: [
-              Text(
-                prayedToday ? '✨' : '👉',
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  prayedToday
-                      ? 'Ya oraste hoy. Él te escuchó.'
-                      : 'Tu paso de hoy: ora la oración del día. '
-                          'Toma 2 minutos — toca aquí.',
-                  style: AppTypography.body.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: scheme.onSurface,
-                  ),
-                ),
-              ),
-              if (!prayedToday)
-                Icon(Icons.chevron_right, color: scheme.primary),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 /// Encabezado calido del inicio: avatar de la ovejita, fecha en español y
 /// saludo serif segun la hora del dia. Desde v11 es deliberadamente
@@ -630,8 +570,9 @@ class _NightModeCorner extends StatelessWidget {
 class _HeroPrayerSection extends StatelessWidget {
   final Prayer prayer;
   final VoidCallback onTap;
+  final bool prayedToday;
 
-  const _HeroPrayerSection({required this.prayer, required this.onTap});
+  const _HeroPrayerSection({this.prayedToday = false, required this.prayer, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -660,6 +601,21 @@ class _HeroPrayerSection extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         PrayerCard(prayer: prayer, destacada: true, onTap: onTap),
+          if (prayedToday) ...[
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Icon(Icons.check_circle_rounded,
+                    size: 18, color: scheme.secondary),
+                const SizedBox(width: 8),
+                Text(
+                  'Ya oraste hoy',
+                  style: AppTypography.caption
+                      .copyWith(color: scheme.secondary),
+                ),
+              ],
+            ),
+          ],
       ],
     );
   }

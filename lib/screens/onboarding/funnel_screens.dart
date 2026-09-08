@@ -128,7 +128,10 @@ class FunnelGrace extends StatelessWidget {
       pasoEmbudo: 4,
       alturaMascota: 225,
         amanecer: true,
-        frase: 'La buena noticia:\n\nDios no está enojado contigo.\nEstá esperándote.',
+        frase: FunnelAnswers.tiempoDios == 'media hora o más'
+            ? 'No vienes de cero.\n\nYa lo buscas.\nLo que se pierde no es el tiempo:\n'
+                'son los días que se saltan sin querer.'
+            : 'La buena noticia:\n\nDios no está enojado contigo.\nEstá esperándote.',
         mascota: 'assets/mascot/ovejita_celebrando.png',
         opciones: [
           ('quiero volver a Él 🤍', () => _go(context, const FunnelMinute())),

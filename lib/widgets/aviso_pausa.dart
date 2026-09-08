@@ -95,7 +95,12 @@ class _AvisoPausaState extends State<AvisoPausa> with WidgetsBindingObserver {
     if (!_revisado || _todoBien) return const SizedBox.shrink();
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      // El margen de arriba lo pone el propio aviso: la lista de inicio
+      // empieza pegada al borde y sin esto tapaba la hora del sistema.
+      margin: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 12,
+        bottom: 16,
+      ),
       padding: const EdgeInsets.fromLTRB(14, 13, 14, 13),
       decoration: BoxDecoration(
         color: AppColors.amberLight,

@@ -39,7 +39,8 @@ class _OnboardingCommitmentScreenState
                   style: AppTypography.display.copyWith(fontSize: 28)),
               const SizedBox(height: 12),
               Text(
-                'Él ya te recibió. No tienes que ganártelo ni llegar perfecto. '
+                'No tienes que estar bien para hablarle. Ven como estás: '
+            'un padre siempre recibe a sus hijos. '
                 'Esto no es una obligación: es tu respuesta.',
                 style:
                     AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
@@ -84,8 +85,10 @@ class _OnboardingCommitmentScreenState
                       if (!_prometido) ...[
                         const SizedBox(height: 10),
                         Text('Toca para hacer el pacto',
-                            style: AppTypography.caption
-                                .copyWith(color: AppColors.inkSoft)),
+                            style: AppTypography.caption.copyWith(
+                          color: AppColors.tealDeep,
+                          fontWeight: FontWeight.w600,
+                        )),
                       ],
                     ],
                   ),

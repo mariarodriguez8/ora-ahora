@@ -34,18 +34,18 @@ const List<Cancion> kCanciones = [
     oracion: 'Señor, aquí estoy otra vez. Recíbeme como si no me hubiera ido.',
   ),
   Cancion(
-    titulo: 'Océanos',
-    artista: 'Hillsong United (español)',
-    mensaje: 'para cuando no haces pie y aun así tienes que caminar.',
-    url: 'https://www.youtube.com/watch?v=2BJ0OA0nXPY',
-    oracion: 'Dios, donde no hago pie, sostenme tú.',
-  ),
-  Cancion(
     titulo: 'Gracias / Tu Fidelidad',
     artista: 'Marcos Witt ft. Un Corazón',
     mensaje: 'para acordarte de todo lo que hizo cuando no estabas mirando.',
     url: 'https://www.youtube.com/watch?v=53BatKbRO2A',
     oracion: 'Padre, gracias por lo que hiciste cuando yo no estaba mirando.',
+  ),
+  Cancion(
+    titulo: 'Océanos',
+    artista: 'Hillsong United (español)',
+    mensaje: 'para cuando no haces pie y aun así tienes que caminar.',
+    url: 'https://www.youtube.com/watch?v=2BJ0OA0nXPY',
+    oracion: 'Dios, donde no hago pie, sostenme tú.',
   ),
   Cancion(
     titulo: 'Gracias',

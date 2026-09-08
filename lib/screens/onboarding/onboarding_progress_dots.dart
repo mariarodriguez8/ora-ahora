@@ -122,12 +122,12 @@ class _BackCircle extends StatelessWidget {
 /// es la curva que engancha: rapido al principio, mas lento cuando ya
 /// invertiste demasiado como para irte.
 double _fraccionPara(int step) {
-  const tramos = <double>[
-    0.24, 0.35, 0.46, 0.56, 0.64, 0.73, 0.85, 0.91, 0.97, 1.00,
-  ];
-  if (step < 0) return tramos.first;
-  if (step >= tramos.length) return 1;
-  return tramos[step];
+  // Continua la misma cuenta del embudo: cuando aparece esta barra la
+  // persona ya paso 8 pantallas, asi que arranca por ahi y sigue subiendo.
+  const pasosEmbudo = 8;
+  const total = 18;
+  final n = (pasosEmbudo + step + 1).clamp(0, total);
+  return n / total;
 }
 
 class _BarraProgreso extends StatelessWidget {
