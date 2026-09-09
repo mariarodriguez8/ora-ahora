@@ -42,6 +42,10 @@ class _OnboardingPactoScreenState extends State<OnboardingPactoScreen> {
   }
 
   Future<void> _sellar() async {
+    // El camino deja de ser una fecha en una pantalla: empieza aqui,
+    // el dia que lo firma, y a partir de ahora avanza con cada pausa.
+    final prefsCamino = context.read<PrefsService>();
+    await prefsCamino.empezarCamino(prefsCamino.caminoDias);
     if (!_hayFirma || _guardando) return;
     setState(() => _guardando = true);
     try {

@@ -85,6 +85,21 @@ class PrefsKeys {
   /// `UsagePatternService`); nunca la escribe.
   static const usagePatternLog = 'usage_pattern_log';
 
+  // --- Presupuesto de pausas ---
+  /// Las escribe `PrayerGateForegroundService.kt` cada vez que alguien
+  /// termina la oracion de la puerta. Flutter solo lee, salvo el tope,
+  /// que si se puede cambiar desde Ajustes.
+  static const pausasDia = 'pausas_dia';
+  static const pausasHoy = 'pausas_hoy';
+  static const pausasTotal = 'pausas_total';
+  static const topePausas = 'tope_pausas';
+
+  // --- El camino que firmo en el pacto ---
+  /// Sin esto el camino era solo una pantalla bonita: ensenaba una fecha
+  /// y no volvia a aparecer nunca.
+  static const caminoInicio = 'camino_inicio';
+  static const caminoDias = 'camino_dias';
+
   /// Interruptor (opt-in, apagado por defecto) del recordatorio adicional
   /// basado en el horario habitual de apertura de apps "gateadas".
   static const smartReminderEnabled = 'smart_reminder_enabled';
@@ -294,4 +309,59 @@ class PrefsService {
 
   Future<void> setVoiceDisclosureSeen(bool value) =>
       _prefs.setBool(PrefsKeys.voiceDisclosureSeen, value);
+
+  /// Vuelve a leer del disco.
+  ///
+  /// Hace falta de verdad: el lado nativo suma las pausas mientras la app
+  /// esta en segundo plano, y `shared_preferences` guarda una copia en
+  /// memoria que no se entera de esos cambios. Sin esto, el contador de
+  /// pausas se quedaria congelado hasta reiniciar la app.
+  Future<void> recargarDesdeDisco() async {
+    await _prefs.reload();
+  }
+
+  // --- Presupuesto de pausas ---
+
+  /// Hoy en formato yyyyMMdd. El mismo numero que escribe Kotlin, para
+  /// que las dos capas comparen la fecha igual.
+  static int hoyComoNumero([DateTime? cuando]) {
+    final n = cuando ?? DateTime.now();
+    return n.year * 10000 + n.month * 100 + n.day;
+  }
+
+  /// Pausas atendidas hoy. Kotlin reinicia el contador cuando cambia el
+  /// dia, pero si la app se abre en un dia nuevo antes de que haya habido
+  /// ninguna pausa, el valor guardado sigue siendo el de ayer. Por eso la
+  /// fecha se comprueba tambien aqui.
+  int get pausasHoy {
+    if ((_prefs.getInt(PrefsKeys.pausasDia) ?? 0) != hoyComoNumero()) return 0;
+    return _prefs.getInt(PrefsKeys.pausasHoy) ?? 0;
+  }
+
+  int get pausasTotal => _prefs.getInt(PrefsKeys.pausasTotal) ?? 0;
+
+  /// Cuantas veces al dia acepta que la detengan. Tres por defecto: con
+  /// mas, la interrupcion deja de significar algo y se vuelve ruido.
+  int get topePausas {
+    final t = _prefs.getInt(PrefsKeys.topePausas) ?? 3;
+    return t <= 0 ? 3 : t;
+  }
+
+  Future<void> setTopePausas(int value) =>
+      _prefs.setInt(PrefsKeys.topePausas, value);
+
+  /// `true` cuando el dia ya esta cumplido y la app no volvera a
+  /// interrumpir hasta manana.
+  bool get diaCumplido => pausasHoy >= topePausas;
+
+  // --- El camino ---
+
+  int get caminoInicio => _prefs.getInt(PrefsKeys.caminoInicio) ?? 0;
+  int get caminoDias => _prefs.getInt(PrefsKeys.caminoDias) ?? 30;
+
+  Future<void> empezarCamino(int dias) async {
+    await _prefs.setInt(PrefsKeys.caminoInicio, hoyComoNumero());
+    await _prefs.setInt(PrefsKeys.caminoDias, dias);
+  }
+
 }

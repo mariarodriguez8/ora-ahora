@@ -78,6 +78,19 @@ class PrayerGateForegroundService : Service() {
         private const val KEY_ORADO_HOY = "flutter.orado_hoy_fecha"
         private const val KEY_GRACE_MINUTES = "flutter.gate_grace_minutes"
         private const val KEY_USAGE_PATTERN_LOG = "flutter.usage_pattern_log"
+        // Presupuesto diario de pausas. La app se detiene un numero limitado
+        // de veces al dia; pasado el tope no vuelve a interrumpir hasta
+        // manana. El objetivo no es bloquear mas, es que la interrupcion
+        // siga significando algo cuando ocurre.
+        // Ojo: shared_preferences guarda los int de Dart como Long, asi que
+        // todo lo que Flutter deba leer se escribe con putLong.
+        private const val KEY_PAUSAS_DIA = "flutter.pausas_dia"
+        private const val KEY_PAUSAS_HOY = "flutter.pausas_hoy"
+        private const val KEY_PAUSAS_TOTAL = "flutter.pausas_total"
+        private const val KEY_TOPE_PAUSAS = "flutter.tope_pausas"
+        private const val DEFAULT_TOPE_PAUSAS = 3L
+        private const val COOLDOWN_MINUTOS = 60L
+
         private const val UNLOCK_KEY_PREFIX = "native_unlock_"
         private const val SNOOZE_KEY_PREFIX = "native_snooze_"
 
@@ -192,7 +205,44 @@ class PrayerGateForegroundService : Service() {
          */
         fun markVictoryCooldown(context: Context, packageName: String) {
             prefs(context).edit()
-                .putLong(SNOOZE_KEY_PREFIX + packageName, System.currentTimeMillis() + 60_000L)
+                .putLong(SNOOZE_KEY_PREFIX + packageName, System.currentTimeMillis() + COOLDOWN_MINUTOS * 60_000L)
+                .apply()
+        }
+
+        /** El dia de hoy como yyyyMMdd, para comparar sin lios de zona. */
+        private fun diaHoy(): Long {
+            val cal = Calendar.getInstance()
+            return cal.get(Calendar.YEAR) * 10000L +
+                (cal.get(Calendar.MONTH) + 1) * 100L +
+                cal.get(Calendar.DAY_OF_MONTH)
+        }
+
+        /** Pausas ya atendidas hoy. Se reinicia sola al cambiar de dia. */
+        fun pausasHoy(p: SharedPreferences): Long =
+            if (p.getLong(KEY_PAUSAS_DIA, 0L) == diaHoy())
+                p.getLong(KEY_PAUSAS_HOY, 0L) else 0L
+
+        /** Cuantas pausas admite el dia. Configurable desde Flutter. */
+        fun topePausas(p: SharedPreferences): Long {
+            val t = p.getLong(KEY_TOPE_PAUSAS, DEFAULT_TOPE_PAUSAS)
+            return if (t <= 0L) DEFAULT_TOPE_PAUSAS else t
+        }
+
+        /**
+         * Suma una pausa. La llama PrayerGateActivity cuando la persona
+         * termina la oracion, no cuando se le muestra: lo que cuenta es
+         * haberse detenido, no haber visto un cartel.
+         */
+        fun registrarPausaAtendida(context: Context) {
+            val p = prefs(context)
+            val hoy = diaHoy()
+            val previas =
+                if (p.getLong(KEY_PAUSAS_DIA, 0L) == hoy)
+                    p.getLong(KEY_PAUSAS_HOY, 0L) else 0L
+            p.edit()
+                .putLong(KEY_PAUSAS_DIA, hoy)
+                .putLong(KEY_PAUSAS_HOY, previas + 1)
+                .putLong(KEY_PAUSAS_TOTAL, p.getLong(KEY_PAUSAS_TOTAL, 0L) + 1)
                 .apply()
         }
 
@@ -371,6 +421,13 @@ class PrayerGateForegroundService : Service() {
         val graceMillis = graceMinutes * 60_000L
         if (System.currentTimeMillis() - lastUnlockAt < graceMillis) {
             diag("ultimo_salto", "dentro de los " + graceMinutes + " min de gracia: " + packageName)
+            return
+        }
+
+        // Tope del dia. No se le quita nada a nadie: el dia ya esta cumplido,
+        // y la pantalla principal lo cuenta como lo que es, un regalo.
+        if (pausasHoy(sharedPrefs) >= topePausas(sharedPrefs)) {
+            diag("ultimo_salto", "tope del dia cumplido")
             return
         }
 

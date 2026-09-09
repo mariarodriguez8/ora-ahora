@@ -213,6 +213,8 @@ class PrayerGateActivity : Activity() {
     }
 
     private fun continueToTargetApp() {
+        // Se atendio la pausa: cuenta para el dia y para el camino.
+        PrayerGateForegroundService.registrarPausaAtendida(this)
         val pkg = targetPackage
         if (pkg == null) {
             finish()

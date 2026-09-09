@@ -21,6 +21,7 @@ import '../../services/streak_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_palettes.dart';
 import '../../theme/app_typography.dart';
+import '../../widgets/camino_hoy.dart';
 import '../../widgets/plant_hero.dart';
 import '../../widgets/prayer_card.dart';
 import '../gate_explainer/gate_explainer_screen.dart';
@@ -218,6 +219,14 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
   }
 
   Future<_FeedData> _load() async {
+    // Primero refrescar: las pausas las escribio el servicio nativo
+    // mientras esta pantalla no existia.
+    await context.read<PrefsService>().recargarDesdeDisco();
+    // Si hoy alguien se detuvo ante una app, el dia ya cuenta: la racha
+    // premia haberse detenido, no haber abierto esta pantalla.
+    await context.read<StreakService>().sincronizarConPausas(
+          isPlusUser: context.read<PurchaseService>().isPlusUser,
+        );
     final repo = context.read<PrayerRepository>();
     final prefs = context.read<PrefsService>();
     final categories = prefs.preferredCategories;
@@ -340,6 +349,12 @@ class _HomeFeedTabState extends State<_HomeFeedTab>
                       end: 0.707,
                     ),
                     const SizedBox(height: 16),
+                    const SizedBox(height: 16),
+                    _staggeredSection(
+                      const CaminoHoy(),
+                      start: 0.14,
+                      end: 0.69,
+                    ),
                     // 2. La pradera del Salmo 23 pasa a ser la recompensa:
                     // se ve despues de orar, no antes.
                     _staggeredSection(

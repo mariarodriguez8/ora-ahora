@@ -316,4 +316,13 @@ class StreakService extends ChangeNotifier {
     if (last == null) return null;
     return _dateOnly(DateTime.now()).difference(_dateOnly(last)).inDays;
   }
+
+  /// Si hoy alguien se detuvo aunque sea una vez, el dia cuenta.
+  /// La racha premia haberse detenido, no haber abierto la app.
+  Future<void> sincronizarConPausas({required bool isPlusUser}) async {
+    if (prayedToday) return;
+    if (_prefs.pausasHoy <= 0) return;
+    await markPrayedToday(isPlusUser: isPlusUser, minutes: 1);
+  }
+
 }
