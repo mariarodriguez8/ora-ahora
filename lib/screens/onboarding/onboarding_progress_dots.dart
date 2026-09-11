@@ -133,9 +133,15 @@ double progresoPonderado(int hechas, int total) {
   return math.pow(hechas / total, 0.42).toDouble();
 }
 
+/// El embudo son 18 pantallas en este orden:
+///   1        -> el nombre (step 0 de esta barra)
+///   2 a 9    -> las 8 del embudo narrativo
+///   10 a 18  -> el resto del onboarding (step 1 a 9 de esta barra)
+/// El nombre va ANTES del embudo, por eso no se le suman los 8.
+const int kPasosOnboarding = 18;
+
 double _fraccionPara(int step) {
-  // Al llegar aqui ya paso las 8 del embudo.
-  return progresoPonderado(8 + step + 1, 17);
+  return progresoPonderado(step == 0 ? 1 : step + 9, kPasosOnboarding);
 }
 
 class _BarraProgreso extends StatelessWidget {

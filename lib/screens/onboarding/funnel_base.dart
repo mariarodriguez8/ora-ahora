@@ -5,7 +5,8 @@ import 'onboarding_anim.dart';
 
 import '../../theme/app_typography.dart';
 import '../../widgets/colina.dart';
-import 'onboarding_progress_dots.dart' show progresoPonderado;
+import 'onboarding_progress_dots.dart'
+    show progresoPonderado, kPasosOnboarding;
 import '../../widgets/titular_escalonado.dart';
 
 /// Respuestas del embudo emocional (viven solo durante el onboarding).
@@ -271,8 +272,8 @@ class _BarraEmbudo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 18 pasos en total: los 8 del embudo mas los 10 del onboarding.
-    const total = 17;
+    // El embudo narrativo ocupa las posiciones 2 a 9 de las 18:
+    // la 1 es la pantalla del nombre, que va antes.
     return Center(
       child: SizedBox(
         width: 132,
@@ -285,7 +286,7 @@ class _BarraEmbudo extends StatelessWidget {
               AnimatedFractionallySizedBox(
                 duration: const Duration(milliseconds: 420),
                 curve: Curves.easeOut,
-                widthFactor: progresoPonderado(paso + 1, total),
+                widthFactor: progresoPonderado(paso + 2, kPasosOnboarding),
                 alignment: Alignment.centerLeft,
                 child: Container(color: kFunnelDorado),
               ),
