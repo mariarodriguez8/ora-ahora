@@ -130,11 +130,19 @@ class OraAhoraApp extends StatelessWidget {
             navigatorObservers: [appRouteObserver],
             builder: (context, child) {
               if (child == null) return const SizedBox.shrink();
-              if (!simpleMode) return child;
               final mediaQuery = MediaQuery.of(context);
+              // Mucha gente mayor ya lleva el telefono con la letra grande:
+              // eso hay que respetarlo, no ignorarlo. Pero sin tope, un ajuste
+              // del 200% parte los titulares y monta unos textos con otros.
+              // Se honra lo que la persona eligio y se frena en 1.3.
+              //
+              // El modo simple sube el suelo, no pisa su eleccion: si ya tenia
+              // 1.5 se queda en 1.3; si tenia 1.0, sube a 1.15.
+              final delSistema = mediaQuery.textScaler.scale(100) / 100;
+              final factor = delSistema.clamp(simpleMode ? 1.15 : 1.0, 1.3);
               return MediaQuery(
                 data: mediaQuery.copyWith(
-                  textScaler: const TextScaler.linear(1.2),
+                  textScaler: TextScaler.linear(factor),
                 ),
                 child: child,
               );

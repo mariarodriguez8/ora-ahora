@@ -93,15 +93,17 @@ class CaminoHoy extends StatelessWidget {
   }
 
   /// Nunca se nombra lo que falta. Solo lo que ya pasó.
+  ///
+  /// Se dice "oraste" y no "te detuviste": lo segundo suena a traduccion,
+  /// y en Colombia "parar" se entiende como ponerse de pie.
   String _frase(int hechas, int tope) {
     if (hechas >= tope) {
-      return 'Ya está el día. Lo que queda es tuyo:\n'
-          'no vuelvo a interrumpirte hasta mañana.';
+      return 'Ya está el día.\nLo que queda es tuyo.';
     }
     if (hechas == 0) {
-      return 'Hoy te espero antes de que abras\nlo que te distrae.';
+      return 'Cuando abras algo que te distrae,\naquí estoy.';
     }
-    if (hechas == 1) return 'Te detuviste una vez hoy.';
-    return 'Te detuviste $hechas veces hoy.';
+    if (hechas == 1) return 'Hoy oraste 1 vez.';
+    return 'Hoy oraste $hechas veces.';
   }
 }

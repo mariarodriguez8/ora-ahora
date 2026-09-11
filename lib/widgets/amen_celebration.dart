@@ -121,7 +121,7 @@ class _AmenOverlay extends StatelessWidget {
                   Text(
                     'Toca para continuar',
                     style: AppTypography.caption.copyWith(
-                      color: marfil.withValues(alpha: 0.55),
+                      color: marfil.withValues(alpha: 0.72),
                     ),
                   ),
                 ],

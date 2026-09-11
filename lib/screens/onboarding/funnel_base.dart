@@ -27,8 +27,10 @@ class FunnelScreen extends StatelessWidget {
   /// Cuanto ocupa la ovejita. Grande en las pantallas de golpe,
   /// pequena donde el texto es el protagonista.
   final double alturaMascota;
+
   /// Posicion dentro del embudo (0-7) para la barra de avance.
   final int? pasoEmbudo;
+
   /// Contenido opcional entre el subtitulo y los botones.
   final Widget? extra;
 
@@ -58,56 +60,88 @@ class FunnelScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(28),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (pasoEmbudo != null) ...[
-                  const SizedBox(height: 6),
-                  _BarraEmbudo(paso: pasoEmbudo!),
-                ],
-                const Spacer(),
-                AparicionSuave(orden: 0, child: Center(
-                  child: Image.asset(mascota, height: alturaMascota,
-                      fit: BoxFit.contain,
-                      filterQuality: FilterQuality.medium),
-                )),
-                const Spacer(),
-                AparicionSuave(orden: 1, child: Text(frase,
-                    style: AppTypography.display
-                        .copyWith(fontSize: 30, color: kFunnelMarfil))),
-                if (subtitulo != null) ...[
-                  const SizedBox(height: 8),
-                  AparicionSuave(orden: 2, child: Text(subtitulo!,
-                      style: AppTypography.body.copyWith(
-                          color: kFunnelMarfil.withValues(alpha: 0.6)))),
-                ],
-                if (extra != null) ...[
-                  const SizedBox(height: 18),
-                  AparicionSuave(orden: 3, child: extra!),
-                ],
-                const SizedBox(height: 24),
-                for (final (i, (texto, onTap)) in opciones.indexed) ...[
-                  AparicionSuave(orden: 4 + i, child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            opciones.first.$1 == texto && opciones.length == 1
-                                ? kFunnelDorado
-                                : kFunnelMarfil.withValues(alpha: 0.94),
-                        foregroundColor: const Color(0xFF241F10),
+          child: LayoutBuilder(
+            builder: (context, cons) {
+              // La columna no podia desplazarse y la ovejita tenia una
+              // altura fija, asi que en moviles pequenos el contenido se
+              // salia por abajo: 161 pixeles en un 320x600. Ahora la
+              // ovejita se encoge segun el alto disponible y, si aun asi
+              // no cabe, la pantalla se desliza en vez de romperse.
+              final alturaOveja = (alturaMascota * cons.maxHeight / 700)
+                  .clamp(84.0, alturaMascota);
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: cons.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.all(28),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (pasoEmbudo != null) ...[
+                            const SizedBox(height: 6),
+                            _BarraEmbudo(paso: pasoEmbudo!),
+                          ],
+                          const Spacer(),
+                          AparicionSuave(
+                              orden: 0,
+                              child: Center(
+                                child: Image.asset(mascota,
+                                    height: alturaOveja,
+                                    fit: BoxFit.contain,
+                                    filterQuality: FilterQuality.medium),
+                              )),
+                          const Spacer(),
+                          AparicionSuave(
+                              orden: 1,
+                              child: Text(frase,
+                                  style: AppTypography.display.copyWith(
+                                      fontSize: 30, color: kFunnelMarfil))),
+                          if (subtitulo != null) ...[
+                            const SizedBox(height: 8),
+                            AparicionSuave(
+                                orden: 2,
+                                child: Text(subtitulo!,
+                                    style: AppTypography.body.copyWith(
+                                        color: kFunnelMarfil.withValues(
+                                            alpha: 0.6)))),
+                          ],
+                          if (extra != null) ...[
+                            const SizedBox(height: 18),
+                            AparicionSuave(orden: 3, child: extra!),
+                          ],
+                          const SizedBox(height: 24),
+                          for (final (i, (texto, onTap))
+                              in opciones.indexed) ...[
+                            AparicionSuave(
+                                orden: 4 + i,
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          opciones.first.$1 == texto &&
+                                                  opciones.length == 1
+                                              ? kFunnelDorado
+                                              : kFunnelMarfil.withValues(
+                                                  alpha: 0.94),
+                                      foregroundColor: const Color(0xFF241F10),
+                                    ),
+                                    onPressed: onTap,
+                                    child: Text(texto,
+                                        textAlign: TextAlign.center),
+                                  ),
+                                )),
+                            const SizedBox(height: 10),
+                          ],
+                          const SizedBox(height: 6),
+                        ],
                       ),
-                      onPressed: onTap,
-                      child: Text(texto, textAlign: TextAlign.center),
                     ),
-                  )),
-                  const SizedBox(height: 10),
-                ],
-                const SizedBox(height: 6),
-              ],
-            ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

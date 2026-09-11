@@ -232,7 +232,7 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
                         child: Text(
                           'Gratis · unos minutos',
                           style: AppTypography.caption.copyWith(
-                              color: _marfil.withValues(alpha: 0.5)),
+                              color: _marfil.withValues(alpha: 0.72)),
                         ),
                       ),
                     ),

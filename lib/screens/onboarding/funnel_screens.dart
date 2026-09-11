@@ -12,8 +12,8 @@ class FunnelQ1 extends StatelessWidget {
   const FunnelQ1({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-      pasoEmbudo: 0,
-      alturaMascota: 150,
+        pasoEmbudo: 0,
+        alturaMascota: 150,
         frase: '¿Te ha pasado?\nDices "más tarde oro"...\ny se te va el día.',
         mascota: 'assets/mascot/ovejita_pensativa.png',
         opciones: [
@@ -34,8 +34,8 @@ class FunnelQ2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FunnelScreen(
-      pasoEmbudo: 1,
-      alturaMascota: 185,
+        pasoEmbudo: 1,
+        alturaMascota: 185,
         frase: '¿Cuánto tiempo pasaste\nayer en el celular?',
         subtitulo: 'con toda sinceridad',
         mascota: 'assets/mascot/ovejita_esperando.png',
@@ -57,8 +57,8 @@ class FunnelQ3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FunnelScreen(
-      pasoEmbudo: 2,
-      alturaMascota: 155,
+        pasoEmbudo: 2,
+        alturaMascota: 155,
         frase: '¿Y cuánto tiempo\nle diste a Dios?',
         mascota: 'assets/mascot/ovejita_orando.png',
         opciones: [
@@ -125,8 +125,8 @@ class FunnelGrace extends StatelessWidget {
   const FunnelGrace({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-      pasoEmbudo: 4,
-      alturaMascota: 225,
+        pasoEmbudo: 4,
+        alturaMascota: 225,
         amanecer: true,
         frase: FunnelAnswers.tiempoDios == 'media hora o más'
             ? 'No vienes de cero.\n\nYa lo buscas.\nLo que se pierde no es el tiempo:\n'
@@ -144,13 +144,15 @@ class FunnelMinute extends StatelessWidget {
   const FunnelMinute({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-      pasoEmbudo: 5,
-      alturaMascota: 165,
+        pasoEmbudo: 5,
+        alturaMascota: 165,
         frase: 'Él te espera hoy.\n¿le das 1 minuto?',
         mascota: 'assets/mascot/ovejita_esperando.png',
         opciones: [
-          ('sí, con 1 minuto sí puedo 🙏',
-              () => _go(context, const FunnelRegalo())),
+          (
+            'sí, con 1 minuto sí puedo 🙏',
+            () => _go(context, const FunnelRegalo())
+          ),
         ],
       );
 }
@@ -172,47 +174,63 @@ class FunnelRegalo extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(28),
-            child: Column(
-              children: [
-                const Spacer(),
-                Text('Un regalo de bienvenida',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.display
-                        .copyWith(fontSize: 26, color: kFunnelMarfil)),
-                const SizedBox(height: 18),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
-                  child: Image.asset(
-                    'store_assets/estampas/estampa_01.png',
-                    height: 300,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Text(
-                  'Guárdala en tu teléfono. Cuando te sientas lejos, '
-                  'mírala y acuérdate de hoy.',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.body.copyWith(
-                      color: kFunnelMarfil.withValues(alpha: 0.75)),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kFunnelDorado,
-                      foregroundColor: const Color(0xFF241F10),
+          child: LayoutBuilder(
+            builder: (context, cons) {
+              // La estampa medía 300 fijos y empujaba el texto fuera de
+              // la pantalla en moviles cortos. Ahora se ajusta al alto
+              // disponible y la pantalla se desliza si hace falta.
+              final altoEstampa = (cons.maxHeight * 0.42).clamp(150.0, 300.0);
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: cons.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.all(28),
+                      child: Column(
+                        children: [
+                          const Spacer(),
+                          Text('Un regalo de bienvenida',
+                              textAlign: TextAlign.center,
+                              style: AppTypography.display.copyWith(
+                                  fontSize: 26, color: kFunnelMarfil)),
+                          const SizedBox(height: 18),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(18),
+                            child: Image.asset(
+                              'store_assets/estampas/estampa_01.png',
+                              height: altoEstampa,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          const SizedBox(height: 18),
+                          Text(
+                            'Guárdala en tu teléfono. Cuando te sientas lejos, '
+                            'mírala y acuérdate de hoy.',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.body.copyWith(
+                                color: kFunnelMarfil.withValues(alpha: 0.75)),
+                          ),
+                          const Spacer(),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: kFunnelDorado,
+                                foregroundColor: const Color(0xFF241F10),
+                              ),
+                              onPressed: () =>
+                                  _go(context, const FunnelCancion()),
+                              child: const Text('Gracias, guardar 🤍'),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                        ],
+                      ),
                     ),
-                    onPressed: () => _go(context, const FunnelCancion()),
-                    child: const Text('Gracias, guardar 🤍'),
                   ),
                 ),
-                const SizedBox(height: 6),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),
@@ -225,14 +243,16 @@ class FunnelCancion extends StatelessWidget {
   const FunnelCancion({super.key});
   @override
   Widget build(BuildContext context) => FunnelScreen(
-      pasoEmbudo: 7,
-      alturaMascota: 195,
+        pasoEmbudo: 7,
+        alturaMascota: 195,
         frase: 'Te desbloqueé\nla canción de esta semana.',
         subtitulo: 'Para cuando no te salgan las palabras.',
         mascota: 'assets/mascot/ovejita_musica.png',
         opciones: [
-          ('la voy a necesitar 🎧',
-              () => _go(context, const OnboardingCategoriesScreen())),
+          (
+            'la voy a necesitar 🎧',
+            () => _go(context, const OnboardingCategoriesScreen())
+          ),
         ],
       );
 }

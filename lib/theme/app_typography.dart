@@ -33,7 +33,7 @@ class AppTypography {
   /// Titulos de seccion ("Para ti", pantallas internas). Serif.
   static const TextStyle headline = TextStyle(
     fontFamily: serifFamily,
-    fontSize: 23,
+    fontSize: 26,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.2,
     height: 1.18,
@@ -50,7 +50,7 @@ class AppTypography {
 
   static const TextStyle body = TextStyle(
     fontFamily: sansFamily,
-    fontSize: 15,
+    fontSize: 16.5,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.1,
     height: 1.5,
@@ -58,7 +58,7 @@ class AppTypography {
 
   static const TextStyle bodyLarge = TextStyle(
     fontFamily: sansFamily,
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.1,
     height: 1.55,
@@ -68,7 +68,7 @@ class AppTypography {
   /// Mayusculas con tracking ancho = sensacion de etiqueta cuidada.
   static const TextStyle caption = TextStyle(
     fontFamily: sansFamily,
-    fontSize: 11.5,
+    fontSize: 12.5,
     fontWeight: FontWeight.w600,
     letterSpacing: 1.1,
     height: 1.3,
@@ -87,7 +87,7 @@ class AppTypography {
   /// Referencias biblicas y citas: serif italica.
   static const TextStyle quote = TextStyle(
     fontFamily: serifFamily,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.italic,
     letterSpacing: 0.1,
