@@ -22,16 +22,23 @@ class TransicionOra extends PageTransitionsBuilder {
       curve: Curves.easeOutCubic,
       reverseCurve: Curves.easeInCubic,
     );
-    final sale = CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeOutCubic);
+    final sale =
+        CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeOutCubic);
 
     return FadeTransition(
       opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: animation, curve: const Interval(0.10, 1.0, curve: Curves.easeOut)),
+        CurvedAnimation(
+            parent: animation,
+            curve: const Interval(0.10, 1.0, curve: Curves.easeOut)),
       ),
       child: SlideTransition(
-        position: Tween<Offset>(begin: const Offset(0.16, 0.0), end: Offset.zero).animate(entra),
+        position:
+            Tween<Offset>(begin: const Offset(0.16, 0.0), end: Offset.zero)
+                .animate(entra),
         child: SlideTransition(
-          position: Tween<Offset>(begin: Offset.zero, end: const Offset(-0.09, 0.0)).animate(sale),
+          position:
+              Tween<Offset>(begin: Offset.zero, end: const Offset(-0.09, 0.0))
+                  .animate(sale),
           child: ScaleTransition(
             scale: Tween<double>(begin: 0.975, end: 1.0).animate(entra),
             child: child,

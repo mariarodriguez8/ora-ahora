@@ -105,13 +105,11 @@ class _OnboardingCuentaScreenState extends State<OnboardingCuentaScreen>
                       children: [
                         Text('$n',
                             style: AppTypography.display.copyWith(
-                                fontSize: 82,
-                                height: 1,
-                                color: kFunnelDorado)),
+                                fontSize: 82, height: 1, color: kFunnelDorado)),
                         const SizedBox(width: 10),
                         Text('días',
-                            style: AppTypography.display.copyWith(
-                                fontSize: 30, color: kFunnelDorado)),
+                            style: AppTypography.display
+                                .copyWith(fontSize: 30, color: kFunnelDorado)),
                       ],
                     );
                   },

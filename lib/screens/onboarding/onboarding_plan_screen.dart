@@ -53,46 +53,59 @@ class _OnboardingPlanScreenState extends State<OnboardingPlanScreen> {
       appBar: const OnboardingTopBar(step: 3),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(),
-              Text('Preparando tu plan\nde oración…',
-                  style: AppTypography.display.copyWith(fontSize: 28)),
-              const SizedBox(height: 28),
-              for (var i = 0; i < _pasos.length; i++)
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 400),
-                  opacity: _done > i ? 1 : 0.25,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Row(
-                      children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          width: 26,
-                          height: 26,
-                          decoration: BoxDecoration(
-                            color: _done > i
-                                ? AppColors.success
-                                : AppColors.tealLight,
-                            shape: BoxShape.circle,
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Spacer(),
+                      Text('Preparando tu plan\nde oración…',
+                          style: AppTypography.display.copyWith(fontSize: 28)),
+                      const SizedBox(height: 28),
+                      for (var i = 0; i < _pasos.length; i++)
+                        AnimatedOpacity(
+                          duration: const Duration(milliseconds: 400),
+                          opacity: _done > i ? 1 : 0.25,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Row(
+                              children: [
+                                AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  width: 26,
+                                  height: 26,
+                                  decoration: BoxDecoration(
+                                    color: _done > i
+                                        ? AppColors.success
+                                        : AppColors.tealLight,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: _done > i
+                                      ? const Icon(Icons.check,
+                                          size: 16, color: Colors.white)
+                                      : null,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(_pasos[i],
+                                      style: AppTypography.bodyLarge),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: _done > i
-                              ? const Icon(Icons.check,
-                                  size: 16, color: Colors.white)
-                              : null,
                         ),
-                        const SizedBox(width: 12),
-                        Text(_pasos[i], style: AppTypography.bodyLarge),
-                      ],
-                    ),
+                      const Spacer(flex: 2),
+                    ],
                   ),
                 ),
-              const Spacer(flex: 2),
-            ],
+              ),
+            ),
           ),
         ),
       ),

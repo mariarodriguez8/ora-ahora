@@ -104,75 +104,87 @@ class OnboardingRemindersScreen extends StatelessWidget {
       appBar: const OnboardingTopBar(step: 8),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('¿Te avisamos cuando\nsea tu momento?',
-                  style: AppTypography.display.copyWith(fontSize: 28)),
-              const SizedBox(height: 12),
-              Text(
-                'A las ${prefs.morningTime} y a las ${prefs.nightTime} te '
-                'vamos a recordar, sin ruido, que Él está esperando'
-                '${nombre.isEmpty ? '' : ', $nombre'}. '
-                'Es lo que más ayuda a no dejarlo para mañana 🔥',
-                style:
-                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(18),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.75),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.tealLight),
-                ),
-                child: Row(
-                  children: [
-                    const Text('🔔', style: TextStyle(fontSize: 28)),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Text(
-                        '"${nombre.isEmpty ? 'Hola' : nombre}, tu momento '
-                        'con Dios te espera 🙏"',
-                        style: AppTypography.quote.copyWith(fontSize: 16),
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('¿Te avisamos cuando\nsea tu momento?',
+                          style: AppTypography.display.copyWith(fontSize: 28)),
+                      const SizedBox(height: 12),
+                      Text(
+                        'A las ${prefs.morningTime} y a las ${prefs.nightTime} te '
+                        'vamos a recordar, sin ruido, que Él está esperando'
+                        '${nombre.isEmpty ? '' : ', $nombre'}. '
+                        'Es lo que más ayuda a no dejarlo para mañana 🔥',
+                        style: AppTypography.bodyLarge
+                            .copyWith(color: AppColors.inkSoft),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 24),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.75),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppColors.tealLight),
+                        ),
+                        child: Row(
+                          children: [
+                            const Text('🔔', style: TextStyle(fontSize: 28)),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Text(
+                                '"${nombre.isEmpty ? 'Hola' : nombre}, tu momento '
+                                'con Dios te espera 🙏"',
+                                style:
+                                    AppTypography.quote.copyWith(fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            try {
+                              final notif = context.read<NotificationService>();
+                              final ok = await notif.requestPermission();
+                              if (ok) {
+                                await notif
+                                    .refreshSchedule(prefs.reminderTimes);
+                              }
+                            } catch (_) {
+                              // Aunque falle el permiso, nunca dejamos a la persona
+                              // atascada: seguimos siempre.
+                            }
+                            if (!context.mounted) return;
+                            _next(context);
+                          },
+                          child: const Text('Sí, recuérdamelo 🔔'),
+                        ),
+                      ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () => _next(context),
+                          child: Text('Ahora no',
+                              style: AppTypography.body
+                                  .copyWith(color: AppColors.inkSoft)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      final notif = context.read<NotificationService>();
-                      final ok = await notif.requestPermission();
-                      if (ok) {
-                        await notif.refreshSchedule(prefs.reminderTimes);
-                      }
-                    } catch (_) {
-                      // Aunque falle el permiso, nunca dejamos a la persona
-                      // atascada: seguimos siempre.
-                    }
-                    if (!context.mounted) return;
-                    _next(context);
-                  },
-                  child: const Text('Sí, recuérdamelo 🔔'),
-                ),
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () => _next(context),
-                  child: Text('Ahora no',
-                      style: AppTypography.body
-                          .copyWith(color: AppColors.inkSoft)),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

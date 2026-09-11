@@ -51,60 +51,73 @@ class _OnboardingNameScreenState extends State<OnboardingNameScreen>
       appBar: const OnboardingTopBar(step: 0),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Primero lo primero:\n¿cómo te llamas?',
-                  style: AppTypography.display.copyWith(fontSize: 28)),
-              const SizedBox(height: 12),
-              Text(
-                'Dios te llama por tu nombre. '
-                'Aquí también.',
-                style:
-                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
-              ),
-              const SizedBox(height: 28),
-              AnimatedBuilder(
-                animation: _shake,
-                builder: (context, child) {
-                  final t = _shake.value;
-                  final dx = t == 0 ? 0.0 : (12 * (1 - t) *
-                      ((t * 40).floor().isEven ? 1 : -1));
-                  return Transform.translate(
-                      offset: Offset(dx, 0), child: child);
-                },
-                child: TextField(
-                controller: _controller,
-                textCapitalization: TextCapitalization.words,
-                style: AppTypography.headline.copyWith(fontSize: 22),
-                decoration: const InputDecoration(
-                  hintText: 'Tu nombre',
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Primero lo primero:\n¿cómo te llamas?',
+                          style: AppTypography.display.copyWith(fontSize: 28)),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Dios te llama por tu nombre. '
+                        'Aquí también.',
+                        style: AppTypography.bodyLarge
+                            .copyWith(color: AppColors.inkSoft),
+                      ),
+                      const SizedBox(height: 28),
+                      AnimatedBuilder(
+                        animation: _shake,
+                        builder: (context, child) {
+                          final t = _shake.value;
+                          final dx = t == 0
+                              ? 0.0
+                              : (12 *
+                                  (1 - t) *
+                                  ((t * 40).floor().isEven ? 1 : -1));
+                          return Transform.translate(
+                              offset: Offset(dx, 0), child: child);
+                        },
+                        child: TextField(
+                          controller: _controller,
+                          textCapitalization: TextCapitalization.words,
+                          style: AppTypography.headline.copyWith(fontSize: 22),
+                          decoration: const InputDecoration(
+                            hintText: 'Tu nombre',
+                          ),
+                          onSubmitted: (_) => _next(),
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _next,
+                          child: const Text('Continuar'),
+                        ),
+                      ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            _controller.clear();
+                            _next(permitirVacio: true);
+                          },
+                          child: Text('Prefiero no decirlo',
+                              style: AppTypography.body
+                                  .copyWith(color: AppColors.inkSoft)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                onSubmitted: (_) => _next(),
               ),
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _next,
-                  child: const Text('Continuar'),
-                ),
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    _controller.clear();
-                    _next(permitirVacio: true);
-                  },
-                  child: Text('Prefiero no decirlo',
-                      style: AppTypography.body
-                          .copyWith(color: AppColors.inkSoft)),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

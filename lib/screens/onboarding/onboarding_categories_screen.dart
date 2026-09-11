@@ -44,68 +44,79 @@ class _OnboardingCategoriesScreenState
       appBar: const OnboardingTopBar(step: 1),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('¿Qué te gustaría\nentregarle a Dios?',
-                  style: AppTypography.display.copyWith(fontSize: 28)),
-              const SizedBox(height: 12),
-              Text(
-                'Toca todo lo que estés cargando hoy — nadie más va a ver esto. '
-                'Con esto armamos tus oraciones: van a hablar de lo tuyo, no de cosas generales.',
-                style:
-                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
-              ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (final (cat, label) in _opciones)
-                        _CategoryChip(
-                          label: label,
-                          selected: _selected.contains(cat),
-                          onTap: () {
-                            setState(() {
-                              if (_selected.contains(cat)) {
-                                _selected.remove(cat);
-                              } else {
-                                _selected.add(cat);
-                              }
-                            });
-                          },
+                      Text('¿Qué te gustaría\nentregarle a Dios?',
+                          style: AppTypography.display.copyWith(fontSize: 28)),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Toca todo lo que estés cargando hoy — nadie más va a ver esto. '
+                        'Con esto armamos tus oraciones: van a hablar de lo tuyo, no de cosas generales.',
+                        style: AppTypography.bodyLarge
+                            .copyWith(color: AppColors.inkSoft),
+                      ),
+                      const SizedBox(height: 24),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              for (final (cat, label) in _opciones)
+                                _CategoryChip(
+                                  label: label,
+                                  selected: _selected.contains(cat),
+                                  onTap: () {
+                                    setState(() {
+                                      if (_selected.contains(cat)) {
+                                        _selected.remove(cat);
+                                      } else {
+                                        _selected.add(cat);
+                                      }
+                                    });
+                                  },
+                                ),
+                            ],
+                          ),
                         ),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _selected.isEmpty
+                              ? null
+                              : () async {
+                                  final prefs = context.read<PrefsService>();
+                                  await prefs.setPreferredCategories(
+                                      _selected.toList());
+                                  await syncGatePrayers(prefs);
+                                  if (!context.mounted) return;
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const OnboardingTimesScreen()),
+                                  );
+                                },
+                          child: Text(_selected.isEmpty
+                              ? 'Elige al menos una'
+                              : 'Continuar (${_selected.length} elegida${_selected.length == 1 ? '' : 's'})'),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _selected.isEmpty
-                      ? null
-                      : () async {
-                          final prefs = context.read<PrefsService>();
-                          await prefs
-                              .setPreferredCategories(_selected.toList());
-                          await syncGatePrayers(prefs);
-                          if (!context.mounted) return;
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (_) => const OnboardingTimesScreen()),
-                          );
-                        },
-                  child: Text(_selected.isEmpty
-                      ? 'Elige al menos una'
-                      : 'Continuar (${_selected.length} elegida${_selected.length == 1 ? '' : 's'})'),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

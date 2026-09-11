@@ -43,8 +43,7 @@ class _OnboardingFirstPrayerScreenState
     List pool = cats.isEmpty ? [] : await repo.byCategory(cats.first);
     if (pool.isEmpty) pool = await repo.byCategories(cats);
     if (pool.isEmpty) pool = await repo.all();
-    pool.sort((a, b) =>
-        a.duracionEstimadaMin.compareTo(b.duracionEstimadaMin));
+    pool.sort((a, b) => a.duracionEstimadaMin.compareTo(b.duracionEstimadaMin));
     if (!mounted) return;
     setState(() => _prayer = pool.first);
   }
@@ -78,80 +77,93 @@ class _OnboardingFirstPrayerScreenState
       appBar: const OnboardingTopBar(step: 5),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: prayer == null
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _amen
-                          ? '¡Día 1 de tu racha! 🔥'
-                          : 'Empecemos ahora mismo',
-                      style: AppTypography.display.copyWith(fontSize: 28),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      _amen
-                          ? 'Tu primera oración ya cuenta. Así de simple '
-                              'va a ser cada día.'
-                          : 'no tienes que decirlo bien ni sentir algo raro. '
-                              'solo léela y háblale a Dios:',
-                      style: AppTypography.bodyLarge
-                          .copyWith(color: AppColors.inkSoft),
-                    ),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(22),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.75),
-                            borderRadius: BorderRadius.circular(24),
-                            border: Border.all(color: AppColors.tealLight),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(prayer.titulo,
-                                  style: AppTypography.headline
-                                      .copyWith(fontSize: 21)),
-                              const SizedBox(height: 14),
-                              Text(prayer.texto,
-                                  style: AppTypography.prayerText
-                                      .copyWith(fontSize: 17)),
-                              const SizedBox(height: 14),
-                              Text(
-                                prayer.referenciaBiblica,
-                                style: AppTypography.quote
-                                    .copyWith(color: AppColors.amber),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _amen
-                            ? () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        const OnboardingCommitmentScreen(),
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: prayer == null
+                      ? const Center(child: CircularProgressIndicator())
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _amen
+                                  ? '¡Día 1 de tu racha! 🔥'
+                                  : 'Empecemos ahora mismo',
+                              style:
+                                  AppTypography.display.copyWith(fontSize: 28),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              _amen
+                                  ? 'Tu primera oración ya cuenta. Así de simple '
+                                      'va a ser cada día.'
+                                  : 'no tienes que decirlo bien ni sentir algo raro. '
+                                      'solo léela y háblale a Dios:',
+                              style: AppTypography.bodyLarge
+                                  .copyWith(color: AppColors.inkSoft),
+                            ),
+                            const SizedBox(height: 20),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(22),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.75),
+                                    borderRadius: BorderRadius.circular(24),
+                                    border:
+                                        Border.all(color: AppColors.tealLight),
                                   ),
-                                );
-                              }
-                            : _onAmen,
-                        child: Text(_amen ? 'Continuar' : 'Amén 🙏'),
-                      ),
-                    ),
-                  ],
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(prayer.titulo,
+                                          style: AppTypography.headline
+                                              .copyWith(fontSize: 21)),
+                                      const SizedBox(height: 14),
+                                      Text(prayer.texto,
+                                          style: AppTypography.prayerText
+                                              .copyWith(fontSize: 17)),
+                                      const SizedBox(height: 14),
+                                      Text(
+                                        prayer.referenciaBiblica,
+                                        style: AppTypography.quote
+                                            .copyWith(color: AppColors.amber),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _amen
+                                    ? () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const OnboardingCommitmentScreen(),
+                                          ),
+                                        );
+                                      }
+                                    : _onAmen,
+                                child: Text(_amen ? 'Continuar' : 'Amén 🙏'),
+                              ),
+                            ),
+                          ],
+                        ),
                 ),
+              ),
+            ),
+          ),
         ),
       ),
     );

@@ -116,127 +116,137 @@ class _OnboardingWelcomeScreenState extends State<OnboardingWelcomeScreen>
         child: Stack(
           children: [
             SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(28),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Spacer(),
-                    // Halo con cruz de luz que respira (como antes de v11a)
-                    Center(
-                      child: AnimatedBuilder(
-                        animation: _pulse,
-                        builder: (context, _) {
-                          final v = 0.92 + 0.08 * _pulse.value;
-                          final glow = 0.55 + 0.25 * _pulse.value;
-                          return Transform.scale(
-                            scale: v,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                _luz(210, 0.22 + 0.12 * _pulse.value),
-                                Container(
-                                  width: 190,
-                                  height: 190,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border:
-                                        Border.all(color: _marfil, width: 4),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color:
-                                            _dorado.withValues(alpha: 0.55),
-                                        blurRadius: 26,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // Cruz de luz: brazo vertical + brazo
-                                // horizontal un poco por encima del centro.
-                                SizedBox(
-                                  width: 160,
-                                  height: 160,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      _barraDeLuz(
-                                        width: 13,
-                                        height: 96,
-                                        glow: glow,
-                                      ),
-                                      Transform.translate(
-                                        offset: const Offset(0, -16),
-                                        child: _barraDeLuz(
-                                          width: 64,
-                                          height: 13,
-                                          glow: glow,
+              child: LayoutBuilder(
+                // desplazable-ok
+                builder: (context, cons) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: cons.maxHeight),
+                    child: IntrinsicHeight(
+                      child: Padding(
+                        padding: const EdgeInsets.all(28),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Spacer(),
+                            // Halo con cruz de luz que respira (como antes de v11a)
+                            Center(
+                              child: AnimatedBuilder(
+                                animation: _pulse,
+                                builder: (context, _) {
+                                  final v = 0.92 + 0.08 * _pulse.value;
+                                  final glow = 0.55 + 0.25 * _pulse.value;
+                                  return Transform.scale(
+                                    scale: v,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        _luz(210, 0.22 + 0.12 * _pulse.value),
+                                        Container(
+                                          width: 190,
+                                          height: 190,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: _marfil, width: 4),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: _dorado.withValues(
+                                                    alpha: 0.55),
+                                                blurRadius: 26,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                        // Cruz de luz: brazo vertical + brazo
+                                        // horizontal un poco por encima del centro.
+                                        SizedBox(
+                                          width: 160,
+                                          height: 160,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              _barraDeLuz(
+                                                width: 13,
+                                                height: 96,
+                                                glow: glow,
+                                              ),
+                                              Transform.translate(
+                                                offset: const Offset(0, -16),
+                                                child: _barraDeLuz(
+                                                  width: 64,
+                                                  height: 13,
+                                                  glow: glow,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                    const Spacer(),
-                    FadeTransition(
-                      opacity: fadeIn,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Tu momento\ncon Dios,\ntodos los días',
-                            style: AppTypography.display
-                                .copyWith(fontSize: 38, color: _marfil),
-                          ),
-                          const SizedBox(height: 14),
-                          Text(
-                            'Una oración al día. Y una pausa antes de '
-                  'abrir las apps que te distraen.',
-                            style: AppTypography.bodyLarge.copyWith(
-                                color: _marfil.withValues(alpha: 0.78)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 26),
-                    // El boton deja aire a la derecha para que la ovejita
-                    // de la esquina no lo tape.
-                    Padding(
-                      padding: const EdgeInsets.only(right: 96),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: _dorado,
-                            foregroundColor: const Color(0xFF241F10),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (_) =>
-                                      const OnboardingNameScreen()),
-                            );
-                          },
-                          child: const Text('Comenzar mi camino 🙏'),
+                            const Spacer(),
+                            FadeTransition(
+                              opacity: fadeIn,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Tu momento\ncon Dios,\ntodos los días',
+                                    style: AppTypography.display
+                                        .copyWith(fontSize: 38, color: _marfil),
+                                  ),
+                                  const SizedBox(height: 14),
+                                  Text(
+                                    'Una oración al día. Y una pausa antes de '
+                                    'abrir las apps que te distraen.',
+                                    style: AppTypography.bodyLarge.copyWith(
+                                        color: _marfil.withValues(alpha: 0.78)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 26),
+                            // El boton deja aire a la derecha para que la ovejita
+                            // de la esquina no lo tape.
+                            Padding(
+                              padding: const EdgeInsets.only(right: 96),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _dorado,
+                                    foregroundColor: const Color(0xFF241F10),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              const OnboardingNameScreen()),
+                                    );
+                                  },
+                                  child: const Text('Comenzar mi camino 🙏'),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 96),
+                              child: Center(
+                                child: Text(
+                                  'Gratis · unos minutos',
+                                  style: AppTypography.caption.copyWith(
+                                      color: _marfil.withValues(alpha: 0.72)),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 96),
-                      child: Center(
-                        child: Text(
-                          'Gratis · unos minutos',
-                          style: AppTypography.caption.copyWith(
-                              color: _marfil.withValues(alpha: 0.72)),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

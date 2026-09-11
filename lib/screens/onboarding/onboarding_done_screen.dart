@@ -76,8 +76,9 @@ class OnboardingDoneScreen extends StatelessWidget {
                       (route) => false,
                     );
                   },
-                  child: Text(
-                      onContinue != null ? 'Continuar 🙏' : 'Ir a mi inicio 🏡'),
+                  child: Text(onContinue != null
+                      ? 'Continuar 🙏'
+                      : 'Ir a mi inicio 🏡'),
                 ),
               ),
             ],

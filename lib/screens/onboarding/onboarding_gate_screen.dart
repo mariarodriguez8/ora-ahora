@@ -26,67 +26,79 @@ class OnboardingGateScreen extends StatelessWidget {
       appBar: const OnboardingTopBar(step: 9),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Y esto es lo que nos\nhace diferentes ✨',
-                  style: AppTypography.display.copyWith(fontSize: 28)),
-              const SizedBox(height: 12),
-              Text(
-                '¿Te pasa que abres el celular "un minutito" y de repente '
-                'se fue media hora? No es que te falte fuerza de voluntad: es que nadie te interrumpe.',
-                style:
-                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
-              ),
-              const SizedBox(height: 16),
-              _Paso(
-                emoji: '📱',
-                texto: 'Tú eliges las apps que más te distraen '
-                    '(por ejemplo, Instagram o TikTok).',
-              ),
-              _Paso(
-                emoji: '✋',
-                texto: 'Cuando vayas a abrirlas, Ora Ahora te detiene '
-                    'unos segundos primero.',
-              ),
-              _Paso(
-                emoji: '🙏',
-                texto: 'Respiras, haces una oración cortita… y tú decides '
-                    'si sigues o mejor no.',
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Para lograrlo, tu teléfono nos pedirá dos permisos sencillos. '
-                'En la siguiente pantalla te explicamos cuáles son y cómo '
-                'activarlos, paso a paso y sin apuro.',
-                style: AppTypography.body.copyWith(color: AppColors.inkSoft),
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (_) => const GateExplainerScreen()),
-                    );
-                    if (!context.mounted) return;
-                    _next(context);
-                  },
-                  child: const Text('Quiero activarlo ✋🙏'),
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Y esto es lo que nos\nhace diferentes ✨',
+                          style: AppTypography.display.copyWith(fontSize: 28)),
+                      const SizedBox(height: 12),
+                      Text(
+                        '¿Te pasa que abres el celular "un minutito" y de repente '
+                        'se fue media hora? No es que te falte fuerza de voluntad: es que nadie te interrumpe.',
+                        style: AppTypography.bodyLarge
+                            .copyWith(color: AppColors.inkSoft),
+                      ),
+                      const SizedBox(height: 16),
+                      _Paso(
+                        emoji: '📱',
+                        texto: 'Tú eliges las apps que más te distraen '
+                            '(por ejemplo, Instagram o TikTok).',
+                      ),
+                      _Paso(
+                        emoji: '✋',
+                        texto: 'Cuando vayas a abrirlas, Ora Ahora te detiene '
+                            'unos segundos primero.',
+                      ),
+                      _Paso(
+                        emoji: '🙏',
+                        texto:
+                            'Respiras, haces una oración cortita… y tú decides '
+                            'si sigues o mejor no.',
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Para lograrlo, tu teléfono nos pedirá dos permisos sencillos. '
+                        'En la siguiente pantalla te explicamos cuáles son y cómo '
+                        'activarlos, paso a paso y sin apuro.',
+                        style: AppTypography.body
+                            .copyWith(color: AppColors.inkSoft),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) => const GateExplainerScreen()),
+                            );
+                            if (!context.mounted) return;
+                            _next(context);
+                          },
+                          child: const Text('Quiero activarlo ✋🙏'),
+                        ),
+                      ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () => _next(context),
+                          child: Text('Lo activo después desde Ajustes',
+                              style: AppTypography.body
+                                  .copyWith(color: AppColors.inkSoft)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Center(
-                child: TextButton(
-                  onPressed: () => _next(context),
-                  child: Text('Lo activo después desde Ajustes',
-                      style: AppTypography.body
-                          .copyWith(color: AppColors.inkSoft)),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -109,8 +121,8 @@ class _Paso extends StatelessWidget {
           Text(emoji, style: const TextStyle(fontSize: 24)),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(texto,
-                style: AppTypography.body.copyWith(fontSize: 15.5)),
+            child:
+                Text(texto, style: AppTypography.body.copyWith(fontSize: 15.5)),
           ),
         ],
       ),

@@ -46,55 +46,66 @@ class _OnboardingTimesScreenState extends State<OnboardingTimesScreen> {
       appBar: const OnboardingTopBar(step: 2),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('¿A qué horas te queda\nbien orar?',
-                  style: AppTypography.display.copyWith(fontSize: 28)),
-              const SizedBox(height: 12),
-              Text(
-                'Un momento al despertar y otro antes de dormir. '
-                '¿A qué hora quieres que te busque? Toca cada tarjeta. Puedes '
-                'cambiarla cuando quieras.',
-                style:
-                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
-              ),
-              const SizedBox(height: 32),
-              _TimeTile(
-                icon: Icons.wb_sunny_outlined,
-                label: 'Al empezar el día',
-                time: _fmt(_morning),
-                onTap: () => _pick(true),
-              ),
-              const SizedBox(height: 14),
-              _TimeTile(
-                icon: Icons.nightlight_round,
-                label: 'Antes de dormir',
-                time: _fmt(_night),
-                onTap: () => _pick(false),
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final prefs = context.read<PrefsService>();
-                    await prefs.setMorningTime(_fmt(_morning));
-                    await prefs.setNightTime(_fmt(_night));
-                    await prefs.setReminderTimes([_fmt(_morning), _fmt(_night)]);
-                    if (!context.mounted) return;
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const OnboardingPlanScreen(),
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('¿A qué horas te queda\nbien orar?',
+                          style: AppTypography.display.copyWith(fontSize: 28)),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Un momento al despertar y otro antes de dormir. '
+                        '¿A qué hora quieres que te busque? Toca cada tarjeta. Puedes '
+                        'cambiarla cuando quieras.',
+                        style: AppTypography.bodyLarge
+                            .copyWith(color: AppColors.inkSoft),
                       ),
-                    );
-                  },
-                  child: const Text('Continuar'),
+                      const SizedBox(height: 32),
+                      _TimeTile(
+                        icon: Icons.wb_sunny_outlined,
+                        label: 'Al empezar el día',
+                        time: _fmt(_morning),
+                        onTap: () => _pick(true),
+                      ),
+                      const SizedBox(height: 14),
+                      _TimeTile(
+                        icon: Icons.nightlight_round,
+                        label: 'Antes de dormir',
+                        time: _fmt(_night),
+                        onTap: () => _pick(false),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final prefs = context.read<PrefsService>();
+                            await prefs.setMorningTime(_fmt(_morning));
+                            await prefs.setNightTime(_fmt(_night));
+                            await prefs.setReminderTimes(
+                                [_fmt(_morning), _fmt(_night)]);
+                            if (!context.mounted) return;
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const OnboardingPlanScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text('Continuar'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),

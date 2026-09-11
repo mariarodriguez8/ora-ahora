@@ -75,15 +75,13 @@ class OnboardingTopBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           children: [
-            _BackCircle(onTap: onBack ?? () => Navigator.of(context).maybePop()),
+            _BackCircle(
+                onTap: onBack ?? () => Navigator.of(context).maybePop()),
             if (!right) ...[const SizedBox(width: 10), sheep],
             const Spacer(),
             _BarraProgreso(fraccion: _fraccionPara(step)),
             const Spacer(),
-            if (right)
-              sheep
-            else
-              const SizedBox(width: 56),
+            if (right) sheep else const SizedBox(width: 40),
           ],
         ),
       ),
@@ -106,7 +104,8 @@ class _BackCircle extends StatelessWidget {
         child: const SizedBox(
           width: 40,
           height: 40,
-          child: Icon(Icons.arrow_back_rounded, color: AppColors.tealDeep, size: 20),
+          child: Icon(Icons.arrow_back_rounded,
+              color: AppColors.tealDeep, size: 20),
         ),
       ),
     );

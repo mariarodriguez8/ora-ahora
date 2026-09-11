@@ -49,72 +49,85 @@ class _OnboardingSelladoScreenState extends State<OnboardingSelladoScreen>
     return Scaffold(
       backgroundColor: AppColors.amberLight,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 0, 28, 34),
-          child: Column(
-            children: [
-              const Spacer(),
-              ScaleTransition(
-                scale: CurvedAnimation(parent: _c, curve: Curves.elasticOut),
-                child: Image.asset('assets/mascot/ovejita_celebrando.png',
-                    height: 210, fit: BoxFit.contain),
-              ),
-              const SizedBox(height: 26),
-              FadeTransition(
-                opacity: CurvedAnimation(
-                  parent: _c,
-                  curve: const Interval(0.45, 1, curve: Curves.easeOut),
-                ),
-                child: Column(
-                  children: [
-                    Text('Queda escrito.',
-                        textAlign: TextAlign.center,
-                        style: AppTypography.display.copyWith(
-                          fontSize: 34,
-                          color: AppColors.tealDeep,
-                        )),
-                    const SizedBox(height: 12),
-                    Text(
-                      nombre.isEmpty
-                          ? 'Hoy volviste. Él ya lo sabe.'
-                          : '$nombre, hoy volviste. Él ya lo sabe.',
-                      textAlign: TextAlign.center,
-                      style: AppTypography.body.copyWith(
-                        color: AppColors.amber,
-                        height: 1.35,
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 0, 28, 34),
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      ScaleTransition(
+                        scale: CurvedAnimation(
+                            parent: _c, curve: Curves.elasticOut),
+                        child: Image.asset(
+                            'assets/mascot/ovejita_celebrando.png',
+                            height: 210,
+                            fit: BoxFit.contain),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              AnimatedOpacity(
-                opacity: _mostrarBoton ? 1 : 0,
-                duration: const Duration(milliseconds: 500),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _mostrarBoton
-                        ? () => Navigator.of(context).pop()
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.tealDeep,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(vertical: 17),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                      const SizedBox(height: 26),
+                      FadeTransition(
+                        opacity: CurvedAnimation(
+                          parent: _c,
+                          curve: const Interval(0.45, 1, curve: Curves.easeOut),
+                        ),
+                        child: Column(
+                          children: [
+                            Text('Queda escrito.',
+                                textAlign: TextAlign.center,
+                                style: AppTypography.display.copyWith(
+                                  fontSize: 34,
+                                  color: AppColors.tealDeep,
+                                )),
+                            const SizedBox(height: 12),
+                            Text(
+                              nombre.isEmpty
+                                  ? 'Hoy volviste. Él ya lo sabe.'
+                                  : '$nombre, hoy volviste. Él ya lo sabe.',
+                              textAlign: TextAlign.center,
+                              style: AppTypography.body.copyWith(
+                                color: AppColors.amber,
+                                height: 1.35,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    child: Text('Continuar',
-                        style: AppTypography.title.copyWith(
-                          color: Colors.white,
-                          fontSize: 16,
-                        )),
+                      const Spacer(),
+                      AnimatedOpacity(
+                        opacity: _mostrarBoton ? 1 : 0,
+                        duration: const Duration(milliseconds: 500),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _mostrarBoton
+                                ? () => Navigator.of(context).pop()
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.tealDeep,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(vertical: 17),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            child: Text('Continuar',
+                                style: AppTypography.title.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                )),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),

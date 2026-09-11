@@ -15,70 +15,81 @@ class OnboardingSocialScreen extends StatelessWidget {
       appBar: const OnboardingTopBar(step: 4),
       body: SafeArea(
         top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('No vas a caminar\nesto a solas ✨',
-                  style: AppTypography.display.copyWith(fontSize: 28)),
-              const SizedBox(height: 12),
-              Text(
-                'No estás en esto por tu cuenta. Cada día, miles de personas '
-                'en toda Hispanoamérica paran un minuto para lo mismo que tú.',
-                style:
-                    AppTypography.bodyLarge.copyWith(color: AppColors.inkSoft),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.75),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.tealLight),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '"Antes abría Instagram sin pensar. Ahora, muchas de '
-                      'esas veces, termino orando. Mi ansiedad ya no manda."',
-                      style: AppTypography.quote.copyWith(fontSize: 16),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  const Text('🌱🌿🌳', style: TextStyle(fontSize: 22)),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Tu árbol crece con cada oración. Y si un día faltas no se muere: '
-                      'te espera.',
-                      style: AppTypography.body
-                          .copyWith(color: AppColors.inkSoft),
-                    ),
+        child: LayoutBuilder(
+          // desplazable-ok
+          builder: (context, cons) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: cons.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('No vas a caminar\nesto a solas ✨',
+                          style: AppTypography.display.copyWith(fontSize: 28)),
+                      const SizedBox(height: 12),
+                      Text(
+                        'No estás en esto por tu cuenta. Cada día, miles de personas '
+                        'en toda Hispanoamérica paran un minuto para lo mismo que tú.',
+                        style: AppTypography.bodyLarge
+                            .copyWith(color: AppColors.inkSoft),
+                      ),
+                      const SizedBox(height: 24),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.75),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppColors.tealLight),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '"Antes abría Instagram sin pensar. Ahora, muchas de '
+                              'esas veces, termino orando. Mi ansiedad ya no manda."',
+                              style: AppTypography.quote.copyWith(fontSize: 16),
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          const Text('🌱🌿🌳', style: TextStyle(fontSize: 22)),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Tu árbol crece con cada oración. Y si un día faltas no se muere: '
+                              'te espera.',
+                              style: AppTypography.body
+                                  .copyWith(color: AppColors.inkSoft),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      const OnboardingFirstPrayerScreen()),
+                            );
+                          },
+                          child: const Text('Quiero empezar 🙏'),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (_) => const OnboardingFirstPrayerScreen()),
-                    );
-                  },
-                  child: const Text('Quiero empezar 🙏'),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),

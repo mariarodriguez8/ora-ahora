@@ -34,8 +34,18 @@ class _OnboardingPactoScreenState extends State<OnboardingPactoScreen> {
 
   String _fechaHoy() {
     const meses = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre'
     ];
     final h = DateTime.now();
     return '${h.day} de ${meses[h.month - 1]} de ${h.year}';
@@ -104,113 +114,130 @@ class _OnboardingPactoScreenState extends State<OnboardingPactoScreen> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(22, 14, 22, 16),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: RepaintBoundary(
-                      key: _actaKey,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(22, 26, 22, 20),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF7F3EA),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Text('MI PACTO CON DIOS',
-                                  style: AppTypography.body.copyWith(
-                                      fontSize: 12,
-                                      letterSpacing: 3,
-                                      fontWeight: FontWeight.w700,
-                                      color: const Color(0xFF8A5F27))),
-                            ),
-                            const SizedBox(height: 22),
-                            Text(
-                              'Dios,\n'
-                              'dejé de hablarte y ni me di cuenta cuándo.\n\n'
-                              'Hoy vuelvo.\n'
-                              'Un minuto al día. Eso sí puedo.\n'
-                              'Va a haber días que no quiera. Igual vengo.\n\n'
-                              'Y cuando no me salgan las palabras,\n'
-                              'guíame para no irme otra vez.\n\n'
-                              'Hoy me comprometo a volver a ti. Te amo, Padre.',
-                              style: AppTypography.body.copyWith(
-                                  fontSize: 15.5,
-                                  height: 1.55,
-                                  color: const Color(0xFF241F10)),
-                            ),
-                            const SizedBox(height: 26),
-                            // Tablero de firma: es el compromiso fisico.
-                            GestureDetector(
-                              onPanStart: (d) => setState(
-                                  () => _trazos.add([d.localPosition])),
-                              onPanUpdate: (d) => setState(
-                                  () => _trazos.last.add(d.localPosition)),
+          child: LayoutBuilder(
+            // desplazable-ok
+            builder: (context, cons) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: cons.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(22, 14, 22, 16),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: RepaintBoundary(
+                              key: _actaKey,
                               child: Container(
-                                height: 110,
-                                width: double.infinity,
-                                color: Colors.transparent,
-                                child: CustomPaint(
-                                  painter: _FirmaPainter(_trazos),
-                                  child: _hayFirma
-                                      ? null
-                                      : Center(
-                                          child: Text('Firma aquí con tu dedo',
-                                              style: AppTypography.body
-                                                  .copyWith(
-                                                      fontSize: 13,
-                                                      color: const Color(
-                                                          0xFF8A5F27))),
+                                padding:
+                                    const EdgeInsets.fromLTRB(22, 26, 22, 20),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF7F3EA),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Text('MI PACTO CON DIOS',
+                                          style: AppTypography.body.copyWith(
+                                              fontSize: 12,
+                                              letterSpacing: 3,
+                                              fontWeight: FontWeight.w700,
+                                              color: const Color(0xFF8A5F27))),
+                                    ),
+                                    const SizedBox(height: 22),
+                                    Text(
+                                      'Dios,\n'
+                                      'dejé de hablarte y ni me di cuenta cuándo.\n\n'
+                                      'Hoy vuelvo.\n'
+                                      'Un minuto al día. Eso sí puedo.\n'
+                                      'Va a haber días que no quiera. Igual vengo.\n\n'
+                                      'Y cuando no me salgan las palabras,\n'
+                                      'guíame para no irme otra vez.\n\n'
+                                      'Hoy me comprometo a volver a ti. Te amo, Padre.',
+                                      style: AppTypography.body.copyWith(
+                                          fontSize: 15.5,
+                                          height: 1.55,
+                                          color: const Color(0xFF241F10)),
+                                    ),
+                                    const SizedBox(height: 26),
+                                    // Tablero de firma: es el compromiso fisico.
+                                    GestureDetector(
+                                      onPanStart: (d) => setState(
+                                          () => _trazos.add([d.localPosition])),
+                                      onPanUpdate: (d) => setState(() =>
+                                          _trazos.last.add(d.localPosition)),
+                                      child: Container(
+                                        height: 110,
+                                        width: double.infinity,
+                                        color: Colors.transparent,
+                                        child: CustomPaint(
+                                          painter: _FirmaPainter(_trazos),
+                                          child: _hayFirma
+                                              ? null
+                                              : Center(
+                                                  child: Text(
+                                                      'Firma aquí con tu dedo',
+                                                      style: AppTypography.body
+                                                          .copyWith(
+                                                              fontSize: 13,
+                                                              color: const Color(
+                                                                  0xFF8A5F27))),
+                                                ),
                                         ),
+                                      ),
+                                    ),
+                                    Container(
+                                        height: 1,
+                                        color: const Color(0xFF241F10)),
+                                    const SizedBox(height: 8),
+                                    Text(_fechaHoy(),
+                                        style: AppTypography.body.copyWith(
+                                            fontSize: 12,
+                                            color: const Color(0xFF6B6357))),
+                                    if (nombre.isNotEmpty)
+                                      Text(nombre,
+                                          style: AppTypography.body.copyWith(
+                                              fontSize: 12,
+                                              color: const Color(0xFF6B6357))),
+                                  ],
                                 ),
                               ),
                             ),
-                            Container(
-                                height: 1, color: const Color(0xFF241F10)),
-                            const SizedBox(height: 8),
-                            Text(_fechaHoy(),
-                                style: AppTypography.body.copyWith(
-                                    fontSize: 12,
-                                    color: const Color(0xFF6B6357))),
-                            if (nombre.isNotEmpty)
-                              Text(nombre,
-                                  style: AppTypography.body.copyWith(
-                                      fontSize: 12,
-                                      color: const Color(0xFF6B6357))),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 14),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: _hayFirma
+                                  ? kFunnelDorado
+                                  : kFunnelMarfil.withValues(alpha: 0.22),
+                              foregroundColor: const Color(0xFF241F10),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            onPressed: _hayFirma ? _sellar : null,
+                            child: Text(_guardando
+                                ? 'Guardando...'
+                                : 'Sellar mi pacto'),
+                          ),
+                        ),
+                        if (_hayFirma)
+                          TextButton(
+                            onPressed: () => setState(() => _trazos.clear()),
+                            child: Text('borrar y firmar de nuevo',
+                                style: AppTypography.body.copyWith(
+                                    fontSize: 13,
+                                    color:
+                                        kFunnelMarfil.withValues(alpha: 0.6))),
+                          ),
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 14),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          _hayFirma ? kFunnelDorado : kFunnelMarfil.withValues(alpha: 0.22),
-                      foregroundColor: const Color(0xFF241F10),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    onPressed: _hayFirma ? _sellar : null,
-                    child: Text(_guardando ? 'Guardando...' : 'Sellar mi pacto'),
-                  ),
-                ),
-                if (_hayFirma)
-                  TextButton(
-                    onPressed: () => setState(() => _trazos.clear()),
-                    child: Text('borrar y firmar de nuevo',
-                        style: AppTypography.body.copyWith(
-                            fontSize: 13,
-                            color: kFunnelMarfil.withValues(alpha: 0.6))),
-                  ),
-              ],
+              ),
             ),
           ),
         ),

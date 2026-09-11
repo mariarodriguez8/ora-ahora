@@ -40,13 +40,22 @@ class OnboardingCaminoScreen extends StatelessWidget {
     return 'Empiezas a notar la diferencia.';
   }
 
-
   /// El dia exacto en que va a llevar treinta dias. Una fecha concreta
   /// compromete mas que un numero abstracto.
   String _fechaMeta() {
     const meses = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
     ];
     final d = DateTime.now().add(const Duration(days: 30));
     return 'El ${d.day} de ${meses[d.month - 1]} vas a llevar\n'
@@ -72,75 +81,88 @@ class OnboardingCaminoScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(28, 20, 28, 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AparicionSuave(
-                  orden: 0,
-                  child: Center(
-                    child: Image.asset('assets/mascot/ovejita_esperando.png',
-                        height: 92, fit: BoxFit.contain),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                AparicionSuave(
-                  orden: 1,
-                  child: Text('Tus próximos 30 días',
-                      style: AppTypography.display
-                          .copyWith(fontSize: 28, color: kFunnelMarfil)),
-                ),
-                const SizedBox(height: 8),
-                // Una fecha en el calendario se siente real; "30 dias" no.
-                AparicionSuave(
-                  orden: 1,
-                  child: Text(_fechaMeta(),
-                      style: AppTypography.body.copyWith(
-                        color: kFunnelDorado,
-                        height: 1.35,
-                      )),
-                ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: hitos.length,
-                    itemBuilder: (context, i) => AparicionSuave(
-                      orden: 2 + i,
-                      child: _Hito(
-                        dia: hitos[i].$1,
-                        texto: hitos[i].$2,
-                        ultimo: i == hitos.length - 1,
-                      ),
+          child: LayoutBuilder(
+            // desplazable-ok
+            builder: (context, cons) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: cons.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(28, 20, 28, 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AparicionSuave(
+                          orden: 0,
+                          child: Center(
+                            child: Image.asset(
+                                'assets/mascot/ovejita_esperando.png',
+                                height: 92,
+                                fit: BoxFit.contain),
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                        AparicionSuave(
+                          orden: 1,
+                          child: Text('Tus próximos 30 días',
+                              style: AppTypography.display.copyWith(
+                                  fontSize: 28, color: kFunnelMarfil)),
+                        ),
+                        const SizedBox(height: 8),
+                        // Una fecha en el calendario se siente real; "30 dias" no.
+                        AparicionSuave(
+                          orden: 1,
+                          child: Text(_fechaMeta(),
+                              style: AppTypography.body.copyWith(
+                                color: kFunnelDorado,
+                                height: 1.35,
+                              )),
+                        ),
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: hitos.length,
+                            itemBuilder: (context, i) => AparicionSuave(
+                              orden: 2 + i,
+                              child: _Hito(
+                                dia: hitos[i].$1,
+                                texto: hitos[i].$2,
+                                ultimo: i == hitos.length - 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                        AparicionSuave(
+                          orden: 7,
+                          child: Text(
+                            'Nada de esto pasa en un día.\nPor eso son treinta.',
+                            style: AppTypography.display
+                                .copyWith(fontSize: 20, color: kFunnelDorado),
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                        AparicionSuave(
+                          orden: 8,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: kFunnelDorado,
+                                foregroundColor: const Color(0xFF241F10),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              onPressed: onContinuar,
+                              child: const Text('Quiero esos 30 días'),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                AparicionSuave(
-                  orden: 7,
-                  child: Text(
-                    'Nada de esto pasa en un día.\nPor eso son treinta.',
-                    style: AppTypography.display
-                        .copyWith(fontSize: 20, color: kFunnelDorado),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                AparicionSuave(
-                  orden: 8,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: kFunnelDorado,
-                        foregroundColor: const Color(0xFF241F10),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      onPressed: onContinuar,
-                      child: const Text('Quiero esos 30 días'),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
