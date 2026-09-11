@@ -33,9 +33,9 @@ class FunnelParabola extends StatefulWidget {
 class _FunnelParabolaState extends State<FunnelParabola> {
   static const _lineas = <String>[
     'Hace dos mil años,\nun hombre contó esto:\n\nUn pastor tenía\ncien ovejas.',
-    'Una se perdió.',
-    'Dejó las noventa y nueve\nen el monte.',
-    'No esperó a que volviera.\nFue hasta donde estaba.',
+    'Una se perdió\nen el monte.',
+    'Dejó las noventa\ny nueve.',
+    'No esperó\na que volviera.\nFue hasta donde\nestaba la oveja.',
   ];
 
   int _visibles = 1;
@@ -111,7 +111,7 @@ class _FunnelParabolaState extends State<FunnelParabola> {
                           child: Text(
                             _lineas[i],
                             style: AppTypography.display.copyWith(
-                              fontSize: i == _lineas.length - 1 ? 29 : 25,
+                              fontSize: i == _lineas.length - 1 ? 24 : 25,
                               height: 1.2,
                               fontStyle: i == _lineas.length - 1
                                   ? FontStyle.italic
@@ -203,7 +203,7 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
                 child: const Center(child: _TelefonoFalso()),
               ),
               const Spacer(),
-              _linea('Nos perdemos aquí.', 3, 30, true),
+              _linea('Nos perdemos aquí.', 3, 26, true),
               const SizedBox(height: 18),
               AnimatedOpacity(
                 opacity: _fase >= 3 ? 1 : 0,
@@ -216,7 +216,8 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
                       foregroundColor: const Color(0xFF241F10),
                     ),
                     onPressed: _fase >= 3 ? widget.onContinuar : null,
-                    child: const Text('Que me encuentre aquí'),
+                    child: const Text('Quiero volver con mi pastor',
+                      textAlign: TextAlign.center),
                   ),
                 ),
               ),

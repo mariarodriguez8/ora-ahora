@@ -43,7 +43,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
             child: IgnorePointer(
               child: Image.asset(
                 'assets/mascot/ovejita_consuelo.png',
-                height: MediaQuery.of(context).size.height * 0.42,
+                height: MediaQuery.of(context).size.height * 0.37,
                 fit: BoxFit.contain,
                 alignment: Alignment.bottomLeft,
               ),
@@ -78,7 +78,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text(
                     'Ven como estás.\nNo hace falta más:\n'
-                    'solo recibe la compañía del Padre.',
+                    'solo recibe la compañía\ndel Padre.',
                     style: AppTypography.body.copyWith(
                       color: _marfil,
                       height: 1.4,
