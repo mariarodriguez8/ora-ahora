@@ -34,7 +34,8 @@ class _FunnelParabolaState extends State<FunnelParabola> {
   static const _lineas = <String>[
     'Hace dos mil años,\nun hombre contó esto:\n\nUn pastor tenía\ncien ovejas.',
     'Una se perdió.',
-    'Dejó las noventa y nueve.',
+    'Dejó las noventa y nueve\nen el monte.',
+    'No esperó a que volviera.\nFue hasta donde estaba.',
   ];
 
   int _visibles = 1;
@@ -193,9 +194,8 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
                 ),
               ),
               const SizedBox(height: 14),
-              _linea('Fue hasta donde estaba.', 0, 26, false),
               const SizedBox(height: 10),
-              _linea('Hoy nadie se pierde\nen el monte.', 1, 26, false),
+              _linea('Ya no nos perdemos\nen el monte.', 0, 26, false),
               const Spacer(),
               AnimatedOpacity(
                 opacity: _fase >= 2 ? 1 : 0,

@@ -78,7 +78,7 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text(
                     'Ven como estás.\nNo hace falta más:\n'
-                    'solo déjate acompañar.',
+                    'solo recibe la compañía del Padre.',
                     style: AppTypography.body.copyWith(
                       color: _marfil,
                       height: 1.4,
