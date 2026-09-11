@@ -14,7 +14,7 @@ class FunnelQ1 extends StatelessWidget {
   Widget build(BuildContext context) => FunnelScreen(
         pasoEmbudo: 0,
         alturaMascota: 150,
-        frase: '¿Te ha pasado?\nDices "más tarde oro"...\ny se te va el día.',
+        frase: '¿Te ha pasado?\nDices "más tarde oro"...\n*y se te va el* día.',
         mascota: 'assets/mascot/ovejita_pensativa.png',
         opciones: [
           ('todos los días 😔', () => _go(context, const FunnelQ2())),
@@ -36,7 +36,7 @@ class FunnelQ2 extends StatelessWidget {
   Widget build(BuildContext context) => FunnelScreen(
         pasoEmbudo: 1,
         alturaMascota: 185,
-        frase: '¿Cuánto tiempo pasaste\nayer en el celular?',
+        frase: '¿Cuánto tiempo pasaste\n*ayer en el celular?*',
         subtitulo: 'con toda sinceridad',
         mascota: 'assets/mascot/ovejita_esperando.png',
         opciones: [
@@ -59,7 +59,7 @@ class FunnelQ3 extends StatelessWidget {
   Widget build(BuildContext context) => FunnelScreen(
         pasoEmbudo: 2,
         alturaMascota: 155,
-        frase: '¿Y cuánto tiempo\nle diste a Dios?',
+        frase: '¿Y cuánto tiempo\n*le diste a Dios?*',
         mascota: 'assets/mascot/ovejita_orando.png',
         opciones: [
           ('nada 💔', () => _pick(context, 'nada')),
@@ -146,7 +146,7 @@ class FunnelMinute extends StatelessWidget {
   Widget build(BuildContext context) => FunnelScreen(
         pasoEmbudo: 5,
         alturaMascota: 165,
-        frase: 'Él te espera hoy.\n¿le das 1 minuto?',
+        frase: 'Él te espera hoy.\n*¿le das 1 minuto?*',
         mascota: 'assets/mascot/ovejita_esperando.png',
         opciones: [
           (
@@ -245,7 +245,7 @@ class FunnelCancion extends StatelessWidget {
   Widget build(BuildContext context) => FunnelScreen(
         pasoEmbudo: 7,
         alturaMascota: 195,
-        frase: 'Te desbloqueé\nla canción de esta semana.',
+        frase: 'Te desbloqueé\n*la canción de esta semana.*',
         subtitulo: 'Para cuando no te salgan las palabras.',
         mascota: 'assets/mascot/ovejita_musica.png',
         opciones: [
