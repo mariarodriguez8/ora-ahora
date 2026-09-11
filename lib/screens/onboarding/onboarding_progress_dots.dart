@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
@@ -120,13 +121,21 @@ class _BackCircle extends StatelessWidget {
 /// los que cuestan de verdad (firmar el pacto, dar permisos). El resultado
 /// es la curva que engancha: rapido al principio, mas lento cuando ya
 /// invertiste demasiado como para irte.
+/// Convierte "pantalla n de 17" en el porcentaje que se pinta.
+///
+/// No es lineal a proposito: elevar a 0.42 hace que las primeras pantallas
+/// avancen mucho y las ultimas poco. En la septima ya va por dos tercios,
+/// que es la sensacion de "esto ya casi esta" justo antes del tramo que
+/// de verdad cuesta.
+double progresoPonderado(int hechas, int total) {
+  if (hechas <= 0) return 0;
+  if (hechas >= total) return 1;
+  return math.pow(hechas / total, 0.42).toDouble();
+}
+
 double _fraccionPara(int step) {
-  // Continua la misma cuenta del embudo: cuando aparece esta barra la
-  // persona ya paso 8 pantallas, asi que arranca por ahi y sigue subiendo.
-  const pasosEmbudo = 8;
-  const total = 18;
-  final n = (pasosEmbudo + step + 1).clamp(0, total);
-  return n / total;
+  // Al llegar aqui ya paso las 8 del embudo.
+  return progresoPonderado(8 + step + 1, 17);
 }
 
 class _BarraProgreso extends StatelessWidget {

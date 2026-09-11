@@ -9,19 +9,23 @@
 import 'package:flutter/material.dart';
 
 import 'screens/onboarding/funnel_screens.dart';
+import 'screens/onboarding/funnel_parabola.dart';
 import 'theme/app_theme.dart';
+
+void _nada() {}
 
 void main() => runApp(const Catalogo());
 
-const _pantallas = <String, Widget>{
+final _pantallas = <String, Widget>{
+  '8 la cancion': FunnelCancion(),
+  '4 el espejo': FunnelMirror(),
   '1 te ha pasado': FunnelQ1(),
   '2 horas de celular': FunnelQ2(),
   '3 tiempo con Dios': FunnelQ3(),
   '4 el espejo': FunnelMirror(),
-  '5 la gracia': FunnelGrace(),
-  '6 el minuto': FunnelMinute(),
-  '7 el regalo': FunnelRegalo(),
-  '8 la cancion': FunnelCancion(),
+  '5 TEN parabola': FunnelParabola(onContinuar: _nada),
+  '6 KETSU telefono': FunnelKetsu(onContinuar: _nada),
+  '7 el minuto': FunnelMinute(),
 };
 
 class Catalogo extends StatelessWidget {
@@ -52,7 +56,7 @@ class Catalogo extends StatelessWidget {
                       // Medida de un movil corriente en Latinoamerica.
                       Container(
                         width: 288,
-                        height: 592,
+                        height: 660,
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(18),

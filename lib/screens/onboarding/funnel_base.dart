@@ -1,9 +1,11 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import 'onboarding_anim.dart';
 
 import '../../theme/app_typography.dart';
 import '../../widgets/colina.dart';
+import 'onboarding_progress_dots.dart' show progresoPonderado;
 import '../../widgets/titular_escalonado.dart';
 
 /// Respuestas del embudo emocional (viven solo durante el onboarding).
@@ -82,8 +84,11 @@ class FunnelScreen extends StatelessWidget {
                   // salia por abajo: 161 pixeles en un 320x600. Ahora la
                   // ovejita se encoge segun el alto disponible y, si aun asi
                   // no cabe, la pantalla se desliza en vez de romperse.
-                  final alturaOveja = (alturaMascota * cons.maxHeight / 700)
-                      .clamp(84.0, alturaMascota);
+                  // El personaje manda: ocupa cerca de la mitad del alto de la
+                  // pantalla. Antes flotaba pequeno en el centro y se sentia
+                  // vacio; las referencias que funcionan lo ponen gigante.
+                  final alturaOveja =
+                      (cons.maxHeight * 0.46).clamp(180.0, 380.0);
                   return SingleChildScrollView(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(minHeight: cons.maxHeight),
@@ -267,7 +272,7 @@ class _BarraEmbudo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 18 pasos en total: los 8 del embudo mas los 10 del onboarding.
-    const total = 18;
+    const total = 17;
     return Center(
       child: SizedBox(
         width: 132,
@@ -280,7 +285,7 @@ class _BarraEmbudo extends StatelessWidget {
               AnimatedFractionallySizedBox(
                 duration: const Duration(milliseconds: 420),
                 curve: Curves.easeOut,
-                widthFactor: ((paso + 1) / total).clamp(0.0, 1.0),
+                widthFactor: progresoPonderado(paso + 1, total),
                 alignment: Alignment.centerLeft,
                 child: Container(color: kFunnelDorado),
               ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../theme/app_typography.dart';
 import 'funnel_base.dart';
+import '../../widgets/tarjeta_cancion_semana.dart';
+import 'funnel_parabola.dart';
 import 'onboarding_categories_screen.dart';
 
 void _go(BuildContext c, Widget s) =>
@@ -85,13 +87,13 @@ class FunnelMirror extends StatelessWidget {
     switch (FunnelAnswers.tiempoDios) {
       case 'nada':
         return '$_saludo$_horas en el celular.\n\nY para Dios... nada.\n'
-            'Siempre encuentras tiempo.\nSolo que no para Él.';
+            '';
       case 'unos minutitos':
         return '$_horas en el celular.\n\ny para Dios, unos minutitos.\n'
-            'y en el fondo sabes que te hace falta más de Él.';
+            '';
       default: // media hora o más
         return '$_horas en el celular,\n\ny un buen rato\ncon Dios.\n'
-            'vas por buen camino —\nÉl quiere seguir\ncerca de ti.';
+            '';
     }
   }
 
@@ -114,7 +116,27 @@ class FunnelMirror extends StatelessWidget {
       frase: _frase(),
       mascota: _mascota(),
       opciones: [
-        ('continuar', () => _go(context, const FunnelGrace())),
+        (
+          'continuar',
+          () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => FunnelParabola(
+                    onContinuar: () => Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => FunnelKetsu(
+                          onContinuar: () =>
+                              Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (_) => const FunnelMinute(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+        ),
       ],
     );
   }
@@ -151,7 +173,7 @@ class FunnelMinute extends StatelessWidget {
         opciones: [
           (
             'sí, con 1 minuto sí puedo 🙏',
-            () => _go(context, const FunnelRegalo())
+            () => _go(context, const FunnelCancion())
           ),
         ],
       );
@@ -247,6 +269,7 @@ class FunnelCancion extends StatelessWidget {
         alturaMascota: 195,
         frase: 'Te desbloqueé\n*la canción de esta semana.*',
         subtitulo: 'Para cuando no te salgan las palabras.',
+        extra: const TarjetaCancionSemana(),
         mascota: 'assets/mascot/ovejita_musica.png',
         opciones: [
           (

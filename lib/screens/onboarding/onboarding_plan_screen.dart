@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import 'onboarding_progress_dots.dart';
-import 'onboarding_social_screen.dart';
+import 'onboarding_first_prayer_screen.dart';
 
 /// "Preparando tu plan": pantalla breve con verificaciones animadas que
 /// hace tangible la personalizacion (patron probado de Cal AI/Headspace).
@@ -34,7 +34,8 @@ class _OnboardingPlanScreenState extends State<OnboardingPlanScreen> {
       if (_done > _pasos.length) {
         t.cancel();
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const OnboardingSocialScreen()),
+          MaterialPageRoute(
+              builder: (_) => const OnboardingFirstPrayerScreen()),
         );
       }
     });

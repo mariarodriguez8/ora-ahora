@@ -43,11 +43,11 @@ const List<Cancion> kCanciones = [
     oracion: 'Padre, gracias por lo que hiciste cuando yo no estaba mirando.',
   ),
   Cancion(
-    titulo: 'Océanos',
-    artista: 'Hillsong United (español)',
-    mensaje: 'para cuando no haces pie y aun así tienes que caminar.',
-    url: 'https://www.youtube.com/watch?v=2BJ0OA0nXPY',
-    oracion: 'Dios, donde no hago pie, sostenme tú.',
+    titulo: 'Tu Hijo Soy',
+    artista: 'Barak',
+    mensaje: 'No dejaste de ser hijo por haberte ido lejos. Eso no se pierde.',
+    url: '',
+    oracion: 'Padre, aunque me fui, sigo siendo tuyo. Recíbeme otra vez.',
   ),
   Cancion(
     titulo: 'Gracias',
