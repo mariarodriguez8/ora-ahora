@@ -152,8 +152,9 @@ class PlantHero extends StatelessWidget {
                         minHeight: 9,
                         backgroundColor:
                             AppColors.inkSoft.withValues(alpha: 0.18),
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            seca ? const Color(0xFFBA7517) : AppColors.tealDeep),
+                        valueColor: AlwaysStoppedAnimation<Color>(seca
+                            ? const Color(0xFFBA7517)
+                            : AppColors.tealDeep),
                       ),
                     ),
                   ),
@@ -204,9 +205,11 @@ class PlantHero extends StatelessWidget {
                             style: AppTypography.body.copyWith(
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.tealDeep)),
-                        Text('el viaje de 7 días para reverdecer',
-                            style: AppTypography.caption
-                                .copyWith(color: AppColors.tealDeep)),
+                        Flexible(
+                          child: Text('el viaje de 7 días para reverdecer',
+                              style: AppTypography.caption
+                                  .copyWith(color: AppColors.tealDeep)),
+                        ),
                       ],
                     ),
                   ),

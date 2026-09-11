@@ -43,7 +43,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   /// Si la persona llego tocando la notificacion, la llevamos directo a una
   /// oracion del tema que eligio en vez de dejarla en el inicio.
   Future<void> _abrirTemaSiVieneDeNotificacion() async {
@@ -59,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   int _index = 0;
 
   @override
@@ -72,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // `PrefsService.paywallShownAfterOnboarding`. Es un paywall "suave":
     // se puede cerrar libremente (boton atras del AppBar) y no vuelve a
     // aparecer automaticamente ni bloquea ninguna funcion gratuita.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowOnboardingPaywall());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _maybeShowOnboardingPaywall());
   }
 
   Future<void> _maybeShowOnboardingPaywall() async {
@@ -559,9 +560,8 @@ class _NightModeCorner extends StatelessWidget {
       borderRadius: BorderRadius.circular(999),
       onTap: () async {
         // Dia y noche es comodidad basica: no va detras de Plus.
-        await appearance.setPalette(esNoche
-            ? AppPaletteId.zafiroCalmo
-            : AppPaletteId.maresProfundos);
+        await appearance.setPalette(
+            esNoche ? AppPaletteId.zafiroCalmo : AppPaletteId.maresProfundos);
       },
       child: Container(
         padding: const EdgeInsets.all(8),
@@ -587,7 +587,8 @@ class _HeroPrayerSection extends StatelessWidget {
   final VoidCallback onTap;
   final bool prayedToday;
 
-  const _HeroPrayerSection({this.prayedToday = false, required this.prayer, required this.onTap});
+  const _HeroPrayerSection(
+      {this.prayedToday = false, required this.prayer, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -616,21 +617,20 @@ class _HeroPrayerSection extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         PrayerCard(prayer: prayer, destacada: true, onTap: onTap),
-          if (prayedToday) ...[
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Icon(Icons.check_circle_rounded,
-                    size: 18, color: scheme.secondary),
-                const SizedBox(width: 8),
-                Text(
-                  'Ya oraste hoy',
-                  style: AppTypography.caption
-                      .copyWith(color: scheme.secondary),
-                ),
-              ],
-            ),
-          ],
+        if (prayedToday) ...[
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Icon(Icons.check_circle_rounded,
+                  size: 18, color: scheme.secondary),
+              const SizedBox(width: 8),
+              Text(
+                'Ya oraste hoy',
+                style: AppTypography.caption.copyWith(color: scheme.secondary),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }
@@ -725,7 +725,8 @@ class _SocialProofBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.groups_outlined, size: 18, color: AppColors.tealDeep),
+          const Icon(Icons.groups_outlined,
+              size: 18, color: AppColors.tealDeep),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -769,7 +770,8 @@ class _PlusBanner extends StatelessWidget {
                   Text('Conoce Ora Ahora Plus', style: AppTypography.title),
                   Text(
                     'Apps ilimitadas en Pausa y Ora, fichas de congelación y más.',
-                    style: AppTypography.caption.copyWith(color: AppColors.inkSoft),
+                    style: AppTypography.caption
+                        .copyWith(color: AppColors.inkSoft),
                   ),
                 ],
               ),
