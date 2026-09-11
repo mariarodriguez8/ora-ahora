@@ -10,13 +10,40 @@ import 'package:flutter/material.dart';
 
 import 'screens/onboarding/funnel_screens.dart';
 import 'screens/onboarding/funnel_parabola.dart';
+import 'package:provider/provider.dart';
+import 'screens/onboarding/onboarding_welcome_screen.dart';
+import 'screens/onboarding/onboarding_name_screen.dart';
+import 'services/prefs_service.dart';
+import 'services/streak_service.dart';
+import 'services/purchase_service.dart';
+import 'services/gate_service.dart';
+import 'services/appearance_service.dart';
 import 'theme/app_theme.dart';
 
 void _nada() {}
 
-void main() => runApp(const Catalogo());
+late PrefsService prefs;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await PrefsService.create();
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<PrefsService>.value(value: prefs),
+        ChangeNotifierProvider(create: (_) => StreakService(prefs)),
+        ChangeNotifierProvider(create: (_) => PurchaseService(prefs)),
+        ChangeNotifierProvider(create: (_) => GateService(prefs)),
+        ChangeNotifierProvider(create: (_) => AppearanceService(prefs)),
+      ],
+      child: const Catalogo(),
+    ),
+  );
+}
 
 final _pantallas = <String, Widget>{
+  '0 BIENVENIDA': const OnboardingWelcomeScreen(),
+  '0b tu nombre': const OnboardingNameScreen(),
   '8 la cancion': FunnelCancion(),
   '4 el espejo': FunnelMirror(),
   '1 te ha pasado': FunnelQ1(),

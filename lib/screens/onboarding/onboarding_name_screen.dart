@@ -8,6 +8,7 @@ import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import 'funnel_screens.dart';
 import 'onboarding_progress_dots.dart';
+import '../../widgets/titular_escalonado.dart';
 
 class OnboardingNameScreen extends StatefulWidget {
   const OnboardingNameScreen({super.key});
@@ -62,15 +63,12 @@ class _OnboardingNameScreenState extends State<OnboardingNameScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Primero lo primero:\n¿cómo te llamas?',
-                          style: AppTypography.display.copyWith(fontSize: 28)),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Dios te llama por tu nombre. '
-                        'Aquí también.',
-                        style: AppTypography.bodyLarge
-                            .copyWith(color: AppColors.inkSoft),
-                      ),
+                      TitularEscalonado(
+                  frase: '¿Cómo\n*te llamas?*',
+                  color: const Color(0xFF17251F),
+                  acento: const Color(0xFF8A6A22),
+                  base: 30,
+                ),
                       const SizedBox(height: 28),
                       AnimatedBuilder(
                         animation: _shake,

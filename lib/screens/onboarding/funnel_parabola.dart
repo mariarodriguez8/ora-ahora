@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../theme/app_typography.dart';
@@ -31,13 +32,31 @@ class FunnelParabola extends StatefulWidget {
 
 class _FunnelParabolaState extends State<FunnelParabola> {
   static const _lineas = <String>[
-    'Hace dos mil años,\nun hombre contó esto.',
-    'Un pastor tenía\ncien ovejas.',
+    'Hace dos mil años,\nun hombre contó esto:\n\nUn pastor tenía\ncien ovejas.',
     'Una se perdió.',
     'Dejó las noventa y nueve.',
   ];
 
   int _visibles = 1;
+  Timer? _reloj;
+
+  @override
+  void initState() {
+    super.initState();
+    _reloj = Timer.periodic(const Duration(milliseconds: 2200), (t) {
+      if (!mounted || _completa) {
+        t.cancel();
+        return;
+      }
+      setState(() => _visibles++);
+    });
+  }
+
+  @override
+  void dispose() {
+    _reloj?.cancel();
+    super.dispose();
+  }
 
   bool get _completa => _visibles >= _lineas.length;
 
@@ -107,7 +126,7 @@ class _FunnelParabolaState extends State<FunnelParabola> {
                       opacity: 0.55,
                       duration: const Duration(milliseconds: 400),
                       child: Text(
-                        _completa ? 'Toca para seguir' : 'Lucas 15',
+                        _completa ? 'Toca para seguir' : 'Lucas 15  ·  toca',
                         style: AppTypography.caption.copyWith(color: _marfil),
                       ),
                     ),
@@ -156,23 +175,36 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
       backgroundColor: kFunnelIndigo,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 34, 24, 26),
+          padding: const EdgeInsets.fromLTRB(24, 30, 24, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _linea('No esperó a que volviera.', 0, 26, false),
-              _linea('Fue hasta donde estaba.', 1, 26, false),
+              // Mismo rotulo, misma esquina que en la parabola: asi el
+              // salto de epoca se lee como una decision y no como un fallo.
+              AnimatedOpacity(
+                opacity: _fase >= 0 ? 1 : 0,
+                duration: const Duration(milliseconds: 500),
+                child: Text(
+                  'HOY',
+                  style: AppTypography.caption.copyWith(
+                    color: _dorado,
+                    letterSpacing: 2.2,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              _linea('Fue hasta donde estaba.', 0, 26, false),
+              const SizedBox(height: 10),
+              _linea('Hoy nadie se pierde\nen el monte.', 1, 26, false),
               const Spacer(),
-              // El telefono llega antes que el remate: la conexion la hace
-              // ella, no se la damos masticada.
               AnimatedOpacity(
                 opacity: _fase >= 2 ? 1 : 0,
                 duration: const Duration(milliseconds: 800),
                 child: const Center(child: _TelefonoFalso()),
               ),
               const Spacer(),
-              _linea('Hoy vendría aquí.', 3, 31, true),
-              const SizedBox(height: 20),
+              _linea('Nos perdemos aquí.', 3, 30, true),
+              const SizedBox(height: 18),
               AnimatedOpacity(
                 opacity: _fase >= 3 ? 1 : 0,
                 duration: const Duration(milliseconds: 600),
@@ -184,7 +216,7 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
                       foregroundColor: const Color(0xFF241F10),
                     ),
                     onPressed: _fase >= 3 ? widget.onContinuar : null,
-                    child: const Text('Aquí estoy'),
+                    child: const Text('Que me encuentre aquí'),
                   ),
                 ),
               ),

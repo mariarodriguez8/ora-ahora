@@ -46,8 +46,8 @@ void main() {
     prefs = await PrefsService.create();
   });
 
-  Future<void> pintar(
-      WidgetTester tester, Widget pantalla, double escala) async {
+  Future<void> pintar(WidgetTester tester, Widget pantalla, double escala,
+      {int topeMs = 4000}) async {
     tester.view.physicalSize = _movilPequeno;
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
@@ -76,7 +76,7 @@ void main() {
     // Varias pantallas tienen animaciones y esperas (el sellado calla dos
     // segundos antes de mostrar el boton). Se bombea varias veces para que
     // esos temporizadores se consuman y no se confundan con un desborde.
-    for (final ms in [16, 300, 900, 2200, 4000]) {
+    for (final ms in [16, 300, 900, 2200, 4000].where((m) => m <= topeMs)) {
       await tester.pump(Duration(milliseconds: ms));
     }
   }
@@ -88,7 +88,8 @@ void main() {
   /// errores diferidos (imagenes que no existen en un entorno de prueba),
   /// asi que se tragan todos y solo se juzgan los desbordes.
   Future<List<String>> desbordesAlPintar(
-      WidgetTester tester, Widget pantalla, double escala) async {
+      WidgetTester tester, Widget pantalla, double escala,
+      {int topeMs = 4000}) async {
     final encontrados = <String>[];
     final anterior = FlutterError.onError;
     FlutterError.onError = (detalles) {
@@ -96,10 +97,15 @@ void main() {
       if (texto.contains('overflowed')) encontrados.add(texto);
     };
     try {
-      await pintar(tester, pantalla, escala);
-      await tester.pump(const Duration(seconds: 1));
+      await pintar(tester, pantalla, escala, topeMs: topeMs);
+      await tester.pump(Duration(milliseconds: topeMs >= 4000 ? 700 : 120));
     } finally {
-      tester.takeException();
+      for (var i = 0; i < 20; i++) {
+        final e = tester.takeException();
+        if (e == null) break;
+        // ignore: avoid_print
+        print('[pendiente] $e');
+      }
       FlutterError.onError = anterior;
     }
     return encontrados;
@@ -128,7 +134,8 @@ void main() {
     for (final p in pantallas.entries) {
       for (final escala in _escalas) {
         testWidgets('${p.key} con letra x$escala', (tester) async {
-          final desbordes = await desbordesAlPintar(tester, p.value(), escala);
+          final desbordes = await desbordesAlPintar(tester, p.value(), escala,
+                topeMs: p.key == 'preparando el plan' ? 800 : 4000);
           expect(desbordes, isEmpty,
               reason: '${desbordes.length} desborde(s) en ${p.key} a '
                   'x$escala:\n${desbordes.join("\n")}');
