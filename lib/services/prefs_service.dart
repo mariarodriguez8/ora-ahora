@@ -32,6 +32,7 @@ class PrefsKeys {
   /// Fecha (yyyy-MM-dd) del ultimo dia orado. La lee el servicio nativo
   /// para el marcador de la notificacion.
   static const oradoHoyFecha = 'orado_hoy_fecha';
+
   /// Ruta de la imagen del pacto firmado, para mostrarla en estampas.
   static const pactoImagenRuta = 'pacto_imagen_ruta';
   static const estampasSeenStreak = 'estampas_seen_streak'; // int
@@ -63,7 +64,8 @@ class PrefsKeys {
   // --- Pausa y Ora (leido tambien por Kotlin) ---
   /// String con JSON array de package names, ej: ["com.instagram.android"]
   static const gatedApps = 'gated_apps';
-  static const gatePrayers = 'gate_prayers'; // JSON array de textos (leido por Kotlin)
+  static const gatePrayers =
+      'gate_prayers'; // JSON array de textos (leido por Kotlin)
 
   /// "true"/"false" como String (no bool) para lectura nativa sin ambiguedad.
   static const gateEnabledFlag = 'gate_enabled_flag';
@@ -163,8 +165,7 @@ class PrefsService {
   // --- Racha ---
   String? get streakStateJson => _prefs.getString(PrefsKeys.streakState);
 
-  String get oradoHoyFecha =>
-      _prefs.getString(PrefsKeys.oradoHoyFecha) ?? '';
+  String get oradoHoyFecha => _prefs.getString(PrefsKeys.oradoHoyFecha) ?? '';
 
   String get pactoImagenRuta =>
       _prefs.getString(PrefsKeys.pactoImagenRuta) ?? '';
@@ -218,7 +219,8 @@ class PrefsService {
 
   // --- Apariencia ---
   /// `null` significa "sin preferencia explicita" (seguir el sistema).
-  String? get selectedPaletteId => _prefs.getString(PrefsKeys.selectedPaletteId);
+  String? get selectedPaletteId =>
+      _prefs.getString(PrefsKeys.selectedPaletteId);
 
   Future<void> setSelectedPaletteId(String? id) async {
     if (id == null) {
@@ -363,5 +365,4 @@ class PrefsService {
     await _prefs.setInt(PrefsKeys.caminoInicio, hoyComoNumero());
     await _prefs.setInt(PrefsKeys.caminoDias, dias);
   }
-
 }

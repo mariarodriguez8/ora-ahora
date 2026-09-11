@@ -85,7 +85,9 @@ class _SystemDefaultTile extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: selected ? scheme.primary : scheme.outline.withValues(alpha: 0.4),
+            color: selected
+                ? scheme.primary
+                : scheme.outline.withValues(alpha: 0.4),
             width: selected ? 2 : 1,
           ),
         ),
@@ -142,7 +144,9 @@ class _PaletteTile extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: selected ? scheme.primary : scheme.outline.withValues(alpha: 0.35),
+            color: selected
+                ? scheme.primary
+                : scheme.outline.withValues(alpha: 0.35),
             width: selected ? 2 : 1,
           ),
         ),
@@ -163,7 +167,9 @@ class _PaletteTile extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                    selected ? Icons.radio_button_checked : Icons.radio_button_off,
+                    selected
+                        ? Icons.radio_button_checked
+                        : Icons.radio_button_off,
                     color: scheme.primary,
                   ),
                   const SizedBox(width: 14),
@@ -176,8 +182,7 @@ class _PaletteTile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (selected)
-                    Icon(Icons.check_circle, color: scheme.primary),
+                  if (selected) Icon(Icons.check_circle, color: scheme.primary),
                 ],
               ),
             ),

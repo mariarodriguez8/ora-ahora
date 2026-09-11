@@ -98,7 +98,8 @@ class _TimeWheelSheetState extends State<_TimeWheelSheet> {
             const SizedBox(height: 4),
             Text(
               'Desliza los números hasta la hora que prefieras',
-              style: AppTypography.body.copyWith(color: scheme.onSurfaceVariant),
+              style:
+                  AppTypography.body.copyWith(color: scheme.onSurfaceVariant),
             ),
             const SizedBox(height: 10),
             Stack(

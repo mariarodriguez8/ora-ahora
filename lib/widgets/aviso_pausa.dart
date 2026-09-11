@@ -55,8 +55,9 @@ class _AvisoPausaState extends State<AvisoPausa> with WidgetsBindingObserver {
       if (miui) {
         // En MIUI este permiso no existe en Android estandar y
         // canDrawOverlays() no lo detecta: hay que preguntarlo aparte.
-        fondo = await _canal.invokeMethod<bool>('isMiuiBackgroundStartAllowed')
-            ?? true;
+        fondo =
+            await _canal.invokeMethod<bool>('isMiuiBackgroundStartAllowed') ??
+                true;
       }
     } catch (_) {
       return;
@@ -132,8 +133,8 @@ class _AvisoPausaState extends State<AvisoPausa> with WidgetsBindingObserver {
                 GestureDetector(
                   onTap: _arreglar,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
                       color: AppColors.tealDeep,
                       borderRadius: BorderRadius.circular(999),

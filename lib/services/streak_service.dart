@@ -257,7 +257,8 @@ class StreakService extends ChangeNotifier {
     // dispare la animacion (ver `pendingMilestone`/`acknowledgeMilestoneShown`).
     var newLastCelebratedMilestone = _state.lastCelebratedMilestone;
     for (final milestone in milestones) {
-      if (newStreak >= milestone && _state.lastCelebratedMilestone < milestone) {
+      if (newStreak >= milestone &&
+          _state.lastCelebratedMilestone < milestone) {
         _pendingMilestone = milestone;
         newLastCelebratedMilestone = milestone;
       }
@@ -324,5 +325,4 @@ class StreakService extends ChangeNotifier {
     if (_prefs.pausasHoy <= 0) return;
     await markPrayedToday(isPlusUser: isPlusUser, minutes: 1);
   }
-
 }

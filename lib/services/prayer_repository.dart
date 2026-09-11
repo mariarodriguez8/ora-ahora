@@ -60,10 +60,8 @@ class PrayerRepository {
               .toList();
       if (filtered.isNotEmpty) pool = filtered;
     }
-    final dayIndex = DateTime.now()
-        .difference(DateTime(2025, 1, 1))
-        .inDays
-        .abs();
+    final dayIndex =
+        DateTime.now().difference(DateTime(2025, 1, 1)).inDays.abs();
     final index = dayIndex % pool.length;
     return pool[index];
   }

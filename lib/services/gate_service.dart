@@ -66,7 +66,8 @@ class GateService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleGatedApp(String packageName, {required int maxApps}) async {
+  Future<void> toggleGatedApp(String packageName,
+      {required int maxApps}) async {
     if (isGated(packageName)) {
       await removeGatedApp(packageName);
       return;
@@ -86,8 +87,8 @@ class GateService extends ChangeNotifier {
       includeSystemApps: false,
       onlyAppsWithLaunchIntent: true,
     );
-    apps.sort((a, b) =>
-        a.appName.toLowerCase().compareTo(b.appName.toLowerCase()));
+    apps.sort(
+        (a, b) => a.appName.toLowerCase().compareTo(b.appName.toLowerCase()));
     return apps;
   }
 
@@ -126,8 +127,7 @@ class GateService extends ChangeNotifier {
   /// (Settings.canDrawOverlays).
   Future<bool> hasOverlayPermission() async {
     try {
-      final granted =
-          await _channel.invokeMethod<bool>('hasOverlayPermission');
+      final granted = await _channel.invokeMethod<bool>('hasOverlayPermission');
       return granted ?? false;
     } on PlatformException {
       return false;
@@ -167,8 +167,7 @@ class GateService extends ChangeNotifier {
   /// ejecuta en segundo plano". `null` = no aplica o no se pudo comprobar.
   Future<bool?> isMiuiBackgroundStartAllowed() async {
     try {
-      return await _channel
-          .invokeMethod<bool?>('isMiuiBackgroundStartAllowed');
+      return await _channel.invokeMethod<bool?>('isMiuiBackgroundStartAllowed');
     } on PlatformException {
       return null;
     }

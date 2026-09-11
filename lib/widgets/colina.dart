@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 /// necesitar una version distinta de cada archivo.
 ///
 /// La sensacion de "trabajado a mano" no viene de la forma sino del numero
-/// de capas: tres planos superpuestos con hierbas al pie.
+/// de capas: tres planos superpuestos, cada uno un poco mas claro.
 class Colina extends StatelessWidget {
   const Colina({
     super.key,
@@ -90,19 +90,6 @@ class _PintorColina extends CustomPainter {
         ..close(),
       p,
     );
-
-    final hierba = Paint()
-      ..color = _aclarar(base, 0.30)
-      ..strokeWidth = 1.6
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-    const sitios = <double>[0.07, 0.12, 0.16, 0.72, 0.79, 0.86, 0.93];
-    for (var i = 0; i < sitios.length; i++) {
-      final x = w * sitios[i];
-      final alto = 9.0 + (i % 3) * 4.0;
-      final pie = h * (0.93 - (i % 2) * 0.03);
-      lienzo.drawLine(Offset(x, pie), Offset(x, pie - alto), hierba);
-    }
 
     if (acento != null) {
       lienzo.drawCircle(

@@ -103,13 +103,16 @@ class OraAhoraApp extends StatelessWidget {
 
           if (explicitId != null) {
             final palette = AppPalette.byId(explicitId);
-            final themeData = AppTheme.fromPalette(palette, simpleMode: simpleMode);
+            final themeData =
+                AppTheme.fromPalette(palette, simpleMode: simpleMode);
             lightTheme = themeData;
             darkTheme = themeData;
             themeMode = palette.isDark ? ThemeMode.dark : ThemeMode.light;
           } else {
-            lightTheme = AppTheme.fromPalette(AppPalette.zafiroCalmo, simpleMode: simpleMode);
-            darkTheme = AppTheme.fromPalette(AppPalette.maresProfundos, simpleMode: simpleMode);
+            lightTheme = AppTheme.fromPalette(AppPalette.zafiroCalmo,
+                simpleMode: simpleMode);
+            darkTheme = AppTheme.fromPalette(AppPalette.maresProfundos,
+                simpleMode: simpleMode);
             themeMode = ThemeMode.light;
           }
 

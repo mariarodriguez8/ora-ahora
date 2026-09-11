@@ -153,7 +153,8 @@ class FaithTreeWidget extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '$cumulativeMinutes min de oración acumulados',
-                  style: TextStyle(fontSize: 13, color: scheme.onSecondaryContainer),
+                  style: TextStyle(
+                      fontSize: 13, color: scheme.onSecondaryContainer),
                 ),
                 const SizedBox(height: 8),
                 ClipRRect(
@@ -175,7 +176,8 @@ class FaithTreeWidget extends StatelessWidget {
                   remaining != null
                       ? 'Te faltan $remaining min para la próxima etapa'
                       : '¡Alcanzaste la etapa máxima!',
-                  style: TextStyle(fontSize: 11, color: scheme.onSecondaryContainer),
+                  style: TextStyle(
+                      fontSize: 11, color: scheme.onSecondaryContainer),
                 ),
               ],
             ),

@@ -90,8 +90,8 @@ class FunnelMirror extends StatelessWidget {
         return '$_horas en el celular.\n\ny para Dios, unos minutitos.\n'
             'y en el fondo sabes que te hace falta más de Él.';
       default: // media hora o más
-        return '$_horas en el celular,\n\ny un buen rato con Dios.\n'
-            'vas por buen camino —\nÉl quiere seguir cerca de ti.';
+        return '$_horas en el celular,\n\ny un buen rato\ncon Dios.\n'
+            'vas por buen camino —\nÉl quiere seguir\ncerca de ti.';
     }
   }
 
@@ -129,9 +129,9 @@ class FunnelGrace extends StatelessWidget {
         alturaMascota: 225,
         amanecer: true,
         frase: FunnelAnswers.tiempoDios == 'media hora o más'
-            ? 'No vienes de cero.\n\nYa lo buscas.\nLo que se pierde no es el tiempo:\n'
-                'son los días que se saltan sin querer.'
-            : 'La buena noticia:\n\nDios no está enojado contigo.\nEstá esperándote.',
+            ? 'No vienes de cero.\n\nYa lo buscas.\nLo que se pierde\nno es el tiempo:\n'
+                '*son los días\nque se saltan sin querer.*'
+            : 'La buena noticia:\n\nDios no está\nenojado contigo.\n*Está esperándote.*',
         mascota: 'assets/mascot/ovejita_celebrando.png',
         opciones: [
           ('quiero volver a Él 🤍', () => _go(context, const FunnelMinute())),

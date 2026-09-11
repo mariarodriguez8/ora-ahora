@@ -606,9 +606,8 @@ class _MeadowPainter extends CustomPainter {
     // acumulados brota una flor nueva, hasta un maximo sereno).
     final flowerCount = (3 + cumulativeMinutes ~/ 12).clamp(3, 44);
     final petalGold = scheme.secondary;
-    final petalLight = _isDark
-        ? scheme.onSurface.withValues(alpha: 0.85)
-        : Colors.white;
+    final petalLight =
+        _isDark ? scheme.onSurface.withValues(alpha: 0.85) : Colors.white;
     for (var i = 0; i < flowerCount; i++) {
       final fx = _rand(i, 1) * w;
       final fy = h * (0.62 + _rand(i, 2) * 0.34);
@@ -701,9 +700,8 @@ class _MeadowPainter extends CustomPainter {
     canvas.drawLine(Offset(staffX, fy), Offset(staffX, staffTop), staffPaint);
     final crook = Path()
       ..moveTo(staffX, staffTop)
-      ..quadraticBezierTo(
-          staffX - h * 0.02, staffTop - h * 0.11, staffX - h * 0.13,
-          staffTop - h * 0.02);
+      ..quadraticBezierTo(staffX - h * 0.02, staffTop - h * 0.11,
+          staffX - h * 0.13, staffTop - h * 0.02);
     canvas.drawPath(crook, staffPaint);
   }
 

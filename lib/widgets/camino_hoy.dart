@@ -88,7 +88,8 @@ class CaminoHoy extends StatelessWidget {
     final d = inicioYyyymmdd % 100;
     final inicio = DateTime(y, m, d);
     final hoy = DateTime.now();
-    final dias = DateTime(hoy.year, hoy.month, hoy.day).difference(inicio).inDays;
+    final dias =
+        DateTime(hoy.year, hoy.month, hoy.day).difference(inicio).inDays;
     return dias < 0 ? 1 : dias + 1;
   }
 

@@ -1,0 +1,75 @@
+// Catalogo visual: las pantallas del embudo, una al lado de otra.
+//
+// No forma parte de la app. Existe para poder MIRAR las pantallas en un
+// navegador y juzgar la composicion con los ojos, que es lo unico que
+// detecta un texto encima de otro o un dibujo que queda mal. Las pruebas
+// solo cazan desbordes.
+//
+//   flutter build web -t lib/main_catalogo.dart
+import 'package:flutter/material.dart';
+
+import 'screens/onboarding/funnel_screens.dart';
+import 'theme/app_theme.dart';
+
+void main() => runApp(const Catalogo());
+
+const _pantallas = <String, Widget>{
+  '1 te ha pasado': FunnelQ1(),
+  '2 horas de celular': FunnelQ2(),
+  '3 tiempo con Dios': FunnelQ3(),
+  '4 el espejo': FunnelMirror(),
+  '5 la gracia': FunnelGrace(),
+  '6 el minuto': FunnelMinute(),
+  '7 el regalo': FunnelRegalo(),
+  '8 la cancion': FunnelCancion(),
+};
+
+class Catalogo extends StatelessWidget {
+  const Catalogo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light(),
+      home: Scaffold(
+        backgroundColor: const Color(0xFF2B2B2B),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(12),
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              for (final p in _pantallas.entries)
+                SizedBox(
+                  width: 288,
+                  child: Column(
+                    children: [
+                      Text(p.key,
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 12)),
+                      const SizedBox(height: 6),
+                      // Medida de un movil corriente en Latinoamerica.
+                      Container(
+                        width: 288,
+                        height: 592,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(color: Colors.white24),
+                        ),
+                        child: MediaQuery(
+                          data: const MediaQueryData(size: Size(360, 740)),
+                          child: p.value,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

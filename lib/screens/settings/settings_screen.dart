@@ -92,14 +92,17 @@ class SettingsScreen extends StatelessWidget {
             title: 'Optimización de batería',
             subtitle: 'Evita que Android silencie la Pausa y Ora',
             onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const BatteryOptimizationScreen()),
+              MaterialPageRoute(
+                  builder: (_) => const BatteryOptimizationScreen()),
             ),
           ),
           const Divider(height: 32),
           _SectionLabel('Tu cuenta'),
           _SettingsTile(
             icon: Icons.workspace_premium_outlined,
-            title: isPlus ? 'Eres miembro Ora Ahora Plus' : 'Obtener Ora Ahora Plus',
+            title: isPlus
+                ? 'Eres miembro Ora Ahora Plus'
+                : 'Obtener Ora Ahora Plus',
             subtitle: isPlus
                 ? 'Gracias por apoyar Ora Ahora'
                 : 'Apps ilimitadas en Pausa y Ora, y más',
@@ -196,7 +199,8 @@ class _SettingsTile extends StatelessWidget {
         ),
         child: Icon(icon, color: color, size: 20),
       ),
-      title: Text(title, style: AppTypography.body.copyWith(fontWeight: FontWeight.w600)),
+      title: Text(title,
+          style: AppTypography.body.copyWith(fontWeight: FontWeight.w600)),
       subtitle: subtitle != null
           ? Text(
               subtitle!,
@@ -208,4 +212,3 @@ class _SettingsTile extends StatelessWidget {
     );
   }
 }
-

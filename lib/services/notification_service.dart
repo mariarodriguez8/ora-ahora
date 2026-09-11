@@ -104,7 +104,7 @@ class NotificationService {
     tz_data.initializeTimeZones();
     try {
       final localTimezone = await FlutterTimezone.getLocalTimezone();
-tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
+      tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
     } catch (_) {
       // Si no se puede detectar la zona horaria del dispositivo, se usa UTC
       // como respaldo seguro (las notificaciones seguiran funcionando,
@@ -224,7 +224,7 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
               ),
             ),
           ),
-         payload: kMomentoPayload,
+          payload: kMomentoPayload,
           androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
@@ -251,8 +251,7 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
     await init();
 
     final now = tz.TZDateTime.now(tz.local);
-    var scheduled =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour);
+    var scheduled = tz.TZDateTime(tz.local, now.year, now.month, now.day, hour);
     if (scheduled.isBefore(now)) {
       scheduled = scheduled.add(const Duration(days: 1));
     }
@@ -272,7 +271,7 @@ tz.setLocalLocation(tz.getLocation(localTimezone.identifier));
         ),
       ),
       payload: kMomentoPayload,
-          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );

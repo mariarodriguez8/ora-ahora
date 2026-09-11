@@ -112,7 +112,8 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
               value: gate.gateEnabled,
               onChanged: _onMasterSwitch,
               title: const Text('Activar Pausa y Ora'),
-              subtitle: const Text('Requiere dos permisos sencillos (te guiamos)'),
+              subtitle:
+                  const Text('Requiere dos permisos sencillos (te guiamos)'),
             ),
             if (!isPlus)
               Padding(
@@ -160,7 +161,8 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
                             Text(
                               'No encontramos apps instaladas para elegir.',
                               textAlign: TextAlign.center,
-                              style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+                              style: AppTypography.body
+                                  .copyWith(color: AppColors.inkSoft),
                             ),
                           ],
                         ),
@@ -185,7 +187,9 @@ class _GatedAppsScreenState extends State<GatedAppsScreen> {
                         trailing: Switch(
                           value: isGated,
                           onChanged: (value) async {
-                            if (value && !isGated && gate.gatedApps.length >= _maxApps) {
+                            if (value &&
+                                !isGated &&
+                                gate.gatedApps.length >= _maxApps) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(

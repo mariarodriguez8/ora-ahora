@@ -110,12 +110,11 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Image.asset('assets/mascot/ovejita.png',
-                          height: 110),
+                      child:
+                          Image.asset('assets/mascot/ovejita.png', height: 110),
                     ),
                     const SizedBox(height: 20),
-                    Text('Activa Pausa y Ora',
-                        style: AppTypography.headline),
+                    Text('Activa Pausa y Ora', style: AppTypography.headline),
                     const SizedBox(height: 12),
                     Text(
                       'Activa estos permisos para que Pausa y Ora funcione. '
@@ -159,8 +158,7 @@ class _GateExplainerScreenState extends State<GateExplainerScreen>
                             'Tu teléfono Xiaomi pide un permiso extra.',
                         granted: _miuiGranted,
                         botonTexto: 'Abrir ajustes',
-                        instruccion:
-                            'Enciende "Mostrar ventanas emergentes en '
+                        instruccion: 'Enciende "Mostrar ventanas emergentes en '
                             'segundo plano".',
                         onPressed: () =>
                             _markSeenAnd(gate.openMiuiOtherPermissions),

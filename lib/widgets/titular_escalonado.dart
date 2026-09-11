@@ -42,7 +42,7 @@ class TitularEscalonado extends StatelessWidget {
     final lineas = frase.split('\n');
     // Cuanto entra cada linea. Se corta a los 44 para que ni con la letra
     // grande se coma el ancho util.
-    double sangria(int i) => (i * 18.0).clamp(0.0, 44.0);
+    double sangria(int i) => (i * 11.0).clamp(0.0, 26.0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,7 @@ class TitularEscalonado extends StatelessWidget {
     // frase tiene relieve en vez de ser un bloque uniforme.
     double tamano = base;
     if (destacada) {
-      tamano = base + 7;
+      tamano = base + 4;
     } else if (i > 0 && i == total - 1) {
       tamano = base - 3;
     } else if (i > 0) {
@@ -73,13 +73,22 @@ class TitularEscalonado extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(left: sangria, bottom: 2),
-      child: Text(
-        limpio,
-        style: AppTypography.display.copyWith(
-          fontSize: tamano,
-          height: 1.12,
-          fontStyle: destacada ? FontStyle.italic : FontStyle.normal,
-          color: destacada ? acento : color,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            limpio,
+            maxLines: 1,
+            softWrap: false,
+            style: AppTypography.display.copyWith(
+              fontSize: tamano,
+              height: 1.14,
+              fontStyle: destacada ? FontStyle.italic : FontStyle.normal,
+              color: destacada ? acento : color,
+            ),
+          ),
         ),
       ),
     );

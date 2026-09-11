@@ -104,8 +104,7 @@ class _AmenOverlay extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: dorado.withValues(alpha: 0.18),
                       borderRadius: BorderRadius.circular(999),
-                      border:
-                          Border.all(color: dorado.withValues(alpha: 0.6)),
+                      border: Border.all(color: dorado.withValues(alpha: 0.6)),
                     ),
                     child: Text(
                       streak == 1

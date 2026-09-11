@@ -25,22 +25,22 @@ class AppTheme {
 
     final textTheme = TextTheme(
       displayLarge: AppTypography.display.copyWith(color: scheme.onSurface),
-      displayMedium: AppTypography.display
-          .copyWith(fontSize: 28, color: scheme.onSurface),
+      displayMedium:
+          AppTypography.display.copyWith(fontSize: 28, color: scheme.onSurface),
       headlineLarge: AppTypography.headline
           .copyWith(fontSize: 26, color: scheme.onSurface),
       headlineMedium: AppTypography.headline.copyWith(color: scheme.onSurface),
       headlineSmall: serifOnSurface,
       titleLarge: serifOnSurface,
       titleMedium: AppTypography.title.copyWith(color: scheme.onSurface),
-      titleSmall: AppTypography.title
-          .copyWith(fontSize: 15, color: scheme.onSurface),
+      titleSmall:
+          AppTypography.title.copyWith(fontSize: 15, color: scheme.onSurface),
       bodyLarge: AppTypography.bodyLarge.copyWith(color: scheme.onSurface),
       bodyMedium: AppTypography.body.copyWith(color: scheme.onSurface),
       bodySmall: AppTypography.body
           .copyWith(fontSize: 13, color: scheme.onSurfaceVariant),
-      labelLarge: AppTypography.title
-          .copyWith(fontSize: 15, color: scheme.onSurface),
+      labelLarge:
+          AppTypography.title.copyWith(fontSize: 15, color: scheme.onSurface),
       labelMedium: AppTypography.caption.copyWith(color: scheme.onSurface),
       labelSmall: AppTypography.caption
           .copyWith(fontSize: 10.5, color: scheme.onSurfaceVariant),
@@ -135,8 +135,8 @@ class AppTheme {
       ),
       listTileTheme: ListTileThemeData(
         iconColor: scheme.primary,
-        titleTextStyle: AppTypography.title
-            .copyWith(fontSize: 16, color: scheme.onSurface),
+        titleTextStyle:
+            AppTypography.title.copyWith(fontSize: 16, color: scheme.onSurface),
         subtitleTextStyle: AppTypography.body
             .copyWith(fontSize: 13.5, color: scheme.onSurfaceVariant),
         shape: RoundedRectangleBorder(

@@ -35,12 +35,14 @@ class _RemindersScreenState extends State<RemindersScreen> {
     // entonces no habia suficientes datos, aqui se aprovecha para
     // reprogramar el aviso en caso de que ya se hayan acumulado suficientes
     // eventos de uso desde la ultima vez que se abrio esta pantalla.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeRefreshSmartReminder());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _maybeRefreshSmartReminder());
   }
 
   Future<void> _maybeRefreshSmartReminder() async {
     if (!_smartReminderEnabled) return;
-    final usagePatternService = UsagePatternService(context.read<PrefsService>());
+    final usagePatternService =
+        UsagePatternService(context.read<PrefsService>());
     final hour = usagePatternService.mostCommonHour();
     if (hour == null) return;
     if (!mounted) return;
@@ -133,7 +135,8 @@ class _RemindersScreenState extends State<RemindersScreen> {
 
     final notifications = context.read<NotificationService>();
     if (value) {
-      final usagePatternService = UsagePatternService(context.read<PrefsService>());
+      final usagePatternService =
+          UsagePatternService(context.read<PrefsService>());
       final hour = usagePatternService.mostCommonHour();
       if (hour != null) {
         await notifications.scheduleSmartReminder(hour);
@@ -145,7 +148,8 @@ class _RemindersScreenState extends State<RemindersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final usagePatternService = UsagePatternService(context.read<PrefsService>());
+    final usagePatternService =
+        UsagePatternService(context.read<PrefsService>());
 
     return Scaffold(
       appBar: AppBar(title: const Text('Recordatorios diarios')),

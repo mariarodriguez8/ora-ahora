@@ -13,6 +13,7 @@ class Cancion {
 
   /// Enlace al video oficial en YouTube.
   final String url;
+
   /// Que orar mientras suena. Es el diferenciador de la app.
   final String oracion;
 
@@ -29,7 +30,8 @@ const List<Cancion> kCanciones = [
   Cancion(
     titulo: 'Vuelvo a Ti',
     artista: 'Un Corazón ft. Lowsan Melgar',
-    mensaje: 'para el día que te sientas lejos. da igual cuánto tiempo pasó: la puerta sigue abierta.',
+    mensaje:
+        'para el día que te sientas lejos. da igual cuánto tiempo pasó: la puerta sigue abierta.',
     url: 'https://www.youtube.com/watch?v=KqRWUCqjeAE',
     oracion: 'Señor, aquí estoy otra vez. Recíbeme como si no me hubiera ido.',
   ),
@@ -52,7 +54,8 @@ const List<Cancion> kCanciones = [
     artista: 'Marcela Gándara',
     mensaje: 'para los días en que lo único que te sale es decir gracias.',
     url: 'https://www.youtube.com/watch?v=HkZhNE3n-i4',
-    oracion: 'Señor, gracias por lo que tengo hoy, aunque no sea todo lo que quería.',
+    oracion:
+        'Señor, gracias por lo que tengo hoy, aunque no sea todo lo que quería.',
   ),
   Cancion(
     titulo: 'Renuévame',

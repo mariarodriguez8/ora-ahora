@@ -148,14 +148,16 @@ class _JournalScreenState extends State<JournalScreen> {
                     'Escribe lo que le estás pidiendo a Dios. Cuando Él '
                     'responda, lo marcas aquí.',
                     textAlign: TextAlign.center,
-                    style: AppTypography.body.copyWith(color: AppColors.inkSoft),
+                    style:
+                        AppTypography.body.copyWith(color: AppColors.inkSoft),
                   ),
                 ],
               ),
             );
           }
 
-          final dateKeys = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
+          final dateKeys = grouped.keys.toList()
+            ..sort((a, b) => b.compareTo(a));
 
           return ListView.builder(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 100),
@@ -187,8 +189,8 @@ class _JournalScreenState extends State<JournalScreen> {
               }
               final key = dateKeys[index - 1];
               final entries = grouped[key]!;
-              final label =
-                  DateFormat("d 'de' MMMM, y", 'es').format(entries.first.fecha);
+              final label = DateFormat("d 'de' MMMM, y", 'es')
+                  .format(entries.first.fecha);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -196,15 +198,18 @@ class _JournalScreenState extends State<JournalScreen> {
                     padding: const EdgeInsets.only(top: 12, bottom: 8),
                     child: Text(
                       label,
-                      style: AppTypography.caption.copyWith(color: AppColors.inkSoft),
+                      style: AppTypography.caption
+                          .copyWith(color: AppColors.inkSoft),
                     ),
                   ),
                   ...entries.map((e) => _JournalTile(
                         entry: e,
                         onTap: () async {
-                          final changed = await Navigator.of(context).push<bool>(
+                          final changed =
+                              await Navigator.of(context).push<bool>(
                             MaterialPageRoute(
-                              builder: (_) => JournalEntryEditorScreen(entry: e),
+                              builder: (_) =>
+                                  JournalEntryEditorScreen(entry: e),
                             ),
                           );
                           if (changed == true) setState(_reload);

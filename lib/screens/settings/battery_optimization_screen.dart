@@ -19,7 +19,8 @@ class BatteryOptimizationScreen extends StatefulWidget {
   const BatteryOptimizationScreen({super.key});
 
   @override
-  State<BatteryOptimizationScreen> createState() => _BatteryOptimizationScreenState();
+  State<BatteryOptimizationScreen> createState() =>
+      _BatteryOptimizationScreenState();
 }
 
 class _BatteryOptimizationScreenState extends State<BatteryOptimizationScreen>
@@ -63,7 +64,8 @@ class _BatteryOptimizationScreenState extends State<BatteryOptimizationScreen>
         child: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            const Icon(Icons.battery_saver_outlined, size: 48, color: AppColors.tealDeep),
+            const Icon(Icons.battery_saver_outlined,
+                size: 48, color: AppColors.tealDeep),
             const SizedBox(height: 20),
             Text('¿Por qué importa esto?', style: AppTypography.headline),
             const SizedBox(height: 12),
@@ -112,7 +114,8 @@ class _BatteryOptimizationScreenState extends State<BatteryOptimizationScreen>
                     await gate.requestIgnoreBatteryOptimizations();
                     await _refreshStatus();
                   },
-                  child: const Text('Permitir que Ora Ahora se ejecute sin restricciones'),
+                  child: const Text(
+                      'Permitir que Ora Ahora se ejecute sin restricciones'),
                 ),
               ),
             const SizedBox(height: 10),

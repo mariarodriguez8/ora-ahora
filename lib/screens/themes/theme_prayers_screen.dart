@@ -87,8 +87,8 @@ class _ThemePrayersScreenState extends State<ThemePrayersScreen> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
                       'elige la que más te pese hoy y ora sobre eso.',
-                      style: AppTypography.body
-                          .copyWith(color: AppColors.inkSoft),
+                      style:
+                          AppTypography.body.copyWith(color: AppColors.inkSoft),
                     ),
                   );
                 }

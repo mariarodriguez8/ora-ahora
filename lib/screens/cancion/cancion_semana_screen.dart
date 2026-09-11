@@ -76,7 +76,8 @@ class CancionSemanaScreen extends StatelessWidget {
                 child: Text(
                   c.mensaje,
                   textAlign: TextAlign.center,
-                  style: AppTypography.quote.copyWith(fontSize: 16, height: 1.5),
+                  style:
+                      AppTypography.quote.copyWith(fontSize: 16, height: 1.5),
                 ),
               ),
               const SizedBox(height: 24),
@@ -112,7 +113,8 @@ class CancionSemanaCard extends StatelessWidget {
   final bool isPlus;
   final VoidCallback onTap;
 
-  const CancionSemanaCard({super.key, required this.isPlus, required this.onTap});
+  const CancionSemanaCard(
+      {super.key, required this.isPlus, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -134,109 +136,109 @@ class CancionSemanaCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Un regalo tiene que anunciarse: sin esto era una fila mas.
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.24),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.card_giftcard_rounded,
-                        size: 13, color: Colors.white),
-                    const SizedBox(width: 5),
-                    Text('NUEVA ESTA SEMANA',
-                        style: AppTypography.caption.copyWith(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.8,
-                        )),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Un regalo tiene que anunciarse: sin esto era una fila mas.
             Container(
-              width: 46,
-              height: 46,
-              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.18),
+                color: Colors.white.withValues(alpha: 0.24),
+                borderRadius: BorderRadius.circular(999),
               ),
-              child: const Text('🎧', style: TextStyle(fontSize: 24)),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    children: [
-                      Text('Canción de la semana',
-                          style: AppTypography.body.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700)),
-                      const SizedBox(width: 8),
-                      if (!isPlus)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 7, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.cream,
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                          child: Text('Plus',
-                              style: AppTypography.caption.copyWith(
-                                  color: AppColors.ink,
-                                  fontWeight: FontWeight.w700)),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    isPlus
-                        ? '${c.titulo} · ${c.artista}'
-                        : 'una alabanza nueva cada semana',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.caption
-                        .copyWith(color: Colors.white.withValues(alpha: 0.85)),
-                  ),
+                  const Icon(Icons.card_giftcard_rounded,
+                      size: 13, color: Colors.white),
+                  const SizedBox(width: 5),
+                  Text('NUEVA ESTA SEMANA',
+                      style: AppTypography.caption.copyWith(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.8,
+                      )),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.white),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Container(
+                  width: 46,
+                  height: 46,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.18),
+                  ),
+                  child: const Text('🎧', style: TextStyle(fontSize: 24)),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text('Canción de la semana',
+                              style: AppTypography.body.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700)),
+                          const SizedBox(width: 8),
+                          if (!isPlus)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 7, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: AppColors.cream,
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Text('Plus',
+                                  style: AppTypography.caption.copyWith(
+                                      color: AppColors.ink,
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        isPlus
+                            ? '${c.titulo} · ${c.artista}'
+                            : 'una alabanza nueva cada semana',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTypography.caption.copyWith(
+                            color: Colors.white.withValues(alpha: 0.85)),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: Colors.white),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(c.mensaje,
+                style: AppTypography.body.copyWith(
+                    fontSize: 13,
+                    height: 1.35,
+                    color: Colors.white.withValues(alpha: 0.92))),
+            if (isPlus) ...[
+              const SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text('Mientras la escuchas, ora:\n' + c.oracion,
+                    style: AppTypography.body.copyWith(
+                        fontSize: 12.5, height: 1.35, color: Colors.white)),
+              ),
+            ],
           ],
         ),
-              const SizedBox(height: 12),
-              Text(c.mensaje,
-                  style: AppTypography.body.copyWith(
-                      fontSize: 13,
-                      height: 1.35,
-                      color: Colors.white.withValues(alpha: 0.92))),
-              if (isPlus) ...[
-                const SizedBox(height: 10),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text('Mientras la escuchas, ora:\n' + c.oracion,
-                      style: AppTypography.body.copyWith(
-                          fontSize: 12.5, height: 1.35, color: Colors.white)),
-                ),
-              ],
-            ],
-          ),
       ),
     );
   }

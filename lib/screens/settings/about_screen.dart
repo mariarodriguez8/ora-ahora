@@ -16,11 +16,14 @@ class AboutScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.self_improvement, size: 48, color: AppColors.tealDeep),
+              const Icon(Icons.self_improvement,
+                  size: 48, color: AppColors.tealDeep),
               const SizedBox(height: 16),
               Text('Ora Ahora', style: AppTypography.headline),
               const SizedBox(height: 4),
-              Text('Versión 1.0.0', style: AppTypography.caption.copyWith(color: AppColors.inkSoft)),
+              Text('Versión 1.0.0',
+                  style:
+                      AppTypography.caption.copyWith(color: AppColors.inkSoft)),
               const SizedBox(height: 20),
               Text(
                 'Ora Ahora es una app de oración cristiana interdenominacional '

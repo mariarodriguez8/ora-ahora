@@ -123,28 +123,28 @@ class MomentoOracionScreen extends StatelessWidget {
                   child: const Text('Amén, ya oré 🙏'),
                 ),
               ),
-                const SizedBox(height: 10),
-                // La segunda salida, para el dia en que leer no alcanza.
-                // Misma oracion, otra forma de recibirla: a oscuras y linea
-                // por linea, sin poder despacharla de un vistazo.
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute<bool>(
-                        builder: (_) => OracionInmersivaScreen(
-                          lineas: OracionInmersivaScreen.partir(_oracionDeHoy),
-                        ),
+              const SizedBox(height: 10),
+              // La segunda salida, para el dia en que leer no alcanza.
+              // Misma oracion, otra forma de recibirla: a oscuras y linea
+              // por linea, sin poder despacharla de un vistazo.
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute<bool>(
+                      builder: (_) => OracionInmersivaScreen(
+                        lineas: OracionInmersivaScreen.partir(_oracionDeHoy),
                       ),
                     ),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.tealDeep,
-                      side: const BorderSide(color: AppColors.tealDeep),
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    child: const Text('Hoy no me salen las palabras'),
                   ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.tealDeep,
+                    side: const BorderSide(color: AppColors.tealDeep),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: const Text('Hoy no me salen las palabras'),
                 ),
+              ),
               const SizedBox(height: 8),
               Center(
                 child: TextButton(

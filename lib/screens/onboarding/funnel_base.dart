@@ -69,10 +69,9 @@ class FunnelScreen extends StatelessWidget {
               bottom: 0,
               child: Colina(
                 base: amanecer
-                    ? const Color(0xFF1F4A3A)
+                    ? const Color(0xFF3A3A22)
                     : const Color(0xFF143A2E),
-                altura: 210,
-                acento: kFunnelDorado,
+                altura: 250,
               ),
             ),
             SafeArea(
@@ -90,7 +89,7 @@ class FunnelScreen extends StatelessWidget {
                       constraints: BoxConstraints(minHeight: cons.maxHeight),
                       child: IntrinsicHeight(
                         child: Padding(
-                          padding: const EdgeInsets.all(28),
+                          padding: const EdgeInsets.fromLTRB(22, 28, 22, 28),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -98,16 +97,7 @@ class FunnelScreen extends StatelessWidget {
                                 const SizedBox(height: 6),
                                 _BarraEmbudo(paso: pasoEmbudo!),
                               ],
-                              const Spacer(),
-                              AparicionSuave(
-                                  orden: 0,
-                                  child: Center(
-                                    child: Image.asset(mascota,
-                                        height: alturaOveja,
-                                        fit: BoxFit.contain,
-                                        filterQuality: FilterQuality.medium),
-                                  )),
-                              const Spacer(),
+                              const SizedBox(height: 26),
                               AparicionSuave(
                                   orden: 1,
                                   child: TitularEscalonado(
@@ -125,10 +115,20 @@ class FunnelScreen extends StatelessWidget {
                                                 alpha: 0.6)))),
                               ],
                               if (extra != null) ...[
-                                const SizedBox(height: 18),
+                                const Spacer(flex: 2),
+                                const SizedBox(height: 8),
                                 AparicionSuave(orden: 3, child: extra!),
                               ],
-                              const SizedBox(height: 24),
+                              const Spacer(flex: 3),
+                              AparicionSuave(
+                                  orden: 0,
+                                  child: Center(
+                                    child: Image.asset(mascota,
+                                        height: alturaOveja,
+                                        fit: BoxFit.contain,
+                                        filterQuality: FilterQuality.medium),
+                                  )),
+                              const SizedBox(height: 18),
                               for (final (i, (texto, onTap))
                                   in opciones.indexed) ...[
                                 AparicionSuave(

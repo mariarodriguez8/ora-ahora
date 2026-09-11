@@ -28,7 +28,8 @@ class _JournalEntryEditorScreenState extends State<JournalEntryEditorScreen> {
   void initState() {
     super.initState();
     _textController = TextEditingController(text: widget.entry.texto);
-    _notaController = TextEditingController(text: widget.entry.notaRespuesta ?? '');
+    _notaController =
+        TextEditingController(text: widget.entry.notaRespuesta ?? '');
     _respondida = widget.entry.respondida;
   }
 
@@ -44,7 +45,8 @@ class _JournalEntryEditorScreenState extends State<JournalEntryEditorScreen> {
     final updated = widget.entry.copyWith(
       texto: _textController.text.trim(),
       respondida: _respondida,
-      fechaRespuesta: _respondida ? (widget.entry.fechaRespuesta ?? DateTime.now()) : null,
+      fechaRespuesta:
+          _respondida ? (widget.entry.fechaRespuesta ?? DateTime.now()) : null,
       notaRespuesta: _respondida ? _notaController.text.trim() : null,
     );
     await repo.update(updated);
@@ -97,7 +99,9 @@ class _JournalEntryEditorScreenState extends State<JournalEntryEditorScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(fecha, style: AppTypography.caption.copyWith(color: AppColors.inkSoft)),
+              Text(fecha,
+                  style:
+                      AppTypography.caption.copyWith(color: AppColors.inkSoft)),
               const SizedBox(height: 12),
               TextField(
                 controller: _textController,

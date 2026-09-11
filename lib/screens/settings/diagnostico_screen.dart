@@ -38,7 +38,8 @@ class _DiagnosticoScreenState extends State<DiagnosticoScreen> {
 
   String _hace(int? ms) {
     if (ms == null || ms == 0) return 'nunca';
-    final d = DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(ms));
+    final d =
+        DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(ms));
     if (d.inSeconds < 60) return 'hace ${d.inSeconds} s';
     if (d.inMinutes < 60) return 'hace ${d.inMinutes} min';
     if (d.inHours < 24) return 'hace ${d.inHours} h';
@@ -69,7 +70,8 @@ class _DiagnosticoScreenState extends State<DiagnosticoScreen> {
       sup = await _canal.invokeMethod<bool>('hasOverlayPermission') ?? false;
       miui = await _canal.invokeMethod<bool>('isMiuiDevice') ?? false;
       if (miui) {
-        miuiFondo = await _canal.invokeMethod<bool>('isMiuiBackgroundStartAllowed');
+        miuiFondo =
+            await _canal.invokeMethod<bool>('isMiuiBackgroundStartAllowed');
       }
     } catch (_) {}
     if (!mounted) return;
@@ -114,7 +116,8 @@ class _DiagnosticoScreenState extends State<DiagnosticoScreen> {
     final tsLatido = _latido;
     final vivo = tsLatido.contains(' s') ||
         (tsLatido.contains('min') &&
-            (int.tryParse(tsLatido.replaceAll(RegExp(r'[^0-9]'), '')) ?? 99) < 3);
+            (int.tryParse(tsLatido.replaceAll(RegExp(r'[^0-9]'), '')) ?? 99) <
+                3);
 
     return Scaffold(
       appBar: AppBar(
@@ -140,11 +143,13 @@ class _DiagnosticoScreenState extends State<DiagnosticoScreen> {
                 _fila('Vigilancia activa', vivo,
                     detalle: 'Última señal: $tsLatido'),
                 _fila('Permiso de acceso a datos de uso', _uso,
-                    detalle: _uso ? null : 'Sin esto no sabemos qué app abriste',
+                    detalle:
+                        _uso ? null : 'Sin esto no sabemos qué app abriste',
                     onTap: _uso
                         ? null
                         : () async {
-                            await _canal.invokeMethod('openUsageAccessSettings');
+                            await _canal
+                                .invokeMethod('openUsageAccessSettings');
                           }),
                 _fila('Permiso para mostrarse sobre otras apps', _superposicion,
                     detalle: _superposicion
@@ -161,8 +166,8 @@ class _DiagnosticoScreenState extends State<DiagnosticoScreen> {
                           ? null
                           : 'En Xiaomi hay que activarlo aparte o la pausa nunca sale',
                       onTap: () async {
-                        await _canal.invokeMethod('openMiuiOtherPermissions');
-                      }),
+                    await _canal.invokeMethod('openMiuiOtherPermissions');
+                  }),
                 _fila('Apps vigiladas', _appsVigiladas > 0,
                     detalle: '$_appsVigiladas seleccionadas'),
                 const Divider(),
