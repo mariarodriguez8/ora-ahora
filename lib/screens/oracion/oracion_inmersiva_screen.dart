@@ -119,6 +119,30 @@ class _OracionInmersivaScreenState extends State<OracionInmersivaScreen> {
                         fontStyle: FontStyle.italic,
                       )),
                 ],
+                // La oracion avanza sola, pero eso no se ve. La flecha dice que
+                // ademas puedes adelantarla tocando: sin ella parece que se colgo.
+                AnimatedOpacity(
+                  opacity: _terminada ? 0 : 1,
+                  duration: const Duration(milliseconds: 400),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'toca para seguir',
+                        style: AppTypography.caption.copyWith(
+                          color: AppColors.cream.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      const SizedBox(width: 7),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 17,
+                        color: AppColors.cream.withValues(alpha: 0.5),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 6),
                 const Spacer(),
                 AnimatedOpacity(
                   opacity: _terminada ? 1 : 0,
