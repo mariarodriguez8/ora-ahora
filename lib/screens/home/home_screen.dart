@@ -539,7 +539,6 @@ class _GreetingHeader extends StatelessWidget {
               ],
             ),
           ),
-          const _NightModeCorner(),
         ],
       ),
     );
@@ -548,36 +547,6 @@ class _GreetingHeader extends StatelessWidget {
 
 /// Boton de esquina dia/noche 🌙☀️: beneficio VISIBLE de Plus. Los Plus
 /// alternan la paleta al toque; los gratis ven la invitacion y el paywall.
-class _NightModeCorner extends StatelessWidget {
-  const _NightModeCorner();
-
-  @override
-  Widget build(BuildContext context) {
-    final appearance = context.watch<AppearanceService>();
-    final esNoche = appearance.explicitPaletteId == AppPaletteId.maresProfundos;
-    final scheme = Theme.of(context).colorScheme;
-    return InkWell(
-      borderRadius: BorderRadius.circular(999),
-      onTap: () async {
-        // Dia y noche es comodidad basica: no va detras de Plus.
-        await appearance.setPalette(
-            esNoche ? AppPaletteId.zafiroCalmo : AppPaletteId.maresProfundos);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: scheme.primaryContainer.withValues(alpha: 0.6),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          esNoche ? Icons.wb_sunny_rounded : Icons.nightlight_round,
-          size: 18,
-          color: scheme.onPrimaryContainer,
-        ),
-      ),
-    );
-  }
-}
 
 /// Seccion de la oracion del dia: overline dorada + titulo serif + la
 /// tarjeta destacada (fondo primario profundo, ver

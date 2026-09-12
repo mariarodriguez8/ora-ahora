@@ -26,6 +26,11 @@ class StreakService extends ChangeNotifier {
 
   StreakService(this._prefs) {
     _state = _load();
+    // Quien ya venia de antes no tenia este contador. Le damos al menos su
+    // racha actual para no borrarle lo andado.
+    if (_state.diasTotales < _state.currentStreak) {
+      _state = _state.copyWith(diasTotales: _state.currentStreak);
+    }
   }
 
   /// Fichas de congelación otorgadas cada mes nuevo a los usuarios Plus.
@@ -85,6 +90,7 @@ class StreakService extends ChangeNotifier {
   StreakState get state => _state;
 
   int get currentStreak => _state.currentStreak;
+  int get diasTotales => _state.diasTotales;
   int get longestStreak => _state.longestStreak;
   int get freezeTokens => _state.freezeTokens;
   int get cumulativeMinutes => _state.cumulativeMinutes;
@@ -266,6 +272,7 @@ class StreakService extends ChangeNotifier {
 
     _state = _state.copyWith(
       currentStreak: newStreak,
+      diasTotales: _state.diasTotales + 1,
       longestStreak: newLongest,
       lastPrayedDate: today,
       weekStart: weekStart,

@@ -30,6 +30,9 @@ class StreakState {
   final String? freezeTokensGrantMonthKey;
   final int cumulativeMinutes;
 
+  /// Dias orados en toda la vida. Nunca baja: es lo que da las estampas.
+  final int diasTotales;
+
   /// Minutos orados en el dia indicado por [minutesTodayDayKey].
   final int minutesToday;
 
@@ -52,6 +55,7 @@ class StreakState {
     this.freezeTokens = 0,
     this.freezeTokensGrantMonthKey,
     this.cumulativeMinutes = 0,
+    this.diasTotales = 0,
     this.minutesToday = 0,
     this.minutesTodayDayKey,
     this.lastCelebratedMilestone = 0,
@@ -67,6 +71,7 @@ class StreakState {
       freezeTokens: 0,
       freezeTokensGrantMonthKey: null,
       cumulativeMinutes: 0,
+        diasTotales: 0,
       minutesToday: 0,
       minutesTodayDayKey: null,
       lastCelebratedMilestone: 0,
@@ -87,6 +92,7 @@ class StreakState {
     int? freezeTokens,
     String? freezeTokensGrantMonthKey,
     int? cumulativeMinutes,
+    int? diasTotales,
     int? minutesToday,
     String? minutesTodayDayKey,
     int? lastCelebratedMilestone,
@@ -101,6 +107,7 @@ class StreakState {
       freezeTokensGrantMonthKey:
           freezeTokensGrantMonthKey ?? this.freezeTokensGrantMonthKey,
       cumulativeMinutes: cumulativeMinutes ?? this.cumulativeMinutes,
+      diasTotales: diasTotales ?? this.diasTotales,
       minutesToday: minutesToday ?? this.minutesToday,
       minutesTodayDayKey: minutesTodayDayKey ?? this.minutesTodayDayKey,
       lastCelebratedMilestone:
@@ -122,6 +129,7 @@ class StreakState {
       freezeTokens: json['freezeTokens'] as int? ?? 0,
       freezeTokensGrantMonthKey: json['freezeTokensGrantMonthKey'] as String?,
       cumulativeMinutes: json['cumulativeMinutes'] as int? ?? 0,
+      diasTotales: json['diasTotales'] as int? ?? 0,
       minutesToday: json['minutesToday'] as int? ?? 0,
       minutesTodayDayKey: json['minutesTodayDayKey'] as String?,
       lastCelebratedMilestone: json['lastCelebratedMilestone'] as int? ?? 0,
@@ -138,6 +146,7 @@ class StreakState {
       'freezeTokens': freezeTokens,
       'freezeTokensGrantMonthKey': freezeTokensGrantMonthKey,
       'cumulativeMinutes': cumulativeMinutes,
+        'diasTotales': diasTotales,
       'minutesToday': minutesToday,
       'minutesTodayDayKey': minutesTodayDayKey,
       'lastCelebratedMilestone': lastCelebratedMilestone,

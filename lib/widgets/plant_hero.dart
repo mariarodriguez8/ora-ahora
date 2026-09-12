@@ -29,6 +29,10 @@ class PlantHero extends StatelessWidget {
   });
 
   /// Etapa 0=seca, 1=brote, 2=flor, 3=fruto según la racha.
+  /// Cuantos de los siete cuadros van llenos. La semana se repite: al
+  /// llegar a siete, vuelve a empezar. El total de siempre va aparte.
+  int get _cuadrosLlenos => streak <= 0 ? 0 : ((streak - 1) % 7) + 1;
+
   int get _stage {
     if (streak <= 0) return 0;
     if (streak <= 2) return 1;
@@ -52,13 +56,13 @@ class PlantHero extends StatelessWidget {
   String get _palabra {
     switch (_stage) {
       case 1:
-        return 'brotando';
+        return 'Brotando';
       case 2:
-        return 'floreciendo';
+        return 'Floreciendo';
       case 3:
-        return 'con fruto';
+        return 'Con fruto';
       default:
-        return 'seca';
+        return 'Seca';
     }
   }
 
@@ -91,7 +95,6 @@ class PlantHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progreso = (streak.clamp(0, 7)) / 7.0;
     final seca = _stage == 0;
 
     return Column(
@@ -140,29 +143,31 @@ class PlantHero extends StatelessWidget {
               ),
               const SizedBox(height: 14),
               // Medidor tipo "riego" — bucle abierto que pide llenarse.
+              // Siete cuadros, uno por dia. El progreso se ve de un vistazo y se
+              // siente: cada dia cumplido rellena uno. Al septimo, la semana entera.
               Row(
-                children: [
-                  Icon(Icons.water_drop_outlined, size: 18, color: _acento),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(999),
-                      child: LinearProgressIndicator(
-                        value: progreso,
-                        minHeight: 9,
-                        backgroundColor:
-                            AppColors.inkSoft.withValues(alpha: 0.18),
-                        valueColor: AlwaysStoppedAnimation<Color>(seca
-                            ? const Color(0xFFBA7517)
-                            : AppColors.tealDeep),
+                children: List.generate(7, (i) {
+                  final hecho = i < _cuadrosLlenos;
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: i == 6 ? 0 : 6),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 320),
+                        height: 22,
+                        decoration: BoxDecoration(
+                          color: hecho
+                              ? (seca ? const Color(0xFFD3D1C7) : AppColors.tealDeep)
+                              : AppColors.inkSoft.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: AppColors.inkSoft
+                                .withValues(alpha: hecho ? 0.0 : 0.20),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text('${(progreso * 100).round()}%',
-                      style: AppTypography.caption
-                          .copyWith(color: AppColors.inkSoft)),
-                ],
+                  );
+                }),
               ),
               const SizedBox(height: 10),
               Text(

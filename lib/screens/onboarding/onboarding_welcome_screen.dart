@@ -106,22 +106,6 @@ class OnboardingWelcomeScreen extends StatelessWidget {
                       child: const Text('Empezar'),
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Center(
-                    child: TextButton(
-                      onPressed: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (_) => const OnboardingNameScreen(),
-                        ),
-                      ),
-                      child: Text(
-                        'Ya tengo cuenta',
-                        style: AppTypography.body.copyWith(
-                          color: _marfil.withValues(alpha: 0.66),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

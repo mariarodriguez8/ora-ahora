@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'onboarding_sellado_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -218,7 +219,12 @@ class _OnboardingPactoScreenState extends State<OnboardingPactoScreen> {
                               foregroundColor: const Color(0xFF241F10),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                             ),
-                            onPressed: _hayFirma ? _sellar : null,
+                            onPressed: _hayFirma
+                    ? () {
+                        HapticFeedback.heavyImpact();
+                        _sellar();
+                      }
+                    : null,
                             child: Text(_guardando
                                 ? 'Guardando...'
                                 : 'Sellar mi pacto'),

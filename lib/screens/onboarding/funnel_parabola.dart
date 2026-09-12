@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../theme/app_typography.dart';
 import 'funnel_base.dart';
@@ -32,7 +33,7 @@ class FunnelParabola extends StatefulWidget {
 
 class _FunnelParabolaState extends State<FunnelParabola> {
   static const _lineas = <String>[
-    'Hace dos mil años,\nun hombre contó esto:\n\nUn pastor tenía\ncien ovejas.',
+    'Jesús contó esto\nhace dos mil años.\n\nUn pastor tenía\ncien ovejas.',
     'Una se perdió\nen el monte.',
     'Dejó las noventa\ny nueve.',
     'No esperó\na que volviera.\nFue hasta donde\nestaba la oveja.',
@@ -123,14 +124,42 @@ class _FunnelParabolaState extends State<FunnelParabola> {
                         ),
                       ),
                     const Spacer(),
-                    AnimatedOpacity(
-                      opacity: 0.55,
-                      duration: const Duration(milliseconds: 400),
-                      child: Text(
-                        _completa ? 'Toca para seguir' : 'Lucas 15  ·  toca',
-                        style: AppTypography.caption.copyWith(color: _marfil),
+                    if (_completa)
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _marfil,
+                            foregroundColor: _fondoParabola,
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          onPressed: () {
+                            HapticFeedback.mediumImpact();
+                            widget.onContinuar();
+                          },
+                          child: const Text('Seguir'),
+                        ),
+                      )
+                    else
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Lucas 15  ·  toca para seguir',
+                            style: AppTypography.caption
+                                .copyWith(color: _marfil.withValues(alpha: 0.55)),
+                          ),
+                          const SizedBox(width: 7),
+                          Icon(
+                            Icons.arrow_forward_rounded,
+                            size: 16,
+                            color: _marfil.withValues(alpha: 0.55),
+                          ),
+                        ],
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -203,6 +232,22 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
                 child: const Center(child: _TelefonoFalso()),
               ),
               const Spacer(),
+              // La flecha ata la frase al movil de arriba: sin ella hay que adivinarlo.
+              AnimatedOpacity(
+                opacity: _fase >= 3 ? 1 : 0,
+                duration: const Duration(milliseconds: 600),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 6, bottom: 2),
+                  child: Transform.rotate(
+                    angle: -0.32,
+                    child: Icon(
+                      Icons.arrow_upward_rounded,
+                      size: 30,
+                      color: _dorado.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ),
+              ),
               _linea('Nos perdemos aquí.', 3, 26, true),
               const SizedBox(height: 18),
               AnimatedOpacity(
@@ -215,7 +260,12 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
                       backgroundColor: _dorado,
                       foregroundColor: const Color(0xFF241F10),
                     ),
-                    onPressed: _fase >= 3 ? widget.onContinuar : null,
+                    onPressed: _fase >= 3
+                        ? () {
+                            HapticFeedback.mediumImpact();
+                            widget.onContinuar();
+                          }
+                        : null,
                     child: const Text('Quiero volver con mi pastor',
                       textAlign: TextAlign.center),
                   ),
@@ -257,64 +307,142 @@ class _FunnelKetsuState extends State<FunnelKetsu> {
 ///
 /// Y es mas fiel al producto: la pausa no llega al abrir una app concreta,
 /// llega cuando desbloqueas.
+/// Un movil creible, no un juguete. Los iconos son nuestros: simbolos
+/// genericos de categoria (video, mensajes, feed) en nuestra paleta.
+/// Ninguna marca ajena, y aun asi se lee al instante como "mis apps".
 class _TelefonoFalso extends StatelessWidget {
   const _TelefonoFalso();
 
   @override
   Widget build(BuildContext context) {
-    final ahora = TimeOfDay.now();
+    final ahora = DateTime.now();
     final hora = ahora.hour.toString().padLeft(2, '0');
     final minuto = ahora.minute.toString().padLeft(2, '0');
 
     return Container(
-      width: 176,
-      height: 264,
-      padding: const EdgeInsets.fromLTRB(14, 26, 14, 16),
+      width: 190,
+      height: 306,
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B1712),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: _marfil.withValues(alpha: 0.28), width: 2),
-      ),
-      child: Column(
-        children: [
-          Text(
-            '$hora:$minuto',
-            style: AppTypography.display.copyWith(
-              fontSize: 46,
-              height: 1,
-              color: _marfil,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            'hoy',
-            style: AppTypography.caption.copyWith(
-              color: _marfil.withValues(alpha: 0.55),
-            ),
-          ),
-          const Spacer(),
-          // Cuatro apps cualquiera, sin marca ninguna: son cuadrados.
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              for (final c in const [
-                Color(0xFFE8833A),
-                Color(0xFF4A8FE7),
-                Color(0xFFD94F6E),
-                Color(0xFF43B36B),
-              ])
-                Container(
-                  width: 26,
-                  height: 26,
-                  decoration: BoxDecoration(
-                    color: c.withValues(alpha: 0.55),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-            ],
+        color: const Color(0xFF14161B),
+        borderRadius: BorderRadius.circular(32),
+        border: Border.all(color: _marfil.withValues(alpha: 0.20), width: 1.4),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.45),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(28),
+        child: Container(
+          color: const Color(0xFF0A0E14),
+          padding: const EdgeInsets.fromLTRB(14, 9, 14, 9),
+          child: Column(
+            children: [
+              _BarraEstado(hora: hora, minuto: minuto),
+              const SizedBox(height: 18),
+              Text(
+                '$hora:$minuto',
+                style: AppTypography.display.copyWith(
+                  fontSize: 44,
+                  height: 1,
+                  color: _marfil,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                'hoy',
+                style: AppTypography.caption.copyWith(
+                  color: _marfil.withValues(alpha: 0.5),
+                ),
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  _IconoApp(Icons.play_arrow_rounded, Color(0xFFB3574F)),
+                  _IconoApp(Icons.chat_bubble_rounded, Color(0xFF4A6E8A)),
+                  _IconoApp(Icons.favorite_rounded, Color(0xFF8A5A72)),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Container(
+                width: 56,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: _marfil.withValues(alpha: 0.32),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BarraEstado extends StatelessWidget {
+  final String hora;
+  final String minuto;
+  const _BarraEstado({required this.hora, required this.minuto});
+
+  @override
+  Widget build(BuildContext context) {
+    final tenue = _marfil.withValues(alpha: 0.55);
+    return Row(
+      children: [
+        Text(
+          '$hora:$minuto',
+          style: AppTypography.caption.copyWith(fontSize: 9, color: tenue),
+        ),
+        const Spacer(),
+        Icon(Icons.signal_cellular_alt_rounded, size: 11, color: tenue),
+        const SizedBox(width: 3),
+        Icon(Icons.wifi_rounded, size: 11, color: tenue),
+        const SizedBox(width: 3),
+        Icon(Icons.battery_full_rounded, size: 12, color: tenue),
+      ],
+    );
+  }
+}
+
+class _IconoApp extends StatelessWidget {
+  final IconData glifo;
+  final Color tono;
+  const _IconoApp(this.glifo, this.tono);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [tono, Color.lerp(tono, Colors.black, 0.35)!],
+            ),
+            borderRadius: BorderRadius.circular(11),
+          ),
+          child: Icon(glifo, size: 19, color: _marfil.withValues(alpha: 0.92)),
+        ),
+        const SizedBox(height: 5),
+        Container(
+          width: 24,
+          height: 3,
+          decoration: BoxDecoration(
+            color: _marfil.withValues(alpha: 0.22),
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+      ],
     );
   }
 }

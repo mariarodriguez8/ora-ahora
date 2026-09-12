@@ -19,9 +19,9 @@ class FunnelQ1 extends StatelessWidget {
         frase: '¿Te ha pasado?\nDices "más tarde oro"...\n*y se te va el* día.',
         mascota: 'assets/mascot/ovejita_pensativa.png',
         opciones: [
-          ('todos los días 😔', () => _go(context, const FunnelQ2())),
-          ('a veces', () => _go(context, const FunnelQ2())),
-          ('casi nunca', () => _go(context, const FunnelQ2())),
+          ('Todos los días 😔', () => _go(context, const FunnelQ2())),
+          ('A veces', () => _go(context, const FunnelQ2())),
+          ('Casi nunca', () => _go(context, const FunnelQ2())),
         ],
       );
 }
@@ -64,9 +64,9 @@ class FunnelQ3 extends StatelessWidget {
         frase: '¿Y cuánto tiempo\n*le diste a Dios?*',
         mascota: 'assets/mascot/ovejita_orando.png',
         opciones: [
-          ('nada 💔', () => _pick(context, 'nada')),
-          ('unos minutitos', () => _pick(context, 'unos minutitos')),
-          ('media hora o más', () => _pick(context, 'media hora o más')),
+          ('Nada 💔', () => _pick(context, 'nada')),
+          ('Unos minutitos', () => _pick(context, 'unos minutitos')),
+          ('Media hora o más', () => _pick(context, 'media hora o más')),
         ],
       );
 }
@@ -156,7 +156,7 @@ class FunnelGrace extends StatelessWidget {
             : 'La buena noticia:\n\nDios no está\nenojado contigo.\n*Está esperándote.*',
         mascota: 'assets/mascot/ovejita_celebrando.png',
         opciones: [
-          ('quiero volver a Él 🤍', () => _go(context, const FunnelMinute())),
+          ('Quiero volver a Él 🤍', () => _go(context, const FunnelMinute())),
         ],
       );
 }
