@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'app_globals.dart';
@@ -20,9 +21,11 @@ import 'services/route_observer.dart';
 import 'services/streak_service.dart';
 import 'theme/app_palettes.dart';
 import 'theme/app_theme.dart';
+import 'services/analitica.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Analitica.arrancar();
 
   await initializeDateFormatting('es');
   Intl.defaultLocale = 'es';
@@ -47,9 +50,13 @@ Future<void> main() async {
   // oración" (oración corta + "Amén, ya oré").
   final abrirMomento = await notificationService.wasLaunchedByNotification();
 
-  runApp(OraAhoraApp(
-    prefsService: prefsService,
-    notificationService: notificationService,
+  // PostHogWidget va como raiz: es lo que la grabacion de sesion
+  // necesita para capturar la pantalla. MaterialApp queda dentro.
+  runApp(PostHogWidget(
+    child: OraAhoraApp(
+      prefsService: prefsService,
+      notificationService: notificationService,
+    ),
   ));
 
   if (abrirMomento) {
@@ -130,7 +137,7 @@ class OraAhoraApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            navigatorObservers: [appRouteObserver],
+            navigatorObservers: [appRouteObserver, PosthogObserver()],
             builder: (context, child) {
               if (child == null) return const SizedBox.shrink();
               final mediaQuery = MediaQuery.of(context);

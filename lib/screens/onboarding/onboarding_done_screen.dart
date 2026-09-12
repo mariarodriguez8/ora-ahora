@@ -5,6 +5,7 @@ import '../../services/prefs_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
 import '../home/home_screen.dart';
+import '../../services/analitica.dart';
 
 class OnboardingDoneScreen extends StatelessWidget {
   /// Si se pasa [onContinue], esta pantalla NO es el final del onboarding:
@@ -17,6 +18,7 @@ class OnboardingDoneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Analitica.onboardingTerminado();
     final nombre = context.read<PrefsService>().userName;
     return Scaffold(
       backgroundColor: AppColors.cream,

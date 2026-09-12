@@ -133,6 +133,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- PostHog arranca desde Dart (main.dart): el modo
+             automatico no permite grabacion de sesion. -->
+        <meta-data android:name="com.posthog.posthog.AUTO_INIT" android:value="false" />
     </application>
 
 </manifest>

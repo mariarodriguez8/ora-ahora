@@ -8,6 +8,7 @@ import '../../widgets/colina.dart';
 import 'onboarding_progress_dots.dart'
     show progresoPonderado, kPasosOnboarding;
 import '../../widgets/titular_escalonado.dart';
+import '../../services/analitica.dart';
 
 /// Respuestas del embudo emocional (viven solo durante el onboarding).
 class FunnelAnswers {
@@ -53,6 +54,7 @@ class FunnelScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (pasoEmbudo != null) Analitica.pasoVisto(pasoEmbudo! + 2);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

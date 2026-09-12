@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
+import '../../services/analitica.dart';
 
 /// Barra superior compartida por TODAS las pantallas del onboarding:
 /// boton de volver + puntos de progreso + la ovejita.
@@ -55,6 +56,7 @@ class OnboardingTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    Analitica.pasoVisto(step == 0 ? 1 : step + 9);
     final (asset, right) = _poseFor(step);
 
     // La ovejita entra con un pequeno "pop" suave, completa y visible.

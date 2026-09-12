@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../services/purchase_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_typography.dart';
+import '../../services/analitica.dart';
 
 /// Paywall de Ora Ahora.
 ///
@@ -52,6 +53,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Listo. Que Dios te acompañe.')),
       );
+        Analitica.compraHecha('ora_ahora_pro');
       Navigator.of(context).pop();
       return;
     }
@@ -192,6 +194,7 @@ class _Beneficio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Analitica.paywallVisto('app');
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -36,7 +36,7 @@ android {
         // flutter_local_notifications y device_apps funcionan desde API 21,
         // pero se fija 23 para simplificar el manejo de permisos en tiempo
         // de ejecucion (Android 6.0+) usados por "Pausa y Ora".
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdk flutter.targetSdkVersion
         versionCode flutter.versionCode
         versionName flutter.versionName
