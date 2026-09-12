@@ -20,6 +20,12 @@ class Analitica {
       final config = PostHogConfig(_clave)
         ..host = _host
         ..sessionReplay = true
+        // PostHog tapa todos los textos e imagenes por defecto, y las
+        // grabaciones salen en cajas grises. Las destapamos porque en
+        // esta app no hay nada sensible en pantalla... salvo el nombre,
+        // que va envuelto en PostHogMaskWidget en su pantalla.
+        ..sessionReplayConfig.maskAllTexts = false
+        ..sessionReplayConfig.maskAllImages = false
         ..debug = kDebugMode;
       await Posthog().setup(config);
       _viva = true;

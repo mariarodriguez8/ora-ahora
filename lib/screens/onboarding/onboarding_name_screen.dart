@@ -9,6 +9,7 @@ import '../../theme/app_typography.dart';
 import 'funnel_screens.dart';
 import 'onboarding_progress_dots.dart';
 import '../../widgets/titular_escalonado.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 
 class OnboardingNameScreen extends StatefulWidget {
   const OnboardingNameScreen({super.key});
@@ -82,7 +83,9 @@ class _OnboardingNameScreenState extends State<OnboardingNameScreen>
                           return Transform.translate(
                               offset: Offset(dx, 0), child: child);
                         },
-                        child: TextField(
+                        child: PostHogMaskWidget(
+                          // Lo unico personal que aparece en pantalla en toda la app.
+                          child: TextField(
                           controller: _controller,
                           textCapitalization: TextCapitalization.words,
                           style: AppTypography.headline.copyWith(fontSize: 22),
@@ -90,6 +93,7 @@ class _OnboardingNameScreenState extends State<OnboardingNameScreen>
                             hintText: 'Tu nombre',
                           ),
                           onSubmitted: (_) => _next(),
+                        ),
                         ),
                       ),
                       const Spacer(),
